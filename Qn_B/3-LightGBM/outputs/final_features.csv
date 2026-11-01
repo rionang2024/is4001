@@ -1,0 +1,17 @@
+feature
+floor
+zone_code
+hour
+weekday
+is_weekend
+is_holiday
+ac_load_kw_yesterday
+ac_load_kw_2_days_ago
+ac_load_kw_last_week
+indoor_temp_c_yesterday
+indoor_temp_c_last_week
+indoor_temp_c_yesterday_avg
+outdoor_temp_daily_avg_c
+outdoor_humidity_hourly_pct
+rainfall_daily_total_mm
+solar_radiation_hourly_wm2

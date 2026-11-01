@@ -1,0 +1,9 @@
+hours,model,vs,DM,p_value
+all hours,LGBM final,B1 seasonal naive,-3.0972936926897816,0.0019529628173335497
+all hours,LGBM final,B2 average profile,-8.067658404054482,7.165920263570363e-16
+all hours,LGBM final,B3 calendar + AC lags,-13.174142891906458,1.2362340921105422e-39
+all hours,LGBM final,LGBM full,-7.186724371053866,6.63641918886746e-13
+operating hours,LGBM final,B1 seasonal naive,-1.9053724640483587,0.0567316719711274
+operating hours,LGBM final,B2 average profile,-7.227250213206679,4.92871529484444e-13
+operating hours,LGBM final,B3 calendar + AC lags,-5.049410319283183,4.4317592474020797e-07
+operating hours,LGBM final,LGBM full,-1.007182871850745,0.3138469024964057
