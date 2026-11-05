@@ -1,0 +1,17 @@
+feature,gain
+ac_load_kw_last_week,9722.853515625
+is_holiday,5528.89697265625
+ac_load_kw_yesterday,1812.72509765625
+is_weekend,1550.630126953125
+weekday,1129.351806640625
+hour,770.6234130859375
+indoor_temp_c_last_week,490.57647705078125
+ac_load_kw_2_days_ago,415.85552978515625
+zone_code,227.3231201171875
+indoor_temp_c_yesterday,201.10147094726562
+indoor_temp_c_yesterday_avg,149.63800048828125
+month,146.57369995117188
+floor,144.92083740234375
+indoor_humidity_pct_yesterday_avg,87.80348205566406
+indoor_humidity_pct_yesterday,55.43003845214844
+indoor_humidity_pct_last_week,54.866207122802734

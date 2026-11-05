@@ -1,0 +1,39 @@
+{
+  "model": "M4",
+  "features": [
+    "floor",
+    "zone_code",
+    "hour",
+    "weekday",
+    "month",
+    "is_weekend",
+    "is_holiday",
+    "ac_load_kw_yesterday",
+    "ac_load_kw_2_days_ago",
+    "ac_load_kw_last_week",
+    "indoor_temp_c_yesterday",
+    "indoor_temp_c_last_week",
+    "indoor_temp_c_yesterday_avg",
+    "indoor_humidity_pct_yesterday",
+    "indoor_humidity_pct_last_week",
+    "indoor_humidity_pct_yesterday_avg",
+    "outdoor_temp_hourly_c",
+    "outdoor_temp_daily_avg_c",
+    "outdoor_humidity_hourly_pct",
+    "outdoor_humidity_daily_avg_pct",
+    "rainfall_hourly_mm",
+    "rainfall_daily_total_mm",
+    "solar_radiation_hourly_wm2",
+    "solar_radiation_daily_total_mjm2"
+  ],
+  "params": {
+    "max_depth": 4,
+    "learning_rate": 0.08,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 20.0,
+    "reg_alpha": 0.0,
+    "n_estimators": 969
+  }
+}
