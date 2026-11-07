@@ -1,0 +1,5 @@
+metric,winner,best_value
+MAE,LightGBM final,1.664821185563466
+RMSE,LightGBM final,2.72206342978189
+CV(RMSE)%,LightGBM final,19.90659554023274
+WAPE%,LightGBM final,12.174926427220747
