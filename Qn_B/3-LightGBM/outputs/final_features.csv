@@ -1,17 +1,15 @@
-feature
-floor
-zone_code
-hour
-weekday
-is_weekend
-is_holiday
-ac_load_kw_yesterday
-ac_load_kw_2_days_ago
-ac_load_kw_last_week
-indoor_temp_c_yesterday
-indoor_temp_c_last_week
-indoor_temp_c_yesterday_avg
-outdoor_temp_daily_avg_c
-outdoor_humidity_hourly_pct
-rainfall_daily_total_mm
-solar_radiation_hourly_wm2
+feature,group,stage1,stage1_note
+zone_code,calendar/zone,keep,
+hour,calendar/zone,keep,
+weekday,calendar/zone,keep,
+is_holiday,calendar/zone,keep,
+ac_load_kw_yesterday,AC lag,keep - flag,"correlated with ac_load_kw_2_days_ago, ac_load_kw_last_week"
+ac_load_kw_2_days_ago,AC lag,keep - flag,correlated with ac_load_kw_yesterday
+ac_load_kw_last_week,AC lag,keep - flag,correlated with ac_load_kw_yesterday
+indoor_temp_c_yesterday,indoor,keep,F5_Z1 values masked (supply-air sensor)
+indoor_temp_c_last_week,indoor,keep,F5_Z1 values masked (supply-air sensor)
+indoor_temp_c_yesterday_avg,indoor,keep,F5_Z1 values masked (supply-air sensor)
+outdoor_temp_daily_avg_c,weather,keep,
+outdoor_humidity_hourly_pct,weather,keep - flag,correlated with outdoor_temp_hourly_c
+rainfall_daily_total_mm,weather,keep - flag,correlated with outdoor_humidity_daily_avg_pct
+solar_radiation_hourly_wm2,weather,keep - flag,90% explained by hour of day
