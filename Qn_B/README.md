@@ -16,7 +16,7 @@ Run in order — each stage reads the cleaned dataset in [`cleaned_data/`](clean
 | 2 | [`2-baselines/`](2-baselines/) | Seasonal naive, average profile, feature-only baseline | empty |
 | 3 | [`3-LightGBM/`](3-LightGBM/) | Main forecasting model | empty |
 | 4 | [`4-XGBoost/`](4-XGBoost/) | Comparator model | empty |
-| 5 | [`5-UI/`](5-UI/) | Facilities-manager dashboard | empty |
+| 5 | [`5-UI/`](5-UI/) | Facilities-manager dashboard (React + Vite) | first version |
 
 ## Scope
 

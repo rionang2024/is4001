@@ -42,14 +42,17 @@ Known structural gaps, which drive most of the scoping decisions in both questio
 ```
 .
 ├── Qn_A/                  Question A — after-hours energy analysis
+│   └── api/               Minute-data API for the website's Question A tab
 └── Qn_B/                  Question B — zone AC demand forecasting
     ├── cleaned_data/      Cleaned hourly dataset (input to everything below)
     ├── 1-eda/             Exploratory analysis
     ├── 2-baselines/       Seasonal naive, average profile, feature baseline
     ├── 3-LightGBM/        Main forecasting model
     ├── 4-XGBoost/         Comparator model
-    └── 5-UI/              Facilities-manager dashboard
+    └── 5-UI/              Website: Question B dashboard and the Question A tab
 ```
+
+The 860 MB minute-level data for Question A lives in `dashboard_data/` and is not in git. See [`Qn_A/README.md`](Qn_A/README.md).
 
 Each folder has its own README with the detail for that stage.
 

@@ -4,7 +4,51 @@
 
 **Daytime** = weekdays 08:00–17:00 · **After-hours** = Mon–Fri 17:01–07:59 and all weekend · public holidays excluded.
 
-> **Status:** the analysis described here is complete and was presented, but the notebooks and output CSVs are **not yet committed to this folder**. The layout below is the agreed structure for when they land.
+> **Status:** the minute-level data and the website tab are in. The notebooks and output CSVs from the analysis are **not yet committed to this folder**; the layout below is the agreed structure for when they land.
+
+## What is in this folder now
+
+| Path | What it is |
+|---|---|
+| [`api/`](api/) | Read-only Python API (FastAPI) over the minute-level Parquet. Reads `dashboard_data/`, filters in the scan, caps response size. Tests use a tiny generated fixture. |
+| `../Qn_B/5-UI/` → **After-hours energy** tab | The website page for this question: replay control, building explorer (3D floors, zone cards, AC / lighting / plug switches) and a load-profile chart. React, same stack as the Question B tab. |
+| `../docs/qa/` | Context, data contract and task list used while building the page, and the original standalone prototype (reference only). |
+
+## The data
+
+Minute-level, cleaned CU-BEMS Parquet for all 7 floors, Jul 2018 to Dec 2019: power per zone and end use, with a historical median, a P99 threshold, a status (green / amber / red / grey / neutral) and a `status_reason` for every minute. It is about 860 MB, so it is **not in git**.
+
+Put it here, exactly as received (`minute.zip` unzips to a `minute/` folder):
+
+```
+dashboard_data/minute/floor=1/month=2018-10/part-00000.parquet
+dashboard_data/minute/floor=2/...
+```
+
+Share it with the team through Drive. Field definitions and the rules for reading status colours are in [`../docs/qa/dashboard_data_README.md`](../docs/qa/dashboard_data_README.md) and [`../docs/qa/DATA_CONTRACT.md`](../docs/qa/DATA_CONTRACT.md).
+
+**Check against the analysis above:** summing AC, lighting and plug per floor, Jul to Dec 2018, public holidays excluded, the minute data gives a Floor 1 weekday after-hours ratio of 1.92 and a weekend ratio of 1.56, the same as the Key findings table. Every other floor is below 1 (0.08 to 0.17 on weekday nights).
+
+## Run it
+
+Two terminals, from the repo root.
+
+```bash
+# 1. the data API (Python 3.10+)
+python3 -m venv .venv && .venv/bin/pip install -r Qn_A/api/requirements.txt
+cd Qn_A/api && ../../.venv/bin/uvicorn app:app --port 8000
+```
+
+```bash
+# 2. the website (proxies /api to the API)
+cd Qn_B/5-UI && npm install && npm run dev
+```
+
+Open the **After-hours energy** tab (`#/qn-a`). It opens on 2018-10-03 20:35: Floor 1, Zone 2, AC is red (amber from 20:31, red from 20:35, green again at 20:44).
+
+API tests: `cd Qn_A/api && ../../.venv/bin/python -m pytest`. To read data from another folder, set `QA_DATA_DIR` to the `minute/` folder.
+
+The API is for local use. A static host such as GitHub Pages cannot run it, so the Question A tab needs the API running somewhere reachable (set `VITE_QA_API` to its address when building).
 
 ## Scope
 
@@ -72,14 +116,15 @@ Z2's AC *rises* after hours and holds near 40–42 kW. Z4 lighting has a very sm
 - The equipment and zones behind the exceptions.
 - Whether those exceptions recur across months or appear only in isolated periods.
 
-## Folder layout (planned)
+## Folder layout
 
 ```
 Qn_A/
-├── A1–A3, A9    Cleaning, labelling and coverage gating
-├── A5           Floor-level ratios        → floor_ratios.csv
-├── A6           Zone-level ratios         → zone_ratios.csv
-└── A8           Monthly persistence       → monthly_floors.csv, persistence.csv
+├── api/         minute-data API and tests (in)
+├── A1–A3, A9    Cleaning, labelling and coverage gating        (planned)
+├── A5           Floor-level ratios        → floor_ratios.csv   (planned)
+├── A6           Zone-level ratios         → zone_ratios.csv    (planned)
+└── A8           Monthly persistence       → monthly_floors.csv, persistence.csv (planned)
 ```
 
 ## Actions and KPIs

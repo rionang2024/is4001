@@ -1,35 +1,55 @@
 # 5 · UI
 
-> **Status:** empty — nothing committed yet.
+> **Status:** first working version on branch `ui-dashboard`. Qn B tab uses the real LightGBM + baseline test predictions; XGBoost slots in once exported. Qn A tab is a placeholder.
 
-The Facilities Manager–facing dashboard: **AC Demand Forecast — Facilities Manager View**.
+The Facilities Manager–facing dashboard: one site, one tab per question.
 
-## Components
+## Run it
 
-| Component | Detail |
+Needs Node 18+ and Python with `pandas` + `pyarrow`.
+
+```bash
+cd Qn_B/5-UI
+npm install          # first time only
+npm run data         # rebuild public/data/*.json from the model outputs
+npm run dev          # open the printed http://localhost:5173 link
+```
+
+`npm run build` produces a static site in `dist/` (works on GitHub Pages or any static host).
+
+## How data gets in
+
+`scripts/build_data.py` reads the model outputs and writes small JSON files to `public/data/`. The UI only reads those JSON files, so **re-run `npm run data` whenever a model's outputs change**.
+
+| Reads | Used for |
 |---|---|
-| **Zone selector** | All 23 zones across floors 2–7 |
-| **Forecast vs actual chart** | Day-ahead hourly forecast with a prediction band; next day and 7-day views |
-| **Weather + peak strip** | 7-day outlook alongside forecast peak kW |
-| **Accuracy panel** | CV(RMSE), WAPE and NMBE per zone, benchmarked against the seasonal-naive baseline |
-| **Alert table** | Ranks zones and hours forecast to peak, or deviating from forecast: zone, hour, forecast, actual, flag |
-| **Assumptions footer** | States the exclusions and that observed weather stands in for a forecast |
+| `../3-LightGBM/outputs/test_predictions.parquet` | actuals, baselines B1–B3, LightGBM predictions |
+| `../4-XGBoost/outputs/test_predictions.parquet` | **picked up automatically when it exists.** Same shape as the LightGBM file (`zone_id`, `timestamp`, plus one column per model, e.g. `XGB final`) |
+| `../cleaned_data/question_b_model_data.parquet` | weather + calendar for the same hours |
+| `../3-LightGBM/outputs/test_diebold_mariano.csv`, `feature_group_importance.csv` | stored in `meta.json` for later panels |
 
-## What the FM does with it
+Thresholds (error band, deviation rule, start-up hour) are constants at the top of the script and are written into `meta.json`, so the UI always shows the rule it used.
 
-- Set pre-cooling and **stagger AC start-up** for zones forecast to peak together.
-- Adjust setpoints and schedules ahead of hot or rainy days.
-- Follow up zones whose actual demand deviates sharply from forecast.
+## Components (Qn B tab)
+
+| Component | File | Detail |
+|---|---|---|
+| Zone selector | `ZonePicker.jsx` | Floor → zone, all 23 zones |
+| KPI tiles | `KpiTiles.jsx` | Operating-hours WAPE, skill vs comparison, CV(RMSE) and NMBE against ASHRAE 14 |
+| Forecast vs actual | `ForecastChart.jsx` | Next day or 7 days; 10–90% error band; alert dots |
+| 7-day outlook | `OutlookStrip.jsx` | Forecast peak kW, outdoor temp, rain, start hour per day |
+| Start-up & pre-cooling plan | `StartupPlan.jsx` | Building forecast profile + staggered start times for zones that would switch on together |
+| Accuracy table | `AccuracyTable.jsx` | Per zone, always next to the comparison model; sortable |
+| Alerts sidebar | `AlertsPanel.jsx` | Above / below forecast and after-hours running; click to jump to zone + day |
+| Assumptions footer | `Assumptions.jsx` | Exclusions, observed-weather caveat, no occupancy data |
+
+## Open items
+
+- **Error band** currently uses test-period residuals. Swap to validation residuals once P2/P3 export validation predictions.
+- **Stagger / pre-cool thresholds** (`StartupPlan.jsx`) are placeholders for the group to agree.
+- **Qn A tab**: see `src/pages/AfterHoursPage.jsx` for where its data and charts go.
 
 ## Framing that must survive into the UI
 
-Two things are easy to lose when results become a dashboard, and both change how the FM should act:
-
 - A deviation is a **lead for inspection, not a confirmed fault**. There is no occupancy or schedule data behind these numbers.
-- The accuracy panel is only meaningful **relative to the naive baseline**. A low WAPE on a highly periodic load is not by itself evidence the model is working — show the comparison, not just the number.
-
-The assumptions footer is where the exclusions live: Floor 1 and the dead AC sensors are out of scope, and the forecasts are scored against observed weather rather than a true forecast.
-
-## Inputs
-
-Model predictions and per-zone metrics from [`../3-LightGBM/`](../3-LightGBM/) and [`../4-XGBoost/`](../4-XGBoost/), with baselines from [`../2-baselines/`](../2-baselines/).
+- The accuracy panel is only meaningful **relative to the baseline**, so every accuracy number is shown next to its comparison.

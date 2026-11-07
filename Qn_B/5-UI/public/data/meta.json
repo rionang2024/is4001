@@ -1,0 +1,265 @@
+{
+ "generated_at": "2026-11-02T09:47:01+00:00",
+ "period": {
+  "start": "2018-07-08",
+  "end": "2018-09-30",
+  "label": "Test period: Jul\u2013Sep 2018 (models trained on 2019)"
+ },
+ "zones": [
+  {
+   "id": "F2_Z1",
+   "floor": 2,
+   "zone": 1,
+   "hours": 2008
+  },
+  {
+   "id": "F2_Z2",
+   "floor": 2,
+   "zone": 2,
+   "hours": 2000
+  },
+  {
+   "id": "F2_Z4",
+   "floor": 2,
+   "zone": 4,
+   "hours": 2004
+  },
+  {
+   "id": "F3_Z1",
+   "floor": 3,
+   "zone": 1,
+   "hours": 2000
+  },
+  {
+   "id": "F3_Z2",
+   "floor": 3,
+   "zone": 2,
+   "hours": 2004
+  },
+  {
+   "id": "F3_Z4",
+   "floor": 3,
+   "zone": 4,
+   "hours": 2008
+  },
+  {
+   "id": "F3_Z5",
+   "floor": 3,
+   "zone": 5,
+   "hours": 2004
+  },
+  {
+   "id": "F4_Z1",
+   "floor": 4,
+   "zone": 1,
+   "hours": 2000
+  },
+  {
+   "id": "F4_Z2",
+   "floor": 4,
+   "zone": 2,
+   "hours": 2004
+  },
+  {
+   "id": "F4_Z4",
+   "floor": 4,
+   "zone": 4,
+   "hours": 2004
+  },
+  {
+   "id": "F4_Z5",
+   "floor": 4,
+   "zone": 5,
+   "hours": 2004
+  },
+  {
+   "id": "F5_Z1",
+   "floor": 5,
+   "zone": 1,
+   "hours": 2000
+  },
+  {
+   "id": "F5_Z2",
+   "floor": 5,
+   "zone": 2,
+   "hours": 2004
+  },
+  {
+   "id": "F5_Z4",
+   "floor": 5,
+   "zone": 4,
+   "hours": 2004
+  },
+  {
+   "id": "F5_Z5",
+   "floor": 5,
+   "zone": 5,
+   "hours": 2004
+  },
+  {
+   "id": "F6_Z1",
+   "floor": 6,
+   "zone": 1,
+   "hours": 2004
+  },
+  {
+   "id": "F6_Z2",
+   "floor": 6,
+   "zone": 2,
+   "hours": 2008
+  },
+  {
+   "id": "F6_Z4",
+   "floor": 6,
+   "zone": 4,
+   "hours": 1984
+  },
+  {
+   "id": "F6_Z5",
+   "floor": 6,
+   "zone": 5,
+   "hours": 2004
+  },
+  {
+   "id": "F7_Z1",
+   "floor": 7,
+   "zone": 1,
+   "hours": 2000
+  },
+  {
+   "id": "F7_Z2",
+   "floor": 7,
+   "zone": 2,
+   "hours": 2004
+  },
+  {
+   "id": "F7_Z4",
+   "floor": 7,
+   "zone": 4,
+   "hours": 2004
+  },
+  {
+   "id": "F7_Z5",
+   "floor": 7,
+   "zone": 5,
+   "hours": 2004
+  }
+ ],
+ "models": [
+  {
+   "id": "B1 seasonal naive",
+   "kind": "baseline"
+  },
+  {
+   "id": "B2 average profile",
+   "kind": "baseline"
+  },
+  {
+   "id": "B3 calendar + AC lags",
+   "kind": "baseline"
+  },
+  {
+   "id": "LGBM full",
+   "kind": "model"
+  },
+  {
+   "id": "LGBM final",
+   "kind": "model"
+  }
+ ],
+ "primary_model": "LGBM final",
+ "reference_baseline": "B1 seasonal naive",
+ "pending_models": [
+  "XGBoost"
+ ],
+ "rules": {
+  "band": "10\u201390% range of LGBM final errors, per zone and hour of day (from test residuals until validation residuals are exported)",
+  "deviation": "Operating hours: |actual \u2212 forecast| > max(2.0 kW, 3.0\u00d7 the zone's operating-hours MAE). After hours: actual > 2.0 kW while forecast < 0.5 kW.",
+  "start_hour": "First hour the forecast reaches 25% of that day's forecast peak (and \u2265 1.0 kW). Days with forecast peak < 2.0 kW count as AC off.",
+  "operating_hours": "Weekdays that are not holidays, 07:00\u201317:00"
+ },
+ "diebold_mariano": [
+  {
+   "hours": "all hours",
+   "model": "LGBM final",
+   "vs": "B1 seasonal naive",
+   "DM": -3.0972936926897816,
+   "p_value": 0.0019529628173335
+  },
+  {
+   "hours": "all hours",
+   "model": "LGBM final",
+   "vs": "B2 average profile",
+   "DM": -8.067658404054482,
+   "p_value": 7.165920263570363e-16
+  },
+  {
+   "hours": "all hours",
+   "model": "LGBM final",
+   "vs": "B3 calendar + AC lags",
+   "DM": -13.174142891906458,
+   "p_value": 1.2362340921105422e-39
+  },
+  {
+   "hours": "all hours",
+   "model": "LGBM final",
+   "vs": "LGBM full",
+   "DM": -7.186724371053866,
+   "p_value": 6.63641918886746e-13
+  },
+  {
+   "hours": "operating hours",
+   "model": "LGBM final",
+   "vs": "B1 seasonal naive",
+   "DM": -1.9053724640483587,
+   "p_value": 0.0567316719711274
+  },
+  {
+   "hours": "operating hours",
+   "model": "LGBM final",
+   "vs": "B2 average profile",
+   "DM": -7.227250213206679,
+   "p_value": 4.928715294844439e-13
+  },
+  {
+   "hours": "operating hours",
+   "model": "LGBM final",
+   "vs": "B3 calendar + AC lags",
+   "DM": -5.049410319283183,
+   "p_value": 4.43175924740208e-07
+  },
+  {
+   "hours": "operating hours",
+   "model": "LGBM final",
+   "vs": "LGBM full",
+   "DM": -1.007182871850745,
+   "p_value": 0.3138469024964057
+  }
+ ],
+ "feature_groups": [
+  {
+   "group": "indoor",
+   "perm_WAPE_increase_pp": 2.981363730048898,
+   "sd_pp": 0.0862704178697239,
+   "n_features": 6.0
+  },
+  {
+   "group": "weather",
+   "perm_WAPE_increase_pp": 11.303610560902433,
+   "sd_pp": 0.1501201755100379,
+   "n_features": 8.0
+  },
+  {
+   "group": "AC lag",
+   "perm_WAPE_increase_pp": 55.233348707914445,
+   "sd_pp": 0.2900156103528368,
+   "n_features": 3.0
+  },
+  {
+   "group": "calendar/zone",
+   "perm_WAPE_increase_pp": 29.2672411469896,
+   "sd_pp": 0.1982601380605453,
+   "n_features": 7.0
+  }
+ ]
+}

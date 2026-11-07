@@ -1,0 +1,3242 @@
+Year,Floor,Date,Day_Type,Mean_kW,Ratio
+2018,1,2018-07-01,Weekend,138.279,1.839
+2018,1,2018-07-02,Weekday After-Hours,145.049,1.929
+2018,1,2018-07-03,Weekday After-Hours,138.299,1.839
+2018,1,2018-07-04,Weekday After-Hours,140.432,1.868
+2018,1,2018-07-05,Weekday After-Hours,139.229,1.852
+2018,1,2018-07-06,Weekday After-Hours,189.114,2.515
+2018,1,2018-07-07,Weekend,136.102,1.810
+2018,1,2018-07-08,Weekend,124.518,1.656
+2018,1,2018-07-09,Weekday After-Hours,133.710,1.778
+2018,1,2018-07-10,Weekday After-Hours,124.039,1.650
+2018,1,2018-07-11,Weekday After-Hours,135.005,1.795
+2018,1,2018-07-12,Weekday After-Hours,158.035,2.102
+2018,1,2018-07-13,Weekday After-Hours,137.217,1.825
+2018,1,2018-07-14,Weekend,101.039,1.344
+2018,1,2018-07-15,Weekend,103.215,1.373
+2018,1,2018-07-16,Weekday After-Hours,137.097,1.823
+2018,1,2018-07-17,Weekday After-Hours,128.554,1.710
+2018,1,2018-07-18,Weekday After-Hours,115.696,1.539
+2018,1,2018-07-19,Weekday After-Hours,141.568,1.883
+2018,1,2018-07-20,Weekday After-Hours,152.820,2.032
+2018,1,2018-07-21,Weekend,126.371,1.681
+2018,1,2018-07-22,Weekend,132.909,1.768
+2018,1,2018-07-23,Weekday After-Hours,165.776,2.205
+2018,1,2018-07-24,Weekday After-Hours,158.808,2.112
+2018,1,2018-07-25,Weekday After-Hours,157.393,2.093
+2018,1,2018-07-26,Weekday After-Hours,167.916,2.233
+2018,1,2018-07-28,Weekend,129.985,1.729
+2018,1,2018-07-29,Weekend,141.162,1.877
+2018,1,2018-07-31,Weekday After-Hours,152.442,2.027
+2018,1,2018-08-01,Weekday After-Hours,166.128,2.209
+2018,1,2018-08-02,Weekday After-Hours,151.478,2.014
+2018,1,2018-08-03,Weekday After-Hours,173.720,2.310
+2018,1,2018-08-04,Weekend,166.213,2.210
+2018,1,2018-08-05,Weekend,156.419,2.080
+2018,1,2018-08-06,Weekday After-Hours,154.855,2.059
+2018,1,2018-08-07,Weekday After-Hours,154.797,2.059
+2018,1,2018-08-08,Weekday After-Hours,148.119,1.970
+2018,1,2018-08-09,Weekday After-Hours,192.970,2.566
+2018,1,2018-08-10,Weekday After-Hours,188.102,2.502
+2018,1,2018-08-11,Weekend,151.597,2.016
+2018,1,2018-08-12,Weekend,140.586,1.870
+2018,1,2018-08-14,Weekday After-Hours,137.577,1.830
+2018,1,2018-08-15,Weekday After-Hours,180.741,2.404
+2018,1,2018-08-16,Weekday After-Hours,194.814,2.591
+2018,1,2018-08-17,Weekday After-Hours,221.935,2.951
+2018,1,2018-08-18,Weekend,143.592,1.910
+2018,1,2018-08-19,Weekend,117.328,1.560
+2018,1,2018-08-20,Weekday After-Hours,151.696,2.017
+2018,1,2018-08-21,Weekday After-Hours,186.229,2.477
+2018,1,2018-09-12,Weekday After-Hours,166.021,2.208
+2018,1,2018-09-13,Weekday After-Hours,177.282,2.358
+2018,1,2018-09-14,Weekday After-Hours,139.377,1.854
+2018,1,2018-09-15,Weekend,97.184,1.292
+2018,1,2018-09-16,Weekend,101.895,1.355
+2018,1,2018-09-17,Weekday After-Hours,111.213,1.479
+2018,1,2018-09-18,Weekday After-Hours,149.582,1.989
+2018,1,2018-09-19,Weekday After-Hours,154.718,2.058
+2018,1,2018-09-20,Weekday After-Hours,130.714,1.738
+2018,1,2018-09-21,Weekday After-Hours,115.627,1.538
+2018,1,2018-09-22,Weekend,128.173,1.705
+2018,1,2018-09-23,Weekend,131.251,1.745
+2018,1,2018-09-24,Weekday After-Hours,137.792,1.832
+2018,1,2018-09-25,Weekday After-Hours,147.699,1.964
+2018,1,2018-09-26,Weekday After-Hours,157.913,2.100
+2018,1,2018-09-27,Weekday After-Hours,104.185,1.386
+2018,1,2018-09-28,Weekday After-Hours,112.027,1.490
+2018,1,2018-09-29,Weekend,104.603,1.391
+2018,1,2018-09-30,Weekend,84.891,1.129
+2018,1,2018-10-01,Weekday After-Hours,120.715,1.605
+2018,1,2018-10-02,Weekday After-Hours,138.986,1.848
+2018,1,2018-10-03,Weekday After-Hours,126.811,1.686
+2018,1,2018-10-04,Weekday After-Hours,159.503,2.121
+2018,1,2018-10-05,Weekday After-Hours,189.815,2.524
+2018,1,2018-10-06,Weekend,126.440,1.681
+2018,1,2018-10-07,Weekend,142.533,1.896
+2018,1,2018-10-08,Weekday After-Hours,143.470,1.908
+2018,1,2018-10-09,Weekday After-Hours,128.967,1.715
+2018,1,2018-10-10,Weekday After-Hours,134.631,1.790
+2018,1,2018-10-11,Weekday After-Hours,160.748,2.138
+2018,1,2018-10-12,Weekday After-Hours,134.609,1.790
+2018,1,2018-10-13,Weekend,79.114,1.052
+2018,1,2018-10-14,Weekend,91.584,1.218
+2018,1,2018-10-16,Weekday After-Hours,135.334,1.800
+2018,1,2018-10-17,Weekday After-Hours,115.290,1.533
+2018,1,2018-10-18,Weekday After-Hours,124.337,1.654
+2018,1,2018-10-19,Weekday After-Hours,121.185,1.612
+2018,1,2018-10-20,Weekend,90.296,1.201
+2018,1,2018-10-21,Weekend,101.901,1.355
+2018,1,2018-10-22,Weekday After-Hours,106.285,1.413
+2018,1,2018-10-24,Weekday After-Hours,139.948,1.861
+2018,1,2018-10-25,Weekday After-Hours,168.785,2.245
+2018,1,2018-10-26,Weekday After-Hours,165.922,2.207
+2018,1,2018-10-27,Weekend,130.565,1.736
+2018,1,2018-10-28,Weekend,142.052,1.889
+2018,1,2018-10-29,Weekday After-Hours,145.177,1.931
+2018,1,2018-10-30,Weekday After-Hours,135.167,1.798
+2018,1,2018-10-31,Weekday After-Hours,128.059,1.703
+2018,1,2018-11-01,Weekday After-Hours,161.659,2.150
+2018,1,2018-11-02,Weekday After-Hours,171.232,2.277
+2018,1,2018-11-03,Weekend,130.741,1.739
+2018,1,2018-11-04,Weekend,122.122,1.624
+2018,1,2018-11-05,Weekday After-Hours,137.386,1.827
+2018,1,2018-11-06,Weekday After-Hours,137.115,1.823
+2018,1,2018-11-07,Weekday After-Hours,155.752,2.071
+2018,1,2018-11-08,Weekday After-Hours,161.914,2.153
+2018,1,2018-11-09,Weekday After-Hours,129.413,1.721
+2018,1,2018-11-10,Weekend,85.200,1.133
+2018,1,2018-11-11,Weekend,92.929,1.236
+2018,1,2018-11-12,Weekday After-Hours,141.041,1.876
+2018,1,2018-11-13,Weekday After-Hours,151.800,2.019
+2018,1,2018-11-14,Weekday After-Hours,142.579,1.896
+2018,1,2018-11-15,Weekday After-Hours,141.952,1.888
+2018,1,2018-11-16,Weekday After-Hours,145.012,1.928
+2018,1,2018-11-17,Weekend,122.620,1.631
+2018,1,2018-11-18,Weekend,124.386,1.654
+2018,1,2018-11-19,Weekday After-Hours,127.084,1.690
+2018,1,2018-11-20,Weekday After-Hours,126.276,1.679
+2018,1,2018-11-21,Weekday After-Hours,104.120,1.385
+2018,1,2018-11-22,Weekday After-Hours,106.106,1.411
+2018,1,2018-11-23,Weekday After-Hours,144.369,1.920
+2018,1,2018-11-24,Weekend,92.856,1.235
+2018,1,2018-11-25,Weekend,92.897,1.235
+2018,1,2018-11-26,Weekday After-Hours,126.945,1.688
+2018,1,2018-11-27,Weekday After-Hours,132.744,1.765
+2018,1,2018-11-28,Weekday After-Hours,111.422,1.482
+2018,1,2018-11-29,Weekday After-Hours,151.125,2.010
+2018,1,2018-11-30,Weekday After-Hours,126.917,1.688
+2018,1,2018-12-01,Weekend,119.353,1.587
+2018,1,2018-12-02,Weekend,128.090,1.703
+2018,1,2018-12-03,Weekday After-Hours,134.114,1.784
+2018,1,2018-12-04,Weekday After-Hours,128.235,1.705
+2018,1,2018-12-06,Weekday After-Hours,145.819,1.939
+2018,1,2018-12-07,Weekday After-Hours,126.794,1.686
+2018,1,2018-12-08,Weekend,120.360,1.601
+2018,1,2018-12-09,Weekend,108.073,1.437
+2018,1,2018-12-11,Weekday After-Hours,146.820,1.953
+2018,1,2018-12-12,Weekday After-Hours,140.463,1.868
+2018,1,2018-12-13,Weekday After-Hours,139.204,1.851
+2018,1,2018-12-14,Weekday After-Hours,99.674,1.326
+2018,1,2018-12-15,Weekend,100.514,1.337
+2018,1,2018-12-16,Weekend,92.509,1.230
+2018,1,2018-12-17,Weekday After-Hours,135.352,1.800
+2018,1,2018-12-18,Weekday After-Hours,139.292,1.852
+2018,1,2018-12-19,Weekday After-Hours,136.304,1.813
+2018,1,2018-12-20,Weekday After-Hours,146.052,1.942
+2018,1,2018-12-21,Weekday After-Hours,151.405,2.013
+2018,1,2018-12-22,Weekend,86.177,1.146
+2018,1,2018-12-23,Weekend,94.098,1.251
+2018,1,2018-12-24,Weekday After-Hours,126.288,1.679
+2018,1,2018-12-25,Weekday After-Hours,159.268,2.118
+2018,1,2018-12-26,Weekday After-Hours,129.895,1.727
+2018,1,2018-12-27,Weekday After-Hours,146.750,1.952
+2018,1,2018-12-28,Weekday After-Hours,146.793,1.952
+2018,1,2018-12-29,Weekend,119.185,1.585
+2018,1,2018-12-30,Weekend,109.945,1.462
+2018,2,2018-07-01,Weekend,7.970,0.103
+2018,2,2018-07-02,Weekday After-Hours,15.527,0.201
+2018,2,2018-07-03,Weekday After-Hours,15.310,0.198
+2018,2,2018-07-04,Weekday After-Hours,16.725,0.216
+2018,2,2018-07-05,Weekday After-Hours,15.618,0.202
+2018,2,2018-07-06,Weekday After-Hours,21.256,0.275
+2018,2,2018-07-07,Weekend,30.550,0.395
+2018,2,2018-07-08,Weekend,6.415,0.083
+2018,2,2018-07-09,Weekday After-Hours,20.851,0.269
+2018,2,2018-07-10,Weekday After-Hours,21.431,0.277
+2018,2,2018-07-11,Weekday After-Hours,20.067,0.259
+2018,2,2018-07-12,Weekday After-Hours,20.899,0.270
+2018,2,2018-07-13,Weekday After-Hours,28.512,0.368
+2018,2,2018-07-14,Weekend,18.139,0.234
+2018,2,2018-07-15,Weekend,5.624,0.073
+2018,2,2018-07-16,Weekday After-Hours,9.046,0.117
+2018,2,2018-07-17,Weekday After-Hours,18.529,0.239
+2018,2,2018-07-18,Weekday After-Hours,20.178,0.261
+2018,2,2018-07-19,Weekday After-Hours,16.544,0.214
+2018,2,2018-07-20,Weekday After-Hours,20.130,0.260
+2018,2,2018-07-21,Weekend,28.881,0.373
+2018,2,2018-07-22,Weekend,8.795,0.114
+2018,2,2018-07-23,Weekday After-Hours,9.187,0.119
+2018,2,2018-07-24,Weekday After-Hours,19.180,0.248
+2018,2,2018-07-25,Weekday After-Hours,14.806,0.191
+2018,2,2018-07-26,Weekday After-Hours,20.272,0.262
+2018,2,2018-07-28,Weekend,6.373,0.082
+2018,2,2018-07-29,Weekend,6.366,0.082
+2018,2,2018-07-31,Weekday After-Hours,9.380,0.121
+2018,2,2018-08-01,Weekday After-Hours,15.211,0.197
+2018,2,2018-08-02,Weekday After-Hours,15.049,0.194
+2018,2,2018-08-03,Weekday After-Hours,13.318,0.172
+2018,2,2018-08-04,Weekend,26.328,0.340
+2018,2,2018-08-05,Weekend,6.645,0.086
+2018,2,2018-08-06,Weekday After-Hours,9.630,0.124
+2018,2,2018-08-07,Weekday After-Hours,15.254,0.197
+2018,2,2018-08-08,Weekday After-Hours,15.200,0.196
+2018,2,2018-08-09,Weekday After-Hours,12.751,0.165
+2018,2,2018-08-10,Weekday After-Hours,13.834,0.179
+2018,2,2018-08-11,Weekend,17.808,0.230
+2018,2,2018-08-12,Weekend,6.805,0.088
+2018,2,2018-08-14,Weekday After-Hours,16.931,0.219
+2018,2,2018-08-15,Weekday After-Hours,14.948,0.193
+2018,2,2018-08-16,Weekday After-Hours,20.655,0.267
+2018,2,2018-08-17,Weekday After-Hours,14.421,0.186
+2018,2,2018-08-18,Weekend,9.263,0.120
+2018,2,2018-08-19,Weekend,7.373,0.095
+2018,2,2018-08-20,Weekday After-Hours,16.239,0.210
+2018,2,2018-08-21,Weekday After-Hours,15.543,0.201
+2018,2,2018-08-22,Weekday After-Hours,16.211,0.209
+2018,2,2018-08-23,Weekday After-Hours,9.374,0.121
+2018,2,2018-08-24,Weekday After-Hours,14.982,0.194
+2018,2,2018-08-25,Weekend,6.757,0.087
+2018,2,2018-08-26,Weekend,8.218,0.106
+2018,2,2018-08-27,Weekday After-Hours,9.365,0.121
+2018,2,2018-08-28,Weekday After-Hours,17.097,0.221
+2018,2,2018-08-29,Weekday After-Hours,15.229,0.197
+2018,2,2018-08-30,Weekday After-Hours,15.553,0.201
+2018,2,2018-08-31,Weekday After-Hours,15.519,0.201
+2018,2,2018-09-01,Weekend,17.499,0.226
+2018,2,2018-09-02,Weekend,6.895,0.089
+2018,2,2018-09-03,Weekday After-Hours,18.497,0.239
+2018,2,2018-09-04,Weekday After-Hours,14.726,0.190
+2018,2,2018-09-05,Weekday After-Hours,16.147,0.209
+2018,2,2018-09-06,Weekday After-Hours,18.803,0.243
+2018,2,2018-09-07,Weekday After-Hours,17.941,0.232
+2018,2,2018-09-08,Weekend,22.842,0.295
+2018,2,2018-09-09,Weekend,7.187,0.093
+2018,2,2018-09-10,Weekday After-Hours,16.653,0.215
+2018,2,2018-09-11,Weekday After-Hours,16.794,0.217
+2018,2,2018-09-12,Weekday After-Hours,19.405,0.251
+2018,2,2018-09-13,Weekday After-Hours,16.469,0.213
+2018,2,2018-09-14,Weekday After-Hours,15.613,0.202
+2018,2,2018-09-15,Weekend,17.809,0.230
+2018,2,2018-09-16,Weekend,6.942,0.090
+2018,2,2018-09-17,Weekday After-Hours,16.746,0.216
+2018,2,2018-09-18,Weekday After-Hours,17.390,0.225
+2018,2,2018-09-19,Weekday After-Hours,16.705,0.216
+2018,2,2018-09-20,Weekday After-Hours,12.586,0.163
+2018,2,2018-09-21,Weekday After-Hours,17.516,0.226
+2018,2,2018-09-22,Weekend,19.224,0.248
+2018,2,2018-09-23,Weekend,10.156,0.131
+2018,2,2018-09-24,Weekday After-Hours,11.408,0.147
+2018,2,2018-09-25,Weekday After-Hours,12.315,0.159
+2018,2,2018-09-26,Weekday After-Hours,15.674,0.203
+2018,2,2018-09-27,Weekday After-Hours,12.714,0.164
+2018,2,2018-09-28,Weekday After-Hours,11.849,0.153
+2018,2,2018-09-29,Weekend,7.267,0.094
+2018,2,2018-09-30,Weekend,6.985,0.090
+2018,2,2018-10-01,Weekday After-Hours,13.273,0.172
+2018,2,2018-10-02,Weekday After-Hours,16.147,0.209
+2018,2,2018-10-03,Weekday After-Hours,13.367,0.173
+2018,2,2018-10-04,Weekday After-Hours,12.345,0.160
+2018,2,2018-10-05,Weekday After-Hours,11.254,0.145
+2018,2,2018-10-06,Weekend,7.885,0.102
+2018,2,2018-10-07,Weekend,7.733,0.100
+2018,2,2018-10-08,Weekday After-Hours,11.117,0.144
+2018,2,2018-10-09,Weekday After-Hours,10.627,0.137
+2018,2,2018-10-10,Weekday After-Hours,11.302,0.146
+2018,2,2018-10-11,Weekday After-Hours,11.109,0.144
+2018,2,2018-10-12,Weekday After-Hours,10.895,0.141
+2018,2,2018-10-13,Weekend,6.789,0.088
+2018,2,2018-10-14,Weekend,7.148,0.092
+2018,2,2018-10-16,Weekday After-Hours,11.513,0.149
+2018,2,2018-10-17,Weekday After-Hours,12.163,0.157
+2018,2,2018-10-18,Weekday After-Hours,11.146,0.144
+2018,2,2018-10-19,Weekday After-Hours,11.169,0.144
+2018,2,2018-10-20,Weekend,7.528,0.097
+2018,2,2018-10-21,Weekend,6.848,0.088
+2018,2,2018-10-22,Weekday After-Hours,10.911,0.141
+2018,2,2018-10-24,Weekday After-Hours,11.227,0.145
+2018,2,2018-10-25,Weekday After-Hours,10.973,0.142
+2018,2,2018-10-26,Weekday After-Hours,10.310,0.133
+2018,2,2018-10-27,Weekend,6.867,0.089
+2018,2,2018-10-28,Weekend,8.405,0.109
+2018,2,2018-10-29,Weekday After-Hours,11.579,0.150
+2018,2,2018-10-30,Weekday After-Hours,10.680,0.138
+2018,2,2018-10-31,Weekday After-Hours,10.434,0.135
+2018,2,2018-11-01,Weekday After-Hours,9.513,0.123
+2018,2,2018-11-02,Weekday After-Hours,10.159,0.131
+2018,2,2018-11-03,Weekend,6.396,0.083
+2018,2,2018-11-04,Weekend,6.523,0.084
+2018,2,2018-11-05,Weekday After-Hours,10.194,0.132
+2018,2,2018-11-06,Weekday After-Hours,10.073,0.130
+2018,2,2018-11-07,Weekday After-Hours,10.461,0.135
+2018,2,2018-11-08,Weekday After-Hours,9.823,0.127
+2018,2,2018-11-09,Weekday After-Hours,9.985,0.129
+2018,2,2018-11-10,Weekend,6.536,0.084
+2018,2,2018-11-11,Weekend,6.662,0.086
+2018,2,2018-11-12,Weekday After-Hours,10.060,0.130
+2018,2,2018-11-13,Weekday After-Hours,10.025,0.130
+2018,2,2018-11-14,Weekday After-Hours,10.636,0.137
+2018,2,2018-11-15,Weekday After-Hours,9.485,0.123
+2018,2,2018-11-16,Weekday After-Hours,9.941,0.128
+2018,2,2018-11-17,Weekend,6.756,0.087
+2018,2,2018-11-18,Weekend,6.625,0.086
+2018,2,2018-11-19,Weekday After-Hours,9.584,0.124
+2018,2,2018-11-20,Weekday After-Hours,9.470,0.122
+2018,2,2018-11-21,Weekday After-Hours,10.171,0.131
+2018,2,2018-11-22,Weekday After-Hours,10.070,0.130
+2018,2,2018-11-23,Weekday After-Hours,9.554,0.123
+2018,2,2018-11-24,Weekend,6.611,0.085
+2018,2,2018-11-25,Weekend,6.830,0.088
+2018,2,2018-11-26,Weekday After-Hours,9.371,0.121
+2018,2,2018-11-27,Weekday After-Hours,8.427,0.109
+2018,2,2018-11-28,Weekday After-Hours,9.341,0.121
+2018,2,2018-11-29,Weekday After-Hours,9.168,0.118
+2018,2,2018-11-30,Weekday After-Hours,9.925,0.128
+2018,2,2018-12-01,Weekend,6.724,0.087
+2018,2,2018-12-02,Weekend,7.074,0.091
+2018,2,2018-12-03,Weekday After-Hours,10.206,0.132
+2018,2,2018-12-04,Weekday After-Hours,10.653,0.138
+2018,2,2018-12-06,Weekday After-Hours,10.232,0.132
+2018,2,2018-12-07,Weekday After-Hours,10.450,0.135
+2018,2,2018-12-08,Weekend,6.449,0.083
+2018,2,2018-12-09,Weekend,6.490,0.084
+2018,2,2018-12-11,Weekday After-Hours,9.899,0.128
+2018,2,2018-12-12,Weekday After-Hours,9.807,0.127
+2018,2,2018-12-13,Weekday After-Hours,9.388,0.121
+2018,2,2018-12-14,Weekday After-Hours,9.654,0.125
+2018,2,2018-12-15,Weekend,7.745,0.100
+2018,2,2018-12-16,Weekend,7.174,0.093
+2018,2,2018-12-17,Weekday After-Hours,10.829,0.140
+2018,2,2018-12-18,Weekday After-Hours,9.795,0.127
+2018,2,2018-12-19,Weekday After-Hours,15.757,0.204
+2018,2,2018-12-20,Weekday After-Hours,9.457,0.122
+2018,2,2018-12-21,Weekday After-Hours,13.851,0.179
+2018,2,2018-12-22,Weekend,6.836,0.088
+2018,2,2018-12-23,Weekend,7.560,0.098
+2018,2,2018-12-24,Weekday After-Hours,17.682,0.228
+2018,2,2018-12-25,Weekday After-Hours,9.980,0.129
+2018,2,2018-12-26,Weekday After-Hours,17.115,0.221
+2018,2,2018-12-27,Weekday After-Hours,15.712,0.203
+2018,2,2018-12-28,Weekday After-Hours,14.323,0.185
+2018,2,2018-12-29,Weekend,15.063,0.195
+2018,2,2018-12-30,Weekend,6.439,0.083
+2018,3,2018-07-01,Weekend,0.568,0.008
+2018,3,2018-07-02,Weekday After-Hours,7.070,0.097
+2018,3,2018-07-03,Weekday After-Hours,6.711,0.092
+2018,3,2018-07-04,Weekday After-Hours,7.367,0.101
+2018,3,2018-07-05,Weekday After-Hours,7.111,0.097
+2018,3,2018-07-06,Weekday After-Hours,7.117,0.098
+2018,3,2018-07-07,Weekend,1.621,0.022
+2018,3,2018-07-08,Weekend,0.619,0.008
+2018,3,2018-07-09,Weekday After-Hours,6.749,0.093
+2018,3,2018-07-10,Weekday After-Hours,6.670,0.091
+2018,3,2018-07-11,Weekday After-Hours,6.329,0.087
+2018,3,2018-07-12,Weekday After-Hours,6.949,0.095
+2018,3,2018-07-13,Weekday After-Hours,6.441,0.088
+2018,3,2018-07-14,Weekend,2.419,0.033
+2018,3,2018-07-15,Weekend,0.572,0.008
+2018,3,2018-07-16,Weekday After-Hours,7.282,0.100
+2018,3,2018-07-17,Weekday After-Hours,7.184,0.098
+2018,3,2018-07-18,Weekday After-Hours,6.825,0.094
+2018,3,2018-07-19,Weekday After-Hours,6.612,0.091
+2018,3,2018-07-20,Weekday After-Hours,5.934,0.081
+2018,3,2018-07-21,Weekend,2.345,0.032
+2018,3,2018-07-22,Weekend,1.502,0.021
+2018,3,2018-07-23,Weekday After-Hours,6.553,0.090
+2018,3,2018-07-24,Weekday After-Hours,7.152,0.098
+2018,3,2018-07-25,Weekday After-Hours,6.884,0.094
+2018,3,2018-07-26,Weekday After-Hours,6.612,0.091
+2018,3,2018-07-28,Weekend,0.571,0.008
+2018,3,2018-07-29,Weekend,0.577,0.008
+2018,3,2018-07-31,Weekday After-Hours,6.406,0.088
+2018,3,2018-08-01,Weekday After-Hours,6.877,0.094
+2018,3,2018-08-02,Weekday After-Hours,6.872,0.094
+2018,3,2018-08-03,Weekday After-Hours,6.601,0.090
+2018,3,2018-08-04,Weekend,2.775,0.038
+2018,3,2018-08-05,Weekend,0.683,0.009
+2018,3,2018-08-06,Weekday After-Hours,6.449,0.088
+2018,3,2018-08-07,Weekday After-Hours,6.595,0.090
+2018,3,2018-08-08,Weekday After-Hours,6.764,0.093
+2018,3,2018-08-09,Weekday After-Hours,6.958,0.095
+2018,3,2018-08-10,Weekday After-Hours,6.576,0.090
+2018,3,2018-08-11,Weekend,0.980,0.013
+2018,3,2018-08-12,Weekend,0.570,0.008
+2018,3,2018-08-14,Weekday After-Hours,6.734,0.092
+2018,3,2018-08-15,Weekday After-Hours,7.619,0.104
+2018,3,2018-08-16,Weekday After-Hours,6.474,0.089
+2018,3,2018-08-17,Weekday After-Hours,4.261,0.058
+2018,3,2018-08-18,Weekend,1.018,0.014
+2018,3,2018-08-19,Weekend,3.302,0.045
+2018,3,2018-08-20,Weekday After-Hours,7.117,0.098
+2018,3,2018-08-21,Weekday After-Hours,6.977,0.096
+2018,3,2018-08-22,Weekday After-Hours,7.025,0.096
+2018,3,2018-08-23,Weekday After-Hours,6.862,0.094
+2018,3,2018-08-24,Weekday After-Hours,6.721,0.092
+2018,3,2018-08-25,Weekend,3.288,0.045
+2018,3,2018-08-26,Weekend,2.010,0.028
+2018,3,2018-08-27,Weekday After-Hours,7.448,0.102
+2018,3,2018-08-28,Weekday After-Hours,7.043,0.097
+2018,3,2018-08-29,Weekday After-Hours,7.329,0.100
+2018,3,2018-08-30,Weekday After-Hours,6.970,0.096
+2018,3,2018-08-31,Weekday After-Hours,6.710,0.092
+2018,3,2018-09-01,Weekend,3.033,0.042
+2018,3,2018-09-02,Weekend,0.777,0.011
+2018,3,2018-09-03,Weekday After-Hours,6.981,0.096
+2018,3,2018-09-04,Weekday After-Hours,6.803,0.093
+2018,3,2018-09-05,Weekday After-Hours,6.798,0.093
+2018,3,2018-09-06,Weekday After-Hours,6.827,0.094
+2018,3,2018-09-07,Weekday After-Hours,6.498,0.089
+2018,3,2018-09-08,Weekend,14.132,0.194
+2018,3,2018-09-09,Weekend,2.841,0.039
+2018,3,2018-09-10,Weekday After-Hours,7.052,0.097
+2018,3,2018-09-11,Weekday After-Hours,7.171,0.098
+2018,3,2018-09-12,Weekday After-Hours,7.747,0.106
+2018,3,2018-09-13,Weekday After-Hours,5.976,0.082
+2018,3,2018-09-14,Weekday After-Hours,7.532,0.103
+2018,3,2018-09-15,Weekend,3.128,0.043
+2018,3,2018-09-16,Weekend,2.961,0.041
+2018,3,2018-09-17,Weekday After-Hours,6.760,0.093
+2018,3,2018-09-18,Weekday After-Hours,7.101,0.097
+2018,3,2018-09-19,Weekday After-Hours,7.129,0.098
+2018,3,2018-09-20,Weekday After-Hours,7.072,0.097
+2018,3,2018-09-21,Weekday After-Hours,7.262,0.100
+2018,3,2018-09-22,Weekend,3.239,0.044
+2018,3,2018-09-23,Weekend,3.909,0.054
+2018,3,2018-09-24,Weekday After-Hours,6.796,0.093
+2018,3,2018-09-25,Weekday After-Hours,6.726,0.092
+2018,3,2018-09-26,Weekday After-Hours,6.877,0.094
+2018,3,2018-09-27,Weekday After-Hours,7.058,0.097
+2018,3,2018-09-28,Weekday After-Hours,6.693,0.092
+2018,3,2018-09-29,Weekend,2.845,0.039
+2018,3,2018-09-30,Weekend,0.601,0.008
+2018,3,2018-10-01,Weekday After-Hours,6.275,0.086
+2018,3,2018-10-02,Weekday After-Hours,6.387,0.088
+2018,3,2018-10-03,Weekday After-Hours,5.913,0.081
+2018,3,2018-10-04,Weekday After-Hours,5.823,0.080
+2018,3,2018-10-05,Weekday After-Hours,6.756,0.093
+2018,3,2018-10-06,Weekend,1.416,0.019
+2018,3,2018-10-07,Weekend,0.913,0.013
+2018,3,2018-10-08,Weekday After-Hours,6.167,0.085
+2018,3,2018-10-09,Weekday After-Hours,6.755,0.093
+2018,3,2018-10-10,Weekday After-Hours,6.814,0.093
+2018,3,2018-11-27,Weekday After-Hours,5.608,0.077
+2018,3,2018-11-28,Weekday After-Hours,6.125,0.084
+2018,3,2018-11-29,Weekday After-Hours,5.766,0.079
+2018,3,2018-11-30,Weekday After-Hours,5.761,0.079
+2018,3,2018-12-01,Weekend,3.198,0.044
+2018,3,2018-12-02,Weekend,1.102,0.015
+2018,3,2018-12-03,Weekday After-Hours,5.885,0.081
+2018,3,2018-12-04,Weekday After-Hours,6.240,0.086
+2018,3,2018-12-06,Weekday After-Hours,4.941,0.068
+2018,3,2018-12-07,Weekday After-Hours,5.837,0.080
+2018,3,2018-12-08,Weekend,0.695,0.010
+2018,3,2018-12-09,Weekend,0.644,0.009
+2018,3,2018-12-11,Weekday After-Hours,5.755,0.079
+2018,3,2018-12-12,Weekday After-Hours,5.761,0.079
+2018,3,2018-12-13,Weekday After-Hours,5.903,0.081
+2018,3,2018-12-14,Weekday After-Hours,5.223,0.072
+2018,3,2018-12-15,Weekend,0.861,0.012
+2018,3,2018-12-16,Weekend,0.763,0.010
+2018,3,2018-12-17,Weekday After-Hours,5.538,0.076
+2018,3,2018-12-18,Weekday After-Hours,6.204,0.085
+2018,3,2018-12-19,Weekday After-Hours,5.798,0.079
+2018,3,2018-12-20,Weekday After-Hours,5.412,0.074
+2018,3,2018-12-21,Weekday After-Hours,4.854,0.067
+2018,3,2018-12-22,Weekend,0.623,0.009
+2018,3,2018-12-23,Weekend,1.375,0.019
+2018,3,2018-12-24,Weekday After-Hours,6.095,0.084
+2018,3,2018-12-25,Weekday After-Hours,5.395,0.074
+2018,3,2018-12-26,Weekday After-Hours,5.848,0.080
+2018,3,2018-12-27,Weekday After-Hours,5.911,0.081
+2018,3,2018-12-28,Weekday After-Hours,5.176,0.071
+2018,3,2018-12-29,Weekend,0.606,0.008
+2018,3,2018-12-30,Weekend,0.610,0.008
+2018,4,2018-07-01,Weekend,7.838,0.115
+2018,4,2018-07-02,Weekday After-Hours,5.849,0.085
+2018,4,2018-07-03,Weekday After-Hours,6.124,0.089
+2018,4,2018-07-04,Weekday After-Hours,6.472,0.095
+2018,4,2018-07-05,Weekday After-Hours,6.429,0.094
+2018,4,2018-07-06,Weekday After-Hours,6.427,0.094
+2018,4,2018-07-07,Weekend,10.027,0.147
+2018,4,2018-07-08,Weekend,1.691,0.025
+2018,4,2018-07-09,Weekday After-Hours,6.403,0.094
+2018,4,2018-07-10,Weekday After-Hours,6.354,0.093
+2018,4,2018-07-11,Weekday After-Hours,6.238,0.091
+2018,4,2018-07-12,Weekday After-Hours,6.571,0.096
+2018,4,2018-07-13,Weekday After-Hours,6.384,0.093
+2018,4,2018-07-14,Weekend,8.782,0.128
+2018,4,2018-07-15,Weekend,1.957,0.029
+2018,4,2018-07-16,Weekday After-Hours,5.948,0.087
+2018,4,2018-07-17,Weekday After-Hours,6.233,0.091
+2018,4,2018-07-18,Weekday After-Hours,6.070,0.089
+2018,4,2018-07-19,Weekday After-Hours,6.715,0.098
+2018,4,2018-07-20,Weekday After-Hours,6.656,0.097
+2018,4,2018-07-21,Weekend,10.928,0.160
+2018,4,2018-07-22,Weekend,2.048,0.030
+2018,4,2018-07-23,Weekday After-Hours,6.482,0.095
+2018,4,2018-07-24,Weekday After-Hours,6.254,0.091
+2018,4,2018-07-25,Weekday After-Hours,5.875,0.086
+2018,4,2018-07-26,Weekday After-Hours,6.555,0.096
+2018,4,2018-07-28,Weekend,1.086,0.016
+2018,4,2018-07-29,Weekend,1.811,0.026
+2018,4,2018-07-31,Weekday After-Hours,7.131,0.104
+2018,4,2018-08-01,Weekday After-Hours,6.456,0.094
+2018,4,2018-08-02,Weekday After-Hours,6.048,0.088
+2018,4,2018-08-03,Weekday After-Hours,6.119,0.089
+2018,4,2018-08-04,Weekend,8.020,0.117
+2018,4,2018-08-05,Weekend,2.260,0.033
+2018,4,2018-08-06,Weekday After-Hours,6.478,0.095
+2018,4,2018-08-07,Weekday After-Hours,6.812,0.100
+2018,4,2018-08-08,Weekday After-Hours,6.688,0.098
+2018,4,2018-08-09,Weekday After-Hours,6.498,0.095
+2018,4,2018-08-10,Weekday After-Hours,6.732,0.098
+2018,4,2018-08-11,Weekend,2.530,0.037
+2018,4,2018-08-12,Weekend,1.155,0.017
+2018,4,2018-08-14,Weekday After-Hours,6.201,0.091
+2018,4,2018-08-15,Weekday After-Hours,6.849,0.100
+2018,4,2018-08-16,Weekday After-Hours,7.522,0.110
+2018,4,2018-08-17,Weekday After-Hours,4.452,0.065
+2018,4,2018-08-18,Weekend,2.631,0.038
+2018,4,2018-08-19,Weekend,1.959,0.029
+2018,4,2018-08-20,Weekday After-Hours,6.156,0.090
+2018,4,2018-08-21,Weekday After-Hours,6.256,0.091
+2018,4,2018-08-22,Weekday After-Hours,6.294,0.092
+2018,4,2018-08-23,Weekday After-Hours,6.079,0.089
+2018,4,2018-08-24,Weekday After-Hours,6.448,0.094
+2018,4,2018-08-25,Weekend,3.978,0.058
+2018,4,2018-08-26,Weekend,1.878,0.027
+2018,4,2018-08-27,Weekday After-Hours,6.197,0.091
+2018,4,2018-08-28,Weekday After-Hours,6.770,0.099
+2018,4,2018-08-29,Weekday After-Hours,6.740,0.098
+2018,4,2018-08-30,Weekday After-Hours,6.578,0.096
+2018,4,2018-08-31,Weekday After-Hours,6.311,0.092
+2018,4,2018-09-01,Weekend,7.202,0.105
+2018,4,2018-09-02,Weekend,1.761,0.026
+2018,4,2018-09-03,Weekday After-Hours,6.514,0.095
+2018,4,2018-09-04,Weekday After-Hours,6.688,0.098
+2018,4,2018-09-05,Weekday After-Hours,6.957,0.102
+2018,4,2018-09-06,Weekday After-Hours,6.459,0.094
+2018,4,2018-09-07,Weekday After-Hours,6.373,0.093
+2018,4,2018-09-08,Weekend,3.753,0.055
+2018,4,2018-09-09,Weekend,2.205,0.032
+2018,4,2018-09-10,Weekday After-Hours,6.415,0.094
+2018,4,2018-09-11,Weekday After-Hours,6.601,0.096
+2018,4,2018-09-12,Weekday After-Hours,6.472,0.095
+2018,4,2018-09-13,Weekday After-Hours,7.078,0.103
+2018,4,2018-09-14,Weekday After-Hours,6.607,0.097
+2018,4,2018-09-15,Weekend,7.370,0.108
+2018,4,2018-09-16,Weekend,2.283,0.033
+2018,4,2018-09-17,Weekday After-Hours,6.740,0.098
+2018,4,2018-09-18,Weekday After-Hours,6.608,0.097
+2018,4,2018-09-19,Weekday After-Hours,6.743,0.099
+2018,4,2018-09-20,Weekday After-Hours,6.912,0.101
+2018,4,2018-09-21,Weekday After-Hours,6.710,0.098
+2018,4,2018-09-22,Weekend,3.741,0.055
+2018,4,2018-09-23,Weekend,3.169,0.046
+2018,4,2018-09-24,Weekday After-Hours,6.846,0.100
+2018,4,2018-09-25,Weekday After-Hours,6.653,0.097
+2018,4,2018-09-26,Weekday After-Hours,6.629,0.097
+2018,4,2018-09-27,Weekday After-Hours,5.813,0.085
+2018,4,2018-09-28,Weekday After-Hours,6.309,0.092
+2018,4,2018-09-29,Weekend,2.696,0.039
+2018,4,2018-09-30,Weekend,2.579,0.038
+2018,4,2018-10-01,Weekday After-Hours,6.528,0.095
+2018,4,2018-10-02,Weekday After-Hours,6.268,0.092
+2018,4,2018-10-03,Weekday After-Hours,6.743,0.099
+2018,4,2018-10-04,Weekday After-Hours,6.513,0.095
+2018,4,2018-10-05,Weekday After-Hours,6.565,0.096
+2018,4,2018-10-06,Weekend,3.510,0.051
+2018,4,2018-10-07,Weekend,2.405,0.035
+2018,4,2018-10-08,Weekday After-Hours,6.394,0.093
+2018,4,2018-10-09,Weekday After-Hours,6.684,0.098
+2018,4,2018-10-10,Weekday After-Hours,6.983,0.102
+2018,4,2018-10-11,Weekday After-Hours,6.486,0.095
+2018,4,2018-10-12,Weekday After-Hours,6.311,0.092
+2018,4,2018-10-13,Weekend,2.084,0.030
+2018,4,2018-10-14,Weekend,1.763,0.026
+2018,4,2018-10-16,Weekday After-Hours,6.606,0.097
+2018,4,2018-10-17,Weekday After-Hours,6.271,0.092
+2018,4,2018-10-18,Weekday After-Hours,7.024,0.103
+2018,4,2018-10-19,Weekday After-Hours,5.312,0.078
+2018,4,2018-10-20,Weekend,2.230,0.033
+2018,4,2018-10-21,Weekend,1.671,0.024
+2018,4,2018-10-22,Weekday After-Hours,5.897,0.086
+2018,4,2018-10-24,Weekday After-Hours,6.583,0.096
+2018,4,2018-10-25,Weekday After-Hours,6.069,0.089
+2018,4,2018-10-26,Weekday After-Hours,5.934,0.087
+2018,4,2018-10-27,Weekend,3.414,0.050
+2018,4,2018-10-28,Weekend,1.979,0.029
+2018,4,2018-11-27,Weekday After-Hours,6.508,0.095
+2018,4,2018-11-28,Weekday After-Hours,5.929,0.087
+2018,4,2018-11-29,Weekday After-Hours,6.248,0.091
+2018,4,2018-11-30,Weekday After-Hours,6.087,0.089
+2018,4,2018-12-01,Weekend,1.889,0.028
+2018,4,2018-12-02,Weekend,2.959,0.043
+2018,4,2018-12-03,Weekday After-Hours,5.998,0.088
+2018,4,2018-12-04,Weekday After-Hours,5.924,0.087
+2018,4,2018-12-13,Weekday After-Hours,6.169,0.090
+2018,4,2018-12-14,Weekday After-Hours,6.339,0.093
+2018,4,2018-12-15,Weekend,1.527,0.022
+2018,4,2018-12-16,Weekend,1.516,0.022
+2018,4,2018-12-17,Weekday After-Hours,6.414,0.094
+2018,4,2018-12-18,Weekday After-Hours,6.386,0.093
+2018,4,2018-12-19,Weekday After-Hours,6.228,0.091
+2018,4,2018-12-20,Weekday After-Hours,6.443,0.094
+2018,4,2018-12-21,Weekday After-Hours,5.767,0.084
+2018,4,2018-12-22,Weekend,3.099,0.045
+2018,4,2018-12-23,Weekend,2.912,0.043
+2018,4,2018-12-24,Weekday After-Hours,6.272,0.092
+2018,4,2018-12-25,Weekday After-Hours,5.964,0.087
+2018,4,2018-12-26,Weekday After-Hours,5.675,0.083
+2018,4,2018-12-27,Weekday After-Hours,6.211,0.091
+2018,4,2018-12-28,Weekday After-Hours,4.403,0.064
+2018,4,2018-12-29,Weekend,1.622,0.024
+2018,4,2018-12-30,Weekend,1.664,0.024
+2018,5,2018-07-01,Weekend,1.111,0.016
+2018,5,2018-07-02,Weekday After-Hours,6.404,0.090
+2018,5,2018-07-03,Weekday After-Hours,6.392,0.090
+2018,5,2018-07-04,Weekday After-Hours,6.856,0.096
+2018,5,2018-07-05,Weekday After-Hours,5.985,0.084
+2018,5,2018-07-06,Weekday After-Hours,6.691,0.094
+2018,5,2018-07-07,Weekend,2.919,0.041
+2018,5,2018-07-08,Weekend,0.785,0.011
+2018,5,2018-07-09,Weekday After-Hours,6.825,0.096
+2018,5,2018-07-10,Weekday After-Hours,6.600,0.093
+2018,5,2018-07-11,Weekday After-Hours,6.709,0.094
+2018,5,2018-07-12,Weekday After-Hours,6.462,0.091
+2018,5,2018-07-13,Weekday After-Hours,6.526,0.092
+2018,5,2018-07-14,Weekend,1.039,0.015
+2018,5,2018-07-15,Weekend,0.787,0.011
+2018,5,2018-07-16,Weekday After-Hours,7.054,0.099
+2018,5,2018-07-17,Weekday After-Hours,6.535,0.092
+2018,5,2018-07-18,Weekday After-Hours,7.220,0.101
+2018,5,2018-07-19,Weekday After-Hours,6.389,0.090
+2018,5,2018-07-20,Weekday After-Hours,6.778,0.095
+2018,5,2018-07-21,Weekend,2.310,0.032
+2018,5,2018-07-22,Weekend,1.912,0.027
+2018,5,2018-07-23,Weekday After-Hours,7.508,0.106
+2018,5,2018-07-24,Weekday After-Hours,6.985,0.098
+2018,5,2018-07-25,Weekday After-Hours,6.899,0.097
+2018,5,2018-07-26,Weekday After-Hours,6.193,0.087
+2018,5,2018-07-28,Weekend,0.841,0.012
+2018,5,2018-07-29,Weekend,1.615,0.023
+2018,5,2018-07-31,Weekday After-Hours,6.681,0.094
+2018,5,2018-08-01,Weekday After-Hours,6.856,0.096
+2018,5,2018-08-02,Weekday After-Hours,6.789,0.095
+2018,5,2018-08-03,Weekday After-Hours,7.156,0.101
+2018,5,2018-08-04,Weekend,1.457,0.020
+2018,5,2018-08-05,Weekend,0.822,0.012
+2018,5,2018-08-06,Weekday After-Hours,6.801,0.096
+2018,5,2018-08-07,Weekday After-Hours,6.898,0.097
+2018,5,2018-08-08,Weekday After-Hours,7.084,0.100
+2018,5,2018-08-09,Weekday After-Hours,6.987,0.098
+2018,5,2018-08-10,Weekday After-Hours,6.463,0.091
+2018,5,2018-08-11,Weekend,2.444,0.034
+2018,5,2018-08-12,Weekend,1.760,0.025
+2018,5,2018-08-14,Weekday After-Hours,7.435,0.104
+2018,5,2018-08-15,Weekday After-Hours,4.848,0.068
+2018,5,2018-08-16,Weekday After-Hours,3.618,0.051
+2018,5,2018-08-17,Weekday After-Hours,3.594,0.051
+2018,5,2018-08-18,Weekend,1.318,0.019
+2018,5,2018-08-19,Weekend,1.545,0.022
+2018,5,2018-08-20,Weekday After-Hours,7.101,0.100
+2018,5,2018-08-21,Weekday After-Hours,6.917,0.097
+2018,5,2018-08-22,Weekday After-Hours,6.667,0.094
+2018,5,2018-08-23,Weekday After-Hours,6.429,0.090
+2018,5,2018-08-24,Weekday After-Hours,6.666,0.094
+2018,5,2018-08-25,Weekend,5.469,0.077
+2018,5,2018-08-26,Weekend,2.361,0.033
+2018,5,2018-08-27,Weekday After-Hours,6.947,0.098
+2018,5,2018-08-28,Weekday After-Hours,6.504,0.091
+2018,5,2018-08-29,Weekday After-Hours,5.246,0.074
+2018,5,2018-08-30,Weekday After-Hours,6.017,0.085
+2018,5,2018-08-31,Weekday After-Hours,5.826,0.082
+2018,5,2018-09-01,Weekend,2.996,0.042
+2018,5,2018-09-02,Weekend,1.199,0.017
+2018,5,2018-09-03,Weekday After-Hours,7.153,0.101
+2018,5,2018-09-04,Weekday After-Hours,6.830,0.096
+2018,5,2018-09-05,Weekday After-Hours,6.421,0.090
+2018,5,2018-09-06,Weekday After-Hours,5.708,0.080
+2018,5,2018-09-07,Weekday After-Hours,5.866,0.082
+2018,5,2018-09-08,Weekend,3.601,0.051
+2018,5,2018-09-09,Weekend,0.778,0.011
+2018,5,2018-09-10,Weekday After-Hours,6.854,0.096
+2018,5,2018-09-11,Weekday After-Hours,6.988,0.098
+2018,5,2018-09-12,Weekday After-Hours,6.394,0.090
+2018,5,2018-09-13,Weekday After-Hours,6.759,0.095
+2018,5,2018-09-14,Weekday After-Hours,6.466,0.091
+2018,5,2018-09-15,Weekend,1.107,0.016
+2018,5,2018-09-16,Weekend,0.874,0.012
+2018,5,2018-09-17,Weekday After-Hours,6.868,0.097
+2018,5,2018-09-18,Weekday After-Hours,6.895,0.097
+2018,5,2018-09-19,Weekday After-Hours,6.662,0.094
+2018,5,2018-09-20,Weekday After-Hours,6.877,0.097
+2018,5,2018-09-21,Weekday After-Hours,6.891,0.097
+2018,5,2018-09-22,Weekend,2.601,0.037
+2018,5,2018-09-23,Weekend,2.002,0.028
+2018,5,2018-09-24,Weekday After-Hours,6.481,0.091
+2018,5,2018-09-25,Weekday After-Hours,7.033,0.099
+2018,5,2018-09-26,Weekday After-Hours,6.677,0.094
+2018,5,2018-09-27,Weekday After-Hours,7.047,0.099
+2018,5,2018-09-28,Weekday After-Hours,5.852,0.082
+2018,5,2018-09-29,Weekend,2.481,0.035
+2018,5,2018-09-30,Weekend,0.833,0.012
+2018,5,2018-10-01,Weekday After-Hours,7.201,0.101
+2018,5,2018-10-02,Weekday After-Hours,5.881,0.083
+2018,5,2018-10-03,Weekday After-Hours,6.101,0.086
+2018,5,2018-10-04,Weekday After-Hours,6.124,0.086
+2018,5,2018-10-05,Weekday After-Hours,5.742,0.081
+2018,5,2018-10-06,Weekend,3.000,0.042
+2018,5,2018-10-07,Weekend,0.796,0.011
+2018,5,2018-10-08,Weekday After-Hours,6.155,0.087
+2018,5,2018-10-09,Weekday After-Hours,5.892,0.083
+2018,5,2018-10-10,Weekday After-Hours,6.208,0.087
+2018,5,2018-10-11,Weekday After-Hours,5.714,0.080
+2018,5,2018-10-12,Weekday After-Hours,5.461,0.077
+2018,5,2018-10-13,Weekend,2.014,0.028
+2018,5,2018-10-14,Weekend,0.786,0.011
+2018,5,2018-10-16,Weekday After-Hours,5.584,0.078
+2018,5,2018-10-17,Weekday After-Hours,6.032,0.085
+2018,5,2018-10-18,Weekday After-Hours,6.024,0.085
+2018,5,2018-10-19,Weekday After-Hours,5.856,0.082
+2018,5,2018-10-20,Weekend,2.809,0.039
+2018,5,2018-10-21,Weekend,0.780,0.011
+2018,5,2018-10-22,Weekday After-Hours,6.570,0.092
+2018,5,2018-10-24,Weekday After-Hours,6.048,0.085
+2018,5,2018-10-25,Weekday After-Hours,5.534,0.078
+2018,5,2018-10-26,Weekday After-Hours,5.475,0.077
+2018,5,2018-10-27,Weekend,3.555,0.050
+2018,5,2018-10-28,Weekend,2.141,0.030
+2018,5,2018-10-29,Weekday After-Hours,6.203,0.087
+2018,5,2018-10-30,Weekday After-Hours,6.498,0.091
+2018,5,2018-10-31,Weekday After-Hours,6.355,0.089
+2018,5,2018-11-01,Weekday After-Hours,5.976,0.084
+2018,5,2018-11-02,Weekday After-Hours,5.732,0.081
+2018,5,2018-11-03,Weekend,2.889,0.041
+2018,5,2018-11-04,Weekend,0.814,0.011
+2018,5,2018-11-05,Weekday After-Hours,5.825,0.082
+2018,5,2018-11-06,Weekday After-Hours,5.516,0.078
+2018,5,2018-11-07,Weekday After-Hours,5.773,0.081
+2018,5,2018-11-08,Weekday After-Hours,5.354,0.075
+2018,5,2018-11-09,Weekday After-Hours,5.176,0.073
+2018,5,2018-11-10,Weekend,1.497,0.021
+2018,5,2018-11-11,Weekend,0.912,0.013
+2018,5,2018-11-12,Weekday After-Hours,5.478,0.077
+2018,5,2018-11-13,Weekday After-Hours,5.147,0.072
+2018,5,2018-11-14,Weekday After-Hours,6.018,0.085
+2018,5,2018-11-15,Weekday After-Hours,5.273,0.074
+2018,5,2018-11-16,Weekday After-Hours,5.102,0.072
+2018,5,2018-11-17,Weekend,3.992,0.056
+2018,5,2018-11-18,Weekend,1.951,0.027
+2018,5,2018-11-19,Weekday After-Hours,5.539,0.078
+2018,5,2018-11-20,Weekday After-Hours,5.233,0.074
+2018,5,2018-11-21,Weekday After-Hours,5.570,0.078
+2018,5,2018-11-29,Weekday After-Hours,5.077,0.071
+2018,5,2018-11-30,Weekday After-Hours,5.161,0.073
+2018,5,2018-12-01,Weekend,3.511,0.049
+2018,5,2018-12-02,Weekend,0.904,0.013
+2018,5,2018-12-03,Weekday After-Hours,5.065,0.071
+2018,5,2018-12-04,Weekday After-Hours,5.120,0.072
+2018,5,2018-12-06,Weekday After-Hours,5.760,0.081
+2018,5,2018-12-07,Weekday After-Hours,5.756,0.081
+2018,5,2018-12-08,Weekend,2.930,0.041
+2018,5,2018-12-09,Weekend,2.114,0.030
+2018,5,2018-12-11,Weekday After-Hours,6.207,0.087
+2018,5,2018-12-12,Weekday After-Hours,6.276,0.088
+2018,5,2018-12-13,Weekday After-Hours,5.400,0.076
+2018,5,2018-12-14,Weekday After-Hours,5.987,0.084
+2018,5,2018-12-15,Weekend,3.113,0.044
+2018,5,2018-12-16,Weekend,0.867,0.012
+2018,5,2018-12-17,Weekday After-Hours,5.892,0.083
+2018,5,2018-12-18,Weekday After-Hours,6.445,0.091
+2018,5,2018-12-19,Weekday After-Hours,6.377,0.090
+2018,5,2018-12-20,Weekday After-Hours,5.882,0.083
+2018,5,2018-12-21,Weekday After-Hours,5.949,0.084
+2018,5,2018-12-22,Weekend,2.064,0.029
+2018,5,2018-12-23,Weekend,1.731,0.024
+2018,5,2018-12-24,Weekday After-Hours,6.041,0.085
+2018,5,2018-12-25,Weekday After-Hours,5.658,0.080
+2018,5,2018-12-26,Weekday After-Hours,6.114,0.086
+2018,5,2018-12-27,Weekday After-Hours,5.704,0.080
+2018,5,2018-12-28,Weekday After-Hours,4.652,0.065
+2018,5,2018-12-29,Weekend,1.972,0.028
+2018,5,2018-12-30,Weekend,0.658,0.009
+2018,6,2018-07-01,Weekend,2.232,0.033
+2018,6,2018-07-02,Weekday After-Hours,6.766,0.100
+2018,6,2018-07-03,Weekday After-Hours,7.687,0.113
+2018,6,2018-07-04,Weekday After-Hours,7.184,0.106
+2018,6,2018-07-05,Weekday After-Hours,9.028,0.133
+2018,6,2018-07-06,Weekday After-Hours,7.569,0.112
+2018,6,2018-07-07,Weekend,3.073,0.045
+2018,6,2018-07-08,Weekend,4.811,0.071
+2018,6,2018-07-09,Weekday After-Hours,7.629,0.113
+2018,6,2018-07-10,Weekday After-Hours,8.512,0.126
+2018,6,2018-07-11,Weekday After-Hours,7.497,0.111
+2018,6,2018-07-12,Weekday After-Hours,8.058,0.119
+2018,6,2018-07-13,Weekday After-Hours,6.612,0.098
+2018,6,2018-07-14,Weekend,1.585,0.023
+2018,6,2018-07-15,Weekend,3.395,0.050
+2018,6,2018-07-16,Weekday After-Hours,7.466,0.110
+2018,6,2018-07-17,Weekday After-Hours,7.604,0.112
+2018,6,2018-07-18,Weekday After-Hours,8.505,0.125
+2018,6,2018-07-19,Weekday After-Hours,6.459,0.095
+2018,6,2018-07-20,Weekday After-Hours,6.161,0.091
+2018,6,2018-07-21,Weekend,1.670,0.025
+2018,6,2018-07-22,Weekend,4.315,0.064
+2018,6,2018-07-23,Weekday After-Hours,7.179,0.106
+2018,6,2018-07-24,Weekday After-Hours,6.579,0.097
+2018,6,2018-07-25,Weekday After-Hours,7.026,0.104
+2018,6,2018-07-26,Weekday After-Hours,8.199,0.121
+2018,6,2018-07-28,Weekend,0.685,0.010
+2018,6,2018-07-29,Weekend,1.495,0.022
+2018,6,2018-07-31,Weekday After-Hours,6.444,0.095
+2018,6,2018-08-01,Weekday After-Hours,7.907,0.117
+2018,6,2018-08-02,Weekday After-Hours,7.844,0.116
+2018,6,2018-08-03,Weekday After-Hours,7.832,0.116
+2018,6,2018-08-04,Weekend,9.249,0.136
+2018,6,2018-08-05,Weekend,6.203,0.091
+2018,6,2018-08-06,Weekday After-Hours,6.474,0.096
+2018,6,2018-08-07,Weekday After-Hours,7.839,0.116
+2018,6,2018-08-08,Weekday After-Hours,7.780,0.115
+2018,6,2018-08-09,Weekday After-Hours,8.348,0.123
+2018,6,2018-08-10,Weekday After-Hours,6.390,0.094
+2018,6,2018-08-11,Weekend,5.330,0.079
+2018,6,2018-08-12,Weekend,2.924,0.043
+2018,6,2018-08-14,Weekday After-Hours,7.842,0.116
+2018,6,2018-08-15,Weekday After-Hours,7.007,0.103
+2018,6,2018-08-16,Weekday After-Hours,7.679,0.113
+2018,6,2018-08-17,Weekday After-Hours,5.031,0.074
+2018,6,2018-08-18,Weekend,2.633,0.039
+2018,6,2018-08-19,Weekend,4.752,0.070
+2018,6,2018-08-20,Weekday After-Hours,6.440,0.095
+2018,6,2018-08-21,Weekday After-Hours,7.988,0.118
+2018,6,2018-08-22,Weekday After-Hours,7.913,0.117
+2018,6,2018-08-23,Weekday After-Hours,7.945,0.117
+2018,6,2018-08-24,Weekday After-Hours,7.402,0.109
+2018,6,2018-08-25,Weekend,3.912,0.058
+2018,6,2018-08-26,Weekend,4.505,0.066
+2018,6,2018-08-27,Weekday After-Hours,7.784,0.115
+2018,6,2018-08-28,Weekday After-Hours,8.383,0.124
+2018,6,2018-08-29,Weekday After-Hours,8.083,0.119
+2018,6,2018-08-30,Weekday After-Hours,6.758,0.100
+2018,6,2018-08-31,Weekday After-Hours,7.593,0.112
+2018,6,2018-09-01,Weekend,2.416,0.036
+2018,6,2018-09-02,Weekend,4.290,0.063
+2018,6,2018-09-03,Weekday After-Hours,9.580,0.141
+2018,6,2018-09-04,Weekday After-Hours,7.502,0.111
+2018,6,2018-09-05,Weekday After-Hours,7.466,0.110
+2018,6,2018-09-06,Weekday After-Hours,6.522,0.096
+2018,6,2018-09-07,Weekday After-Hours,7.163,0.106
+2018,6,2018-09-08,Weekend,4.474,0.066
+2018,6,2018-09-09,Weekend,4.284,0.063
+2018,6,2018-09-10,Weekday After-Hours,6.653,0.098
+2018,6,2018-09-11,Weekday After-Hours,7.776,0.115
+2018,6,2018-09-12,Weekday After-Hours,8.447,0.125
+2018,6,2018-09-13,Weekday After-Hours,6.854,0.101
+2018,6,2018-09-14,Weekday After-Hours,6.911,0.102
+2018,6,2018-09-15,Weekend,2.216,0.033
+2018,6,2018-09-16,Weekend,3.753,0.055
+2018,6,2018-09-17,Weekday After-Hours,6.254,0.092
+2018,6,2018-09-18,Weekday After-Hours,7.417,0.109
+2018,6,2018-09-19,Weekday After-Hours,7.716,0.114
+2018,6,2018-09-20,Weekday After-Hours,7.218,0.106
+2018,6,2018-09-21,Weekday After-Hours,6.904,0.102
+2018,6,2018-09-22,Weekend,2.277,0.034
+2018,6,2018-09-23,Weekend,4.720,0.070
+2018,6,2018-09-24,Weekday After-Hours,7.934,0.117
+2018,6,2018-09-25,Weekday After-Hours,7.028,0.104
+2018,6,2018-09-26,Weekday After-Hours,6.991,0.103
+2018,6,2018-09-27,Weekday After-Hours,7.934,0.117
+2018,6,2018-09-28,Weekday After-Hours,7.469,0.110
+2018,6,2018-09-29,Weekend,2.260,0.033
+2018,6,2018-09-30,Weekend,3.528,0.052
+2018,6,2018-10-01,Weekday After-Hours,8.397,0.124
+2018,6,2018-10-02,Weekday After-Hours,7.875,0.116
+2018,6,2018-10-03,Weekday After-Hours,9.004,0.133
+2018,6,2018-10-05,Weekday After-Hours,7.241,0.107
+2018,6,2018-10-06,Weekend,1.769,0.026
+2018,6,2018-10-07,Weekend,2.043,0.030
+2018,6,2018-10-08,Weekday After-Hours,7.001,0.103
+2018,6,2018-10-09,Weekday After-Hours,5.843,0.086
+2018,6,2018-10-10,Weekday After-Hours,8.487,0.125
+2018,6,2018-10-11,Weekday After-Hours,7.729,0.114
+2018,6,2018-10-12,Weekday After-Hours,6.809,0.100
+2018,6,2018-10-13,Weekend,1.468,0.022
+2018,6,2018-10-14,Weekend,1.959,0.029
+2018,6,2018-10-16,Weekday After-Hours,6.802,0.100
+2018,6,2018-10-17,Weekday After-Hours,7.828,0.115
+2018,6,2018-10-18,Weekday After-Hours,8.619,0.127
+2018,6,2018-10-19,Weekday After-Hours,8.103,0.120
+2018,6,2018-10-20,Weekend,1.170,0.017
+2018,6,2018-10-21,Weekend,2.763,0.041
+2018,6,2018-10-22,Weekday After-Hours,7.777,0.115
+2018,6,2018-10-24,Weekday After-Hours,6.680,0.099
+2018,6,2018-10-25,Weekday After-Hours,6.027,0.089
+2018,6,2018-10-26,Weekday After-Hours,8.309,0.123
+2018,6,2018-10-27,Weekend,2.663,0.039
+2018,6,2018-10-28,Weekend,4.599,0.068
+2018,6,2018-10-29,Weekday After-Hours,9.052,0.134
+2018,6,2018-10-30,Weekday After-Hours,6.766,0.100
+2018,6,2018-10-31,Weekday After-Hours,6.916,0.102
+2018,6,2018-11-01,Weekday After-Hours,6.396,0.094
+2018,6,2018-11-02,Weekday After-Hours,6.315,0.093
+2018,6,2018-11-03,Weekend,1.605,0.024
+2018,6,2018-11-04,Weekend,1.480,0.022
+2018,6,2018-11-05,Weekday After-Hours,8.335,0.123
+2018,6,2018-11-06,Weekday After-Hours,9.805,0.145
+2018,6,2018-11-07,Weekday After-Hours,8.305,0.123
+2018,6,2018-11-08,Weekday After-Hours,7.775,0.115
+2018,6,2018-11-09,Weekday After-Hours,8.143,0.120
+2018,6,2018-11-10,Weekend,1.715,0.025
+2018,6,2018-11-11,Weekend,5.441,0.080
+2018,6,2018-11-12,Weekday After-Hours,6.413,0.095
+2018,6,2018-11-13,Weekday After-Hours,7.449,0.110
+2018,6,2018-11-14,Weekday After-Hours,8.482,0.125
+2018,6,2018-11-15,Weekday After-Hours,7.318,0.108
+2018,6,2018-11-16,Weekday After-Hours,7.586,0.112
+2018,6,2018-11-17,Weekend,2.529,0.037
+2018,6,2018-11-18,Weekend,2.277,0.034
+2018,6,2018-11-19,Weekday After-Hours,6.843,0.101
+2018,6,2018-11-20,Weekday After-Hours,7.527,0.111
+2018,6,2018-11-21,Weekday After-Hours,6.777,0.100
+2018,6,2018-11-22,Weekday After-Hours,5.872,0.087
+2018,6,2018-11-23,Weekday After-Hours,6.067,0.089
+2018,6,2018-11-24,Weekend,1.559,0.023
+2018,6,2018-11-25,Weekend,5.542,0.082
+2018,6,2018-11-26,Weekday After-Hours,6.790,0.100
+2018,6,2018-11-27,Weekday After-Hours,6.497,0.096
+2018,6,2018-11-28,Weekday After-Hours,6.142,0.091
+2018,6,2018-11-29,Weekday After-Hours,7.366,0.109
+2018,6,2018-11-30,Weekday After-Hours,7.813,0.115
+2018,6,2018-12-01,Weekend,0.999,0.015
+2018,6,2018-12-02,Weekend,5.871,0.087
+2018,6,2018-12-03,Weekday After-Hours,7.179,0.106
+2018,6,2018-12-04,Weekday After-Hours,7.136,0.105
+2018,6,2018-12-06,Weekday After-Hours,7.114,0.105
+2018,6,2018-12-07,Weekday After-Hours,6.548,0.097
+2018,6,2018-12-08,Weekend,2.250,0.033
+2018,6,2018-12-09,Weekend,2.415,0.036
+2018,6,2018-12-11,Weekday After-Hours,7.307,0.108
+2018,6,2018-12-12,Weekday After-Hours,6.796,0.100
+2018,6,2018-12-13,Weekday After-Hours,6.873,0.101
+2018,6,2018-12-14,Weekday After-Hours,8.379,0.124
+2018,6,2018-12-15,Weekend,3.741,0.055
+2018,6,2018-12-16,Weekend,3.339,0.049
+2018,6,2018-12-17,Weekday After-Hours,6.425,0.095
+2018,6,2018-12-18,Weekday After-Hours,6.813,0.100
+2018,6,2018-12-19,Weekday After-Hours,7.265,0.107
+2018,6,2018-12-20,Weekday After-Hours,7.485,0.110
+2018,6,2018-12-21,Weekday After-Hours,7.337,0.108
+2018,6,2018-12-22,Weekend,0.897,0.013
+2018,6,2018-12-23,Weekend,2.980,0.044
+2018,6,2018-12-24,Weekday After-Hours,7.453,0.110
+2018,6,2018-12-25,Weekday After-Hours,6.150,0.091
+2018,6,2018-12-26,Weekday After-Hours,6.765,0.100
+2018,6,2018-12-27,Weekday After-Hours,6.320,0.093
+2018,6,2018-12-28,Weekday After-Hours,6.857,0.101
+2018,6,2018-12-29,Weekend,2.819,0.042
+2018,6,2018-12-30,Weekend,0.686,0.010
+2018,7,2018-07-01,Weekend,1.544,0.017
+2018,7,2018-07-02,Weekday After-Hours,6.111,0.067
+2018,7,2018-07-03,Weekday After-Hours,16.790,0.183
+2018,7,2018-07-04,Weekday After-Hours,6.531,0.071
+2018,7,2018-07-05,Weekday After-Hours,18.659,0.203
+2018,7,2018-07-06,Weekday After-Hours,16.904,0.184
+2018,7,2018-07-07,Weekend,19.661,0.214
+2018,7,2018-07-08,Weekend,2.335,0.025
+2018,7,2018-07-09,Weekday After-Hours,11.529,0.126
+2018,7,2018-07-10,Weekday After-Hours,13.118,0.143
+2018,7,2018-07-11,Weekday After-Hours,19.990,0.218
+2018,7,2018-07-12,Weekday After-Hours,6.316,0.069
+2018,7,2018-07-13,Weekday After-Hours,11.912,0.130
+2018,7,2018-07-14,Weekend,5.232,0.057
+2018,7,2018-07-15,Weekend,2.440,0.027
+2018,7,2018-07-16,Weekday After-Hours,10.936,0.119
+2018,7,2018-07-17,Weekday After-Hours,6.406,0.070
+2018,7,2018-07-18,Weekday After-Hours,13.627,0.148
+2018,7,2018-07-19,Weekday After-Hours,6.875,0.075
+2018,7,2018-07-20,Weekday After-Hours,13.280,0.145
+2018,7,2018-07-21,Weekend,8.589,0.093
+2018,7,2018-07-22,Weekend,13.145,0.143
+2018,7,2018-07-23,Weekday After-Hours,6.338,0.069
+2018,7,2018-07-24,Weekday After-Hours,12.671,0.138
+2018,7,2018-07-25,Weekday After-Hours,6.293,0.069
+2018,7,2018-07-26,Weekday After-Hours,5.951,0.065
+2018,7,2018-07-28,Weekend,0.591,0.006
+2018,7,2018-07-29,Weekend,0.420,0.005
+2018,7,2018-07-31,Weekday After-Hours,6.143,0.067
+2018,7,2018-08-01,Weekday After-Hours,13.837,0.151
+2018,7,2018-08-02,Weekday After-Hours,6.285,0.068
+2018,7,2018-08-03,Weekday After-Hours,6.888,0.075
+2018,7,2018-08-04,Weekend,19.230,0.209
+2018,7,2018-08-05,Weekend,10.291,0.112
+2018,7,2018-08-06,Weekday After-Hours,10.386,0.113
+2018,7,2018-08-07,Weekday After-Hours,13.715,0.149
+2018,7,2018-08-08,Weekday After-Hours,6.733,0.073
+2018,7,2018-08-09,Weekday After-Hours,7.205,0.078
+2018,7,2018-08-10,Weekday After-Hours,6.767,0.074
+2018,7,2018-08-11,Weekend,17.831,0.194
+2018,7,2018-08-12,Weekend,1.720,0.019
+2018,7,2018-08-14,Weekday After-Hours,13.470,0.147
+2018,7,2018-08-15,Weekday After-Hours,8.260,0.090
+2018,7,2018-08-16,Weekday After-Hours,8.208,0.089
+2018,7,2018-08-17,Weekday After-Hours,4.213,0.046
+2018,7,2018-08-18,Weekend,7.060,0.077
+2018,7,2018-08-19,Weekend,18.432,0.201
+2018,7,2018-08-20,Weekday After-Hours,13.737,0.150
+2018,7,2018-08-21,Weekday After-Hours,7.481,0.081
+2018,7,2018-08-22,Weekday After-Hours,8.477,0.092
+2018,7,2018-08-23,Weekday After-Hours,7.866,0.086
+2018,7,2018-08-24,Weekday After-Hours,14.033,0.153
+2018,7,2018-08-25,Weekend,16.254,0.177
+2018,7,2018-08-26,Weekend,3.356,0.037
+2018,7,2018-08-27,Weekday After-Hours,8.408,0.092
+2018,7,2018-08-28,Weekday After-Hours,7.330,0.080
+2018,7,2018-08-29,Weekday After-Hours,7.583,0.083
+2018,7,2018-08-30,Weekday After-Hours,7.126,0.078
+2018,7,2018-08-31,Weekday After-Hours,7.669,0.083
+2018,7,2018-09-01,Weekend,16.365,0.178
+2018,7,2018-09-02,Weekend,1.146,0.012
+2018,7,2018-09-03,Weekday After-Hours,7.943,0.086
+2018,7,2018-09-04,Weekday After-Hours,7.650,0.083
+2018,7,2018-09-05,Weekday After-Hours,7.461,0.081
+2018,7,2018-09-06,Weekday After-Hours,7.920,0.086
+2018,7,2018-09-07,Weekday After-Hours,6.658,0.072
+2018,7,2018-09-08,Weekend,18.533,0.202
+2018,7,2018-09-09,Weekend,10.806,0.118
+2018,7,2018-09-10,Weekday After-Hours,6.750,0.073
+2018,7,2018-09-11,Weekday After-Hours,10.817,0.118
+2018,7,2018-09-12,Weekday After-Hours,6.835,0.074
+2018,7,2018-09-13,Weekday After-Hours,7.194,0.078
+2018,7,2018-09-14,Weekday After-Hours,6.138,0.067
+2018,7,2018-09-15,Weekend,18.511,0.201
+2018,7,2018-09-16,Weekend,13.202,0.144
+2018,7,2018-09-17,Weekday After-Hours,6.847,0.075
+2018,7,2018-09-18,Weekday After-Hours,6.794,0.074
+2018,7,2018-09-19,Weekday After-Hours,6.916,0.075
+2018,7,2018-09-20,Weekday After-Hours,6.350,0.069
+2018,7,2018-09-21,Weekday After-Hours,13.319,0.145
+2018,7,2018-09-22,Weekend,14.652,0.159
+2018,7,2018-09-23,Weekend,22.470,0.245
+2018,7,2018-09-24,Weekday After-Hours,11.930,0.130
+2018,7,2018-09-25,Weekday After-Hours,9.641,0.105
+2018,7,2018-09-26,Weekday After-Hours,6.475,0.070
+2018,7,2018-09-27,Weekday After-Hours,6.919,0.075
+2018,7,2018-09-28,Weekday After-Hours,6.508,0.071
+2018,7,2018-09-29,Weekend,16.310,0.178
+2018,7,2018-09-30,Weekend,14.521,0.158
+2018,7,2018-10-01,Weekday After-Hours,11.218,0.122
+2018,7,2018-10-02,Weekday After-Hours,6.474,0.070
+2018,7,2018-10-03,Weekday After-Hours,12.694,0.138
+2018,7,2018-10-04,Weekday After-Hours,13.102,0.143
+2018,7,2018-10-05,Weekday After-Hours,6.303,0.069
+2018,7,2018-10-06,Weekend,15.476,0.168
+2018,7,2018-10-07,Weekend,17.101,0.186
+2018,7,2018-10-08,Weekday After-Hours,8.827,0.096
+2018,7,2018-10-09,Weekday After-Hours,10.275,0.112
+2018,7,2018-10-10,Weekday After-Hours,6.144,0.067
+2018,7,2018-10-11,Weekday After-Hours,6.378,0.069
+2018,7,2018-10-12,Weekday After-Hours,5.625,0.061
+2018,7,2018-10-13,Weekend,14.712,0.160
+2018,7,2018-10-14,Weekend,20.071,0.218
+2018,7,2018-10-16,Weekday After-Hours,5.985,0.065
+2018,7,2018-10-17,Weekday After-Hours,5.766,0.063
+2018,7,2018-10-18,Weekday After-Hours,6.056,0.066
+2018,7,2018-10-19,Weekday After-Hours,5.365,0.058
+2018,7,2018-10-20,Weekend,7.570,0.082
+2018,7,2018-10-21,Weekend,1.891,0.021
+2018,7,2018-10-22,Weekday After-Hours,5.711,0.062
+2018,7,2018-10-24,Weekday After-Hours,5.392,0.059
+2018,7,2018-10-25,Weekday After-Hours,5.974,0.065
+2018,7,2018-10-26,Weekday After-Hours,5.987,0.065
+2018,7,2018-10-27,Weekend,12.817,0.140
+2018,7,2018-10-28,Weekend,2.499,0.027
+2018,7,2018-10-29,Weekday After-Hours,7.201,0.078
+2018,7,2018-10-30,Weekday After-Hours,6.300,0.069
+2018,7,2018-10-31,Weekday After-Hours,5.954,0.065
+2018,7,2018-11-01,Weekday After-Hours,5.412,0.059
+2018,7,2018-11-02,Weekday After-Hours,5.464,0.059
+2018,7,2018-11-03,Weekend,1.592,0.017
+2018,7,2018-11-04,Weekend,1.849,0.020
+2018,7,2018-11-05,Weekday After-Hours,5.347,0.058
+2018,7,2018-11-06,Weekday After-Hours,5.496,0.060
+2018,7,2018-11-07,Weekday After-Hours,5.451,0.059
+2018,7,2018-11-08,Weekday After-Hours,5.518,0.060
+2018,7,2018-11-09,Weekday After-Hours,5.657,0.062
+2018,7,2018-11-10,Weekend,1.664,0.018
+2018,7,2018-11-11,Weekend,0.410,0.004
+2018,7,2018-11-12,Weekday After-Hours,6.145,0.067
+2018,7,2018-11-13,Weekday After-Hours,5.978,0.065
+2018,7,2018-11-14,Weekday After-Hours,5.881,0.064
+2018,7,2018-11-15,Weekday After-Hours,5.868,0.064
+2018,7,2018-11-16,Weekday After-Hours,4.966,0.054
+2018,7,2018-11-17,Weekend,19.706,0.215
+2018,7,2018-11-18,Weekend,0.428,0.005
+2018,7,2018-11-19,Weekday After-Hours,5.390,0.059
+2018,7,2018-11-20,Weekday After-Hours,6.255,0.068
+2018,7,2018-11-21,Weekday After-Hours,6.619,0.072
+2018,7,2018-11-22,Weekday After-Hours,6.286,0.068
+2018,7,2018-11-23,Weekday After-Hours,5.669,0.062
+2018,7,2018-11-24,Weekend,3.113,0.034
+2018,7,2018-11-25,Weekend,1.354,0.015
+2018,7,2018-11-26,Weekday After-Hours,6.187,0.067
+2018,7,2018-11-27,Weekday After-Hours,6.216,0.068
+2018,7,2018-11-28,Weekday After-Hours,6.096,0.066
+2018,7,2018-11-29,Weekday After-Hours,7.084,0.077
+2018,7,2018-11-30,Weekday After-Hours,6.536,0.071
+2018,7,2018-12-01,Weekend,1.416,0.015
+2018,7,2018-12-02,Weekend,1.856,0.020
+2018,7,2018-12-03,Weekday After-Hours,6.338,0.069
+2018,7,2018-12-04,Weekday After-Hours,5.597,0.061
+2018,7,2018-12-06,Weekday After-Hours,6.043,0.066
+2018,7,2018-12-07,Weekday After-Hours,5.621,0.061
+2018,7,2018-12-08,Weekend,0.442,0.005
+2018,7,2018-12-09,Weekend,0.452,0.005
+2018,7,2018-12-11,Weekday After-Hours,6.503,0.071
+2018,7,2018-12-12,Weekday After-Hours,6.401,0.070
+2018,7,2018-12-13,Weekday After-Hours,5.951,0.065
+2018,7,2018-12-14,Weekday After-Hours,5.895,0.064
+2018,7,2018-12-15,Weekend,2.034,0.022
+2018,7,2018-12-16,Weekend,0.908,0.010
+2018,7,2018-12-17,Weekday After-Hours,6.319,0.069
+2018,7,2018-12-18,Weekday After-Hours,6.527,0.071
+2018,7,2018-12-19,Weekday After-Hours,6.660,0.072
+2018,7,2018-12-20,Weekday After-Hours,6.395,0.070
+2018,7,2018-12-21,Weekday After-Hours,5.805,0.063
+2018,7,2018-12-22,Weekend,4.651,0.051
+2018,7,2018-12-23,Weekend,1.026,0.011
+2018,7,2018-12-24,Weekday After-Hours,5.691,0.062
+2018,7,2018-12-25,Weekday After-Hours,6.184,0.067
+2018,7,2018-12-26,Weekday After-Hours,5.783,0.063
+2018,7,2018-12-27,Weekday After-Hours,4.786,0.052
+2018,7,2018-12-28,Weekday After-Hours,5.173,0.056
+2018,7,2018-12-29,Weekend,1.115,0.012
+2018,7,2018-12-30,Weekend,0.425,0.005
+2019,1,2019-01-02,Weekday After-Hours,123.637,1.967
+2019,1,2019-01-03,Weekday After-Hours,129.747,2.064
+2019,1,2019-01-04,Weekday After-Hours,126.885,2.019
+2019,1,2019-01-05,Weekend,118.229,1.881
+2019,1,2019-01-06,Weekend,123.321,1.962
+2019,1,2019-01-07,Weekday After-Hours,136.994,2.179
+2019,1,2019-01-08,Weekday After-Hours,147.475,2.346
+2019,1,2019-01-09,Weekday After-Hours,159.592,2.539
+2019,1,2019-01-10,Weekday After-Hours,154.859,2.464
+2019,1,2019-01-11,Weekday After-Hours,144.649,2.301
+2019,1,2019-01-12,Weekend,100.295,1.596
+2019,1,2019-01-13,Weekend,97.322,1.548
+2019,1,2019-01-14,Weekday After-Hours,140.549,2.236
+2019,1,2019-01-15,Weekday After-Hours,136.735,2.175
+2019,1,2019-01-16,Weekday After-Hours,126.688,2.015
+2019,1,2019-01-17,Weekday After-Hours,123.199,1.960
+2019,1,2019-01-18,Weekday After-Hours,142.297,2.264
+2019,1,2019-01-19,Weekend,89.414,1.422
+2019,1,2019-01-20,Weekend,94.389,1.502
+2019,1,2019-01-21,Weekday After-Hours,120.039,1.910
+2019,1,2019-01-22,Weekday After-Hours,102.992,1.638
+2019,1,2019-01-23,Weekday After-Hours,132.507,2.108
+2019,1,2019-01-26,Weekend,90.522,1.440
+2019,1,2019-01-27,Weekend,93.855,1.493
+2019,1,2019-02-02,Weekend,121.278,1.929
+2019,1,2019-02-03,Weekend,116.045,1.846
+2019,1,2019-02-09,Weekend,111.876,1.780
+2019,1,2019-02-10,Weekend,104.783,1.667
+2019,1,2019-02-12,Weekday After-Hours,157.290,2.502
+2019,1,2019-02-13,Weekday After-Hours,150.823,2.399
+2019,1,2019-02-14,Weekday After-Hours,153.081,2.435
+2019,1,2019-02-15,Weekday After-Hours,121.098,1.926
+2019,1,2019-02-16,Weekend,94.431,1.502
+2019,1,2019-02-17,Weekend,70.152,1.116
+2019,1,2019-02-18,Weekday After-Hours,116.001,1.845
+2019,1,2019-02-20,Weekday After-Hours,122.023,1.941
+2019,1,2019-02-21,Weekday After-Hours,134.620,2.142
+2019,1,2019-02-22,Weekday After-Hours,121.879,1.939
+2019,1,2019-02-23,Weekend,100.805,1.604
+2019,1,2019-02-24,Weekend,89.578,1.425
+2019,1,2019-02-25,Weekday After-Hours,117.333,1.867
+2019,1,2019-02-26,Weekday After-Hours,95.597,1.521
+2019,1,2019-02-27,Weekday After-Hours,103.870,1.652
+2019,1,2019-02-28,Weekday After-Hours,146.839,2.336
+2019,1,2019-03-01,Weekday After-Hours,151.801,2.415
+2019,1,2019-03-02,Weekend,115.802,1.842
+2019,1,2019-03-03,Weekend,114.726,1.825
+2019,1,2019-03-04,Weekday After-Hours,126.563,2.013
+2019,1,2019-03-05,Weekday After-Hours,153.054,2.435
+2019,1,2019-03-06,Weekday After-Hours,126.010,2.005
+2019,1,2019-03-07,Weekday After-Hours,144.788,2.303
+2019,1,2019-03-08,Weekday After-Hours,137.297,2.184
+2019,1,2019-03-09,Weekend,85.272,1.357
+2019,1,2019-03-10,Weekend,59.926,0.953
+2019,1,2019-03-11,Weekday After-Hours,127.035,2.021
+2019,1,2019-03-12,Weekday After-Hours,129.142,2.054
+2019,1,2019-03-13,Weekday After-Hours,128.741,2.048
+2019,1,2019-03-14,Weekday After-Hours,127.002,2.020
+2019,1,2019-03-15,Weekday After-Hours,93.026,1.480
+2019,1,2019-03-16,Weekend,98.123,1.561
+2019,1,2019-03-17,Weekend,106.634,1.696
+2019,1,2019-03-18,Weekday After-Hours,118.593,1.887
+2019,1,2019-03-19,Weekday After-Hours,122.913,1.955
+2019,1,2019-03-20,Weekday After-Hours,141.215,2.246
+2019,1,2019-03-21,Weekday After-Hours,130.200,2.071
+2019,1,2019-03-22,Weekday After-Hours,126.464,2.012
+2019,1,2019-03-23,Weekend,118.188,1.880
+2019,1,2019-03-24,Weekend,108.201,1.721
+2019,1,2019-03-25,Weekday After-Hours,117.206,1.865
+2019,1,2019-03-26,Weekday After-Hours,93.281,1.484
+2019,1,2019-03-27,Weekday After-Hours,95.226,1.515
+2019,1,2019-03-28,Weekday After-Hours,110.854,1.763
+2019,1,2019-03-29,Weekday After-Hours,94.308,1.500
+2019,1,2019-03-30,Weekend,97.967,1.558
+2019,1,2019-03-31,Weekend,100.651,1.601
+2019,1,2019-04-01,Weekday After-Hours,125.854,2.002
+2019,1,2019-04-02,Weekday After-Hours,125.697,2.000
+2019,1,2019-04-03,Weekday After-Hours,97.793,1.556
+2019,1,2019-04-04,Weekday After-Hours,101.954,1.622
+2019,1,2019-04-05,Weekday After-Hours,148.846,2.368
+2019,1,2019-04-06,Weekend,112.127,1.784
+2019,1,2019-04-07,Weekend,106.957,1.702
+2019,1,2019-04-09,Weekday After-Hours,128.743,2.048
+2019,1,2019-04-10,Weekday After-Hours,121.977,1.940
+2019,1,2019-04-11,Weekday After-Hours,96.233,1.531
+2019,1,2019-04-13,Weekend,112.846,1.795
+2019,1,2019-04-14,Weekend,115.360,1.835
+2019,1,2019-04-17,Weekday After-Hours,121.865,1.939
+2019,1,2019-04-18,Weekday After-Hours,109.577,1.743
+2019,1,2019-04-19,Weekday After-Hours,140.250,2.231
+2019,1,2019-04-20,Weekend,112.356,1.787
+2019,1,2019-04-21,Weekend,111.345,1.771
+2019,1,2019-04-22,Weekday After-Hours,135.470,2.155
+2019,1,2019-04-23,Weekday After-Hours,122.888,1.955
+2019,1,2019-04-24,Weekday After-Hours,114.467,1.821
+2019,1,2019-04-25,Weekday After-Hours,133.172,2.119
+2019,1,2019-04-26,Weekday After-Hours,131.096,2.086
+2019,1,2019-04-27,Weekend,111.006,1.766
+2019,1,2019-04-28,Weekend,104.977,1.670
+2019,1,2019-04-29,Weekday After-Hours,122.520,1.949
+2019,1,2019-04-30,Weekday After-Hours,147.361,2.344
+2019,1,2019-05-01,Weekday After-Hours,153.458,2.441
+2019,1,2019-05-02,Weekday After-Hours,154.778,2.462
+2019,1,2019-05-03,Weekday After-Hours,163.233,2.597
+2019,1,2019-05-04,Weekend,140.621,2.237
+2019,1,2019-05-05,Weekend,132.888,2.114
+2019,1,2019-05-07,Weekday After-Hours,148.242,2.358
+2019,1,2019-05-08,Weekday After-Hours,137.757,2.191
+2019,1,2019-05-09,Weekday After-Hours,142.300,2.264
+2019,1,2019-05-10,Weekday After-Hours,143.936,2.290
+2019,1,2019-05-11,Weekend,87.775,1.396
+2019,1,2019-05-12,Weekend,95.146,1.514
+2019,1,2019-05-13,Weekday After-Hours,105.105,1.672
+2019,1,2019-05-14,Weekday After-Hours,124.292,1.977
+2019,1,2019-05-15,Weekday After-Hours,121.094,1.926
+2019,1,2019-05-16,Weekday After-Hours,136.708,2.175
+2019,1,2019-05-17,Weekday After-Hours,142.948,2.274
+2019,1,2019-05-18,Weekend,129.095,2.054
+2019,1,2019-05-19,Weekend,137.193,2.183
+2019,1,2019-05-21,Weekday After-Hours,144.484,2.298
+2019,1,2019-05-22,Weekday After-Hours,137.375,2.185
+2019,1,2019-05-23,Weekday After-Hours,121.985,1.941
+2019,1,2019-05-24,Weekday After-Hours,138.853,2.209
+2019,1,2019-05-25,Weekend,121.667,1.936
+2019,1,2019-05-26,Weekend,123.404,1.963
+2019,1,2019-05-27,Weekday After-Hours,130.736,2.080
+2019,1,2019-05-28,Weekday After-Hours,132.054,2.101
+2019,1,2019-05-29,Weekday After-Hours,130.447,2.075
+2019,1,2019-05-30,Weekday After-Hours,133.387,2.122
+2019,1,2019-05-31,Weekday After-Hours,139.988,2.227
+2019,1,2019-06-01,Weekend,113.897,1.812
+2019,1,2019-06-02,Weekend,111.989,1.782
+2019,1,2019-06-04,Weekday After-Hours,130.806,2.081
+2019,1,2019-06-05,Weekday After-Hours,129.940,2.067
+2019,1,2019-06-06,Weekday After-Hours,137.731,2.191
+2019,1,2019-06-07,Weekday After-Hours,148.390,2.361
+2019,1,2019-06-08,Weekend,114.110,1.815
+2019,1,2019-06-09,Weekend,124.993,1.988
+2019,1,2019-06-10,Weekday After-Hours,146.363,2.328
+2019,1,2019-06-11,Weekday After-Hours,142.253,2.263
+2019,1,2019-06-12,Weekday After-Hours,109.902,1.748
+2019,1,2019-06-13,Weekday After-Hours,147.572,2.348
+2019,1,2019-06-14,Weekday After-Hours,141.025,2.243
+2019,1,2019-06-15,Weekend,116.276,1.850
+2019,1,2019-06-16,Weekend,107.940,1.717
+2019,1,2019-06-17,Weekday After-Hours,116.554,1.854
+2019,1,2019-06-18,Weekday After-Hours,124.721,1.984
+2019,1,2019-06-19,Weekday After-Hours,122.696,1.952
+2019,1,2019-06-20,Weekday After-Hours,123.541,1.965
+2019,1,2019-06-21,Weekday After-Hours,127.896,2.035
+2019,1,2019-06-22,Weekend,83.978,1.336
+2019,1,2019-06-23,Weekend,76.619,1.219
+2019,1,2019-06-24,Weekday After-Hours,131.790,2.097
+2019,1,2019-06-25,Weekday After-Hours,146.268,2.327
+2019,1,2019-06-26,Weekday After-Hours,155.867,2.480
+2019,1,2019-06-27,Weekday After-Hours,148.734,2.366
+2019,1,2019-06-28,Weekday After-Hours,149.039,2.371
+2019,1,2019-06-29,Weekend,132.704,2.111
+2019,1,2019-06-30,Weekend,126.277,2.009
+2019,1,2019-07-01,Weekday After-Hours,134.450,2.139
+2019,1,2019-07-02,Weekday After-Hours,121.377,1.931
+2019,1,2019-07-03,Weekday After-Hours,151.104,2.404
+2019,1,2019-07-04,Weekday After-Hours,156.076,2.483
+2019,1,2019-07-05,Weekday After-Hours,160.910,2.560
+2019,1,2019-07-06,Weekend,122.271,1.945
+2019,1,2019-07-07,Weekend,110.592,1.759
+2019,1,2019-07-08,Weekday After-Hours,127.315,2.025
+2019,1,2019-07-09,Weekday After-Hours,119.381,1.899
+2019,1,2019-07-10,Weekday After-Hours,108.350,1.724
+2019,1,2019-07-11,Weekday After-Hours,117.611,1.871
+2019,1,2019-07-12,Weekday After-Hours,136.214,2.167
+2019,1,2019-07-13,Weekend,100.140,1.593
+2019,1,2019-07-14,Weekend,84.864,1.350
+2019,1,2019-07-15,Weekday After-Hours,122.130,1.943
+2019,1,2019-07-18,Weekday After-Hours,116.250,1.849
+2019,1,2019-07-19,Weekday After-Hours,146.426,2.329
+2019,1,2019-07-20,Weekend,114.433,1.820
+2019,1,2019-07-21,Weekend,102.371,1.629
+2019,1,2019-07-22,Weekday After-Hours,131.481,2.092
+2019,1,2019-07-23,Weekday After-Hours,153.194,2.437
+2019,1,2019-07-24,Weekday After-Hours,102.946,1.638
+2019,1,2019-07-25,Weekday After-Hours,118.377,1.883
+2019,1,2019-07-26,Weekday After-Hours,150.939,2.401
+2019,1,2019-07-27,Weekend,108.586,1.727
+2019,1,2019-07-28,Weekend,79.851,1.270
+2019,1,2019-07-30,Weekday After-Hours,130.840,2.081
+2019,1,2019-07-31,Weekday After-Hours,135.758,2.160
+2019,1,2019-08-01,Weekday After-Hours,114.883,1.828
+2019,1,2019-08-02,Weekday After-Hours,143.694,2.286
+2019,1,2019-08-03,Weekend,108.705,1.729
+2019,1,2019-08-04,Weekend,88.384,1.406
+2019,1,2019-08-05,Weekday After-Hours,109.561,1.743
+2019,1,2019-08-06,Weekday After-Hours,144.096,2.292
+2019,1,2019-08-07,Weekday After-Hours,109.736,1.746
+2019,1,2019-08-08,Weekday After-Hours,106.370,1.692
+2019,1,2019-08-09,Weekday After-Hours,139.605,2.221
+2019,1,2019-08-10,Weekend,104.756,1.666
+2019,1,2019-08-11,Weekend,104.903,1.669
+2019,1,2019-08-13,Weekday After-Hours,148.978,2.370
+2019,1,2019-08-14,Weekday After-Hours,112.001,1.782
+2019,1,2019-08-15,Weekday After-Hours,95.097,1.513
+2019,1,2019-08-16,Weekday After-Hours,114.889,1.828
+2019,1,2019-08-17,Weekend,99.428,1.582
+2019,1,2019-08-18,Weekend,115.957,1.845
+2019,1,2019-08-19,Weekday After-Hours,145.554,2.316
+2019,1,2019-08-20,Weekday After-Hours,135.829,2.161
+2019,1,2019-08-21,Weekday After-Hours,158.393,2.520
+2019,1,2019-08-22,Weekday After-Hours,147.522,2.347
+2019,1,2019-08-23,Weekday After-Hours,157.916,2.512
+2019,1,2019-08-24,Weekend,113.980,1.813
+2019,1,2019-08-25,Weekend,96.266,1.531
+2019,1,2019-08-26,Weekday After-Hours,143.909,2.289
+2019,1,2019-08-27,Weekday After-Hours,158.592,2.523
+2019,1,2019-08-28,Weekday After-Hours,120.320,1.914
+2019,1,2019-08-29,Weekday After-Hours,121.928,1.940
+2019,1,2019-08-30,Weekday After-Hours,118.773,1.889
+2019,1,2019-08-31,Weekend,136.200,2.167
+2019,1,2019-09-01,Weekend,110.118,1.752
+2019,1,2019-09-02,Weekday After-Hours,133.366,2.122
+2019,1,2019-09-03,Weekday After-Hours,143.541,2.283
+2019,1,2019-09-04,Weekday After-Hours,109.327,1.739
+2019,1,2019-09-05,Weekday After-Hours,98.719,1.570
+2019,1,2019-09-06,Weekday After-Hours,131.535,2.092
+2019,1,2019-09-07,Weekend,106.887,1.700
+2019,1,2019-09-08,Weekend,109.601,1.744
+2019,1,2019-09-09,Weekday After-Hours,115.868,1.843
+2019,1,2019-09-10,Weekday After-Hours,124.786,1.985
+2019,1,2019-09-11,Weekday After-Hours,128.241,2.040
+2019,1,2019-09-12,Weekday After-Hours,104.652,1.665
+2019,1,2019-09-13,Weekday After-Hours,118.795,1.890
+2019,1,2019-09-14,Weekend,88.736,1.412
+2019,1,2019-09-15,Weekend,71.407,1.136
+2019,1,2019-09-16,Weekday After-Hours,99.384,1.581
+2019,1,2019-09-17,Weekday After-Hours,107.806,1.715
+2019,1,2019-09-18,Weekday After-Hours,130.417,2.075
+2019,1,2019-09-19,Weekday After-Hours,117.943,1.876
+2019,1,2019-09-20,Weekday After-Hours,102.361,1.628
+2019,1,2019-09-21,Weekend,88.541,1.409
+2019,1,2019-09-22,Weekend,91.784,1.460
+2019,1,2019-09-23,Weekday After-Hours,105.523,1.679
+2019,1,2019-09-24,Weekday After-Hours,125.277,1.993
+2019,1,2019-09-25,Weekday After-Hours,127.060,2.021
+2019,1,2019-09-26,Weekday After-Hours,113.711,1.809
+2019,1,2019-09-27,Weekday After-Hours,101.136,1.609
+2019,1,2019-09-28,Weekend,83.896,1.335
+2019,1,2019-09-29,Weekend,74.828,1.190
+2019,1,2019-09-30,Weekday After-Hours,108.620,1.728
+2019,1,2019-10-01,Weekday After-Hours,130.368,2.074
+2019,1,2019-10-02,Weekday After-Hours,121.973,1.940
+2019,1,2019-10-03,Weekday After-Hours,129.594,2.062
+2019,1,2019-10-04,Weekday After-Hours,108.815,1.731
+2019,1,2019-10-05,Weekend,85.416,1.359
+2019,1,2019-10-06,Weekend,64.987,1.034
+2019,1,2019-10-07,Weekday After-Hours,105.349,1.676
+2019,1,2019-10-08,Weekday After-Hours,130.799,2.081
+2019,1,2019-10-09,Weekday After-Hours,106.745,1.698
+2019,1,2019-10-10,Weekday After-Hours,103.789,1.651
+2019,1,2019-10-11,Weekday After-Hours,115.876,1.843
+2019,1,2019-10-12,Weekend,115.991,1.845
+2019,1,2019-10-13,Weekend,109.321,1.739
+2019,1,2019-10-15,Weekday After-Hours,139.736,2.223
+2019,1,2019-10-16,Weekday After-Hours,125.157,1.991
+2019,1,2019-10-17,Weekday After-Hours,126.034,2.005
+2019,1,2019-10-18,Weekday After-Hours,134.293,2.136
+2019,1,2019-10-19,Weekend,106.622,1.696
+2019,1,2019-10-20,Weekend,102.844,1.636
+2019,1,2019-10-21,Weekday After-Hours,106.699,1.697
+2019,1,2019-10-22,Weekday After-Hours,134.898,2.146
+2019,1,2019-10-24,Weekday After-Hours,123.275,1.961
+2019,1,2019-10-25,Weekday After-Hours,134.616,2.142
+2019,1,2019-10-26,Weekend,106.695,1.697
+2019,1,2019-10-27,Weekend,110.908,1.764
+2019,1,2019-10-28,Weekday After-Hours,138.521,2.204
+2019,1,2019-10-29,Weekday After-Hours,138.710,2.207
+2019,1,2019-10-30,Weekday After-Hours,97.011,1.543
+2019,1,2019-10-31,Weekday After-Hours,116.211,1.849
+2019,1,2019-11-01,Weekday After-Hours,139.231,2.215
+2019,1,2019-11-02,Weekend,109.505,1.742
+2019,1,2019-11-03,Weekend,112.413,1.788
+2019,1,2019-11-04,Weekday After-Hours,127.479,2.028
+2019,1,2019-11-05,Weekday After-Hours,140.009,2.227
+2019,1,2019-11-06,Weekday After-Hours,132.272,2.104
+2019,1,2019-11-07,Weekday After-Hours,100.068,1.592
+2019,1,2019-11-08,Weekday After-Hours,93.340,1.485
+2019,1,2019-11-09,Weekend,74.740,1.189
+2019,1,2019-11-10,Weekend,73.556,1.170
+2019,1,2019-11-11,Weekday After-Hours,115.226,1.833
+2019,1,2019-11-12,Weekday After-Hours,128.889,2.050
+2019,1,2019-11-13,Weekday After-Hours,113.868,1.811
+2019,1,2019-11-14,Weekday After-Hours,139.174,2.214
+2019,1,2019-11-15,Weekday After-Hours,116.482,1.853
+2019,1,2019-11-16,Weekend,94.847,1.509
+2019,1,2019-11-17,Weekend,97.776,1.555
+2019,1,2019-11-18,Weekday After-Hours,114.367,1.819
+2019,1,2019-11-19,Weekday After-Hours,113.122,1.800
+2019,1,2019-11-20,Weekday After-Hours,108.609,1.728
+2019,1,2019-11-21,Weekday After-Hours,118.829,1.890
+2019,1,2019-11-22,Weekday After-Hours,122.516,1.949
+2019,1,2019-11-23,Weekend,80.038,1.273
+2019,1,2019-11-24,Weekend,69.917,1.112
+2019,1,2019-11-25,Weekday After-Hours,89.269,1.420
+2019,1,2019-11-26,Weekday After-Hours,99.228,1.579
+2019,1,2019-11-27,Weekday After-Hours,103.565,1.648
+2019,1,2019-11-28,Weekday After-Hours,94.844,1.509
+2019,1,2019-11-29,Weekday After-Hours,130.625,2.078
+2019,1,2019-11-30,Weekend,92.777,1.476
+2019,1,2019-12-01,Weekend,82.822,1.318
+2019,1,2019-12-02,Weekday After-Hours,114.807,1.826
+2019,1,2019-12-03,Weekday After-Hours,124.034,1.973
+2019,1,2019-12-04,Weekday After-Hours,104.826,1.668
+2019,1,2019-12-06,Weekday After-Hours,118.056,1.878
+2019,1,2019-12-07,Weekend,93.546,1.488
+2019,1,2019-12-08,Weekend,86.186,1.371
+2019,1,2019-12-09,Weekday After-Hours,100.324,1.596
+2019,1,2019-12-11,Weekday After-Hours,93.413,1.486
+2019,1,2019-12-12,Weekday After-Hours,100.136,1.593
+2019,1,2019-12-13,Weekday After-Hours,96.808,1.540
+2019,1,2019-12-14,Weekend,81.859,1.302
+2019,1,2019-12-15,Weekend,92.047,1.464
+2019,1,2019-12-16,Weekday After-Hours,120.358,1.915
+2019,1,2019-12-17,Weekday After-Hours,127.588,2.030
+2019,1,2019-12-18,Weekday After-Hours,102.169,1.625
+2019,1,2019-12-19,Weekday After-Hours,113.926,1.812
+2019,1,2019-12-20,Weekday After-Hours,121.495,1.933
+2019,1,2019-12-21,Weekend,73.352,1.167
+2019,1,2019-12-22,Weekend,79.568,1.266
+2019,1,2019-12-23,Weekday After-Hours,116.239,1.849
+2019,1,2019-12-24,Weekday After-Hours,99.776,1.587
+2019,1,2019-12-25,Weekday After-Hours,123.470,1.964
+2019,1,2019-12-26,Weekday After-Hours,114.611,1.823
+2019,1,2019-12-27,Weekday After-Hours,130.707,2.079
+2019,1,2019-12-28,Weekend,116.042,1.846
+2019,1,2019-12-29,Weekend,100.111,1.593
+2019,2,2019-01-02,Weekday After-Hours,9.925,0.118
+2019,2,2019-01-03,Weekday After-Hours,9.299,0.111
+2019,2,2019-01-04,Weekday After-Hours,11.105,0.132
+2019,2,2019-01-05,Weekend,8.046,0.096
+2019,2,2019-01-06,Weekend,7.342,0.087
+2019,2,2019-01-07,Weekday After-Hours,10.173,0.121
+2019,2,2019-01-08,Weekday After-Hours,8.612,0.102
+2019,2,2019-01-09,Weekday After-Hours,9.642,0.115
+2019,2,2019-01-10,Weekday After-Hours,9.254,0.110
+2019,2,2019-01-11,Weekday After-Hours,9.756,0.116
+2019,2,2019-01-12,Weekend,6.803,0.081
+2019,2,2019-01-13,Weekend,7.108,0.084
+2019,2,2019-01-14,Weekday After-Hours,10.332,0.123
+2019,2,2019-01-15,Weekday After-Hours,9.906,0.118
+2019,2,2019-01-16,Weekday After-Hours,9.760,0.116
+2019,2,2019-01-17,Weekday After-Hours,9.241,0.110
+2019,2,2019-01-18,Weekday After-Hours,8.978,0.107
+2019,2,2019-01-19,Weekend,6.833,0.081
+2019,2,2019-01-20,Weekend,7.279,0.087
+2019,2,2019-01-21,Weekday After-Hours,9.823,0.117
+2019,2,2019-01-22,Weekday After-Hours,9.463,0.112
+2019,2,2019-02-13,Weekday After-Hours,10.253,0.122
+2019,2,2019-02-14,Weekday After-Hours,9.877,0.117
+2019,2,2019-02-15,Weekday After-Hours,9.883,0.117
+2019,2,2019-02-16,Weekend,7.498,0.089
+2019,2,2019-02-17,Weekend,7.285,0.087
+2019,2,2019-02-18,Weekday After-Hours,9.524,0.113
+2019,2,2019-02-20,Weekday After-Hours,10.223,0.122
+2019,2,2019-02-21,Weekday After-Hours,10.225,0.122
+2019,2,2019-02-22,Weekday After-Hours,10.568,0.126
+2019,2,2019-02-23,Weekend,8.070,0.096
+2019,2,2019-02-24,Weekend,7.913,0.094
+2019,2,2019-02-25,Weekday After-Hours,10.396,0.124
+2019,2,2019-02-26,Weekday After-Hours,9.834,0.117
+2019,2,2019-02-27,Weekday After-Hours,10.337,0.123
+2019,2,2019-02-28,Weekday After-Hours,10.273,0.122
+2019,2,2019-03-01,Weekday After-Hours,10.779,0.128
+2019,2,2019-03-02,Weekend,7.406,0.088
+2019,2,2019-03-03,Weekend,7.661,0.091
+2019,2,2019-03-04,Weekday After-Hours,11.682,0.139
+2019,2,2019-03-05,Weekday After-Hours,10.645,0.127
+2019,2,2019-03-06,Weekday After-Hours,10.758,0.128
+2019,2,2019-03-07,Weekday After-Hours,10.879,0.129
+2019,2,2019-03-08,Weekday After-Hours,10.009,0.119
+2019,2,2019-03-09,Weekend,7.352,0.087
+2019,2,2019-03-10,Weekend,7.311,0.087
+2019,2,2019-03-11,Weekday After-Hours,10.147,0.121
+2019,2,2019-03-12,Weekday After-Hours,10.541,0.125
+2019,2,2019-03-13,Weekday After-Hours,10.276,0.122
+2019,2,2019-03-14,Weekday After-Hours,9.934,0.118
+2019,2,2019-03-15,Weekday After-Hours,10.197,0.121
+2019,2,2019-03-16,Weekend,7.082,0.084
+2019,2,2019-03-17,Weekend,7.371,0.088
+2019,2,2019-03-18,Weekday After-Hours,10.326,0.123
+2019,2,2019-03-19,Weekday After-Hours,10.191,0.121
+2019,2,2019-03-20,Weekday After-Hours,9.990,0.119
+2019,2,2019-03-21,Weekday After-Hours,10.454,0.124
+2019,2,2019-03-22,Weekday After-Hours,11.352,0.135
+2019,2,2019-03-23,Weekend,8.330,0.099
+2019,2,2019-03-24,Weekend,8.330,0.099
+2019,2,2019-03-25,Weekday After-Hours,11.111,0.132
+2019,2,2019-03-26,Weekday After-Hours,9.976,0.119
+2019,2,2019-03-27,Weekday After-Hours,9.842,0.117
+2019,2,2019-03-28,Weekday After-Hours,8.558,0.102
+2019,2,2019-03-29,Weekday After-Hours,8.700,0.103
+2019,2,2019-03-30,Weekend,6.237,0.074
+2019,2,2019-03-31,Weekend,7.158,0.085
+2019,2,2019-04-01,Weekday After-Hours,8.709,0.104
+2019,2,2019-04-02,Weekday After-Hours,9.163,0.109
+2019,2,2019-04-03,Weekday After-Hours,8.503,0.101
+2019,2,2019-04-04,Weekday After-Hours,8.512,0.101
+2019,2,2019-04-05,Weekday After-Hours,8.626,0.103
+2019,2,2019-04-06,Weekend,6.402,0.076
+2019,2,2019-04-07,Weekend,6.387,0.076
+2019,2,2019-04-09,Weekday After-Hours,8.661,0.103
+2019,2,2019-04-10,Weekday After-Hours,8.937,0.106
+2019,2,2019-04-11,Weekday After-Hours,9.411,0.112
+2019,2,2019-04-13,Weekend,6.007,0.071
+2019,2,2019-04-14,Weekend,6.772,0.080
+2019,2,2019-04-17,Weekday After-Hours,8.678,0.103
+2019,2,2019-04-18,Weekday After-Hours,8.766,0.104
+2019,2,2019-04-19,Weekday After-Hours,10.479,0.125
+2019,2,2019-04-20,Weekend,7.723,0.092
+2019,2,2019-04-21,Weekend,8.084,0.096
+2019,2,2019-04-22,Weekday After-Hours,10.531,0.125
+2019,2,2019-04-23,Weekday After-Hours,13.479,0.160
+2019,2,2019-04-24,Weekday After-Hours,14.886,0.177
+2019,2,2019-04-25,Weekday After-Hours,10.210,0.121
+2019,2,2019-04-26,Weekday After-Hours,8.787,0.104
+2019,2,2019-04-27,Weekend,7.059,0.084
+2019,2,2019-04-28,Weekend,7.720,0.092
+2019,2,2019-04-29,Weekday After-Hours,10.627,0.126
+2019,2,2019-04-30,Weekday After-Hours,13.496,0.160
+2019,2,2019-05-01,Weekday After-Hours,21.116,0.251
+2019,2,2019-05-02,Weekday After-Hours,18.465,0.219
+2019,2,2019-05-03,Weekday After-Hours,18.141,0.216
+2019,2,2019-05-04,Weekend,6.479,0.077
+2019,2,2019-05-05,Weekend,7.395,0.088
+2019,2,2019-05-07,Weekday After-Hours,19.085,0.227
+2019,2,2019-05-08,Weekday After-Hours,17.498,0.208
+2019,2,2019-05-09,Weekday After-Hours,11.383,0.135
+2019,2,2019-05-10,Weekday After-Hours,17.635,0.210
+2019,2,2019-05-11,Weekend,6.430,0.076
+2019,2,2019-05-12,Weekend,6.174,0.073
+2019,2,2019-05-13,Weekday After-Hours,16.982,0.202
+2019,2,2019-05-14,Weekday After-Hours,16.153,0.192
+2019,2,2019-05-15,Weekday After-Hours,16.137,0.192
+2019,2,2019-05-16,Weekday After-Hours,16.537,0.197
+2019,2,2019-05-17,Weekday After-Hours,16.801,0.200
+2019,2,2019-05-18,Weekend,7.664,0.091
+2019,2,2019-05-19,Weekend,7.751,0.092
+2019,2,2019-05-21,Weekday After-Hours,19.299,0.229
+2019,2,2019-05-22,Weekday After-Hours,18.104,0.215
+2019,2,2019-05-23,Weekday After-Hours,16.250,0.193
+2019,2,2019-05-24,Weekday After-Hours,16.488,0.196
+2019,2,2019-05-25,Weekend,6.628,0.079
+2019,2,2019-05-26,Weekend,7.576,0.090
+2019,2,2019-05-27,Weekday After-Hours,17.858,0.212
+2019,2,2019-05-28,Weekday After-Hours,16.800,0.200
+2019,2,2019-05-29,Weekday After-Hours,20.113,0.239
+2019,2,2019-05-30,Weekday After-Hours,19.244,0.229
+2019,2,2019-05-31,Weekday After-Hours,17.448,0.207
+2019,2,2019-06-01,Weekend,6.828,0.081
+2019,2,2019-06-02,Weekend,6.945,0.083
+2019,2,2019-06-04,Weekday After-Hours,15.515,0.184
+2019,2,2019-06-05,Weekday After-Hours,18.322,0.218
+2019,2,2019-06-06,Weekday After-Hours,17.607,0.209
+2019,2,2019-06-07,Weekday After-Hours,16.427,0.195
+2019,2,2019-06-08,Weekend,15.391,0.183
+2019,2,2019-06-09,Weekend,7.106,0.084
+2019,2,2019-06-10,Weekday After-Hours,16.820,0.200
+2019,2,2019-06-11,Weekday After-Hours,16.618,0.198
+2019,2,2019-06-12,Weekday After-Hours,16.176,0.192
+2019,2,2019-06-13,Weekday After-Hours,17.978,0.214
+2019,2,2019-06-14,Weekday After-Hours,21.423,0.255
+2019,2,2019-06-15,Weekend,23.814,0.283
+2019,2,2019-06-16,Weekend,20.273,0.241
+2019,2,2019-06-17,Weekday After-Hours,19.426,0.231
+2019,2,2019-06-18,Weekday After-Hours,15.291,0.182
+2019,2,2019-06-19,Weekday After-Hours,12.649,0.150
+2019,2,2019-06-20,Weekday After-Hours,13.058,0.155
+2019,2,2019-06-21,Weekday After-Hours,17.175,0.204
+2019,2,2019-06-22,Weekend,5.980,0.071
+2019,2,2019-06-23,Weekend,5.851,0.070
+2019,2,2019-06-24,Weekday After-Hours,11.150,0.133
+2019,2,2019-06-25,Weekday After-Hours,10.835,0.129
+2019,2,2019-06-26,Weekday After-Hours,14.804,0.176
+2019,2,2019-06-27,Weekday After-Hours,10.238,0.122
+2019,2,2019-06-28,Weekday After-Hours,7.262,0.086
+2019,2,2019-06-29,Weekend,5.530,0.066
+2019,2,2019-06-30,Weekend,6.408,0.076
+2019,2,2019-07-01,Weekday After-Hours,10.756,0.128
+2019,2,2019-07-02,Weekday After-Hours,15.241,0.181
+2019,2,2019-07-03,Weekday After-Hours,14.817,0.176
+2019,2,2019-07-04,Weekday After-Hours,15.084,0.179
+2019,2,2019-07-05,Weekday After-Hours,11.297,0.134
+2019,2,2019-07-06,Weekend,17.278,0.205
+2019,2,2019-07-07,Weekend,14.849,0.176
+2019,2,2019-07-08,Weekday After-Hours,11.449,0.136
+2019,2,2019-07-09,Weekday After-Hours,8.021,0.095
+2019,2,2019-07-10,Weekday After-Hours,8.198,0.097
+2019,2,2019-07-11,Weekday After-Hours,7.868,0.094
+2019,2,2019-07-12,Weekday After-Hours,9.053,0.108
+2019,2,2019-07-13,Weekend,18.609,0.221
+2019,2,2019-07-14,Weekend,16.010,0.190
+2019,2,2019-07-15,Weekday After-Hours,7.161,0.085
+2019,2,2019-07-18,Weekday After-Hours,7.587,0.090
+2019,2,2019-07-19,Weekday After-Hours,12.373,0.147
+2019,2,2019-07-20,Weekend,18.293,0.217
+2019,2,2019-07-21,Weekend,17.751,0.211
+2019,2,2019-07-22,Weekday After-Hours,7.782,0.092
+2019,2,2019-07-23,Weekday After-Hours,7.654,0.091
+2019,2,2019-07-24,Weekday After-Hours,7.436,0.088
+2019,2,2019-07-25,Weekday After-Hours,7.313,0.087
+2019,2,2019-07-26,Weekday After-Hours,7.741,0.092
+2019,2,2019-07-27,Weekend,6.117,0.073
+2019,2,2019-07-28,Weekend,16.552,0.197
+2019,2,2019-07-30,Weekday After-Hours,7.757,0.092
+2019,2,2019-07-31,Weekday After-Hours,12.041,0.143
+2019,2,2019-08-01,Weekday After-Hours,12.480,0.148
+2019,2,2019-08-02,Weekday After-Hours,10.737,0.128
+2019,2,2019-08-03,Weekend,14.482,0.172
+2019,2,2019-08-04,Weekend,5.480,0.065
+2019,2,2019-08-05,Weekday After-Hours,11.175,0.133
+2019,2,2019-08-06,Weekday After-Hours,12.482,0.148
+2019,2,2019-08-07,Weekday After-Hours,10.718,0.127
+2019,2,2019-08-08,Weekday After-Hours,11.952,0.142
+2019,2,2019-08-09,Weekday After-Hours,11.519,0.137
+2019,2,2019-08-10,Weekend,7.445,0.088
+2019,2,2019-08-11,Weekend,5.822,0.069
+2019,2,2019-08-13,Weekday After-Hours,7.833,0.093
+2019,2,2019-08-14,Weekday After-Hours,15.161,0.180
+2019,2,2019-08-15,Weekday After-Hours,12.405,0.147
+2019,2,2019-08-16,Weekday After-Hours,13.567,0.161
+2019,2,2019-08-17,Weekend,6.084,0.072
+2019,2,2019-08-18,Weekend,6.194,0.074
+2019,2,2019-08-19,Weekday After-Hours,14.258,0.169
+2019,2,2019-08-20,Weekday After-Hours,11.609,0.138
+2019,2,2019-08-21,Weekday After-Hours,11.503,0.137
+2019,2,2019-08-22,Weekday After-Hours,10.781,0.128
+2019,2,2019-08-23,Weekday After-Hours,11.919,0.142
+2019,2,2019-08-24,Weekend,16.503,0.196
+2019,2,2019-08-25,Weekend,6.917,0.082
+2019,2,2019-08-26,Weekday After-Hours,11.075,0.132
+2019,2,2019-08-27,Weekday After-Hours,12.357,0.147
+2019,2,2019-08-28,Weekday After-Hours,12.470,0.148
+2019,2,2019-08-29,Weekday After-Hours,12.297,0.146
+2019,2,2019-08-30,Weekday After-Hours,11.305,0.134
+2019,2,2019-08-31,Weekend,20.819,0.247
+2019,2,2019-09-01,Weekend,14.803,0.176
+2019,2,2019-09-02,Weekday After-Hours,11.997,0.143
+2019,2,2019-09-03,Weekday After-Hours,11.516,0.137
+2019,2,2019-09-04,Weekday After-Hours,11.229,0.133
+2019,2,2019-09-05,Weekday After-Hours,12.255,0.146
+2019,2,2019-09-06,Weekday After-Hours,17.934,0.213
+2019,2,2019-09-07,Weekend,18.781,0.223
+2019,2,2019-09-08,Weekend,6.925,0.082
+2019,2,2019-09-09,Weekday After-Hours,14.016,0.167
+2019,2,2019-09-10,Weekday After-Hours,12.338,0.147
+2019,2,2019-09-11,Weekday After-Hours,9.439,0.112
+2019,2,2019-09-12,Weekday After-Hours,13.781,0.164
+2019,2,2019-09-13,Weekday After-Hours,17.812,0.212
+2019,2,2019-09-14,Weekend,17.582,0.209
+2019,2,2019-09-15,Weekend,6.583,0.078
+2019,2,2019-09-16,Weekday After-Hours,12.504,0.149
+2019,2,2019-09-17,Weekday After-Hours,14.597,0.173
+2019,2,2019-09-18,Weekday After-Hours,14.133,0.168
+2019,2,2019-09-19,Weekday After-Hours,13.797,0.164
+2019,2,2019-09-20,Weekday After-Hours,12.930,0.154
+2019,2,2019-09-21,Weekend,16.911,0.201
+2019,2,2019-09-22,Weekend,17.050,0.203
+2019,2,2019-09-23,Weekday After-Hours,12.706,0.151
+2019,2,2019-09-24,Weekday After-Hours,13.402,0.159
+2019,2,2019-09-25,Weekday After-Hours,13.224,0.157
+2019,2,2019-09-26,Weekday After-Hours,13.803,0.164
+2019,2,2019-09-27,Weekday After-Hours,8.778,0.104
+2019,2,2019-09-28,Weekend,18.327,0.218
+2019,2,2019-09-29,Weekend,18.403,0.219
+2019,2,2019-09-30,Weekday After-Hours,13.986,0.166
+2019,2,2019-10-01,Weekday After-Hours,14.616,0.174
+2019,2,2019-10-02,Weekday After-Hours,14.449,0.172
+2019,2,2019-10-03,Weekday After-Hours,15.086,0.179
+2019,2,2019-10-04,Weekday After-Hours,9.178,0.109
+2019,2,2019-10-05,Weekend,6.478,0.077
+2019,2,2019-10-06,Weekend,6.426,0.076
+2019,2,2019-10-07,Weekday After-Hours,8.102,0.096
+2019,2,2019-10-08,Weekday After-Hours,8.394,0.100
+2019,2,2019-10-09,Weekday After-Hours,7.963,0.095
+2019,2,2019-10-10,Weekday After-Hours,8.077,0.096
+2019,2,2019-10-11,Weekday After-Hours,8.429,0.100
+2019,2,2019-10-12,Weekend,6.730,0.080
+2019,2,2019-10-13,Weekend,6.795,0.081
+2019,2,2019-10-15,Weekday After-Hours,8.554,0.102
+2019,2,2019-10-16,Weekday After-Hours,8.247,0.098
+2019,2,2019-10-17,Weekday After-Hours,8.684,0.103
+2019,2,2019-10-18,Weekday After-Hours,8.928,0.106
+2019,2,2019-10-19,Weekend,6.809,0.081
+2019,2,2019-10-20,Weekend,7.049,0.084
+2019,2,2019-10-21,Weekday After-Hours,9.629,0.114
+2019,2,2019-10-22,Weekday After-Hours,8.921,0.106
+2019,2,2019-10-24,Weekday After-Hours,9.152,0.109
+2019,2,2019-10-25,Weekday After-Hours,9.766,0.116
+2019,2,2019-10-26,Weekend,8.168,0.097
+2019,2,2019-10-27,Weekend,17.279,0.205
+2019,2,2019-10-28,Weekday After-Hours,9.208,0.109
+2019,2,2019-10-29,Weekday After-Hours,9.293,0.110
+2019,2,2019-10-30,Weekday After-Hours,8.931,0.106
+2019,2,2019-10-31,Weekday After-Hours,9.136,0.109
+2019,2,2019-11-01,Weekday After-Hours,8.471,0.101
+2019,2,2019-11-02,Weekend,7.025,0.083
+2019,2,2019-11-03,Weekend,7.394,0.088
+2019,2,2019-11-04,Weekday After-Hours,8.860,0.105
+2019,2,2019-11-05,Weekday After-Hours,8.786,0.104
+2019,2,2019-11-06,Weekday After-Hours,8.902,0.106
+2019,2,2019-11-07,Weekday After-Hours,8.610,0.102
+2019,2,2019-11-08,Weekday After-Hours,8.259,0.098
+2019,2,2019-11-09,Weekend,6.855,0.081
+2019,2,2019-11-10,Weekend,6.809,0.081
+2019,2,2019-11-11,Weekday After-Hours,7.994,0.095
+2019,2,2019-11-12,Weekday After-Hours,8.551,0.102
+2019,2,2019-11-13,Weekday After-Hours,8.184,0.097
+2019,2,2019-11-14,Weekday After-Hours,8.742,0.104
+2019,2,2019-11-15,Weekday After-Hours,8.770,0.104
+2019,2,2019-11-16,Weekend,7.611,0.090
+2019,2,2019-11-17,Weekend,8.419,0.100
+2019,2,2019-11-18,Weekday After-Hours,9.079,0.108
+2019,2,2019-11-19,Weekday After-Hours,9.156,0.109
+2019,2,2019-11-20,Weekday After-Hours,8.642,0.103
+2019,2,2019-11-21,Weekday After-Hours,8.523,0.101
+2019,2,2019-11-22,Weekday After-Hours,9.216,0.110
+2019,2,2019-11-23,Weekend,7.425,0.088
+2019,2,2019-11-24,Weekend,8.059,0.096
+2019,2,2019-11-25,Weekday After-Hours,8.838,0.105
+2019,2,2019-11-26,Weekday After-Hours,8.888,0.106
+2019,2,2019-11-27,Weekday After-Hours,9.636,0.115
+2019,2,2019-11-28,Weekday After-Hours,9.176,0.109
+2019,2,2019-11-29,Weekday After-Hours,8.903,0.106
+2019,2,2019-11-30,Weekend,6.908,0.082
+2019,2,2019-12-01,Weekend,7.010,0.083
+2019,2,2019-12-02,Weekday After-Hours,8.847,0.105
+2019,2,2019-12-03,Weekday After-Hours,8.195,0.097
+2019,2,2019-12-04,Weekday After-Hours,7.920,0.094
+2019,2,2019-12-06,Weekday After-Hours,8.248,0.098
+2019,2,2019-12-07,Weekend,6.032,0.072
+2019,2,2019-12-08,Weekend,7.073,0.084
+2019,2,2019-12-09,Weekday After-Hours,7.995,0.095
+2019,2,2019-12-11,Weekday After-Hours,7.952,0.095
+2019,2,2019-12-12,Weekday After-Hours,8.551,0.102
+2019,2,2019-12-13,Weekday After-Hours,7.999,0.095
+2019,2,2019-12-14,Weekend,6.459,0.077
+2019,2,2019-12-15,Weekend,6.640,0.079
+2019,2,2019-12-16,Weekday After-Hours,9.530,0.113
+2019,2,2019-12-17,Weekday After-Hours,9.421,0.112
+2019,2,2019-12-18,Weekday After-Hours,9.710,0.115
+2019,2,2019-12-19,Weekday After-Hours,9.180,0.109
+2019,2,2019-12-20,Weekday After-Hours,9.706,0.115
+2019,2,2019-12-21,Weekend,7.179,0.085
+2019,2,2019-12-22,Weekend,8.581,0.102
+2019,2,2019-12-23,Weekday After-Hours,9.796,0.116
+2019,2,2019-12-24,Weekday After-Hours,9.503,0.113
+2019,2,2019-12-25,Weekday After-Hours,9.528,0.113
+2019,2,2019-12-26,Weekday After-Hours,10.537,0.125
+2019,2,2019-12-27,Weekday After-Hours,9.348,0.111
+2019,2,2019-12-28,Weekend,6.571,0.078
+2019,2,2019-12-29,Weekend,7.217,0.086
+2019,3,2019-01-02,Weekday After-Hours,5.337,0.071
+2019,3,2019-01-03,Weekday After-Hours,5.826,0.077
+2019,3,2019-01-04,Weekday After-Hours,5.776,0.077
+2019,3,2019-01-05,Weekend,0.618,0.008
+2019,3,2019-01-06,Weekend,0.669,0.009
+2019,3,2019-01-07,Weekday After-Hours,6.014,0.080
+2019,3,2019-01-08,Weekday After-Hours,6.795,0.090
+2019,3,2019-01-09,Weekday After-Hours,6.477,0.086
+2019,3,2019-01-10,Weekday After-Hours,5.925,0.079
+2019,3,2019-01-11,Weekday After-Hours,5.529,0.073
+2019,3,2019-01-12,Weekend,0.765,0.010
+2019,3,2019-01-13,Weekend,0.710,0.009
+2019,3,2019-01-14,Weekday After-Hours,6.217,0.082
+2019,3,2019-01-15,Weekday After-Hours,6.620,0.088
+2019,3,2019-01-16,Weekday After-Hours,6.019,0.080
+2019,3,2019-01-17,Weekday After-Hours,5.805,0.077
+2019,3,2019-01-18,Weekday After-Hours,6.943,0.092
+2019,3,2019-01-19,Weekend,1.659,0.022
+2019,3,2019-01-20,Weekend,1.590,0.021
+2019,3,2019-01-21,Weekday After-Hours,6.862,0.091
+2019,3,2019-01-22,Weekday After-Hours,6.109,0.081
+2019,3,2019-02-13,Weekday After-Hours,6.156,0.082
+2019,3,2019-02-14,Weekday After-Hours,6.005,0.080
+2019,3,2019-02-15,Weekday After-Hours,6.430,0.085
+2019,3,2019-02-16,Weekend,2.916,0.039
+2019,3,2019-02-17,Weekend,0.658,0.009
+2019,3,2019-02-18,Weekday After-Hours,5.790,0.077
+2019,3,2019-02-20,Weekday After-Hours,6.865,0.091
+2019,3,2019-02-21,Weekday After-Hours,6.547,0.087
+2019,3,2019-02-22,Weekday After-Hours,5.928,0.079
+2019,3,2019-02-23,Weekend,2.692,0.036
+2019,3,2019-02-24,Weekend,2.136,0.028
+2019,3,2019-02-25,Weekday After-Hours,6.258,0.083
+2019,3,2019-02-26,Weekday After-Hours,6.544,0.087
+2019,3,2019-02-27,Weekday After-Hours,6.356,0.084
+2019,3,2019-02-28,Weekday After-Hours,6.792,0.090
+2019,3,2019-03-01,Weekday After-Hours,6.587,0.087
+2019,3,2019-03-02,Weekend,2.151,0.029
+2019,3,2019-03-03,Weekend,0.679,0.009
+2019,3,2019-03-04,Weekday After-Hours,6.140,0.081
+2019,3,2019-03-05,Weekday After-Hours,7.098,0.094
+2019,3,2019-03-06,Weekday After-Hours,6.312,0.084
+2019,3,2019-03-07,Weekday After-Hours,6.540,0.087
+2019,3,2019-03-08,Weekday After-Hours,6.933,0.092
+2019,3,2019-03-09,Weekend,2.875,0.038
+2019,3,2019-03-10,Weekend,0.729,0.010
+2019,3,2019-03-11,Weekday After-Hours,6.758,0.090
+2019,3,2019-03-12,Weekday After-Hours,6.604,0.088
+2019,3,2019-03-13,Weekday After-Hours,6.854,0.091
+2019,3,2019-03-14,Weekday After-Hours,6.521,0.086
+2019,3,2019-03-15,Weekday After-Hours,6.384,0.085
+2019,3,2019-03-16,Weekend,0.745,0.010
+2019,3,2019-03-17,Weekend,0.747,0.010
+2019,3,2019-03-18,Weekday After-Hours,6.951,0.092
+2019,3,2019-03-19,Weekday After-Hours,6.865,0.091
+2019,3,2019-03-20,Weekday After-Hours,6.656,0.088
+2019,3,2019-03-21,Weekday After-Hours,3.697,0.049
+2019,3,2019-03-22,Weekday After-Hours,3.136,0.042
+2019,3,2019-03-23,Weekend,0.687,0.009
+2019,3,2019-03-24,Weekend,0.669,0.009
+2019,3,2019-04-04,Weekday After-Hours,7.127,0.095
+2019,3,2019-04-05,Weekday After-Hours,6.235,0.083
+2019,3,2019-04-06,Weekend,0.926,0.012
+2019,3,2019-04-07,Weekend,0.771,0.010
+2019,3,2019-04-09,Weekday After-Hours,6.432,0.085
+2019,3,2019-04-10,Weekday After-Hours,6.551,0.087
+2019,3,2019-04-11,Weekday After-Hours,6.327,0.084
+2019,3,2019-04-13,Weekend,0.570,0.008
+2019,3,2019-04-14,Weekend,0.569,0.008
+2019,3,2019-04-17,Weekday After-Hours,6.682,0.089
+2019,3,2019-04-18,Weekday After-Hours,6.553,0.087
+2019,3,2019-04-19,Weekday After-Hours,7.309,0.097
+2019,3,2019-04-20,Weekend,3.194,0.042
+2019,3,2019-04-21,Weekend,1.294,0.017
+2019,3,2019-04-22,Weekday After-Hours,6.625,0.088
+2019,3,2019-04-23,Weekday After-Hours,6.813,0.090
+2019,3,2019-04-24,Weekday After-Hours,6.868,0.091
+2019,3,2019-04-25,Weekday After-Hours,6.679,0.089
+2019,3,2019-04-26,Weekday After-Hours,6.648,0.088
+2019,3,2019-04-27,Weekend,14.651,0.194
+2019,3,2019-04-28,Weekend,1.511,0.020
+2019,3,2019-04-29,Weekday After-Hours,6.775,0.090
+2019,3,2019-04-30,Weekday After-Hours,6.768,0.090
+2019,3,2019-05-01,Weekday After-Hours,6.297,0.083
+2019,3,2019-05-02,Weekday After-Hours,5.918,0.078
+2019,3,2019-05-03,Weekday After-Hours,6.226,0.083
+2019,3,2019-05-04,Weekend,2.467,0.033
+2019,3,2019-05-05,Weekend,0.697,0.009
+2019,3,2019-05-07,Weekday After-Hours,6.306,0.084
+2019,3,2019-05-08,Weekday After-Hours,5.885,0.078
+2019,3,2019-05-09,Weekday After-Hours,2.141,0.028
+2019,3,2019-05-10,Weekday After-Hours,6.227,0.083
+2019,3,2019-05-11,Weekend,2.415,0.032
+2019,3,2019-05-12,Weekend,0.786,0.010
+2019,3,2019-05-13,Weekday After-Hours,5.883,0.078
+2019,3,2019-05-14,Weekday After-Hours,6.126,0.081
+2019,3,2019-05-15,Weekday After-Hours,6.615,0.088
+2019,3,2019-05-16,Weekday After-Hours,6.498,0.086
+2019,3,2019-05-17,Weekday After-Hours,5.790,0.077
+2019,3,2019-05-18,Weekend,2.102,0.028
+2019,3,2019-05-19,Weekend,0.708,0.009
+2019,3,2019-05-21,Weekday After-Hours,6.972,0.092
+2019,3,2019-05-22,Weekday After-Hours,6.427,0.085
+2019,3,2019-05-23,Weekday After-Hours,6.423,0.085
+2019,3,2019-05-24,Weekday After-Hours,5.891,0.078
+2019,3,2019-05-25,Weekend,0.875,0.012
+2019,3,2019-05-26,Weekend,1.780,0.024
+2019,3,2019-05-27,Weekday After-Hours,6.310,0.084
+2019,3,2019-05-28,Weekday After-Hours,6.566,0.087
+2019,3,2019-05-29,Weekday After-Hours,6.660,0.088
+2019,3,2019-05-30,Weekday After-Hours,6.292,0.083
+2019,3,2019-05-31,Weekday After-Hours,5.662,0.075
+2019,3,2019-06-01,Weekend,0.856,0.011
+2019,3,2019-06-02,Weekend,0.658,0.009
+2019,3,2019-06-04,Weekday After-Hours,5.902,0.078
+2019,3,2019-06-05,Weekday After-Hours,5.669,0.075
+2019,3,2019-06-06,Weekday After-Hours,5.951,0.079
+2019,3,2019-06-07,Weekday After-Hours,6.553,0.087
+2019,3,2019-06-08,Weekend,2.549,0.034
+2019,3,2019-06-09,Weekend,0.908,0.012
+2019,3,2019-06-10,Weekday After-Hours,5.227,0.069
+2019,3,2019-06-11,Weekday After-Hours,6.278,0.083
+2019,3,2019-06-12,Weekday After-Hours,5.932,0.079
+2019,3,2019-06-13,Weekday After-Hours,6.355,0.084
+2019,3,2019-06-14,Weekday After-Hours,5.164,0.068
+2019,3,2019-06-15,Weekend,0.887,0.012
+2019,3,2019-06-16,Weekend,0.771,0.010
+2019,3,2019-06-17,Weekday After-Hours,5.876,0.078
+2019,3,2019-06-18,Weekday After-Hours,6.033,0.080
+2019,3,2019-06-19,Weekday After-Hours,6.289,0.083
+2019,3,2019-06-20,Weekday After-Hours,6.467,0.086
+2019,3,2019-06-21,Weekday After-Hours,5.518,0.073
+2019,3,2019-06-22,Weekend,4.724,0.063
+2019,3,2019-06-23,Weekend,3.995,0.053
+2019,3,2019-06-24,Weekday After-Hours,6.189,0.082
+2019,3,2019-06-25,Weekday After-Hours,6.431,0.085
+2019,3,2019-06-26,Weekday After-Hours,6.294,0.083
+2019,3,2019-06-27,Weekday After-Hours,6.548,0.087
+2019,3,2019-06-28,Weekday After-Hours,5.167,0.069
+2019,3,2019-06-29,Weekend,6.002,0.080
+2019,3,2019-06-30,Weekend,2.883,0.038
+2019,3,2019-07-01,Weekday After-Hours,6.065,0.080
+2019,3,2019-07-02,Weekday After-Hours,6.408,0.085
+2019,3,2019-07-03,Weekday After-Hours,6.363,0.084
+2019,3,2019-07-04,Weekday After-Hours,6.731,0.089
+2019,3,2019-07-05,Weekday After-Hours,6.477,0.086
+2019,3,2019-07-06,Weekend,2.440,0.032
+2019,3,2019-07-07,Weekend,0.733,0.010
+2019,3,2019-07-08,Weekday After-Hours,7.000,0.093
+2019,3,2019-07-09,Weekday After-Hours,6.714,0.089
+2019,3,2019-07-10,Weekday After-Hours,6.946,0.092
+2019,3,2019-07-11,Weekday After-Hours,6.878,0.091
+2019,3,2019-07-12,Weekday After-Hours,8.280,0.110
+2019,3,2019-07-13,Weekend,2.981,0.040
+2019,3,2019-07-14,Weekend,2.057,0.027
+2019,3,2019-07-15,Weekday After-Hours,5.726,0.076
+2019,3,2019-07-18,Weekday After-Hours,6.792,0.090
+2019,3,2019-07-19,Weekday After-Hours,6.958,0.092
+2019,3,2019-07-20,Weekend,1.033,0.014
+2019,3,2019-07-21,Weekend,1.741,0.023
+2019,3,2019-07-22,Weekday After-Hours,5.955,0.079
+2019,3,2019-07-23,Weekday After-Hours,6.495,0.086
+2019,3,2019-07-24,Weekday After-Hours,6.220,0.082
+2019,3,2019-07-25,Weekday After-Hours,6.228,0.083
+2019,3,2019-07-26,Weekday After-Hours,6.333,0.084
+2019,3,2019-07-27,Weekend,2.207,0.029
+2019,3,2019-07-28,Weekend,2.512,0.033
+2019,3,2019-07-30,Weekday After-Hours,6.563,0.087
+2019,3,2019-07-31,Weekday After-Hours,6.509,0.086
+2019,3,2019-08-01,Weekday After-Hours,6.434,0.085
+2019,3,2019-08-02,Weekday After-Hours,5.986,0.079
+2019,3,2019-08-03,Weekend,2.494,0.033
+2019,3,2019-08-04,Weekend,1.300,0.017
+2019,3,2019-08-05,Weekday After-Hours,6.036,0.080
+2019,3,2019-08-06,Weekday After-Hours,6.537,0.087
+2019,3,2019-08-07,Weekday After-Hours,6.155,0.082
+2019,3,2019-08-08,Weekday After-Hours,6.176,0.082
+2019,3,2019-08-09,Weekday After-Hours,6.283,0.083
+2019,3,2019-08-10,Weekend,2.884,0.038
+2019,3,2019-08-11,Weekend,1.636,0.022
+2019,3,2019-08-13,Weekday After-Hours,5.958,0.079
+2019,3,2019-08-14,Weekday After-Hours,6.517,0.086
+2019,3,2019-08-15,Weekday After-Hours,6.110,0.081
+2019,3,2019-08-16,Weekday After-Hours,5.439,0.072
+2019,3,2019-08-17,Weekend,1.251,0.017
+2019,3,2019-08-18,Weekend,0.823,0.011
+2019,3,2019-08-19,Weekday After-Hours,5.918,0.078
+2019,3,2019-08-20,Weekday After-Hours,6.664,0.088
+2019,3,2019-08-21,Weekday After-Hours,6.092,0.081
+2019,3,2019-08-22,Weekday After-Hours,7.548,0.100
+2019,3,2019-08-23,Weekday After-Hours,7.262,0.096
+2019,3,2019-08-24,Weekend,3.468,0.046
+2019,3,2019-08-25,Weekend,2.923,0.039
+2019,3,2019-08-26,Weekday After-Hours,6.161,0.082
+2019,3,2019-08-27,Weekday After-Hours,6.656,0.088
+2019,3,2019-08-28,Weekday After-Hours,6.416,0.085
+2019,3,2019-08-29,Weekday After-Hours,6.352,0.084
+2019,3,2019-08-30,Weekday After-Hours,6.080,0.081
+2019,3,2019-08-31,Weekend,3.064,0.041
+2019,3,2019-09-01,Weekend,2.322,0.031
+2019,3,2019-09-02,Weekday After-Hours,6.047,0.080
+2019,3,2019-09-03,Weekday After-Hours,6.575,0.087
+2019,3,2019-09-04,Weekday After-Hours,6.635,0.088
+2019,3,2019-09-05,Weekday After-Hours,6.758,0.090
+2019,3,2019-09-06,Weekday After-Hours,7.272,0.096
+2019,3,2019-09-07,Weekend,3.360,0.045
+2019,3,2019-09-08,Weekend,2.964,0.039
+2019,3,2019-09-09,Weekday After-Hours,7.006,0.093
+2019,3,2019-09-10,Weekday After-Hours,6.840,0.091
+2019,3,2019-09-11,Weekday After-Hours,7.050,0.093
+2019,3,2019-09-12,Weekday After-Hours,7.436,0.099
+2019,3,2019-09-13,Weekday After-Hours,7.396,0.098
+2019,3,2019-09-14,Weekend,14.726,0.195
+2019,3,2019-09-15,Weekend,12.739,0.169
+2019,3,2019-09-16,Weekday After-Hours,7.504,0.100
+2019,3,2019-09-17,Weekday After-Hours,7.573,0.100
+2019,3,2019-09-18,Weekday After-Hours,11.251,0.149
+2019,3,2019-09-19,Weekday After-Hours,13.068,0.173
+2019,3,2019-09-20,Weekday After-Hours,7.401,0.098
+2019,3,2019-09-21,Weekend,10.061,0.133
+2019,3,2019-09-22,Weekend,3.206,0.043
+2019,3,2019-09-23,Weekday After-Hours,6.320,0.084
+2019,3,2019-09-24,Weekday After-Hours,6.616,0.088
+2019,3,2019-09-25,Weekday After-Hours,7.015,0.093
+2019,3,2019-09-26,Weekday After-Hours,6.309,0.084
+2019,3,2019-09-27,Weekday After-Hours,6.161,0.082
+2019,3,2019-09-28,Weekend,2.178,0.029
+2019,3,2019-09-29,Weekend,0.713,0.009
+2019,3,2019-09-30,Weekday After-Hours,6.439,0.085
+2019,3,2019-10-01,Weekday After-Hours,5.553,0.074
+2019,3,2019-10-02,Weekday After-Hours,6.467,0.086
+2019,3,2019-10-03,Weekday After-Hours,6.171,0.082
+2019,3,2019-10-04,Weekday After-Hours,6.145,0.081
+2019,3,2019-10-05,Weekend,2.638,0.035
+2019,3,2019-10-06,Weekend,1.068,0.014
+2019,3,2019-10-07,Weekday After-Hours,5.670,0.075
+2019,3,2019-10-08,Weekday After-Hours,6.127,0.081
+2019,3,2019-10-09,Weekday After-Hours,6.267,0.083
+2019,3,2019-10-10,Weekday After-Hours,5.857,0.078
+2019,3,2019-10-11,Weekday After-Hours,5.442,0.072
+2019,3,2019-10-12,Weekend,0.896,0.012
+2019,3,2019-10-13,Weekend,0.683,0.009
+2019,3,2019-10-15,Weekday After-Hours,6.404,0.085
+2019,3,2019-10-16,Weekday After-Hours,6.416,0.085
+2019,3,2019-10-17,Weekday After-Hours,6.259,0.083
+2019,3,2019-10-18,Weekday After-Hours,6.006,0.080
+2019,3,2019-10-19,Weekend,2.043,0.027
+2019,3,2019-10-20,Weekend,0.814,0.011
+2019,3,2019-10-21,Weekday After-Hours,5.923,0.079
+2019,3,2019-10-22,Weekday After-Hours,6.345,0.084
+2019,3,2019-10-24,Weekday After-Hours,5.665,0.075
+2019,3,2019-10-25,Weekday After-Hours,6.422,0.085
+2019,3,2019-10-26,Weekend,2.608,0.035
+2019,3,2019-10-27,Weekend,1.616,0.021
+2019,3,2019-10-28,Weekday After-Hours,5.910,0.078
+2019,3,2019-10-29,Weekday After-Hours,5.566,0.074
+2019,3,2019-10-30,Weekday After-Hours,5.570,0.074
+2019,3,2019-10-31,Weekday After-Hours,6.394,0.085
+2019,3,2019-11-01,Weekday After-Hours,6.072,0.081
+2019,3,2019-11-02,Weekend,3.492,0.046
+2019,3,2019-11-03,Weekend,0.746,0.010
+2019,3,2019-11-04,Weekday After-Hours,5.910,0.078
+2019,3,2019-11-05,Weekday After-Hours,5.923,0.079
+2019,3,2019-11-06,Weekday After-Hours,5.809,0.077
+2019,3,2019-11-07,Weekday After-Hours,6.017,0.080
+2019,3,2019-11-08,Weekday After-Hours,5.923,0.079
+2019,3,2019-11-09,Weekend,1.178,0.016
+2019,3,2019-11-10,Weekend,0.737,0.010
+2019,3,2019-11-11,Weekday After-Hours,5.387,0.071
+2019,3,2019-11-12,Weekday After-Hours,5.938,0.079
+2019,3,2019-11-13,Weekday After-Hours,5.617,0.074
+2019,3,2019-11-14,Weekday After-Hours,5.742,0.076
+2019,3,2019-11-15,Weekday After-Hours,5.879,0.078
+2019,3,2019-11-16,Weekend,2.999,0.040
+2019,3,2019-11-17,Weekend,0.785,0.010
+2019,3,2019-11-18,Weekday After-Hours,5.865,0.078
+2019,3,2019-11-19,Weekday After-Hours,6.425,0.085
+2019,3,2019-11-20,Weekday After-Hours,5.793,0.077
+2019,3,2019-11-21,Weekday After-Hours,5.348,0.071
+2019,3,2019-11-22,Weekday After-Hours,5.975,0.079
+2019,3,2019-11-23,Weekend,2.153,0.029
+2019,3,2019-11-24,Weekend,1.752,0.023
+2019,3,2019-11-25,Weekday After-Hours,6.188,0.082
+2019,3,2019-11-26,Weekday After-Hours,5.774,0.077
+2019,3,2019-11-27,Weekday After-Hours,5.497,0.073
+2019,3,2019-11-28,Weekday After-Hours,6.595,0.087
+2019,3,2019-11-29,Weekday After-Hours,5.830,0.077
+2019,3,2019-11-30,Weekend,3.102,0.041
+2019,3,2019-12-01,Weekend,1.330,0.018
+2019,3,2019-12-02,Weekday After-Hours,5.962,0.079
+2019,3,2019-12-03,Weekday After-Hours,6.747,0.089
+2019,3,2019-12-04,Weekday After-Hours,5.422,0.072
+2019,3,2019-12-06,Weekday After-Hours,4.384,0.058
+2019,3,2019-12-07,Weekend,1.304,0.017
+2019,3,2019-12-08,Weekend,0.762,0.010
+2019,3,2019-12-09,Weekday After-Hours,4.365,0.058
+2019,3,2019-12-11,Weekday After-Hours,5.441,0.072
+2019,3,2019-12-12,Weekday After-Hours,5.778,0.077
+2019,3,2019-12-13,Weekday After-Hours,5.614,0.074
+2019,3,2019-12-14,Weekend,2.391,0.032
+2019,3,2019-12-15,Weekend,0.766,0.010
+2019,3,2019-12-16,Weekday After-Hours,5.308,0.070
+2019,3,2019-12-17,Weekday After-Hours,5.621,0.075
+2019,3,2019-12-18,Weekday After-Hours,5.518,0.073
+2019,3,2019-12-19,Weekday After-Hours,5.886,0.078
+2019,3,2019-12-20,Weekday After-Hours,6.340,0.084
+2019,3,2019-12-21,Weekend,1.895,0.025
+2019,3,2019-12-22,Weekend,1.869,0.025
+2019,3,2019-12-23,Weekday After-Hours,6.284,0.083
+2019,3,2019-12-24,Weekday After-Hours,5.783,0.077
+2019,3,2019-12-25,Weekday After-Hours,6.012,0.080
+2019,3,2019-12-26,Weekday After-Hours,6.075,0.081
+2019,3,2019-12-27,Weekday After-Hours,6.397,0.085
+2019,3,2019-12-28,Weekend,0.597,0.008
+2019,3,2019-12-29,Weekend,0.592,0.008
+2019,4,2019-01-02,Weekday After-Hours,5.113,0.070
+2019,4,2019-01-03,Weekday After-Hours,5.881,0.080
+2019,4,2019-01-04,Weekday After-Hours,4.978,0.068
+2019,4,2019-01-05,Weekend,2.455,0.033
+2019,4,2019-01-06,Weekend,2.254,0.031
+2019,4,2019-01-07,Weekday After-Hours,5.654,0.077
+2019,4,2019-01-08,Weekday After-Hours,6.159,0.084
+2019,4,2019-01-09,Weekday After-Hours,5.740,0.078
+2019,4,2019-01-10,Weekday After-Hours,5.361,0.073
+2019,4,2019-01-11,Weekday After-Hours,4.807,0.065
+2019,4,2019-01-12,Weekend,1.276,0.017
+2019,4,2019-01-13,Weekend,1.992,0.027
+2019,4,2019-01-14,Weekday After-Hours,6.458,0.088
+2019,4,2019-01-15,Weekday After-Hours,6.538,0.089
+2019,4,2019-01-16,Weekday After-Hours,6.373,0.087
+2019,4,2019-01-17,Weekday After-Hours,5.893,0.080
+2019,4,2019-01-18,Weekday After-Hours,5.325,0.073
+2019,4,2019-01-19,Weekend,1.169,0.016
+2019,4,2019-01-20,Weekend,2.481,0.034
+2019,4,2019-01-21,Weekday After-Hours,6.746,0.092
+2019,4,2019-01-22,Weekday After-Hours,6.606,0.090
+2019,4,2019-01-23,Weekday After-Hours,6.335,0.086
+2019,4,2019-01-26,Weekend,2.760,0.038
+2019,4,2019-01-27,Weekend,2.251,0.031
+2019,4,2019-02-02,Weekend,1.565,0.021
+2019,4,2019-02-03,Weekend,2.506,0.034
+2019,4,2019-02-09,Weekend,1.596,0.022
+2019,4,2019-02-10,Weekend,2.104,0.029
+2019,4,2019-02-12,Weekday After-Hours,6.096,0.083
+2019,4,2019-02-13,Weekday After-Hours,6.580,0.090
+2019,4,2019-02-14,Weekday After-Hours,7.330,0.100
+2019,4,2019-02-15,Weekday After-Hours,6.341,0.086
+2019,4,2019-02-16,Weekend,2.272,0.031
+2019,4,2019-02-17,Weekend,1.600,0.022
+2019,4,2019-02-18,Weekday After-Hours,5.913,0.081
+2019,4,2019-02-20,Weekday After-Hours,6.416,0.087
+2019,4,2019-02-21,Weekday After-Hours,6.164,0.084
+2019,4,2019-02-22,Weekday After-Hours,6.244,0.085
+2019,4,2019-05-28,Weekday After-Hours,6.212,0.085
+2019,4,2019-05-29,Weekday After-Hours,5.759,0.078
+2019,4,2019-05-30,Weekday After-Hours,5.893,0.080
+2019,4,2019-05-31,Weekday After-Hours,5.317,0.072
+2019,4,2019-06-01,Weekend,8.896,0.121
+2019,4,2019-06-02,Weekend,1.898,0.026
+2019,4,2019-06-04,Weekday After-Hours,5.825,0.079
+2019,4,2019-06-05,Weekday After-Hours,5.977,0.081
+2019,4,2019-06-06,Weekday After-Hours,6.057,0.083
+2019,4,2019-06-07,Weekday After-Hours,6.345,0.086
+2019,4,2019-06-08,Weekend,2.295,0.031
+2019,4,2019-06-09,Weekend,1.751,0.024
+2019,4,2019-06-10,Weekday After-Hours,5.675,0.077
+2019,4,2019-06-11,Weekday After-Hours,6.116,0.083
+2019,4,2019-06-12,Weekday After-Hours,6.109,0.083
+2019,4,2019-06-13,Weekday After-Hours,5.913,0.081
+2019,4,2019-06-14,Weekday After-Hours,5.796,0.079
+2019,4,2019-06-15,Weekend,2.592,0.035
+2019,4,2019-06-16,Weekend,1.402,0.019
+2019,4,2019-06-17,Weekday After-Hours,5.513,0.075
+2019,4,2019-06-18,Weekday After-Hours,5.766,0.079
+2019,4,2019-06-19,Weekday After-Hours,5.921,0.081
+2019,4,2019-06-20,Weekday After-Hours,5.504,0.075
+2019,4,2019-06-21,Weekday After-Hours,5.741,0.078
+2019,4,2019-06-22,Weekend,1.242,0.017
+2019,4,2019-06-23,Weekend,1.548,0.021
+2019,4,2019-06-24,Weekday After-Hours,5.531,0.075
+2019,4,2019-06-25,Weekday After-Hours,5.664,0.077
+2019,4,2019-06-26,Weekday After-Hours,5.791,0.079
+2019,4,2019-06-27,Weekday After-Hours,5.733,0.078
+2019,4,2019-06-28,Weekday After-Hours,4.988,0.068
+2019,4,2019-06-29,Weekend,2.789,0.038
+2019,4,2019-06-30,Weekend,2.063,0.028
+2019,4,2019-07-01,Weekday After-Hours,5.686,0.077
+2019,4,2019-07-02,Weekday After-Hours,6.148,0.084
+2019,4,2019-07-03,Weekday After-Hours,5.916,0.081
+2019,4,2019-07-04,Weekday After-Hours,6.124,0.083
+2019,4,2019-07-05,Weekday After-Hours,5.716,0.078
+2019,4,2019-07-06,Weekend,2.713,0.037
+2019,4,2019-07-07,Weekend,1.734,0.024
+2019,4,2019-07-08,Weekday After-Hours,5.330,0.073
+2019,4,2019-07-09,Weekday After-Hours,5.927,0.081
+2019,4,2019-07-10,Weekday After-Hours,6.403,0.087
+2019,4,2019-07-11,Weekday After-Hours,6.450,0.088
+2019,4,2019-07-12,Weekday After-Hours,6.497,0.089
+2019,4,2019-07-13,Weekend,3.357,0.046
+2019,4,2019-07-14,Weekend,1.614,0.022
+2019,4,2019-07-15,Weekday After-Hours,6.164,0.084
+2019,4,2019-07-18,Weekday After-Hours,6.060,0.083
+2019,4,2019-07-19,Weekday After-Hours,6.686,0.091
+2019,4,2019-07-20,Weekend,10.914,0.149
+2019,4,2019-07-21,Weekend,2.130,0.029
+2019,4,2019-07-22,Weekday After-Hours,6.251,0.085
+2019,4,2019-07-23,Weekday After-Hours,6.663,0.091
+2019,4,2019-07-24,Weekday After-Hours,6.095,0.083
+2019,4,2019-07-25,Weekday After-Hours,6.157,0.084
+2019,4,2019-07-26,Weekday After-Hours,5.963,0.081
+2019,4,2019-07-27,Weekend,10.379,0.141
+2019,4,2019-07-28,Weekend,1.128,0.015
+2019,4,2019-07-30,Weekday After-Hours,5.651,0.077
+2019,4,2019-07-31,Weekday After-Hours,6.374,0.087
+2019,4,2019-08-01,Weekday After-Hours,5.950,0.081
+2019,4,2019-08-02,Weekday After-Hours,5.635,0.077
+2019,4,2019-08-03,Weekend,2.528,0.034
+2019,4,2019-08-04,Weekend,1.387,0.019
+2019,4,2019-08-05,Weekday After-Hours,5.481,0.075
+2019,4,2019-08-06,Weekday After-Hours,5.969,0.081
+2019,4,2019-08-07,Weekday After-Hours,5.679,0.077
+2019,4,2019-08-08,Weekday After-Hours,5.959,0.081
+2019,4,2019-08-09,Weekday After-Hours,5.307,0.072
+2019,4,2019-08-10,Weekend,2.899,0.039
+2019,4,2019-08-11,Weekend,1.119,0.015
+2019,4,2019-08-13,Weekday After-Hours,6.356,0.087
+2019,4,2019-08-14,Weekday After-Hours,6.049,0.082
+2019,4,2019-08-15,Weekday After-Hours,6.121,0.083
+2019,4,2019-08-16,Weekday After-Hours,5.798,0.079
+2019,4,2019-08-17,Weekend,1.937,0.026
+2019,4,2019-08-18,Weekend,1.778,0.024
+2019,4,2019-08-19,Weekday After-Hours,5.815,0.079
+2019,4,2019-08-20,Weekday After-Hours,5.857,0.080
+2019,4,2019-08-21,Weekday After-Hours,5.959,0.081
+2019,4,2019-08-22,Weekday After-Hours,5.904,0.080
+2019,4,2019-08-23,Weekday After-Hours,5.854,0.080
+2019,4,2019-08-24,Weekend,11.533,0.157
+2019,4,2019-08-25,Weekend,2.599,0.035
+2019,4,2019-08-26,Weekday After-Hours,6.333,0.086
+2019,4,2019-08-27,Weekday After-Hours,6.217,0.085
+2019,4,2019-08-28,Weekday After-Hours,5.978,0.081
+2019,4,2019-08-29,Weekday After-Hours,5.818,0.079
+2019,4,2019-08-30,Weekday After-Hours,5.149,0.070
+2019,4,2019-08-31,Weekend,7.065,0.096
+2019,4,2019-09-01,Weekend,3.000,0.041
+2019,4,2019-09-02,Weekday After-Hours,5.361,0.073
+2019,4,2019-09-03,Weekday After-Hours,6.148,0.084
+2019,4,2019-09-04,Weekday After-Hours,5.666,0.077
+2019,4,2019-09-05,Weekday After-Hours,5.874,0.080
+2019,4,2019-09-06,Weekday After-Hours,5.841,0.080
+2019,4,2019-09-07,Weekend,9.088,0.124
+2019,4,2019-09-08,Weekend,1.679,0.023
+2019,4,2019-09-09,Weekday After-Hours,5.961,0.081
+2019,4,2019-09-10,Weekday After-Hours,5.559,0.076
+2019,4,2019-09-11,Weekday After-Hours,5.397,0.074
+2019,4,2019-09-12,Weekday After-Hours,6.104,0.083
+2019,4,2019-09-13,Weekday After-Hours,6.068,0.083
+2019,4,2019-09-14,Weekend,13.939,0.190
+2019,4,2019-09-15,Weekend,2.425,0.033
+2019,4,2019-09-16,Weekday After-Hours,5.751,0.078
+2019,4,2019-09-17,Weekday After-Hours,5.475,0.075
+2019,4,2019-09-18,Weekday After-Hours,6.535,0.089
+2019,4,2019-09-19,Weekday After-Hours,5.969,0.081
+2019,4,2019-09-20,Weekday After-Hours,5.694,0.078
+2019,4,2019-09-21,Weekend,8.714,0.119
+2019,4,2019-09-22,Weekend,2.297,0.031
+2019,4,2019-09-23,Weekday After-Hours,5.404,0.074
+2019,4,2019-09-24,Weekday After-Hours,5.327,0.073
+2019,4,2019-09-25,Weekday After-Hours,4.923,0.067
+2019,4,2019-09-26,Weekday After-Hours,5.413,0.074
+2019,4,2019-09-27,Weekday After-Hours,5.076,0.069
+2019,4,2019-09-28,Weekend,3.984,0.054
+2019,4,2019-09-29,Weekend,1.476,0.020
+2019,4,2019-09-30,Weekday After-Hours,5.489,0.075
+2019,4,2019-10-01,Weekday After-Hours,5.513,0.075
+2019,4,2019-10-02,Weekday After-Hours,5.404,0.074
+2019,4,2019-10-03,Weekday After-Hours,5.177,0.071
+2019,4,2019-10-04,Weekday After-Hours,4.980,0.068
+2019,4,2019-10-05,Weekend,1.971,0.027
+2019,4,2019-10-06,Weekend,2.067,0.028
+2019,4,2019-10-07,Weekday After-Hours,5.838,0.080
+2019,4,2019-10-08,Weekday After-Hours,5.541,0.075
+2019,4,2019-10-09,Weekday After-Hours,5.873,0.080
+2019,4,2019-10-10,Weekday After-Hours,5.877,0.080
+2019,4,2019-10-11,Weekday After-Hours,4.773,0.065
+2019,4,2019-10-12,Weekend,1.948,0.027
+2019,4,2019-10-13,Weekend,1.087,0.015
+2019,4,2019-10-15,Weekday After-Hours,5.288,0.072
+2019,4,2019-10-16,Weekday After-Hours,5.289,0.072
+2019,4,2019-10-17,Weekday After-Hours,5.743,0.078
+2019,4,2019-10-18,Weekday After-Hours,4.968,0.068
+2019,4,2019-10-19,Weekend,7.768,0.106
+2019,4,2019-10-20,Weekend,2.254,0.031
+2019,4,2019-10-21,Weekday After-Hours,5.326,0.073
+2019,4,2019-10-22,Weekday After-Hours,5.383,0.073
+2019,4,2019-10-24,Weekday After-Hours,5.209,0.071
+2019,4,2019-10-25,Weekday After-Hours,4.943,0.067
+2019,4,2019-10-26,Weekend,2.630,0.036
+2019,4,2019-10-27,Weekend,2.272,0.031
+2019,4,2019-10-28,Weekday After-Hours,4.990,0.068
+2019,4,2019-10-29,Weekday After-Hours,5.170,0.070
+2019,4,2019-10-30,Weekday After-Hours,5.184,0.071
+2019,4,2019-10-31,Weekday After-Hours,5.427,0.074
+2019,4,2019-11-01,Weekday After-Hours,5.466,0.074
+2019,4,2019-11-02,Weekend,2.974,0.041
+2019,4,2019-11-03,Weekend,2.020,0.028
+2019,4,2019-11-04,Weekday After-Hours,5.117,0.070
+2019,4,2019-11-05,Weekday After-Hours,5.276,0.072
+2019,4,2019-11-06,Weekday After-Hours,5.793,0.079
+2019,4,2019-11-07,Weekday After-Hours,5.198,0.071
+2019,4,2019-11-08,Weekday After-Hours,5.692,0.078
+2019,4,2019-11-09,Weekend,2.827,0.039
+2019,4,2019-11-10,Weekend,2.810,0.038
+2019,4,2019-11-14,Weekday After-Hours,5.452,0.074
+2019,4,2019-11-15,Weekday After-Hours,4.571,0.062
+2019,4,2019-11-16,Weekend,3.002,0.041
+2019,4,2019-11-17,Weekend,1.532,0.021
+2019,4,2019-11-18,Weekday After-Hours,5.224,0.071
+2019,4,2019-11-19,Weekday After-Hours,5.296,0.072
+2019,4,2019-11-20,Weekday After-Hours,5.877,0.080
+2019,4,2019-11-21,Weekday After-Hours,5.478,0.075
+2019,4,2019-11-22,Weekday After-Hours,4.903,0.067
+2019,4,2019-11-23,Weekend,3.897,0.053
+2019,4,2019-11-24,Weekend,2.244,0.031
+2019,4,2019-11-25,Weekday After-Hours,5.253,0.072
+2019,4,2019-11-26,Weekday After-Hours,5.195,0.071
+2019,4,2019-11-27,Weekday After-Hours,5.299,0.072
+2019,4,2019-11-28,Weekday After-Hours,5.341,0.073
+2019,4,2019-11-29,Weekday After-Hours,5.199,0.071
+2019,4,2019-11-30,Weekend,2.629,0.036
+2019,4,2019-12-01,Weekend,3.226,0.044
+2019,4,2019-12-02,Weekday After-Hours,5.566,0.076
+2019,4,2019-12-03,Weekday After-Hours,5.470,0.075
+2019,4,2019-12-04,Weekday After-Hours,4.840,0.066
+2019,4,2019-12-06,Weekday After-Hours,4.919,0.067
+2019,4,2019-12-07,Weekend,1.186,0.016
+2019,4,2019-12-08,Weekend,1.080,0.015
+2019,4,2019-12-09,Weekday After-Hours,5.334,0.073
+2019,4,2019-12-11,Weekday After-Hours,5.313,0.072
+2019,4,2019-12-12,Weekday After-Hours,5.071,0.069
+2019,4,2019-12-13,Weekday After-Hours,4.581,0.062
+2019,4,2019-12-14,Weekend,4.082,0.056
+2019,4,2019-12-15,Weekend,2.748,0.037
+2019,4,2019-12-16,Weekday After-Hours,6.681,0.091
+2019,4,2019-12-17,Weekday After-Hours,6.475,0.088
+2019,4,2019-12-18,Weekday After-Hours,6.120,0.083
+2019,4,2019-12-19,Weekday After-Hours,5.690,0.078
+2019,4,2019-12-20,Weekday After-Hours,4.925,0.067
+2019,4,2019-12-21,Weekend,2.767,0.038
+2019,4,2019-12-22,Weekend,2.423,0.033
+2019,4,2019-12-23,Weekday After-Hours,6.037,0.082
+2019,4,2019-12-24,Weekday After-Hours,5.534,0.075
+2019,4,2019-12-25,Weekday After-Hours,5.261,0.072
+2019,4,2019-12-26,Weekday After-Hours,4.959,0.068
+2019,4,2019-12-27,Weekday After-Hours,4.367,0.059
+2019,4,2019-12-28,Weekend,0.906,0.012
+2019,4,2019-12-29,Weekend,0.910,0.012
+2019,5,2019-01-02,Weekday After-Hours,6.213,0.082
+2019,5,2019-01-03,Weekday After-Hours,5.911,0.078
+2019,5,2019-01-04,Weekday After-Hours,5.222,0.069
+2019,5,2019-01-05,Weekend,2.946,0.039
+2019,5,2019-01-06,Weekend,0.730,0.010
+2019,5,2019-01-07,Weekday After-Hours,5.578,0.074
+2019,5,2019-01-08,Weekday After-Hours,5.562,0.073
+2019,5,2019-01-09,Weekday After-Hours,6.453,0.085
+2019,5,2019-01-10,Weekday After-Hours,5.044,0.067
+2019,5,2019-01-11,Weekday After-Hours,6.311,0.083
+2019,5,2019-01-12,Weekend,2.740,0.036
+2019,5,2019-01-13,Weekend,0.969,0.013
+2019,5,2019-01-14,Weekday After-Hours,6.362,0.084
+2019,5,2019-01-15,Weekday After-Hours,6.053,0.080
+2019,5,2019-01-16,Weekday After-Hours,6.751,0.089
+2019,5,2019-01-17,Weekday After-Hours,6.078,0.080
+2019,5,2019-01-18,Weekday After-Hours,6.404,0.084
+2019,5,2019-01-19,Weekend,2.523,0.033
+2019,5,2019-01-20,Weekend,0.728,0.010
+2019,5,2019-01-21,Weekday After-Hours,5.743,0.076
+2019,5,2019-01-22,Weekday After-Hours,6.085,0.080
+2019,5,2019-02-13,Weekday After-Hours,6.826,0.090
+2019,5,2019-02-14,Weekday After-Hours,6.139,0.081
+2019,5,2019-02-15,Weekday After-Hours,5.839,0.077
+2019,5,2019-02-16,Weekend,2.868,0.038
+2019,5,2019-02-17,Weekend,0.932,0.012
+2019,5,2019-02-18,Weekday After-Hours,5.739,0.076
+2019,5,2019-02-20,Weekday After-Hours,6.221,0.082
+2019,5,2019-02-21,Weekday After-Hours,7.035,0.093
+2019,5,2019-02-22,Weekday After-Hours,6.054,0.080
+2019,5,2019-02-23,Weekend,3.551,0.047
+2019,5,2019-02-24,Weekend,1.741,0.023
+2019,5,2019-02-25,Weekday After-Hours,6.034,0.080
+2019,5,2019-02-26,Weekday After-Hours,5.992,0.079
+2019,5,2019-02-27,Weekday After-Hours,6.470,0.085
+2019,5,2019-02-28,Weekday After-Hours,6.522,0.086
+2019,5,2019-03-01,Weekday After-Hours,5.837,0.077
+2019,5,2019-03-02,Weekend,3.165,0.042
+2019,5,2019-03-03,Weekend,0.999,0.013
+2019,5,2019-03-04,Weekday After-Hours,6.484,0.086
+2019,5,2019-03-05,Weekday After-Hours,6.626,0.087
+2019,5,2019-03-06,Weekday After-Hours,6.628,0.087
+2019,5,2019-03-07,Weekday After-Hours,6.552,0.086
+2019,5,2019-03-08,Weekday After-Hours,6.512,0.086
+2019,5,2019-03-09,Weekend,6.626,0.087
+2019,5,2019-03-10,Weekend,1.017,0.013
+2019,5,2019-03-11,Weekday After-Hours,6.171,0.081
+2019,5,2019-03-12,Weekday After-Hours,6.427,0.085
+2019,5,2019-03-13,Weekday After-Hours,6.475,0.085
+2019,5,2019-03-14,Weekday After-Hours,6.552,0.086
+2019,5,2019-03-15,Weekday After-Hours,6.053,0.080
+2019,5,2019-03-16,Weekend,6.658,0.088
+2019,5,2019-03-17,Weekend,1.502,0.020
+2019,5,2019-03-18,Weekday After-Hours,6.084,0.080
+2019,5,2019-03-19,Weekday After-Hours,6.650,0.088
+2019,5,2019-03-20,Weekday After-Hours,5.815,0.077
+2019,5,2019-03-21,Weekday After-Hours,6.681,0.088
+2019,5,2019-03-22,Weekday After-Hours,6.554,0.086
+2019,5,2019-03-23,Weekend,2.637,0.035
+2019,5,2019-03-24,Weekend,1.205,0.016
+2019,5,2019-03-25,Weekday After-Hours,6.771,0.089
+2019,5,2019-03-26,Weekday After-Hours,6.533,0.086
+2019,5,2019-03-27,Weekday After-Hours,6.381,0.084
+2019,5,2019-03-28,Weekday After-Hours,6.564,0.087
+2019,5,2019-03-29,Weekday After-Hours,6.853,0.090
+2019,5,2019-03-30,Weekend,5.793,0.076
+2019,5,2019-03-31,Weekend,3.158,0.042
+2019,5,2019-04-01,Weekday After-Hours,6.286,0.083
+2019,5,2019-04-02,Weekday After-Hours,6.901,0.091
+2019,5,2019-04-03,Weekday After-Hours,6.472,0.085
+2019,5,2019-04-04,Weekday After-Hours,6.457,0.085
+2019,5,2019-04-05,Weekday After-Hours,6.015,0.079
+2019,5,2019-04-06,Weekend,2.489,0.033
+2019,5,2019-04-07,Weekend,0.856,0.011
+2019,5,2019-04-09,Weekday After-Hours,6.755,0.089
+2019,5,2019-04-10,Weekday After-Hours,6.219,0.082
+2019,5,2019-04-11,Weekday After-Hours,4.502,0.059
+2019,5,2019-04-13,Weekend,0.827,0.011
+2019,5,2019-04-14,Weekend,0.853,0.011
+2019,5,2019-04-17,Weekday After-Hours,6.651,0.088
+2019,5,2019-04-18,Weekday After-Hours,6.274,0.083
+2019,5,2019-04-19,Weekday After-Hours,6.895,0.091
+2019,5,2019-04-20,Weekend,1.959,0.026
+2019,5,2019-04-21,Weekend,1.333,0.018
+2019,5,2019-04-22,Weekday After-Hours,6.218,0.082
+2019,5,2019-04-23,Weekday After-Hours,6.802,0.090
+2019,5,2019-04-24,Weekday After-Hours,6.256,0.083
+2019,5,2019-04-25,Weekday After-Hours,5.991,0.079
+2019,5,2019-04-26,Weekday After-Hours,5.908,0.078
+2019,5,2019-04-27,Weekend,2.630,0.035
+2019,5,2019-04-28,Weekend,2.365,0.031
+2019,5,2019-04-29,Weekday After-Hours,6.541,0.086
+2019,5,2019-04-30,Weekday After-Hours,6.332,0.084
+2019,5,2019-05-01,Weekday After-Hours,6.915,0.091
+2019,5,2019-05-02,Weekday After-Hours,7.231,0.095
+2019,5,2019-05-03,Weekday After-Hours,6.219,0.082
+2019,5,2019-05-04,Weekend,4.423,0.058
+2019,5,2019-05-05,Weekend,1.020,0.013
+2019,5,2019-05-07,Weekday After-Hours,6.543,0.086
+2019,5,2019-05-08,Weekday After-Hours,6.167,0.081
+2019,5,2019-05-09,Weekday After-Hours,2.267,0.030
+2019,5,2019-05-10,Weekday After-Hours,5.359,0.071
+2019,5,2019-05-11,Weekend,1.888,0.025
+2019,5,2019-05-12,Weekend,1.082,0.014
+2019,5,2019-05-13,Weekday After-Hours,6.080,0.080
+2019,5,2019-05-28,Weekday After-Hours,6.693,0.088
+2019,5,2019-05-29,Weekday After-Hours,6.080,0.080
+2019,5,2019-05-30,Weekday After-Hours,6.089,0.080
+2019,5,2019-05-31,Weekday After-Hours,6.779,0.089
+2019,5,2019-06-01,Weekend,2.785,0.037
+2019,5,2019-06-02,Weekend,1.075,0.014
+2019,5,2019-06-04,Weekday After-Hours,7.180,0.095
+2019,5,2019-06-05,Weekday After-Hours,6.413,0.085
+2019,5,2019-06-06,Weekday After-Hours,6.651,0.088
+2019,5,2019-06-07,Weekday After-Hours,6.620,0.087
+2019,5,2019-06-08,Weekend,2.719,0.036
+2019,5,2019-06-09,Weekend,1.023,0.013
+2019,5,2019-06-10,Weekday After-Hours,6.245,0.082
+2019,5,2019-06-11,Weekday After-Hours,7.061,0.093
+2019,5,2019-06-12,Weekday After-Hours,6.654,0.088
+2019,5,2019-06-13,Weekday After-Hours,6.264,0.083
+2019,5,2019-06-14,Weekday After-Hours,6.302,0.083
+2019,5,2019-06-15,Weekend,3.073,0.041
+2019,5,2019-06-16,Weekend,0.910,0.012
+2019,5,2019-06-17,Weekday After-Hours,6.899,0.091
+2019,5,2019-06-18,Weekday After-Hours,6.401,0.084
+2019,5,2019-06-19,Weekday After-Hours,6.768,0.089
+2019,5,2019-06-20,Weekday After-Hours,7.152,0.094
+2019,5,2019-06-21,Weekday After-Hours,6.706,0.088
+2019,5,2019-06-22,Weekend,4.073,0.054
+2019,5,2019-06-23,Weekend,1.550,0.020
+2019,5,2019-06-24,Weekday After-Hours,6.961,0.092
+2019,5,2019-06-25,Weekday After-Hours,6.359,0.084
+2019,5,2019-06-26,Weekday After-Hours,6.288,0.083
+2019,5,2019-06-27,Weekday After-Hours,6.767,0.089
+2019,5,2019-06-28,Weekday After-Hours,6.918,0.091
+2019,5,2019-06-29,Weekend,4.076,0.054
+2019,5,2019-06-30,Weekend,1.908,0.025
+2019,5,2019-07-01,Weekday After-Hours,5.643,0.074
+2019,5,2019-07-02,Weekday After-Hours,6.312,0.083
+2019,5,2019-07-03,Weekday After-Hours,5.549,0.073
+2019,5,2019-07-04,Weekday After-Hours,6.442,0.085
+2019,5,2019-07-05,Weekday After-Hours,5.746,0.076
+2019,5,2019-07-06,Weekend,4.678,0.062
+2019,5,2019-07-07,Weekend,1.012,0.013
+2019,5,2019-07-08,Weekday After-Hours,6.684,0.088
+2019,5,2019-07-09,Weekday After-Hours,7.134,0.094
+2019,5,2019-07-10,Weekday After-Hours,6.579,0.087
+2019,5,2019-07-11,Weekday After-Hours,6.244,0.082
+2019,5,2019-07-12,Weekday After-Hours,7.447,0.098
+2019,5,2019-07-13,Weekend,4.776,0.063
+2019,5,2019-07-14,Weekend,1.100,0.015
+2019,5,2019-07-15,Weekday After-Hours,5.956,0.079
+2019,5,2019-07-18,Weekday After-Hours,7.327,0.097
+2019,5,2019-07-19,Weekday After-Hours,6.986,0.092
+2019,5,2019-07-20,Weekend,5.473,0.072
+2019,5,2019-07-21,Weekend,2.580,0.034
+2019,5,2019-07-22,Weekday After-Hours,7.141,0.094
+2019,5,2019-07-23,Weekday After-Hours,7.182,0.095
+2019,5,2019-07-24,Weekday After-Hours,6.077,0.080
+2019,5,2019-07-25,Weekday After-Hours,6.782,0.089
+2019,5,2019-07-26,Weekday After-Hours,6.776,0.089
+2019,5,2019-07-27,Weekend,4.658,0.061
+2019,5,2019-07-28,Weekend,0.862,0.011
+2019,5,2019-07-30,Weekday After-Hours,6.747,0.089
+2019,5,2019-07-31,Weekday After-Hours,6.993,0.092
+2019,5,2019-08-01,Weekday After-Hours,7.791,0.103
+2019,5,2019-08-02,Weekday After-Hours,7.664,0.101
+2019,5,2019-08-03,Weekend,3.828,0.050
+2019,5,2019-08-04,Weekend,1.101,0.015
+2019,5,2019-08-05,Weekday After-Hours,6.453,0.085
+2019,5,2019-08-06,Weekday After-Hours,6.685,0.088
+2019,5,2019-08-07,Weekday After-Hours,6.278,0.083
+2019,5,2019-08-08,Weekday After-Hours,6.533,0.086
+2019,5,2019-08-09,Weekday After-Hours,6.490,0.086
+2019,5,2019-08-10,Weekend,2.410,0.032
+2019,5,2019-08-11,Weekend,1.252,0.017
+2019,5,2019-08-13,Weekday After-Hours,6.616,0.087
+2019,5,2019-08-14,Weekday After-Hours,7.091,0.094
+2019,5,2019-08-15,Weekday After-Hours,3.644,0.048
+2019,5,2019-08-16,Weekday After-Hours,2.779,0.037
+2019,5,2019-08-17,Weekend,1.315,0.017
+2019,5,2019-08-18,Weekend,0.943,0.012
+2019,5,2019-08-19,Weekday After-Hours,6.823,0.090
+2019,5,2019-08-20,Weekday After-Hours,6.623,0.087
+2019,5,2019-08-21,Weekday After-Hours,6.139,0.081
+2019,5,2019-08-22,Weekday After-Hours,5.253,0.069
+2019,5,2019-08-23,Weekday After-Hours,5.751,0.076
+2019,5,2019-08-24,Weekend,2.730,0.036
+2019,5,2019-08-25,Weekend,1.943,0.026
+2019,5,2019-08-26,Weekday After-Hours,6.924,0.091
+2019,5,2019-08-27,Weekday After-Hours,6.948,0.092
+2019,5,2019-08-28,Weekday After-Hours,6.400,0.084
+2019,5,2019-08-29,Weekday After-Hours,6.397,0.084
+2019,5,2019-08-30,Weekday After-Hours,5.595,0.074
+2019,5,2019-08-31,Weekend,3.495,0.046
+2019,5,2019-09-01,Weekend,1.391,0.018
+2019,5,2019-09-02,Weekday After-Hours,5.874,0.077
+2019,5,2019-09-03,Weekday After-Hours,6.335,0.084
+2019,5,2019-09-04,Weekday After-Hours,7.511,0.099
+2019,5,2019-09-05,Weekday After-Hours,7.577,0.100
+2019,5,2019-09-06,Weekday After-Hours,5.923,0.078
+2019,5,2019-09-07,Weekend,4.084,0.054
+2019,5,2019-09-08,Weekend,0.921,0.012
+2019,5,2019-09-09,Weekday After-Hours,6.165,0.081
+2019,5,2019-09-10,Weekday After-Hours,6.522,0.086
+2019,5,2019-09-11,Weekday After-Hours,6.087,0.080
+2019,5,2019-09-12,Weekday After-Hours,6.266,0.083
+2019,5,2019-09-13,Weekday After-Hours,6.647,0.088
+2019,5,2019-09-14,Weekend,13.816,0.182
+2019,5,2019-09-15,Weekend,0.928,0.012
+2019,5,2019-09-16,Weekday After-Hours,6.216,0.082
+2019,5,2019-09-17,Weekday After-Hours,6.491,0.086
+2019,5,2019-09-18,Weekday After-Hours,6.225,0.082
+2019,5,2019-09-19,Weekday After-Hours,6.686,0.088
+2019,5,2019-09-20,Weekday After-Hours,6.232,0.082
+2019,5,2019-09-21,Weekend,4.398,0.058
+2019,5,2019-09-22,Weekend,3.330,0.044
+2019,5,2019-09-23,Weekday After-Hours,6.863,0.091
+2019,5,2019-09-24,Weekday After-Hours,6.301,0.083
+2019,5,2019-09-25,Weekday After-Hours,6.939,0.092
+2019,5,2019-09-26,Weekday After-Hours,6.594,0.087
+2019,5,2019-09-27,Weekday After-Hours,6.230,0.082
+2019,5,2019-09-28,Weekend,1.949,0.026
+2019,5,2019-09-29,Weekend,1.924,0.025
+2019,5,2019-09-30,Weekday After-Hours,8.477,0.112
+2019,5,2019-10-01,Weekday After-Hours,7.325,0.097
+2019,5,2019-10-02,Weekday After-Hours,6.986,0.092
+2019,5,2019-10-03,Weekday After-Hours,7.277,0.096
+2019,5,2019-10-04,Weekday After-Hours,5.594,0.074
+2019,5,2019-10-05,Weekend,3.363,0.044
+2019,5,2019-10-06,Weekend,1.019,0.013
+2019,5,2019-10-07,Weekday After-Hours,6.465,0.085
+2019,5,2019-10-08,Weekday After-Hours,6.194,0.082
+2019,5,2019-10-09,Weekday After-Hours,6.369,0.084
+2019,5,2019-10-10,Weekday After-Hours,7.234,0.095
+2019,5,2019-10-11,Weekday After-Hours,5.462,0.072
+2019,5,2019-10-12,Weekend,4.694,0.062
+2019,5,2019-10-13,Weekend,0.894,0.012
+2019,5,2019-10-15,Weekday After-Hours,6.247,0.082
+2019,5,2019-10-16,Weekday After-Hours,6.056,0.080
+2019,5,2019-10-17,Weekday After-Hours,5.977,0.079
+2019,5,2019-10-18,Weekday After-Hours,5.167,0.068
+2019,5,2019-10-19,Weekend,1.152,0.015
+2019,5,2019-10-20,Weekend,1.059,0.014
+2019,5,2019-10-21,Weekday After-Hours,6.140,0.081
+2019,5,2019-10-22,Weekday After-Hours,6.734,0.089
+2019,5,2019-10-24,Weekday After-Hours,6.576,0.087
+2019,5,2019-10-25,Weekday After-Hours,6.052,0.080
+2019,5,2019-10-26,Weekend,1.886,0.025
+2019,5,2019-10-27,Weekend,1.765,0.023
+2019,5,2019-10-28,Weekday After-Hours,5.612,0.074
+2019,5,2019-10-29,Weekday After-Hours,5.936,0.078
+2019,5,2019-10-30,Weekday After-Hours,5.759,0.076
+2019,5,2019-10-31,Weekday After-Hours,5.834,0.077
+2019,5,2019-11-01,Weekday After-Hours,5.558,0.073
+2019,5,2019-11-02,Weekend,2.634,0.035
+2019,5,2019-11-03,Weekend,1.093,0.014
+2019,5,2019-11-04,Weekday After-Hours,5.620,0.074
+2019,5,2019-11-05,Weekday After-Hours,6.346,0.084
+2019,5,2019-11-06,Weekday After-Hours,6.098,0.080
+2019,5,2019-11-07,Weekday After-Hours,6.069,0.080
+2019,5,2019-11-08,Weekday After-Hours,5.924,0.078
+2019,5,2019-11-09,Weekend,0.843,0.011
+2019,5,2019-11-10,Weekend,1.028,0.014
+2019,5,2019-11-11,Weekday After-Hours,6.317,0.083
+2019,5,2019-11-12,Weekday After-Hours,5.828,0.077
+2019,5,2019-11-13,Weekday After-Hours,5.694,0.075
+2019,5,2019-11-14,Weekday After-Hours,5.162,0.068
+2019,5,2019-11-15,Weekday After-Hours,5.507,0.073
+2019,5,2019-11-16,Weekend,3.484,0.046
+2019,5,2019-11-17,Weekend,0.930,0.012
+2019,5,2019-11-18,Weekday After-Hours,5.553,0.073
+2019,5,2019-11-19,Weekday After-Hours,5.634,0.074
+2019,5,2019-11-20,Weekday After-Hours,5.834,0.077
+2019,5,2019-11-21,Weekday After-Hours,5.214,0.069
+2019,5,2019-11-22,Weekday After-Hours,4.704,0.062
+2019,5,2019-11-23,Weekend,3.400,0.045
+2019,5,2019-11-24,Weekend,1.948,0.026
+2019,5,2019-11-25,Weekday After-Hours,5.834,0.077
+2019,5,2019-11-26,Weekday After-Hours,5.412,0.071
+2019,5,2019-11-27,Weekday After-Hours,5.288,0.070
+2019,5,2019-11-28,Weekday After-Hours,5.378,0.071
+2019,5,2019-11-29,Weekday After-Hours,5.118,0.068
+2019,5,2019-11-30,Weekend,2.825,0.037
+2019,5,2019-12-01,Weekend,1.102,0.015
+2019,5,2019-12-02,Weekday After-Hours,5.122,0.068
+2019,5,2019-12-03,Weekday After-Hours,5.581,0.074
+2019,5,2019-12-04,Weekday After-Hours,5.676,0.075
+2019,5,2019-12-06,Weekday After-Hours,5.255,0.069
+2019,5,2019-12-07,Weekend,1.440,0.019
+2019,5,2019-12-08,Weekend,1.045,0.014
+2019,5,2019-12-09,Weekday After-Hours,4.758,0.063
+2019,5,2019-12-11,Weekday After-Hours,5.201,0.069
+2019,5,2019-12-12,Weekday After-Hours,5.767,0.076
+2019,5,2019-12-13,Weekday After-Hours,4.994,0.066
+2019,5,2019-12-14,Weekend,2.860,0.038
+2019,5,2019-12-15,Weekend,0.856,0.011
+2019,5,2019-12-16,Weekday After-Hours,5.819,0.077
+2019,5,2019-12-17,Weekday After-Hours,6.031,0.080
+2019,5,2019-12-18,Weekday After-Hours,5.044,0.067
+2019,5,2019-12-19,Weekday After-Hours,5.947,0.078
+2019,5,2019-12-20,Weekday After-Hours,5.425,0.072
+2019,5,2019-12-21,Weekend,1.861,0.025
+2019,5,2019-12-22,Weekend,2.261,0.030
+2019,5,2019-12-23,Weekday After-Hours,5.190,0.068
+2019,5,2019-12-24,Weekday After-Hours,6.064,0.080
+2019,5,2019-12-25,Weekday After-Hours,5.401,0.071
+2019,5,2019-12-26,Weekday After-Hours,5.246,0.069
+2019,5,2019-12-27,Weekday After-Hours,5.012,0.066
+2019,5,2019-12-28,Weekend,1.381,0.018
+2019,5,2019-12-29,Weekend,1.361,0.018
+2019,6,2019-01-02,Weekday After-Hours,6.841,0.095
+2019,6,2019-01-03,Weekday After-Hours,5.934,0.082
+2019,6,2019-01-04,Weekday After-Hours,6.276,0.087
+2019,6,2019-01-05,Weekend,1.374,0.019
+2019,6,2019-01-06,Weekend,3.388,0.047
+2019,6,2019-01-07,Weekday After-Hours,5.690,0.079
+2019,6,2019-01-08,Weekday After-Hours,7.941,0.110
+2019,6,2019-01-09,Weekday After-Hours,7.953,0.110
+2019,6,2019-01-10,Weekday After-Hours,7.207,0.100
+2019,6,2019-01-11,Weekday After-Hours,6.803,0.094
+2019,6,2019-01-12,Weekend,2.818,0.039
+2019,6,2019-01-13,Weekend,0.802,0.011
+2019,6,2019-01-14,Weekday After-Hours,7.614,0.106
+2019,6,2019-01-15,Weekday After-Hours,6.387,0.089
+2019,6,2019-01-16,Weekday After-Hours,6.474,0.090
+2019,6,2019-01-17,Weekday After-Hours,7.245,0.100
+2019,6,2019-01-18,Weekday After-Hours,7.601,0.105
+2019,6,2019-01-19,Weekend,3.155,0.044
+2019,6,2019-01-20,Weekend,1.095,0.015
+2019,6,2019-01-21,Weekday After-Hours,6.382,0.088
+2019,6,2019-01-22,Weekday After-Hours,6.439,0.089
+2019,6,2019-01-23,Weekday After-Hours,7.319,0.101
+2019,6,2019-01-26,Weekend,2.962,0.041
+2019,6,2019-01-27,Weekend,1.633,0.023
+2019,6,2019-02-02,Weekend,3.596,0.050
+2019,6,2019-02-03,Weekend,1.516,0.021
+2019,6,2019-02-09,Weekend,1.543,0.021
+2019,6,2019-02-10,Weekend,3.389,0.047
+2019,6,2019-02-12,Weekday After-Hours,6.751,0.094
+2019,6,2019-02-13,Weekday After-Hours,6.235,0.086
+2019,6,2019-02-14,Weekday After-Hours,7.082,0.098
+2019,6,2019-02-15,Weekday After-Hours,7.613,0.106
+2019,6,2019-02-16,Weekend,2.150,0.030
+2019,6,2019-02-17,Weekend,3.462,0.048
+2019,6,2019-02-18,Weekday After-Hours,6.465,0.090
+2019,6,2019-02-20,Weekday After-Hours,6.823,0.095
+2019,6,2019-02-21,Weekday After-Hours,6.348,0.088
+2019,6,2019-02-22,Weekday After-Hours,6.173,0.086
+2019,6,2019-02-23,Weekend,4.671,0.065
+2019,6,2019-02-24,Weekend,3.293,0.046
+2019,6,2019-02-25,Weekday After-Hours,6.932,0.096
+2019,6,2019-02-26,Weekday After-Hours,7.096,0.098
+2019,6,2019-02-27,Weekday After-Hours,8.145,0.113
+2019,6,2019-02-28,Weekday After-Hours,8.476,0.118
+2019,6,2019-03-01,Weekday After-Hours,7.100,0.098
+2019,6,2019-03-02,Weekend,5.372,0.074
+2019,6,2019-03-03,Weekend,1.331,0.018
+2019,6,2019-03-04,Weekday After-Hours,6.819,0.095
+2019,6,2019-03-05,Weekday After-Hours,8.282,0.115
+2019,6,2019-03-06,Weekday After-Hours,7.362,0.102
+2019,6,2019-03-07,Weekday After-Hours,6.965,0.097
+2019,6,2019-03-08,Weekday After-Hours,7.769,0.108
+2019,6,2019-03-09,Weekend,3.541,0.049
+2019,6,2019-03-10,Weekend,3.370,0.047
+2019,6,2019-03-11,Weekday After-Hours,8.003,0.111
+2019,6,2019-03-12,Weekday After-Hours,8.177,0.113
+2019,6,2019-03-13,Weekday After-Hours,7.304,0.101
+2019,6,2019-03-14,Weekday After-Hours,8.818,0.122
+2019,6,2019-03-15,Weekday After-Hours,7.245,0.100
+2019,6,2019-03-16,Weekend,3.374,0.047
+2019,6,2019-03-17,Weekend,0.927,0.013
+2019,6,2019-03-18,Weekday After-Hours,7.866,0.109
+2019,6,2019-03-19,Weekday After-Hours,7.475,0.104
+2019,6,2019-03-20,Weekday After-Hours,8.092,0.112
+2019,6,2019-03-21,Weekday After-Hours,6.732,0.093
+2019,6,2019-03-22,Weekday After-Hours,7.488,0.104
+2019,6,2019-03-23,Weekend,2.626,0.036
+2019,6,2019-03-24,Weekend,1.010,0.014
+2019,6,2019-03-25,Weekday After-Hours,7.189,0.100
+2019,6,2019-03-26,Weekday After-Hours,7.867,0.109
+2019,6,2019-03-27,Weekday After-Hours,6.159,0.085
+2019,6,2019-03-28,Weekday After-Hours,5.158,0.072
+2019,6,2019-03-29,Weekday After-Hours,7.733,0.107
+2019,6,2019-03-30,Weekend,2.828,0.039
+2019,6,2019-03-31,Weekend,4.163,0.058
+2019,6,2019-04-01,Weekday After-Hours,6.264,0.087
+2019,6,2019-04-02,Weekday After-Hours,6.541,0.091
+2019,6,2019-04-03,Weekday After-Hours,7.239,0.100
+2019,6,2019-04-04,Weekday After-Hours,8.751,0.121
+2019,6,2019-04-05,Weekday After-Hours,5.866,0.081
+2019,6,2019-04-06,Weekend,5.055,0.070
+2019,6,2019-04-07,Weekend,2.927,0.041
+2019,6,2019-04-09,Weekday After-Hours,6.744,0.094
+2019,6,2019-04-10,Weekday After-Hours,6.824,0.095
+2019,6,2019-04-11,Weekday After-Hours,6.035,0.084
+2019,6,2019-04-13,Weekend,0.784,0.011
+2019,6,2019-04-14,Weekend,0.799,0.011
+2019,6,2019-04-17,Weekday After-Hours,6.991,0.097
+2019,6,2019-04-18,Weekday After-Hours,7.708,0.107
+2019,6,2019-04-19,Weekday After-Hours,6.528,0.091
+2019,6,2019-04-20,Weekend,3.827,0.053
+2019,6,2019-04-21,Weekend,2.573,0.036
+2019,6,2019-04-22,Weekday After-Hours,6.952,0.096
+2019,6,2019-04-23,Weekday After-Hours,7.056,0.098
+2019,6,2019-04-24,Weekday After-Hours,7.176,0.100
+2019,6,2019-04-25,Weekday After-Hours,7.296,0.101
+2019,6,2019-04-26,Weekday After-Hours,7.656,0.106
+2019,6,2019-04-27,Weekend,11.713,0.162
+2019,6,2019-04-28,Weekend,4.496,0.062
+2019,6,2019-04-29,Weekday After-Hours,8.140,0.113
+2019,6,2019-04-30,Weekday After-Hours,7.803,0.108
+2019,6,2019-05-01,Weekday After-Hours,6.945,0.096
+2019,6,2019-05-02,Weekday After-Hours,7.905,0.110
+2019,6,2019-05-03,Weekday After-Hours,8.161,0.113
+2019,6,2019-05-04,Weekend,4.670,0.065
+2019,6,2019-05-05,Weekend,1.462,0.020
+2019,6,2019-05-07,Weekday After-Hours,7.155,0.099
+2019,6,2019-05-08,Weekday After-Hours,6.305,0.087
+2019,6,2019-05-09,Weekday After-Hours,2.976,0.041
+2019,6,2019-05-10,Weekday After-Hours,6.182,0.086
+2019,6,2019-05-11,Weekend,2.891,0.040
+2019,6,2019-05-12,Weekend,2.084,0.029
+2019,6,2019-05-13,Weekday After-Hours,7.367,0.102
+2019,6,2019-05-14,Weekday After-Hours,8.291,0.115
+2019,6,2019-05-15,Weekday After-Hours,7.684,0.107
+2019,6,2019-05-16,Weekday After-Hours,7.459,0.103
+2019,6,2019-05-17,Weekday After-Hours,7.716,0.107
+2019,6,2019-05-18,Weekend,2.207,0.031
+2019,6,2019-05-19,Weekend,5.522,0.077
+2019,6,2019-05-21,Weekday After-Hours,6.704,0.093
+2019,6,2019-05-22,Weekday After-Hours,7.079,0.098
+2019,6,2019-05-23,Weekday After-Hours,7.975,0.111
+2019,6,2019-05-24,Weekday After-Hours,6.938,0.096
+2019,6,2019-05-25,Weekend,5.553,0.077
+2019,6,2019-05-26,Weekend,1.601,0.022
+2019,6,2019-05-27,Weekday After-Hours,6.935,0.096
+2019,6,2019-05-28,Weekday After-Hours,8.675,0.120
+2019,6,2019-05-29,Weekday After-Hours,5.804,0.080
+2019,6,2019-05-30,Weekday After-Hours,7.445,0.103
+2019,6,2019-05-31,Weekday After-Hours,7.724,0.107
+2019,6,2019-06-01,Weekend,4.768,0.066
+2019,6,2019-06-02,Weekend,2.920,0.040
+2019,6,2019-06-04,Weekday After-Hours,7.415,0.103
+2019,6,2019-06-05,Weekday After-Hours,7.804,0.108
+2019,6,2019-06-06,Weekday After-Hours,6.453,0.089
+2019,6,2019-06-07,Weekday After-Hours,6.287,0.087
+2019,6,2019-06-08,Weekend,1.848,0.026
+2019,6,2019-06-09,Weekend,3.203,0.044
+2019,6,2019-06-10,Weekday After-Hours,7.253,0.101
+2019,6,2019-06-11,Weekday After-Hours,6.986,0.097
+2019,6,2019-06-12,Weekday After-Hours,7.853,0.109
+2019,6,2019-06-13,Weekday After-Hours,6.624,0.092
+2019,6,2019-06-14,Weekday After-Hours,8.751,0.121
+2019,6,2019-06-15,Weekend,3.962,0.055
+2019,6,2019-06-16,Weekend,3.059,0.042
+2019,6,2019-06-17,Weekday After-Hours,7.234,0.100
+2019,6,2019-06-18,Weekday After-Hours,8.404,0.117
+2019,6,2019-06-19,Weekday After-Hours,8.091,0.112
+2019,6,2019-06-20,Weekday After-Hours,6.953,0.096
+2019,6,2019-06-21,Weekday After-Hours,7.875,0.109
+2019,6,2019-06-22,Weekend,2.887,0.040
+2019,6,2019-06-23,Weekend,3.636,0.050
+2019,6,2019-06-24,Weekday After-Hours,7.937,0.110
+2019,6,2019-06-25,Weekday After-Hours,8.305,0.115
+2019,6,2019-06-26,Weekday After-Hours,7.866,0.109
+2019,6,2019-06-27,Weekday After-Hours,8.650,0.120
+2019,6,2019-06-28,Weekday After-Hours,7.563,0.105
+2019,6,2019-06-29,Weekend,3.445,0.048
+2019,6,2019-06-30,Weekend,3.324,0.046
+2019,6,2019-07-01,Weekday After-Hours,7.967,0.110
+2019,6,2019-07-02,Weekday After-Hours,8.581,0.119
+2019,6,2019-07-03,Weekday After-Hours,6.533,0.091
+2019,6,2019-07-04,Weekday After-Hours,8.438,0.117
+2019,6,2019-07-05,Weekday After-Hours,7.590,0.105
+2019,6,2019-07-06,Weekend,2.996,0.042
+2019,6,2019-07-07,Weekend,4.216,0.058
+2019,6,2019-07-08,Weekday After-Hours,6.892,0.096
+2019,6,2019-07-09,Weekday After-Hours,7.055,0.098
+2019,6,2019-07-10,Weekday After-Hours,6.329,0.088
+2019,6,2019-07-11,Weekday After-Hours,7.734,0.107
+2019,6,2019-07-12,Weekday After-Hours,8.830,0.122
+2019,6,2019-07-13,Weekend,7.274,0.101
+2019,6,2019-07-14,Weekend,4.466,0.062
+2019,6,2019-07-15,Weekday After-Hours,6.473,0.090
+2019,6,2019-07-18,Weekday After-Hours,8.176,0.113
+2019,6,2019-07-19,Weekday After-Hours,8.760,0.121
+2019,6,2019-07-20,Weekend,4.509,0.063
+2019,6,2019-07-21,Weekend,4.397,0.061
+2019,6,2019-07-22,Weekday After-Hours,9.833,0.136
+2019,6,2019-07-23,Weekday After-Hours,8.902,0.123
+2019,6,2019-07-24,Weekday After-Hours,9.320,0.129
+2019,6,2019-07-25,Weekday After-Hours,9.616,0.133
+2019,6,2019-07-26,Weekday After-Hours,8.208,0.114
+2019,6,2019-07-27,Weekend,3.536,0.049
+2019,6,2019-07-28,Weekend,1.569,0.022
+2019,6,2019-07-30,Weekday After-Hours,8.146,0.113
+2019,6,2019-07-31,Weekday After-Hours,8.194,0.114
+2019,6,2019-08-01,Weekday After-Hours,7.806,0.108
+2019,6,2019-08-02,Weekday After-Hours,6.686,0.093
+2019,6,2019-08-03,Weekend,2.295,0.032
+2019,6,2019-08-04,Weekend,1.671,0.023
+2019,6,2019-08-05,Weekday After-Hours,8.326,0.115
+2019,6,2019-08-06,Weekday After-Hours,9.165,0.127
+2019,6,2019-08-07,Weekday After-Hours,7.747,0.107
+2019,6,2019-08-08,Weekday After-Hours,7.622,0.106
+2019,6,2019-08-09,Weekday After-Hours,7.474,0.104
+2019,6,2019-08-10,Weekend,2.456,0.034
+2019,6,2019-08-11,Weekend,2.109,0.029
+2019,6,2019-08-13,Weekday After-Hours,8.131,0.113
+2019,6,2019-08-14,Weekday After-Hours,8.146,0.113
+2019,6,2019-08-15,Weekday After-Hours,6.389,0.089
+2019,6,2019-08-16,Weekday After-Hours,6.389,0.089
+2019,6,2019-08-17,Weekend,6.164,0.085
+2019,6,2019-08-18,Weekend,1.608,0.022
+2019,6,2019-08-19,Weekday After-Hours,7.679,0.106
+2019,6,2019-08-20,Weekday After-Hours,7.543,0.105
+2019,6,2019-08-21,Weekday After-Hours,7.642,0.106
+2019,6,2019-08-22,Weekday After-Hours,7.943,0.110
+2019,6,2019-08-23,Weekday After-Hours,7.204,0.100
+2019,6,2019-08-24,Weekend,5.236,0.073
+2019,6,2019-08-25,Weekend,3.707,0.051
+2019,6,2019-08-26,Weekday After-Hours,7.466,0.104
+2019,6,2019-08-27,Weekday After-Hours,8.198,0.114
+2019,6,2019-08-28,Weekday After-Hours,8.009,0.111
+2019,6,2019-08-29,Weekday After-Hours,7.893,0.109
+2019,6,2019-08-30,Weekday After-Hours,8.419,0.117
+2019,6,2019-08-31,Weekend,4.469,0.062
+2019,6,2019-09-01,Weekend,2.583,0.036
+2019,6,2019-09-02,Weekday After-Hours,6.824,0.095
+2019,6,2019-09-03,Weekday After-Hours,7.716,0.107
+2019,6,2019-09-04,Weekday After-Hours,7.495,0.104
+2019,6,2019-09-05,Weekday After-Hours,7.720,0.107
+2019,6,2019-09-06,Weekday After-Hours,6.776,0.094
+2019,6,2019-09-07,Weekend,2.552,0.035
+2019,6,2019-09-08,Weekend,3.366,0.047
+2019,6,2019-09-09,Weekday After-Hours,6.949,0.096
+2019,6,2019-09-10,Weekday After-Hours,7.516,0.104
+2019,6,2019-09-11,Weekday After-Hours,9.017,0.125
+2019,6,2019-09-12,Weekday After-Hours,8.374,0.116
+2019,6,2019-09-13,Weekday After-Hours,7.378,0.102
+2019,6,2019-09-14,Weekend,2.989,0.041
+2019,6,2019-09-15,Weekend,2.544,0.035
+2019,6,2019-09-16,Weekday After-Hours,6.778,0.094
+2019,6,2019-09-17,Weekday After-Hours,6.697,0.093
+2019,6,2019-09-18,Weekday After-Hours,7.770,0.108
+2019,6,2019-09-19,Weekday After-Hours,7.561,0.105
+2019,6,2019-09-20,Weekday After-Hours,11.602,0.161
+2019,6,2019-09-21,Weekend,2.268,0.031
+2019,6,2019-09-22,Weekend,4.434,0.061
+2019,6,2019-09-23,Weekday After-Hours,6.486,0.090
+2019,6,2019-09-24,Weekday After-Hours,7.786,0.108
+2019,6,2019-09-25,Weekday After-Hours,7.872,0.109
+2019,6,2019-09-26,Weekday After-Hours,8.088,0.112
+2019,6,2019-09-27,Weekday After-Hours,6.549,0.091
+2019,6,2019-09-28,Weekend,1.570,0.022
+2019,6,2019-09-29,Weekend,4.151,0.058
+2019,6,2019-09-30,Weekday After-Hours,7.101,0.098
+2019,6,2019-10-01,Weekday After-Hours,8.022,0.111
+2019,6,2019-10-02,Weekday After-Hours,7.901,0.110
+2019,6,2019-10-03,Weekday After-Hours,7.255,0.101
+2019,6,2019-10-04,Weekday After-Hours,6.949,0.096
+2019,6,2019-10-05,Weekend,2.156,0.030
+2019,6,2019-10-06,Weekend,5.323,0.074
+2019,6,2019-10-07,Weekday After-Hours,6.463,0.090
+2019,6,2019-10-08,Weekday After-Hours,6.861,0.095
+2019,6,2019-10-09,Weekday After-Hours,6.904,0.096
+2019,6,2019-10-10,Weekday After-Hours,7.310,0.101
+2019,6,2019-10-11,Weekday After-Hours,7.686,0.107
+2019,6,2019-10-12,Weekend,2.055,0.028
+2019,6,2019-10-13,Weekend,1.522,0.021
+2019,6,2019-10-15,Weekday After-Hours,8.122,0.113
+2019,6,2019-10-16,Weekday After-Hours,7.175,0.099
+2019,6,2019-10-17,Weekday After-Hours,7.387,0.102
+2019,6,2019-10-18,Weekday After-Hours,8.697,0.121
+2019,6,2019-10-19,Weekend,3.361,0.047
+2019,6,2019-10-20,Weekend,2.086,0.029
+2019,6,2019-10-21,Weekday After-Hours,6.874,0.095
+2019,7,2019-01-02,Weekday After-Hours,4.796,0.048
+2019,7,2019-01-03,Weekday After-Hours,5.114,0.051
+2019,7,2019-01-04,Weekday After-Hours,5.245,0.053
+2019,7,2019-01-05,Weekend,2.318,0.023
+2019,7,2019-01-06,Weekend,0.628,0.006
+2019,7,2019-01-07,Weekday After-Hours,5.718,0.058
+2019,7,2019-01-08,Weekday After-Hours,6.142,0.062
+2019,7,2019-01-09,Weekday After-Hours,6.760,0.068
+2019,7,2019-01-10,Weekday After-Hours,6.870,0.069
+2019,7,2019-01-11,Weekday After-Hours,6.690,0.067
+2019,7,2019-01-12,Weekend,0.461,0.005
+2019,7,2019-01-13,Weekend,0.472,0.005
+2019,7,2019-01-14,Weekday After-Hours,6.598,0.066
+2019,7,2019-01-15,Weekday After-Hours,6.520,0.066
+2019,7,2019-01-16,Weekday After-Hours,6.468,0.065
+2019,7,2019-01-17,Weekday After-Hours,7.706,0.077
+2019,7,2019-01-18,Weekday After-Hours,7.688,0.077
+2019,7,2019-01-19,Weekend,2.760,0.028
+2019,7,2019-01-20,Weekend,0.650,0.007
+2019,7,2019-01-21,Weekday After-Hours,7.136,0.072
+2019,7,2019-01-22,Weekday After-Hours,6.519,0.066
+2019,7,2019-02-13,Weekday After-Hours,7.008,0.070
+2019,7,2019-02-14,Weekday After-Hours,6.426,0.065
+2019,7,2019-02-15,Weekday After-Hours,7.017,0.071
+2019,7,2019-02-16,Weekend,3.742,0.038
+2019,7,2019-02-17,Weekend,0.149,0.002
+2019,7,2019-02-18,Weekday After-Hours,6.495,0.065
+2019,7,2019-02-20,Weekday After-Hours,6.376,0.064
+2019,7,2019-02-21,Weekday After-Hours,6.067,0.061
+2019,7,2019-02-22,Weekday After-Hours,6.750,0.068
+2019,7,2019-02-23,Weekend,3.285,0.033
+2019,7,2019-02-24,Weekend,0.935,0.009
+2019,7,2019-02-25,Weekday After-Hours,6.264,0.063
+2019,7,2019-02-26,Weekday After-Hours,6.394,0.064
+2019,7,2019-02-27,Weekday After-Hours,6.405,0.064
+2019,7,2019-02-28,Weekday After-Hours,6.750,0.068
+2019,7,2019-03-01,Weekday After-Hours,5.754,0.058
+2019,7,2019-03-02,Weekend,2.019,0.020
+2019,7,2019-03-03,Weekend,0.172,0.002
+2019,7,2019-03-04,Weekday After-Hours,6.552,0.066
+2019,7,2019-03-05,Weekday After-Hours,6.212,0.062
+2019,7,2019-03-06,Weekday After-Hours,6.641,0.067
+2019,7,2019-03-07,Weekday After-Hours,6.021,0.061
+2019,7,2019-03-08,Weekday After-Hours,5.913,0.059
+2019,7,2019-03-09,Weekend,1.210,0.012
+2019,7,2019-03-10,Weekend,1.219,0.012
+2019,7,2019-03-11,Weekday After-Hours,5.551,0.056
+2019,7,2019-03-12,Weekday After-Hours,6.091,0.061
+2019,7,2019-03-13,Weekday After-Hours,6.081,0.061
+2019,7,2019-03-14,Weekday After-Hours,5.883,0.059
+2019,7,2019-03-15,Weekday After-Hours,5.810,0.058
+2019,7,2019-03-16,Weekend,1.274,0.013
+2019,7,2019-03-17,Weekend,1.556,0.016
+2019,7,2019-03-18,Weekday After-Hours,5.089,0.051
+2019,7,2019-03-19,Weekday After-Hours,6.085,0.061
+2019,7,2019-03-20,Weekday After-Hours,6.022,0.061
+2019,7,2019-03-21,Weekday After-Hours,4.865,0.049
+2019,7,2019-03-22,Weekday After-Hours,4.834,0.049
+2019,7,2019-03-23,Weekend,0.366,0.004
+2019,7,2019-03-24,Weekend,0.204,0.002
+2019,7,2019-03-25,Weekday After-Hours,6.514,0.066
+2019,7,2019-03-26,Weekday After-Hours,6.992,0.070
+2019,7,2019-03-27,Weekday After-Hours,6.370,0.064
+2019,7,2019-03-28,Weekday After-Hours,6.640,0.067
+2019,7,2019-03-29,Weekday After-Hours,12.385,0.125
+2019,7,2019-03-30,Weekend,2.279,0.023
+2019,7,2019-03-31,Weekend,2.003,0.020
+2019,7,2019-04-01,Weekday After-Hours,18.742,0.188
+2019,7,2019-04-02,Weekday After-Hours,6.534,0.066
+2019,7,2019-04-03,Weekday After-Hours,19.442,0.196
+2019,7,2019-04-04,Weekday After-Hours,13.022,0.131
+2019,7,2019-04-05,Weekday After-Hours,14.439,0.145
+2019,7,2019-04-06,Weekend,4.425,0.044
+2019,7,2019-04-07,Weekend,2.656,0.027
+2019,7,2019-04-09,Weekday After-Hours,18.809,0.189
+2019,7,2019-04-10,Weekday After-Hours,20.205,0.203
+2019,7,2019-04-11,Weekday After-Hours,18.945,0.191
+2019,7,2019-04-13,Weekend,0.234,0.002
+2019,7,2019-04-14,Weekend,0.231,0.002
+2019,7,2019-04-17,Weekday After-Hours,19.581,0.197
+2019,7,2019-04-18,Weekday After-Hours,13.833,0.139
+2019,7,2019-04-19,Weekday After-Hours,14.874,0.150
+2019,7,2019-04-20,Weekend,10.540,0.106
+2019,7,2019-04-21,Weekend,1.830,0.018
+2019,7,2019-04-22,Weekday After-Hours,23.551,0.237
+2019,7,2019-04-23,Weekday After-Hours,13.106,0.132
+2019,7,2019-04-24,Weekday After-Hours,17.777,0.179
+2019,7,2019-04-25,Weekday After-Hours,15.810,0.159
+2019,7,2019-04-27,Weekend,6.043,0.061
+2019,7,2019-04-28,Weekend,1.637,0.016
+2019,7,2019-04-29,Weekday After-Hours,15.435,0.155
+2019,7,2019-04-30,Weekday After-Hours,18.894,0.190
+2019,7,2019-05-01,Weekday After-Hours,18.004,0.181
+2019,7,2019-05-02,Weekday After-Hours,25.356,0.255
+2019,7,2019-05-03,Weekday After-Hours,18.645,0.187
+2019,7,2019-05-04,Weekend,33.678,0.339
+2019,7,2019-05-05,Weekend,17.782,0.179
+2019,7,2019-05-07,Weekday After-Hours,15.491,0.156
+2019,7,2019-05-08,Weekday After-Hours,13.395,0.135
+2019,7,2019-05-09,Weekday After-Hours,5.302,0.053
+2019,7,2019-05-10,Weekday After-Hours,11.904,0.120
+2019,7,2019-05-11,Weekend,6.004,0.060
+2019,7,2019-05-12,Weekend,3.005,0.030
+2019,7,2019-05-13,Weekday After-Hours,11.032,0.111
+2019,7,2019-05-14,Weekday After-Hours,22.850,0.230
+2019,7,2019-05-15,Weekday After-Hours,22.972,0.231
+2019,7,2019-05-16,Weekday After-Hours,17.207,0.173
+2019,7,2019-05-17,Weekday After-Hours,14.551,0.146
+2019,7,2019-05-18,Weekend,17.088,0.172
+2019,7,2019-05-19,Weekend,2.475,0.025
+2019,7,2019-05-21,Weekday After-Hours,33.171,0.334
+2019,7,2019-05-22,Weekday After-Hours,34.714,0.349
+2019,7,2019-05-23,Weekday After-Hours,16.388,0.165
+2019,7,2019-05-24,Weekday After-Hours,17.495,0.176
+2019,7,2019-05-25,Weekend,3.174,0.032
+2019,7,2019-05-26,Weekend,2.423,0.024
+2019,7,2019-05-27,Weekday After-Hours,15.528,0.156
+2019,7,2019-05-28,Weekday After-Hours,17.870,0.180
+2019,7,2019-05-29,Weekday After-Hours,13.705,0.138
+2019,7,2019-05-30,Weekday After-Hours,9.975,0.100
+2019,7,2019-05-31,Weekday After-Hours,21.908,0.220
+2019,7,2019-06-01,Weekend,29.398,0.296
+2019,7,2019-06-02,Weekend,2.629,0.026
+2019,7,2019-06-04,Weekday After-Hours,4.039,0.041
+2019,7,2019-06-05,Weekday After-Hours,8.629,0.087
+2019,7,2019-06-06,Weekday After-Hours,6.738,0.068
+2019,7,2019-06-07,Weekday After-Hours,6.504,0.065
+2019,7,2019-06-08,Weekend,7.671,0.077
+2019,7,2019-06-09,Weekend,3.379,0.034
+2019,7,2019-06-10,Weekday After-Hours,3.696,0.037
+2019,7,2019-06-11,Weekday After-Hours,6.928,0.070
+2019,7,2019-06-12,Weekday After-Hours,6.623,0.067
+2019,7,2019-06-13,Weekday After-Hours,6.086,0.061
+2019,7,2019-06-14,Weekday After-Hours,6.786,0.068
+2019,7,2019-06-15,Weekend,7.887,0.079
+2019,7,2019-06-16,Weekend,2.872,0.029
+2019,7,2019-06-17,Weekday After-Hours,3.765,0.038
+2019,7,2019-06-18,Weekday After-Hours,6.658,0.067
+2019,7,2019-06-19,Weekday After-Hours,10.321,0.104
+2019,7,2019-06-20,Weekday After-Hours,5.735,0.058
+2019,7,2019-06-21,Weekday After-Hours,6.176,0.062
+2019,7,2019-06-22,Weekend,10.521,0.106
+2019,7,2019-06-23,Weekend,2.550,0.026
+2019,7,2019-06-24,Weekday After-Hours,5.681,0.057
+2019,7,2019-06-25,Weekday After-Hours,7.095,0.071
+2019,7,2019-06-26,Weekday After-Hours,5.951,0.060
+2019,7,2019-06-27,Weekday After-Hours,6.879,0.069
+2019,7,2019-06-28,Weekday After-Hours,7.312,0.074
+2019,7,2019-06-29,Weekend,29.266,0.294
+2019,7,2019-06-30,Weekend,3.970,0.040
+2019,7,2019-07-01,Weekday After-Hours,7.470,0.075
+2019,7,2019-07-02,Weekday After-Hours,8.216,0.083
+2019,7,2019-07-03,Weekday After-Hours,6.753,0.068
+2019,7,2019-07-04,Weekday After-Hours,6.972,0.070
+2019,7,2019-07-05,Weekday After-Hours,7.250,0.073
+2019,7,2019-07-06,Weekend,23.788,0.239
+2019,7,2019-07-07,Weekend,1.427,0.014
+2019,7,2019-07-08,Weekday After-Hours,7.294,0.073
+2019,7,2019-07-09,Weekday After-Hours,8.056,0.081
+2019,7,2019-07-10,Weekday After-Hours,6.903,0.069
+2019,7,2019-07-11,Weekday After-Hours,6.698,0.067
+2019,7,2019-07-12,Weekday After-Hours,8.021,0.081
+2019,7,2019-07-13,Weekend,30.165,0.303
+2019,7,2019-07-14,Weekend,2.094,0.021
+2019,7,2019-07-15,Weekday After-Hours,5.850,0.059
+2019,7,2019-07-18,Weekday After-Hours,6.862,0.069
+2019,7,2019-07-19,Weekday After-Hours,6.898,0.069
+2019,7,2019-07-20,Weekend,32.052,0.322
+2019,7,2019-07-21,Weekend,2.763,0.028
+2019,7,2019-07-22,Weekday After-Hours,6.382,0.064
+2019,7,2019-07-23,Weekday After-Hours,7.334,0.074
+2019,7,2019-07-24,Weekday After-Hours,7.199,0.072
+2019,7,2019-07-25,Weekday After-Hours,6.709,0.067
+2019,7,2019-07-26,Weekday After-Hours,6.502,0.065
+2019,7,2019-07-27,Weekend,36.594,0.368
+2019,7,2019-07-28,Weekend,1.213,0.012
+2019,7,2019-07-30,Weekday After-Hours,6.244,0.063
+2019,7,2019-07-31,Weekday After-Hours,6.898,0.069
+2019,7,2019-08-01,Weekday After-Hours,7.249,0.073
+2019,7,2019-08-02,Weekday After-Hours,6.756,0.068
+2019,7,2019-08-03,Weekend,27.705,0.279
+2019,7,2019-08-04,Weekend,1.542,0.016
+2019,7,2019-08-05,Weekday After-Hours,7.225,0.073
+2019,7,2019-08-06,Weekday After-Hours,6.790,0.068
+2019,7,2019-08-07,Weekday After-Hours,7.444,0.075
+2019,7,2019-08-08,Weekday After-Hours,6.830,0.069
+2019,7,2019-08-09,Weekday After-Hours,6.824,0.069
+2019,7,2019-08-10,Weekend,20.939,0.211
+2019,7,2019-08-11,Weekend,1.514,0.015
+2019,7,2019-08-13,Weekday After-Hours,6.278,0.063
+2019,7,2019-08-14,Weekday After-Hours,7.012,0.071
+2019,7,2019-08-15,Weekday After-Hours,6.462,0.065
+2019,7,2019-08-16,Weekday After-Hours,6.282,0.063
+2019,7,2019-08-17,Weekend,1.663,0.017
+2019,7,2019-08-18,Weekend,31.235,0.314
+2019,7,2019-08-19,Weekday After-Hours,7.592,0.076
+2019,7,2019-08-20,Weekday After-Hours,7.571,0.076
+2019,7,2019-08-21,Weekday After-Hours,7.201,0.072
+2019,7,2019-08-22,Weekday After-Hours,7.030,0.071
+2019,7,2019-08-23,Weekday After-Hours,6.240,0.063
+2019,7,2019-08-24,Weekend,10.010,0.101
+2019,7,2019-08-25,Weekend,3.332,0.034
+2019,7,2019-08-26,Weekday After-Hours,7.109,0.071
+2019,7,2019-08-27,Weekday After-Hours,7.936,0.080
+2019,7,2019-08-28,Weekday After-Hours,7.888,0.079
+2019,7,2019-08-29,Weekday After-Hours,7.415,0.075
+2019,7,2019-08-30,Weekday After-Hours,13.273,0.133
+2019,7,2019-08-31,Weekend,22.305,0.224
+2019,7,2019-09-01,Weekend,8.681,0.087
+2019,7,2019-09-02,Weekday After-Hours,7.163,0.072
+2019,7,2019-09-03,Weekday After-Hours,7.547,0.076
+2019,7,2019-09-04,Weekday After-Hours,7.664,0.077
+2019,7,2019-09-05,Weekday After-Hours,8.111,0.082
+2019,7,2019-09-06,Weekday After-Hours,7.633,0.077
+2019,7,2019-09-07,Weekend,23.523,0.237
+2019,7,2019-09-08,Weekend,2.957,0.030
+2019,7,2019-09-09,Weekday After-Hours,6.590,0.066
+2019,7,2019-09-10,Weekday After-Hours,8.191,0.082
+2019,7,2019-09-11,Weekday After-Hours,6.073,0.061
+2019,7,2019-09-12,Weekday After-Hours,7.268,0.073
+2019,7,2019-09-13,Weekday After-Hours,6.974,0.070
+2019,7,2019-09-14,Weekend,3.708,0.037
+2019,7,2019-09-15,Weekend,3.523,0.035
+2019,7,2019-09-16,Weekday After-Hours,6.296,0.063
+2019,7,2019-09-17,Weekday After-Hours,6.829,0.069
+2019,7,2019-09-18,Weekday After-Hours,7.052,0.071
+2019,7,2019-09-19,Weekday After-Hours,7.549,0.076
+2019,7,2019-09-20,Weekday After-Hours,6.750,0.068
+2019,7,2019-09-21,Weekend,11.984,0.121
+2019,7,2019-09-22,Weekend,3.308,0.033
+2019,7,2019-09-23,Weekday After-Hours,7.029,0.071
+2019,7,2019-09-24,Weekday After-Hours,6.797,0.068
+2019,7,2019-09-25,Weekday After-Hours,6.309,0.063
+2019,7,2019-09-26,Weekday After-Hours,6.527,0.066
+2019,7,2019-09-27,Weekday After-Hours,6.189,0.062
+2019,7,2019-09-28,Weekend,3.185,0.032
+2019,7,2019-09-29,Weekend,2.916,0.029
+2019,7,2019-09-30,Weekday After-Hours,6.718,0.068
+2019,7,2019-10-01,Weekday After-Hours,6.193,0.062
+2019,7,2019-10-02,Weekday After-Hours,6.690,0.067
+2019,7,2019-10-03,Weekday After-Hours,6.843,0.069
+2019,7,2019-10-04,Weekday After-Hours,6.406,0.064
+2019,7,2019-10-05,Weekend,16.531,0.166
+2019,7,2019-10-06,Weekend,1.185,0.012
+2019,7,2019-10-07,Weekday After-Hours,6.660,0.067
+2019,7,2019-10-08,Weekday After-Hours,7.085,0.071
+2019,7,2019-10-09,Weekday After-Hours,7.340,0.074
+2019,7,2019-10-10,Weekday After-Hours,7.308,0.073
+2019,7,2019-10-11,Weekday After-Hours,6.297,0.063
+2019,7,2019-10-12,Weekend,4.215,0.042
+2019,7,2019-10-13,Weekend,0.570,0.006
+2019,7,2019-10-15,Weekday After-Hours,5.988,0.060
+2019,7,2019-10-16,Weekday After-Hours,5.991,0.060
+2019,7,2019-10-17,Weekday After-Hours,6.343,0.064
+2019,7,2019-10-18,Weekday After-Hours,7.049,0.071
+2019,7,2019-10-19,Weekend,0.514,0.005
+2019,7,2019-10-20,Weekend,1.728,0.017
+2019,7,2019-10-21,Weekday After-Hours,7.172,0.072
+2019,7,2019-10-22,Weekday After-Hours,6.223,0.063
+2019,7,2019-10-24,Weekday After-Hours,6.435,0.065
+2019,7,2019-10-25,Weekday After-Hours,7.017,0.071
+2019,7,2019-10-26,Weekend,2.673,0.027
+2019,7,2019-10-27,Weekend,2.524,0.025
+2019,7,2019-10-28,Weekday After-Hours,6.369,0.064
+2019,7,2019-10-29,Weekday After-Hours,5.879,0.059
+2019,7,2019-10-30,Weekday After-Hours,6.349,0.064
+2019,7,2019-10-31,Weekday After-Hours,6.878,0.069
+2019,7,2019-11-01,Weekday After-Hours,6.066,0.061
+2019,7,2019-11-02,Weekend,6.333,0.064
+2019,7,2019-11-03,Weekend,1.127,0.011
+2019,7,2019-11-04,Weekday After-Hours,6.158,0.062
+2019,7,2019-11-05,Weekday After-Hours,6.169,0.062
+2019,7,2019-11-06,Weekday After-Hours,7.055,0.071
+2019,7,2019-11-07,Weekday After-Hours,6.668,0.067
+2019,7,2019-11-08,Weekday After-Hours,6.702,0.067
+2019,7,2019-11-09,Weekend,10.960,0.110
+2019,7,2019-11-10,Weekend,1.840,0.019
+2019,7,2019-11-11,Weekday After-Hours,5.378,0.054
+2019,7,2019-11-12,Weekday After-Hours,6.602,0.066
+2019,7,2019-11-13,Weekday After-Hours,6.411,0.064
+2019,7,2019-11-14,Weekday After-Hours,6.717,0.068
+2019,7,2019-11-15,Weekday After-Hours,6.369,0.064
+2019,7,2019-11-16,Weekend,1.856,0.019
+2019,7,2019-11-17,Weekend,4.302,0.043
+2019,7,2019-11-18,Weekday After-Hours,7.627,0.077
+2019,7,2019-11-19,Weekday After-Hours,6.994,0.070
+2019,7,2019-11-20,Weekday After-Hours,6.751,0.068
+2019,7,2019-11-21,Weekday After-Hours,6.899,0.069
+2019,7,2019-11-22,Weekday After-Hours,7.273,0.073
+2019,7,2019-11-23,Weekend,21.120,0.212
+2019,7,2019-11-24,Weekend,3.493,0.035
+2019,7,2019-11-25,Weekday After-Hours,7.000,0.070
+2019,7,2019-11-26,Weekday After-Hours,5.867,0.059
+2019,7,2019-11-27,Weekday After-Hours,6.216,0.063
+2019,7,2019-11-28,Weekday After-Hours,6.993,0.070
+2019,7,2019-11-29,Weekday After-Hours,6.378,0.064
+2019,7,2019-11-30,Weekend,2.688,0.027
+2019,7,2019-12-01,Weekend,1.309,0.013
+2019,7,2019-12-02,Weekday After-Hours,7.951,0.080
+2019,7,2019-12-03,Weekday After-Hours,6.685,0.067
+2019,7,2019-12-04,Weekday After-Hours,6.904,0.069
+2019,7,2019-12-06,Weekday After-Hours,6.089,0.061
+2019,7,2019-12-07,Weekend,1.592,0.016
+2019,7,2019-12-08,Weekend,0.726,0.007
+2019,7,2019-12-09,Weekday After-Hours,6.121,0.062
+2019,7,2019-12-11,Weekday After-Hours,6.442,0.065
+2019,7,2019-12-12,Weekday After-Hours,6.022,0.061
+2019,7,2019-12-13,Weekday After-Hours,5.096,0.051
+2019,7,2019-12-14,Weekend,2.198,0.022
+2019,7,2019-12-15,Weekend,1.021,0.010
+2019,7,2019-12-16,Weekday After-Hours,6.475,0.065
+2019,7,2019-12-17,Weekday After-Hours,6.525,0.066
+2019,7,2019-12-18,Weekday After-Hours,6.014,0.060
+2019,7,2019-12-19,Weekday After-Hours,5.399,0.054
+2019,7,2019-12-20,Weekday After-Hours,7.381,0.074
+2019,7,2019-12-21,Weekend,2.140,0.022
+2019,7,2019-12-22,Weekend,2.930,0.029
+2019,7,2019-12-23,Weekday After-Hours,6.943,0.070
+2019,7,2019-12-24,Weekday After-Hours,6.120,0.062
+2019,7,2019-12-25,Weekday After-Hours,6.750,0.068
+2019,7,2019-12-26,Weekday After-Hours,5.630,0.057
+2019,7,2019-12-27,Weekday After-Hours,6.277,0.063
+2019,7,2019-12-28,Weekend,0.419,0.004
+2019,7,2019-12-29,Weekend,0.645,0.006
