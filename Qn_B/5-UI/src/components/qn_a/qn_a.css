@@ -1,0 +1,115 @@
+/* Question A page: status colours, time control, load-profile chart and the pieces added on top of the ported explorer.
+   Class names are prefixed qa- (or scoped under .qa-ex) so they never clash with the Question B styles. */
+
+:root {
+  --st-green: #178a62;
+  --st-amber: #d68a00;
+  --st-red: #c8312c;
+  --st-grey: #8a919c;
+  --st-neutral: #8fb4d6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --st-green: #3fb98a;
+    --st-amber: #e6a227;
+    --st-red: #e2735f;
+    --st-grey: #9aa2ad;
+    --st-neutral: #6f9cc4;
+  }
+}
+
+/* ---------- status markers */
+.sdot-h { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: baseline; background: var(--st-grey); }
+.sdot-h.green { background: var(--st-green); }
+.sdot-h.amber { background: var(--st-amber); }
+.sdot-h.red { background: var(--st-red); }
+.sdot-h.grey { background: var(--st-grey); }
+.sdot-h.neutral { background: transparent; border: 2px solid var(--st-neutral); width: 10px; height: 10px; }
+.qa-ex .sdot { fill: var(--st-grey); stroke: rgba(255, 255, 255, 0.9); stroke-width: 1; }
+.qa-ex .sdot.green { fill: var(--st-green); }
+.qa-ex .sdot.amber { fill: var(--st-amber); }
+.qa-ex .sdot.red { fill: var(--st-red); }
+.qa-ex .sdot.neutral { fill: #fff; stroke: var(--st-neutral); stroke-width: 2; }
+.qa-ex .fl-flag { border: 2px solid transparent; }
+.qa-ex .fl-flag.green { background: var(--st-green); }
+.qa-ex .fl-flag.amber { background: var(--st-amber); }
+.qa-ex .fl-flag.red { background: var(--st-red); }
+.qa-ex .fl-flag.grey { background: var(--st-grey); }
+.qa-ex .fl-flag.neutral { background: transparent; border-color: var(--st-neutral); }
+.qa-ex .fl.flagged .fl-flag { background: var(--st-red); }
+
+.qa-ex { margin-bottom: 0; }
+.qa-ex .cam .zp.warn .tp { stroke: var(--st-amber); stroke-width: 4; }
+.qa-ex .cam .zp.warn .w { background-image: linear-gradient(rgba(214, 138, 0, 0.25), rgba(214, 138, 0, 0.45)); }
+.qa-ex .cam .bill.warn .bgc { stroke: rgba(214, 138, 0, 0.8); stroke-width: 1.5; }
+.qa-ex .cam .zp.flagged .tp { stroke: var(--st-red); }
+.qa-ex .cam .bill.flagged .bgc { stroke: var(--st-red); }
+.qa-ex .ex-legend .status-key { display: contents; }
+.qa-ex .ex-legend .status-key span { display: inline-flex; align-items: center; }
+
+.qa-ex .plan-table td { vertical-align: top; }
+.qa-ex .plan-table td.st-red { color: var(--st-red); font-weight: 600; }
+.qa-ex .plan-table td.st-amber { color: var(--st-amber); font-weight: 600; }
+.qa-ex .plan-table .st-line { display: block; font-size: 0.72rem; font-weight: 400; color: var(--muted); white-space: nowrap; }
+.qa-ex .table-wrap { margin-top: 4px; }
+.qa-ex .viewbar .seg { align-self: flex-end; }
+
+/* ---------- status key */
+.status-key.compact { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.status-key.compact span { display: inline-flex; align-items: center; }
+dl.status-key { margin: 0; display: grid; gap: 6px; }
+dl.status-key div { display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: baseline; }
+dl.status-key dt { font-weight: 600; }
+dl.status-key dd { margin: 0; color: var(--ink-2); }
+
+/* ---------- time control */
+.qa-time { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: flex-end; }
+.qa-time .slider { flex: 1 1 320px; min-width: 240px; display: flex; flex-direction: column; gap: 6px; }
+.qa-time input[type=range] { width: 100%; accent-color: var(--accent); }
+.qa-time .clock { font-family: var(--mono); font-size: 22px; letter-spacing: -0.02em; }
+.qa-time .ticks { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); font-family: var(--mono); }
+.qa-time .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.qa-time input[type=time] { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 5px 8px; }
+
+/* ---------- chart */
+.qa-chart { position: relative; }
+.qa-chart .controls { margin-bottom: 14px; }
+.qa-chart select { min-width: 96px; }
+.qa-chart .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.qa-chart .chips label { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; cursor: pointer; font-size: 12px; }
+.qa-chart .chips label.on { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.qa-chart .chips input { position: absolute; opacity: 0; pointer-events: none; }
+.qa-chart .chips label:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.qa-chart-title { font-size: 14px; font-weight: 600; text-align: center; margin: 0 0 4px; }
+.qa-chart-title small { display: block; font-weight: 400; color: var(--ink-3); font-size: 12px; }
+.qa-chart .legend { justify-content: center; margin-top: 8px; }
+.qa-chart .legend .mk { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.qa-chart .legend .mk.neutral { background: transparent; border: 2px solid var(--st-neutral); width: 10px; height: 10px; }
+.qa-chart .legend i.dot { border-top: 2px dotted; }
+.qa-chart .legend i.line { border-top: 2px solid; }
+.qa-chart .recharts-cartesian-grid line { stroke: var(--line-2); }
+.qa-chart .recharts-text { fill: var(--ink-3); font-size: 12px; }
+.qa-tip { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14); max-width: 280px; }
+.qa-tip b { font-weight: 600; }
+.qa-tip .num { display: inline-block; min-width: 56px; }
+.qa-tip div { margin-top: 2px; }
+.qa-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; color: var(--ink-2); background: color-mix(in srgb, var(--panel) 82%, transparent); border-radius: var(--radius); }
+.qa-note { margin-top: 10px; }
+
+.qa-notes ul { margin: 6px 0 0; padding-left: 18px; }
+.qa-notes li { margin: 3px 0; }
+.qa-error { border: 1px solid var(--st-red); color: var(--st-red); border-radius: var(--radius); padding: 12px 14px; background: var(--panel); }
+.qa-error code { font-family: var(--mono); font-size: 12px; background: var(--line-2); color: var(--ink); padding: 1px 5px; border-radius: 4px; }
+
+/* the explorer legend gives every <i> a gradient swatch; status dots inside it need their own look */
+.qa-ex .ex-legend i.sdot-h { width: 9px; height: 9px; border-radius: 50%; background: var(--st-grey); margin-right: 6px; }
+.qa-ex .ex-legend i.sdot-h.green { background: var(--st-green); }
+.qa-ex .ex-legend i.sdot-h.amber { background: var(--st-amber); }
+.qa-ex .ex-legend i.sdot-h.red { background: var(--st-red); }
+.qa-ex .ex-legend i.sdot-h.neutral { background: transparent; border: 2px solid var(--st-neutral); width: 10px; height: 10px; }
+
+@media (max-width: 760px) {
+  .qa-chart .date-row, .qa-time .date-row { flex-wrap: wrap; }
+  .qa-chart .field, .qa-time .field { max-width: 100%; }
+  dl.status-key div { grid-template-columns: 78px 1fr; gap: 8px; }
+}

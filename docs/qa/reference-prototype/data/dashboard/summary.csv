@@ -1,0 +1,703 @@
+Year,Floor,Zone,End_Use,Day_Type,Actual_kW,Daytime_Baseline_kW,After_Hours_Ratio,Benchmark_Low,Benchmark_High,Excess_kW,Excess_kWh_per_year,Is_Anomaly,Priority,Coverage_Pct,Data_Status
+2018,1,All,AC,Weekday After-Hours,40.238,13.809,2.914,0.023,0.168,37.917,145081.950,True,High,99.512,OK
+2018,1,All,AC,Weekday Daytime,13.809,13.809,1.000,,,,,False,,98.735,OK
+2018,1,All,AC,Weekend,40.776,13.809,2.953,0.001,0.138,38.865,102523.365,True,High,100.000,OK
+2018,1,All,All,Weekday After-Hours,144.147,75.195,1.917,0.085,0.175,130.989,501200.842,True,High,88.184,OK
+2018,1,All,All,Weekday Daytime,75.195,75.195,1.000,,,,,False,,87.986,OK
+2018,1,All,All,Weekend,117.103,75.195,1.557,0.027,0.127,107.555,283726.082,True,High,88.679,OK
+2018,1,All,Light,Weekday After-Hours,80.544,40.137,2.007,0.199,0.336,67.065,256610.008,True,High,99.512,OK
+2018,1,All,Light,Weekday Daytime,40.137,40.137,1.000,,,,,False,,98.735,OK
+2018,1,All,Light,Weekend,55.241,40.137,1.376,0.060,0.158,48.881,128945.980,True,High,100.000,OK
+2018,1,All,Plug,Weekday After-Hours,21.557,19.731,1.093,0.193,0.384,13.975,53472.136,True,High,88.184,OK
+2018,1,All,Plug,Weekday Daytime,19.731,19.731,1.000,,,,,False,,87.986,OK
+2018,1,All,Plug,Weekend,20.240,19.731,1.026,0.124,0.279,14.738,38878.265,True,High,88.679,OK
+2018,1,Z1,Light,Weekday After-Hours,10.045,0.506,19.862,0.199,0.336,9.875,37786.077,True,Medium,99.512,OK
+2018,1,Z1,Light,Weekday Daytime,0.506,0.506,1.000,,,,,False,,98.735,OK
+2018,1,Z1,Light,Weekend,6.402,0.506,12.659,0.060,0.158,6.322,16677.658,True,Medium,100.000,OK
+2018,1,Z1,Plug,Weekday After-Hours,5.435,2.352,2.311,0.193,0.384,4.532,17339.933,True,Medium,99.892,OK
+2018,1,Z1,Plug,Weekday Daytime,2.352,2.352,1.000,,,,,False,,99.458,OK
+2018,1,Z1,Plug,Weekend,3.965,2.352,1.686,0.124,0.279,3.309,8729.823,True,Medium,100.000,OK
+2018,1,Z2,AC,Weekday After-Hours,40.238,13.809,2.914,0.023,0.168,37.917,145081.950,True,High,99.512,OK
+2018,1,Z2,AC,Weekday Daytime,13.809,13.809,1.000,,,,,False,,98.735,OK
+2018,1,Z2,AC,Weekend,40.776,13.809,2.953,0.001,0.138,38.865,102523.365,True,High,100.000,OK
+2018,1,Z2,Light,Weekday After-Hours,14.921,14.294,1.044,0.199,0.336,10.121,38726.915,True,High,99.512,OK
+2018,1,Z2,Light,Weekday Daytime,14.294,14.294,1.000,,,,,False,,98.735,OK
+2018,1,Z2,Light,Weekend,14.779,14.294,1.034,0.060,0.158,12.514,33012.087,True,High,100.000,OK
+2018,1,Z2,Plug,Weekday After-Hours,15.739,15.320,1.027,0.193,0.384,9.852,37696.153,True,Medium,88.184,OK
+2018,1,Z2,Plug,Weekday Daytime,15.320,15.320,1.000,,,,,False,,87.986,OK
+2018,1,Z2,Plug,Weekend,15.796,15.320,1.031,0.124,0.279,11.524,30398.805,True,High,88.679,OK
+2018,1,Z3,Light,Weekday After-Hours,27.735,24.066,1.152,0.199,0.336,19.653,75198.686,True,High,99.892,OK
+2018,1,Z3,Light,Weekday Daytime,24.066,24.066,1.000,,,,,False,,99.458,OK
+2018,1,Z3,Light,Weekend,17.588,24.066,0.731,0.060,0.158,13.774,36336.193,True,High,100.000,OK
+2018,1,Z3,Plug,Weekday After-Hours,0.931,1.890,0.493,0.193,0.384,0.205,784.975,False,,99.512,OK
+2018,1,Z3,Plug,Weekday Daytime,1.890,1.890,1.000,,,,,False,,98.735,OK
+2018,1,Z3,Plug,Weekend,0.909,1.890,0.481,0.124,0.279,0.382,1008.355,False,,100.000,OK
+2018,1,Z4,Light,Weekday After-Hours,27.672,1.148,24.109,0.199,0.336,27.287,104406.951,True,High,99.892,OK
+2018,1,Z4,Light,Weekday Daytime,1.148,1.148,1.000,,,,,False,,99.458,OK
+2018,1,Z4,Light,Weekend,16.472,1.148,14.350,0.060,0.158,16.290,42971.991,True,High,100.000,OK
+2018,2,All,AC,Weekday After-Hours,9.987,59.423,0.168,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,2,All,AC,Weekday Daytime,59.423,59.423,1.000,,,,,False,,99.458,OK
+2018,2,All,AC,Weekend,8.226,59.423,0.138,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,2,All,All,Weekday After-Hours,13.542,77.390,0.175,0.085,0.175,0.000,0.000,False,,99.837,OK
+2018,2,All,All,Weekday Daytime,77.390,77.390,1.000,,,,,False,,99.458,OK
+2018,2,All,All,Weekend,9.827,77.390,0.127,0.027,0.127,0.000,0.000,False,,100.000,OK
+2018,2,All,Light,Weekday After-Hours,2.690,13.500,0.199,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,2,All,Light,Weekday Daytime,13.500,13.500,1.000,,,,,False,,99.458,OK
+2018,2,All,Light,Weekend,1.047,13.500,0.078,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,2,All,Plug,Weekday After-Hours,0.863,4.468,0.193,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,2,All,Plug,Weekday Daytime,4.468,4.468,1.000,,,,,False,,99.458,OK
+2018,2,All,Plug,Weekend,0.554,4.468,0.124,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,2,Z1,AC,Weekday After-Hours,2.479,27.929,0.089,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,2,Z1,AC,Weekday Daytime,27.929,27.929,1.000,,,,,False,,99.458,OK
+2018,2,Z1,AC,Weekend,1.408,27.929,0.050,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,2,Z1,Light,Weekday After-Hours,1.565,8.570,0.183,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,2,Z1,Light,Weekday Daytime,8.570,8.570,1.000,,,,,False,,99.458,OK
+2018,2,Z1,Light,Weekend,0.621,8.570,0.072,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,2,Z1,Plug,Weekday After-Hours,0.409,3.409,0.120,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,2,Z1,Plug,Weekday Daytime,3.409,3.409,1.000,,,,,False,,99.458,OK
+2018,2,Z1,Plug,Weekend,0.203,3.409,0.059,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,2,Z2,AC,Weekday After-Hours,7.043,21.744,0.324,0.023,0.168,3.388,12964.944,True,Medium,99.837,OK
+2018,2,Z2,AC,Weekday Daytime,21.744,21.744,1.000,,,,,False,,99.458,OK
+2018,2,Z2,AC,Weekend,6.519,21.744,0.300,0.001,0.138,3.509,9256.633,True,Medium,100.000,OK
+2018,2,Z2,Light,Weekday After-Hours,0.280,2.005,0.140,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,2,Z2,Light,Weekday Daytime,2.005,2.005,1.000,,,,,False,,99.458,OK
+2018,2,Z2,Light,Weekend,0.048,2.005,0.024,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,2,Z2,Plug,Weekday After-Hours,0.087,0.540,0.161,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,2,Z2,Plug,Weekday Daytime,0.540,0.540,1.000,,,,,False,,99.458,OK
+2018,2,Z2,Plug,Weekend,0.056,0.540,0.105,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,2,Z3,Light,Weekday After-Hours,0.456,0.931,0.490,0.199,0.336,0.143,548.876,False,,99.892,OK
+2018,2,Z3,Light,Weekday Daytime,0.931,0.931,1.000,,,,,False,,99.458,OK
+2018,2,Z3,Light,Weekend,0.284,0.931,0.306,0.060,0.158,0.137,361.412,False,,100.000,OK
+2018,2,Z3,Plug,Weekday After-Hours,0.367,0.518,0.709,0.193,0.384,0.168,643.101,False,,99.892,OK
+2018,2,Z3,Plug,Weekday Daytime,0.518,0.518,1.000,,,,,False,,99.458,OK
+2018,2,Z3,Plug,Weekend,0.295,0.518,0.569,0.124,0.279,0.150,396.354,False,,100.000,OK
+2018,2,Z4,AC,Weekday After-Hours,0.466,9.749,0.048,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,2,Z4,AC,Weekday Daytime,9.749,9.749,1.000,,,,,False,,99.458,OK
+2018,2,Z4,AC,Weekend,0.299,9.749,0.031,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,2,Z4,Light,Weekday After-Hours,0.389,1.995,0.195,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,2,Z4,Light,Weekday Daytime,1.995,1.995,1.000,,,,,False,,99.458,OK
+2018,2,Z4,Light,Weekend,0.094,1.995,0.047,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,2,Z4,Plug,Weekday After-Hours,0.000,0.000,,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,2,Z4,Plug,Weekday Daytime,0.000,0.000,,,,,,False,,99.458,OK
+2018,2,Z4,Plug,Weekend,0.000,0.000,,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,3,All,AC,Weekday After-Hours,1.495,52.544,0.028,0.023,0.168,0.000,0.000,False,,75.556,OK
+2018,3,All,AC,Weekday Daytime,52.544,52.544,1.000,,,,,False,,74.526,OK
+2018,3,All,AC,Weekend,0.362,52.544,0.007,0.001,0.138,0.000,0.000,False,,73.585,OK
+2018,3,All,All,Weekday After-Hours,6.514,72.948,0.089,0.085,0.175,0.000,0.000,False,,75.556,OK
+2018,3,All,All,Weekday Daytime,72.948,72.948,1.000,,,,,False,,74.526,OK
+2018,3,All,All,Weekend,1.941,72.948,0.027,0.027,0.127,0.000,0.000,False,,73.585,OK
+2018,3,All,Light,Weekday After-Hours,4.115,16.799,0.245,0.199,0.336,0.000,0.000,False,,77.995,OK
+2018,3,All,Light,Weekday Daytime,16.799,16.799,1.000,,,,,False,,77.236,OK
+2018,3,All,Light,Weekend,1.006,16.799,0.060,0.060,0.158,0.000,0.000,False,,77.358,OK
+2018,3,All,Plug,Weekday After-Hours,0.864,3.518,0.246,0.193,0.384,0.000,0.000,False,,77.995,OK
+2018,3,All,Plug,Weekday Daytime,3.518,3.518,1.000,,,,,False,,77.778,OK
+2018,3,All,Plug,Weekend,0.524,3.518,0.149,0.124,0.279,0.000,0.000,False,,77.358,OK
+2018,3,Z1,AC,Weekday After-Hours,0.434,18.262,0.024,0.023,0.168,0.000,0.000,False,,75.556,OK
+2018,3,Z1,AC,Weekday Daytime,18.262,18.262,1.000,,,,,False,,74.526,OK
+2018,3,Z1,AC,Weekend,0.241,18.262,0.013,0.001,0.138,0.000,0.000,False,,73.585,OK
+2018,3,Z1,Light,Weekday After-Hours,1.168,4.804,0.243,0.199,0.336,0.000,0.000,False,,77.995,OK
+2018,3,Z1,Light,Weekday Daytime,4.804,4.804,1.000,,,,,False,,77.778,OK
+2018,3,Z1,Light,Weekend,0.336,4.804,0.070,0.060,0.158,0.000,0.000,False,,77.358,OK
+2018,3,Z1,Plug,Weekday After-Hours,0.154,0.677,0.228,0.193,0.384,0.000,0.000,False,,77.995,OK
+2018,3,Z1,Plug,Weekday Daytime,0.677,0.677,1.000,,,,,False,,77.868,OK
+2018,3,Z1,Plug,Weekend,0.052,0.677,0.077,0.124,0.279,0.000,0.000,False,,77.358,OK
+2018,3,Z2,AC,Weekday After-Hours,0.352,13.852,0.025,0.023,0.168,0.000,0.000,False,,77.995,OK
+2018,3,Z2,AC,Weekday Daytime,13.852,13.852,1.000,,,,,False,,77.326,OK
+2018,3,Z2,AC,Weekend,0.115,13.852,0.008,0.001,0.138,0.000,0.000,False,,77.358,OK
+2018,3,Z2,Light,Weekday After-Hours,1.579,5.917,0.267,0.199,0.336,0.000,0.000,False,,77.995,OK
+2018,3,Z2,Light,Weekday Daytime,5.917,5.917,1.000,,,,,False,,77.236,OK
+2018,3,Z2,Light,Weekend,0.348,5.917,0.059,0.060,0.158,0.000,0.000,False,,77.358,OK
+2018,3,Z2,Plug,Weekday After-Hours,0.134,0.941,0.143,0.193,0.384,0.000,0.000,False,,77.995,OK
+2018,3,Z2,Plug,Weekday Daytime,0.941,0.941,1.000,,,,,False,,77.868,OK
+2018,3,Z2,Plug,Weekend,0.057,0.941,0.060,0.124,0.279,0.000,0.000,False,,77.358,OK
+2018,3,Z3,Light,Weekday After-Hours,0.343,0.930,0.368,0.199,0.336,0.030,115.536,False,,77.995,OK
+2018,3,Z3,Light,Weekday Daytime,0.930,0.930,1.000,,,,,False,,77.868,OK
+2018,3,Z3,Light,Weekend,0.167,0.930,0.180,0.060,0.158,0.020,52.817,False,,77.358,OK
+2018,3,Z3,Plug,Weekday After-Hours,0.393,0.513,0.767,0.193,0.384,0.196,750.542,False,,77.995,OK
+2018,3,Z3,Plug,Weekday Daytime,0.513,0.513,1.000,,,,,False,,77.868,OK
+2018,3,Z3,Plug,Weekend,0.354,0.513,0.690,0.124,0.279,0.211,555.779,False,,77.358,OK
+2018,3,Z4,AC,Weekday After-Hours,0.447,13.144,0.034,0.023,0.168,0.000,0.000,False,,77.995,OK
+2018,3,Z4,AC,Weekday Daytime,13.144,13.144,1.000,,,,,False,,77.236,OK
+2018,3,Z4,AC,Weekend,0.000,13.144,0.000,0.001,0.138,0.000,0.000,False,,77.358,OK
+2018,3,Z4,Light,Weekday After-Hours,0.643,2.897,0.222,0.199,0.336,0.000,0.000,False,,77.995,OK
+2018,3,Z4,Light,Weekday Daytime,2.897,2.897,1.000,,,,,False,,77.687,OK
+2018,3,Z4,Light,Weekend,0.147,2.897,0.051,0.060,0.158,0.000,0.000,False,,77.358,OK
+2018,3,Z4,Plug,Weekday After-Hours,0.079,0.656,0.120,0.193,0.384,0.000,0.000,False,,77.995,OK
+2018,3,Z4,Plug,Weekday Daytime,0.656,0.656,1.000,,,,,False,,77.778,OK
+2018,3,Z4,Plug,Weekend,0.030,0.656,0.046,0.124,0.279,0.000,0.000,False,,77.358,OK
+2018,3,Z5,AC,Weekday After-Hours,0.258,7.352,0.035,0.023,0.168,0.000,0.000,False,,77.995,OK
+2018,3,Z5,AC,Weekday Daytime,7.352,7.352,1.000,,,,,False,,77.236,OK
+2018,3,Z5,AC,Weekend,0.000,7.352,0.000,0.001,0.138,0.000,0.000,False,,77.358,OK
+2018,3,Z5,Light,Weekday After-Hours,0.382,2.226,0.172,0.199,0.336,0.000,0.000,False,,77.995,OK
+2018,3,Z5,Light,Weekday Daytime,2.226,2.226,1.000,,,,,False,,77.687,OK
+2018,3,Z5,Light,Weekend,0.007,2.226,0.003,0.060,0.158,0.000,0.000,False,,77.358,OK
+2018,3,Z5,Plug,Weekday After-Hours,0.104,0.729,0.142,0.193,0.384,0.000,0.000,False,,77.995,OK
+2018,3,Z5,Plug,Weekday Daytime,0.729,0.729,1.000,,,,,False,,77.868,OK
+2018,3,Z5,Plug,Weekend,0.031,0.729,0.043,0.124,0.279,0.000,0.000,False,,77.358,OK
+2018,4,All,AC,Weekday After-Hours,1.189,50.653,0.023,0.023,0.168,0.000,0.000,False,,85.908,OK
+2018,4,All,AC,Weekday Daytime,50.653,50.653,1.000,,,,,False,,84.824,OK
+2018,4,All,AC,Weekend,0.891,50.653,0.018,0.001,0.138,0.000,0.000,False,,88.679,OK
+2018,4,All,All,Weekday After-Hours,6.361,68.436,0.093,0.085,0.175,0.000,0.000,False,,81.030,OK
+2018,4,All,All,Weekday Daytime,68.436,68.436,1.000,,,,,False,,79.946,OK
+2018,4,All,All,Weekend,3.339,68.436,0.049,0.027,0.127,0.000,0.000,False,,81.132,OK
+2018,4,All,Light,Weekday After-Hours,3.529,12.638,0.279,0.199,0.336,0.000,0.000,False,,81.192,OK
+2018,4,All,Light,Weekday Daytime,12.638,12.638,1.000,,,,,False,,80.397,OK
+2018,4,All,Light,Weekend,1.261,12.638,0.100,0.060,0.158,0.000,0.000,False,,81.132,OK
+2018,4,All,Plug,Weekday After-Hours,1.642,5.467,0.300,0.193,0.384,0.000,0.000,False,,81.192,OK
+2018,4,All,Plug,Weekday Daytime,5.467,5.467,1.000,,,,,False,,80.397,OK
+2018,4,All,Plug,Weekend,1.105,5.467,0.202,0.124,0.279,0.000,0.000,False,,81.132,OK
+2018,4,Z1,AC,Weekday After-Hours,0.417,16.982,0.025,0.023,0.168,0.000,0.000,False,,85.908,OK
+2018,4,Z1,AC,Weekday Daytime,16.982,16.982,1.000,,,,,False,,84.824,OK
+2018,4,Z1,AC,Weekend,0.157,16.982,0.009,0.001,0.138,0.000,0.000,False,,88.679,OK
+2018,4,Z1,Light,Weekday After-Hours,1.112,4.433,0.251,0.199,0.336,0.000,0.000,False,,81.192,OK
+2018,4,Z1,Light,Weekday Daytime,4.433,4.433,1.000,,,,,False,,80.397,OK
+2018,4,Z1,Light,Weekend,0.291,4.433,0.066,0.060,0.158,0.000,0.000,False,,81.132,OK
+2018,4,Z1,Plug,Weekday After-Hours,0.605,2.894,0.209,0.193,0.384,0.000,0.000,False,,86.125,OK
+2018,4,Z1,Plug,Weekday Daytime,2.894,2.894,1.000,,,,,False,,85.637,OK
+2018,4,Z1,Plug,Weekend,0.301,2.894,0.104,0.124,0.279,0.000,0.000,False,,88.679,OK
+2018,4,Z2,AC,Weekday After-Hours,0.330,12.036,0.027,0.023,0.168,0.000,0.000,False,,85.908,OK
+2018,4,Z2,AC,Weekday Daytime,12.036,12.036,1.000,,,,,False,,84.914,OK
+2018,4,Z2,AC,Weekend,0.009,12.036,0.001,0.001,0.138,0.000,0.000,False,,88.679,OK
+2018,4,Z2,Light,Weekday After-Hours,0.576,2.494,0.231,0.199,0.336,0.000,0.000,False,,81.192,OK
+2018,4,Z2,Light,Weekday Daytime,2.494,2.494,1.000,,,,,False,,80.397,OK
+2018,4,Z2,Light,Weekend,0.143,2.494,0.057,0.060,0.158,0.000,0.000,False,,81.132,OK
+2018,4,Z2,Plug,Weekday After-Hours,0.220,0.555,0.397,0.193,0.384,0.007,26.175,False,,81.192,OK
+2018,4,Z2,Plug,Weekday Daytime,0.555,0.555,1.000,,,,,False,,80.397,OK
+2018,4,Z2,Plug,Weekend,0.163,0.555,0.294,0.124,0.279,0.008,22.278,False,,81.132,OK
+2018,4,Z3,Light,Weekday After-Hours,0.343,0.732,0.469,0.199,0.336,0.098,373.260,False,,86.125,OK
+2018,4,Z3,Light,Weekday Daytime,0.732,0.732,1.000,,,,,False,,85.637,OK
+2018,4,Z3,Light,Weekend,0.152,0.732,0.208,0.060,0.158,0.037,96.485,False,,88.679,OK
+2018,4,Z3,Plug,Weekday After-Hours,0.369,0.386,0.958,0.193,0.384,0.221,845.974,False,,86.125,OK
+2018,4,Z3,Plug,Weekday Daytime,0.386,0.386,1.000,,,,,False,,85.637,OK
+2018,4,Z3,Plug,Weekend,0.366,0.386,0.949,0.124,0.279,0.258,681.641,False,,88.679,OK
+2018,4,Z4,AC,Weekday After-Hours,0.285,15.671,0.018,0.023,0.168,0.000,0.000,False,,85.908,OK
+2018,4,Z4,AC,Weekday Daytime,15.671,15.671,1.000,,,,,False,,84.914,OK
+2018,4,Z4,AC,Weekend,0.724,15.671,0.046,0.001,0.138,0.000,0.000,False,,88.679,OK
+2018,4,Z4,Light,Weekday After-Hours,1.289,3.375,0.382,0.199,0.336,0.155,594.934,False,,86.070,OK
+2018,4,Z4,Light,Weekday Daytime,3.375,3.375,1.000,,,,,False,,85.456,OK
+2018,4,Z4,Light,Weekend,0.608,3.375,0.180,0.060,0.158,0.073,193.827,False,,88.679,OK
+2018,4,Z4,Plug,Weekday After-Hours,0.264,1.021,0.259,0.193,0.384,0.000,0.000,False,,86.070,OK
+2018,4,Z4,Plug,Weekday Daytime,1.021,1.021,1.000,,,,,False,,85.456,OK
+2018,4,Z4,Plug,Weekend,0.139,1.021,0.136,0.124,0.279,0.000,0.000,False,,88.679,OK
+2018,4,Z5,AC,Weekday After-Hours,0.157,5.973,0.026,0.023,0.168,0.000,0.000,False,,85.908,OK
+2018,4,Z5,AC,Weekday Daytime,5.973,5.973,1.000,,,,,False,,85.005,OK
+2018,4,Z5,AC,Weekend,0.001,5.973,0.000,0.001,0.138,0.000,0.000,False,,88.679,OK
+2018,4,Z5,Light,Weekday After-Hours,0.194,1.585,0.122,0.199,0.336,0.000,0.000,False,,86.070,OK
+2018,4,Z5,Light,Weekday Daytime,1.585,1.585,1.000,,,,,False,,85.456,OK
+2018,4,Z5,Light,Weekend,0.044,1.585,0.028,0.060,0.158,0.000,0.000,False,,88.679,OK
+2018,4,Z5,Plug,Weekday After-Hours,0.165,0.530,0.311,0.193,0.384,0.000,0.000,False,,86.125,OK
+2018,4,Z5,Plug,Weekday Daytime,0.530,0.530,1.000,,,,,False,,85.637,OK
+2018,4,Z5,Plug,Weekend,0.119,0.530,0.225,0.124,0.279,0.000,0.000,False,,88.679,OK
+2018,5,All,AC,Weekday After-Hours,1.213,51.670,0.023,0.023,0.168,0.000,0.000,False,,96.585,OK
+2018,5,All,AC,Weekday Daytime,51.670,51.670,1.000,,,,,False,,96.387,OK
+2018,5,All,AC,Weekend,0.073,51.670,0.001,0.001,0.138,0.000,0.000,False,,96.226,OK
+2018,5,All,All,Weekday After-Hours,6.167,71.149,0.087,0.085,0.175,0.000,0.000,False,,96.585,OK
+2018,5,All,All,Weekday Daytime,71.149,71.149,1.000,,,,,False,,96.296,OK
+2018,5,All,All,Weekend,1.897,71.149,0.027,0.027,0.127,0.000,0.000,False,,96.226,OK
+2018,5,All,Light,Weekday After-Hours,3.873,15.241,0.254,0.199,0.336,0.000,0.000,False,,96.640,OK
+2018,5,All,Light,Weekday Daytime,15.241,15.241,1.000,,,,,False,,96.296,OK
+2018,5,All,Light,Weekend,1.072,15.241,0.070,0.060,0.158,0.000,0.000,False,,96.226,OK
+2018,5,All,Plug,Weekday After-Hours,1.079,4.238,0.255,0.193,0.384,0.000,0.000,False,,96.640,OK
+2018,5,All,Plug,Weekday Daytime,4.238,4.238,1.000,,,,,False,,96.296,OK
+2018,5,All,Plug,Weekend,0.753,4.238,0.178,0.124,0.279,0.000,0.000,False,,96.226,OK
+2018,5,Z1,AC,Weekday After-Hours,0.440,20.616,0.021,0.023,0.168,0.000,0.000,False,,96.585,OK
+2018,5,Z1,AC,Weekday Daytime,20.616,20.616,1.000,,,,,False,,96.387,OK
+2018,5,Z1,AC,Weekend,0.026,20.616,0.001,0.001,0.138,0.000,0.000,False,,96.226,OK
+2018,5,Z1,Light,Weekday After-Hours,1.108,5.117,0.217,0.199,0.336,0.000,0.000,False,,97.453,OK
+2018,5,Z1,Light,Weekday Daytime,5.117,5.117,1.000,,,,,False,,97.380,OK
+2018,5,Z1,Light,Weekend,0.248,5.117,0.048,0.060,0.158,0.000,0.000,False,,96.226,OK
+2018,5,Z1,Plug,Weekday After-Hours,0.314,1.498,0.210,0.193,0.384,0.000,0.000,False,,97.615,OK
+2018,5,Z1,Plug,Weekday Daytime,1.498,1.498,1.000,,,,,False,,97.471,OK
+2018,5,Z1,Plug,Weekend,0.202,1.498,0.135,0.124,0.279,0.000,0.000,False,,96.226,OK
+2018,5,Z2,AC,Weekday After-Hours,0.254,11.641,0.022,0.023,0.168,0.000,0.000,False,,96.585,OK
+2018,5,Z2,AC,Weekday Daytime,11.641,11.641,1.000,,,,,False,,96.477,OK
+2018,5,Z2,AC,Weekend,0.000,11.641,0.000,0.001,0.138,0.000,0.000,False,,96.226,OK
+2018,5,Z2,Light,Weekday After-Hours,0.685,3.416,0.201,0.199,0.336,0.000,0.000,False,,97.453,OK
+2018,5,Z2,Light,Weekday Daytime,3.416,3.416,1.000,,,,,False,,97.290,OK
+2018,5,Z2,Light,Weekend,0.053,3.416,0.015,0.060,0.158,0.000,0.000,False,,96.226,OK
+2018,5,Z2,Plug,Weekday After-Hours,0.054,0.307,0.175,0.193,0.384,0.000,0.000,False,,97.453,OK
+2018,5,Z2,Plug,Weekday Daytime,0.307,0.307,1.000,,,,,False,,97.290,OK
+2018,5,Z2,Plug,Weekend,0.022,0.307,0.071,0.124,0.279,0.000,0.000,False,,96.226,OK
+2018,5,Z3,Light,Weekday After-Hours,0.291,0.726,0.401,0.199,0.336,0.047,180.621,False,,97.615,OK
+2018,5,Z3,Light,Weekday Daytime,0.726,0.726,1.000,,,,,False,,97.471,OK
+2018,5,Z3,Light,Weekend,0.098,0.726,0.134,0.060,0.158,0.000,0.000,False,,96.226,OK
+2018,5,Z3,Plug,Weekday After-Hours,0.260,0.270,0.960,0.193,0.384,0.156,595.996,False,,97.724,OK
+2018,5,Z3,Plug,Weekday Daytime,0.270,0.270,1.000,,,,,False,,97.471,OK
+2018,5,Z3,Plug,Weekend,0.258,0.270,0.954,0.124,0.279,0.183,481.623,False,,96.226,OK
+2018,5,Z4,AC,Weekday After-Hours,0.329,13.141,0.025,0.023,0.168,0.000,0.000,False,,96.585,OK
+2018,5,Z4,AC,Weekday Daytime,13.141,13.141,1.000,,,,,False,,96.387,OK
+2018,5,Z4,AC,Weekend,0.000,13.141,0.000,0.001,0.138,0.000,0.000,False,,96.226,OK
+2018,5,Z4,Light,Weekday After-Hours,1.127,3.318,0.340,0.199,0.336,0.013,49.978,False,,96.640,OK
+2018,5,Z4,Light,Weekday Daytime,3.318,3.318,1.000,,,,,False,,96.387,OK
+2018,5,Z4,Light,Weekend,0.422,3.318,0.127,0.060,0.158,0.000,0.000,False,,96.226,OK
+2018,5,Z4,Plug,Weekday After-Hours,0.411,1.789,0.230,0.193,0.384,0.000,0.000,False,,97.724,OK
+2018,5,Z4,Plug,Weekday Daytime,1.789,1.789,1.000,,,,,False,,97.471,OK
+2018,5,Z4,Plug,Weekend,0.259,1.789,0.145,0.124,0.279,0.000,0.000,False,,96.226,OK
+2018,5,Z5,AC,Weekday After-Hours,0.190,6.277,0.030,0.023,0.168,0.000,0.000,False,,96.585,OK
+2018,5,Z5,AC,Weekday Daytime,6.277,6.277,1.000,,,,,False,,96.387,OK
+2018,5,Z5,AC,Weekend,0.047,6.277,0.008,0.001,0.138,0.000,0.000,False,,96.226,OK
+2018,5,Z5,Light,Weekday After-Hours,0.660,2.655,0.249,0.199,0.336,0.000,0.000,False,,96.640,OK
+2018,5,Z5,Light,Weekday Daytime,2.655,2.655,1.000,,,,,False,,96.387,OK
+2018,5,Z5,Light,Weekend,0.251,2.655,0.095,0.060,0.158,0.000,0.000,False,,96.226,OK
+2018,5,Z5,Plug,Weekday After-Hours,0.035,0.346,0.100,0.193,0.384,0.000,0.000,False,,96.640,OK
+2018,5,Z5,Plug,Weekday Daytime,0.346,0.346,1.000,,,,,False,,96.387,OK
+2018,5,Z5,Plug,Weekend,0.012,0.346,0.034,0.124,0.279,0.000,0.000,False,,96.226,OK
+2018,6,All,AC,Weekday After-Hours,1.662,44.902,0.037,0.023,0.168,0.000,0.000,False,,99.566,OK
+2018,6,All,AC,Weekday Daytime,44.902,44.902,1.000,,,,,False,,99.368,OK
+2018,6,All,AC,Weekend,0.117,44.902,0.003,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,6,All,All,Weekday After-Hours,7.355,67.791,0.108,0.085,0.175,0.000,0.000,False,,99.566,OK
+2018,6,All,All,Weekday Daytime,67.791,67.791,1.000,,,,,False,,99.368,OK
+2018,6,All,All,Weekend,3.086,67.791,0.046,0.027,0.127,0.000,0.000,False,,100.000,OK
+2018,6,All,Light,Weekday After-Hours,4.700,18.706,0.251,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,6,All,Light,Weekday Daytime,18.706,18.706,1.000,,,,,False,,99.458,OK
+2018,6,All,Light,Weekend,2.205,18.706,0.118,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,6,All,Plug,Weekday After-Hours,0.990,4.181,0.237,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,6,All,Plug,Weekday Daytime,4.181,4.181,1.000,,,,,False,,99.458,OK
+2018,6,All,Plug,Weekend,0.764,4.181,0.183,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,6,Z1,AC,Weekday After-Hours,0.369,15.102,0.024,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,6,Z1,AC,Weekday Daytime,15.102,15.102,1.000,,,,,False,,99.458,OK
+2018,6,Z1,AC,Weekend,0.000,15.102,0.000,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,6,Z1,Light,Weekday After-Hours,0.774,3.477,0.223,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,6,Z1,Light,Weekday Daytime,3.477,3.477,1.000,,,,,False,,99.458,OK
+2018,6,Z1,Light,Weekend,0.432,3.477,0.124,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,6,Z1,Plug,Weekday After-Hours,0.305,1.054,0.289,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,6,Z1,Plug,Weekday Daytime,1.054,1.054,1.000,,,,,False,,99.458,OK
+2018,6,Z1,Plug,Weekend,0.238,1.054,0.226,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,6,Z2,AC,Weekday After-Hours,0.481,12.848,0.037,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,6,Z2,AC,Weekday Daytime,12.848,12.848,1.000,,,,,False,,99.458,OK
+2018,6,Z2,AC,Weekend,0.116,12.848,0.009,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,6,Z2,Light,Weekday After-Hours,2.073,6.549,0.316,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,6,Z2,Light,Weekday Daytime,6.549,6.549,1.000,,,,,False,,99.458,OK
+2018,6,Z2,Light,Weekend,0.806,6.549,0.123,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,6,Z2,Plug,Weekday After-Hours,0.187,1.079,0.173,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,6,Z2,Plug,Weekday Daytime,1.079,1.079,1.000,,,,,False,,99.458,OK
+2018,6,Z2,Plug,Weekend,0.114,1.079,0.106,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,6,Z3,Light,Weekday After-Hours,0.803,1.905,0.422,0.199,0.336,0.163,625.153,False,,99.892,OK
+2018,6,Z3,Light,Weekday Daytime,1.905,1.905,1.000,,,,,False,,99.458,OK
+2018,6,Z3,Light,Weekend,0.366,1.905,0.192,0.060,0.158,0.065,170.161,False,,100.000,OK
+2018,6,Z3,Plug,Weekday After-Hours,0.264,0.279,0.946,0.193,0.384,0.157,599.732,False,,99.892,OK
+2018,6,Z3,Plug,Weekday Daytime,0.279,0.279,1.000,,,,,False,,99.458,OK
+2018,6,Z3,Plug,Weekend,0.264,0.279,0.945,0.124,0.279,0.186,490.557,False,,100.000,OK
+2018,6,Z4,AC,Weekday After-Hours,0.489,12.347,0.040,0.023,0.168,0.000,0.000,False,,99.566,OK
+2018,6,Z4,AC,Weekday Daytime,12.347,12.347,1.000,,,,,False,,99.368,OK
+2018,6,Z4,AC,Weekend,0.001,12.347,0.000,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,6,Z4,Light,Weekday After-Hours,0.696,4.238,0.164,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,6,Z4,Light,Weekday Daytime,4.238,4.238,1.000,,,,,False,,99.458,OK
+2018,6,Z4,Light,Weekend,0.394,4.238,0.093,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,6,Z4,Plug,Weekday After-Hours,0.157,1.167,0.135,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,6,Z4,Plug,Weekday Daytime,1.167,1.167,1.000,,,,,False,,99.458,OK
+2018,6,Z4,Plug,Weekend,0.089,1.167,0.076,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,6,Z5,AC,Weekday After-Hours,0.330,4.618,0.072,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,6,Z5,AC,Weekday Daytime,4.618,4.618,1.000,,,,,False,,99.458,OK
+2018,6,Z5,AC,Weekend,0.000,4.618,0.000,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,6,Z5,Light,Weekday After-Hours,0.354,2.537,0.140,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,6,Z5,Light,Weekday Daytime,2.537,2.537,1.000,,,,,False,,99.458,OK
+2018,6,Z5,Light,Weekend,0.206,2.537,0.081,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,6,Z5,Plug,Weekday After-Hours,0.077,0.603,0.128,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,6,Z5,Plug,Weekday Daytime,0.603,0.603,1.000,,,,,False,,99.458,OK
+2018,6,Z5,Plug,Weekend,0.059,0.603,0.097,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,7,All,AC,Weekday After-Hours,3.124,78.134,0.040,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,7,All,AC,Weekday Daytime,78.134,78.134,1.000,,,,,False,,99.368,OK
+2018,7,All,AC,Weekend,5.808,78.134,0.074,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,7,All,All,Weekday After-Hours,7.800,91.867,0.085,0.085,0.175,0.000,0.000,False,,99.837,OK
+2018,7,All,All,Weekday Daytime,91.867,91.867,1.000,,,,,False,,99.368,OK
+2018,7,All,All,Weekend,8.141,91.867,0.089,0.027,0.127,0.000,0.000,False,,99.921,OK
+2018,7,All,Light,Weekday After-Hours,4.186,12.464,0.336,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,7,All,Light,Weekday Daytime,12.464,12.464,1.000,,,,,False,,99.458,OK
+2018,7,All,Light,Weekend,1.975,12.464,0.158,0.060,0.158,0.000,0.000,False,,99.921,OK
+2018,7,All,Plug,Weekday After-Hours,0.488,1.269,0.384,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,7,All,Plug,Weekday Daytime,1.269,1.269,1.000,,,,,False,,99.458,OK
+2018,7,All,Plug,Weekend,0.354,1.269,0.279,0.124,0.279,0.000,0.000,False,,99.921,OK
+2018,7,Z1,AC,Weekday After-Hours,1.591,26.989,0.059,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,7,Z1,AC,Weekday Daytime,26.989,26.989,1.000,,,,,False,,99.368,OK
+2018,7,Z1,AC,Weekend,4.179,26.989,0.155,0.001,0.138,0.443,1167.409,False,,100.000,OK
+2018,7,Z1,Light,Weekday After-Hours,0.542,1.898,0.286,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,7,Z1,Light,Weekday Daytime,1.898,1.898,1.000,,,,,False,,99.458,OK
+2018,7,Z1,Light,Weekend,0.257,1.898,0.136,0.060,0.158,0.000,0.000,False,,99.921,OK
+2018,7,Z1,Plug,Weekday After-Hours,0.137,0.445,0.309,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,7,Z1,Plug,Weekday Daytime,0.445,0.445,1.000,,,,,False,,99.458,OK
+2018,7,Z1,Plug,Weekend,0.096,0.445,0.215,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,7,Z2,AC,Weekday After-Hours,0.864,22.659,0.038,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,7,Z2,AC,Weekday Daytime,22.659,22.659,1.000,,,,,False,,99.458,OK
+2018,7,Z2,AC,Weekend,0.234,22.659,0.010,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,7,Z2,Light,Weekday After-Hours,0.791,2.311,0.342,0.199,0.336,0.015,56.963,False,,99.892,OK
+2018,7,Z2,Light,Weekday Daytime,2.311,2.311,1.000,,,,,False,,99.458,OK
+2018,7,Z2,Light,Weekend,0.571,2.311,0.247,0.060,0.158,0.205,540.568,False,,99.921,OK
+2018,7,Z2,Plug,Weekday After-Hours,0.043,0.157,0.274,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,7,Z2,Plug,Weekday Daytime,0.157,0.157,1.000,,,,,False,,99.458,OK
+2018,7,Z2,Plug,Weekend,0.010,0.157,0.063,0.124,0.279,0.000,0.000,False,,99.921,OK
+2018,7,Z3,Light,Weekday After-Hours,0.158,0.253,0.626,0.199,0.336,0.073,280.494,False,,99.892,OK
+2018,7,Z3,Light,Weekday Daytime,0.253,0.253,1.000,,,,,False,,99.458,OK
+2018,7,Z3,Light,Weekend,0.055,0.253,0.216,0.060,0.158,0.015,38.463,False,,100.000,OK
+2018,7,Z3,Plug,Weekday After-Hours,0.196,0.252,0.778,0.193,0.384,0.099,380.222,False,,99.892,OK
+2018,7,Z3,Plug,Weekday Daytime,0.252,0.252,1.000,,,,,False,,99.458,OK
+2018,7,Z3,Plug,Weekend,0.185,0.252,0.732,0.124,0.279,0.114,301.602,False,,100.000,OK
+2018,7,Z4,AC,Weekday After-Hours,0.470,20.160,0.023,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,7,Z4,AC,Weekday Daytime,20.160,20.160,1.000,,,,,False,,99.368,OK
+2018,7,Z4,AC,Weekend,0.234,20.160,0.012,0.001,0.138,0.000,0.000,False,,100.000,OK
+2018,7,Z4,Light,Weekday After-Hours,1.382,3.857,0.358,0.199,0.336,0.086,330.787,False,,99.892,OK
+2018,7,Z4,Light,Weekday Daytime,3.857,3.857,1.000,,,,,False,,99.458,OK
+2018,7,Z4,Light,Weekend,0.526,3.857,0.136,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,7,Z4,Plug,Weekday After-Hours,0.056,0.309,0.179,0.193,0.384,0.000,0.000,False,,99.892,OK
+2018,7,Z4,Plug,Weekday Daytime,0.309,0.309,1.000,,,,,False,,99.458,OK
+2018,7,Z4,Plug,Weekend,0.021,0.309,0.068,0.124,0.279,0.000,0.000,False,,100.000,OK
+2018,7,Z5,AC,Weekday After-Hours,0.200,8.325,0.024,0.023,0.168,0.000,0.000,False,,99.837,OK
+2018,7,Z5,AC,Weekday Daytime,8.325,8.325,1.000,,,,,False,,99.368,OK
+2018,7,Z5,AC,Weekend,1.161,8.325,0.140,0.001,0.138,0.009,23.868,False,,100.000,OK
+2018,7,Z5,Light,Weekday After-Hours,1.313,4.145,0.317,0.199,0.336,0.000,0.000,False,,99.892,OK
+2018,7,Z5,Light,Weekday Daytime,4.145,4.145,1.000,,,,,False,,99.458,OK
+2018,7,Z5,Light,Weekend,0.566,4.145,0.136,0.060,0.158,0.000,0.000,False,,100.000,OK
+2018,7,Z5,Plug,Weekday After-Hours,0.055,0.106,0.524,0.193,0.384,0.015,56.580,False,,99.892,OK
+2018,7,Z5,Plug,Weekday Daytime,0.106,0.106,1.000,,,,,False,,99.458,OK
+2018,7,Z5,Plug,Weekend,0.043,0.106,0.402,0.124,0.279,0.013,34.412,False,,100.000,OK
+2019,1,All,AC,Weekday After-Hours,39.755,12.758,3.116,0.015,0.123,38.184,143766.780,True,High,99.942,OK
+2019,1,All,AC,Weekday Daytime,12.758,12.758,1.000,,,,,False,,99.854,OK
+2019,1,All,AC,Weekend,39.519,12.758,3.098,0.003,0.115,38.052,104104.614,True,High,99.679,OK
+2019,1,All,All,Weekday After-Hours,125.946,62.860,2.004,0.078,0.135,117.456,442233.292,True,High,99.942,OK
+2019,1,All,All,Weekday Daytime,62.860,62.860,1.000,,,,,False,,99.854,OK
+2019,1,All,All,Weekend,102.090,62.860,1.624,0.029,0.110,95.157,260336.876,True,High,99.679,OK
+2019,1,All,Light,Weekday After-Hours,68.662,32.017,2.145,0.168,0.317,58.505,220276.867,True,High,99.942,OK
+2019,1,All,Light,Weekday Daytime,32.017,32.017,1.000,,,,,False,,99.854,OK
+2019,1,All,Light,Weekend,44.769,32.017,1.398,0.063,0.153,39.876,109094.282,True,High,99.679,OK
+2019,1,All,Plug,Weekday After-Hours,17.529,18.085,0.969,0.227,0.374,10.771,40555.046,True,High,99.942,OK
+2019,1,All,Plug,Weekday Daytime,18.085,18.085,1.000,,,,,False,,99.854,OK
+2019,1,All,Plug,Weekend,17.801,18.085,0.984,0.155,0.273,12.856,35172.474,True,High,99.679,OK
+2019,1,Z1,Light,Weekday After-Hours,9.893,1.822,5.429,0.168,0.317,9.315,35072.821,True,Medium,99.942,OK
+2019,1,Z1,Light,Weekday Daytime,1.822,1.822,1.000,,,,,False,,99.854,OK
+2019,1,Z1,Light,Weekend,5.469,1.822,3.001,0.063,0.153,5.191,14200.793,True,Medium,99.679,OK
+2019,1,Z1,Plug,Weekday After-Hours,1.970,0.909,2.167,0.227,0.374,1.630,6136.750,True,Low,99.942,OK
+2019,1,Z1,Plug,Weekday Daytime,0.909,0.909,1.000,,,,,False,,99.854,OK
+2019,1,Z1,Plug,Weekend,1.542,0.909,1.696,0.155,0.273,1.293,3538.496,True,Low,99.679,OK
+2019,1,Z2,AC,Weekday After-Hours,39.755,12.758,3.116,0.015,0.123,38.184,143766.780,True,High,99.942,OK
+2019,1,Z2,AC,Weekday Daytime,12.758,12.758,1.000,,,,,False,,99.854,OK
+2019,1,Z2,AC,Weekend,39.519,12.758,3.098,0.003,0.115,38.052,104104.614,True,High,99.679,OK
+2019,1,Z2,Light,Weekday After-Hours,7.691,8.658,0.888,0.168,0.317,4.944,18615.359,True,Medium,99.942,OK
+2019,1,Z2,Light,Weekday Daytime,8.658,8.658,1.000,,,,,False,,99.854,OK
+2019,1,Z2,Light,Weekend,7.657,8.658,0.884,0.063,0.153,6.334,17328.287,True,Medium,99.679,OK
+2019,1,Z2,Plug,Weekday After-Hours,14.630,15.244,0.960,0.227,0.374,8.934,33636.520,True,Medium,99.942,OK
+2019,1,Z2,Plug,Weekday Daytime,15.244,15.244,1.000,,,,,False,,99.854,OK
+2019,1,Z2,Plug,Weekend,15.187,15.244,0.996,0.155,0.273,11.018,30144.828,True,High,99.679,OK
+2019,1,Z3,Light,Weekday After-Hours,25.146,20.582,1.222,0.168,0.317,18.616,70090.377,True,High,99.942,OK
+2019,1,Z3,Light,Weekday Daytime,20.582,20.582,1.000,,,,,False,,99.854,OK
+2019,1,Z3,Light,Weekend,16.207,20.582,0.787,0.063,0.153,13.061,35733.821,True,High,99.679,OK
+2019,1,Z3,Plug,Weekday After-Hours,0.929,1.932,0.481,0.227,0.374,0.208,781.776,False,,99.942,OK
+2019,1,Z3,Plug,Weekday Daytime,1.932,1.932,1.000,,,,,False,,99.854,OK
+2019,1,Z3,Plug,Weekend,1.072,1.932,0.555,0.155,0.273,0.544,1489.151,False,,99.679,OK
+2019,1,Z4,Light,Weekday After-Hours,25.933,0.954,27.172,0.168,0.317,25.630,96498.310,True,High,99.942,OK
+2019,1,Z4,Light,Weekday Daytime,0.954,0.954,1.000,,,,,False,,99.854,OK
+2019,1,Z4,Light,Weekend,15.436,0.954,16.174,0.063,0.153,15.290,41831.381,True,High,99.679,OK
+2019,2,All,AC,Weekday After-Hours,8.280,67.273,0.123,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,2,All,AC,Weekday Daytime,67.273,67.273,1.000,,,,,False,,99.127,OK
+2019,2,All,AC,Weekend,7.738,67.273,0.115,0.003,0.115,0.000,0.000,False,,93.870,OK
+2019,2,All,All,Weekday After-Hours,11.364,84.138,0.135,0.078,0.135,0.000,0.000,False,,99.505,OK
+2019,2,All,All,Weekday Daytime,84.138,84.138,1.000,,,,,False,,99.127,OK
+2019,2,All,All,Weekend,9.279,84.138,0.110,0.029,0.110,0.000,0.000,False,,93.870,OK
+2019,2,All,Light,Weekday After-Hours,2.137,12.706,0.168,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,2,All,Light,Weekday Daytime,12.706,12.706,1.000,,,,,False,,99.854,OK
+2019,2,All,Light,Weekend,0.855,12.706,0.067,0.063,0.153,0.000,0.000,False,,99.599,OK
+2019,2,All,Plug,Weekday After-Hours,0.943,4.158,0.227,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,2,All,Plug,Weekday Daytime,4.158,4.158,1.000,,,,,False,,99.854,OK
+2019,2,All,Plug,Weekend,0.643,4.158,0.155,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,2,Z1,AC,Weekday After-Hours,1.930,29.387,0.066,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,2,Z1,AC,Weekday Daytime,29.387,29.387,1.000,,,,,False,,99.127,OK
+2019,2,Z1,AC,Weekend,1.750,29.387,0.060,0.003,0.115,0.000,0.000,False,,93.910,OK
+2019,2,Z1,Light,Weekday After-Hours,1.229,7.866,0.156,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,2,Z1,Light,Weekday Daytime,7.866,7.866,1.000,,,,,False,,99.854,OK
+2019,2,Z1,Light,Weekend,0.420,7.866,0.053,0.063,0.153,0.000,0.000,False,,99.679,OK
+2019,2,Z1,Plug,Weekday After-Hours,0.549,3.238,0.169,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,2,Z1,Plug,Weekday Daytime,3.238,3.238,1.000,,,,,False,,99.854,OK
+2019,2,Z1,Plug,Weekend,0.296,3.238,0.092,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,2,Z2,AC,Weekday After-Hours,6.165,29.471,0.209,0.015,0.123,2.537,9552.994,True,Low,99.505,OK
+2019,2,Z2,AC,Weekday Daytime,29.471,29.471,1.000,,,,,False,,99.127,OK
+2019,2,Z2,AC,Weekend,5.927,29.471,0.201,0.003,0.115,2.538,6942.533,True,Low,93.870,OK
+2019,2,Z2,Light,Weekday After-Hours,0.204,2.125,0.096,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,2,Z2,Light,Weekday Daytime,2.125,2.125,1.000,,,,,False,,99.854,OK
+2019,2,Z2,Light,Weekend,0.062,2.125,0.029,0.063,0.153,0.000,0.000,False,,99.679,OK
+2019,2,Z2,Plug,Weekday After-Hours,0.085,0.482,0.177,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,2,Z2,Plug,Weekday Daytime,0.482,0.482,1.000,,,,,False,,99.854,OK
+2019,2,Z2,Plug,Weekend,0.064,0.482,0.132,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,2,Z3,Light,Weekday After-Hours,0.472,0.941,0.501,0.168,0.317,0.173,651.509,False,,99.942,OK
+2019,2,Z3,Light,Weekday Daytime,0.941,0.941,1.000,,,,,False,,99.854,OK
+2019,2,Z3,Light,Weekend,0.309,0.941,0.329,0.063,0.153,0.165,452.259,False,,99.679,OK
+2019,2,Z3,Plug,Weekday After-Hours,0.282,0.410,0.688,0.227,0.374,0.129,484.373,False,,99.942,OK
+2019,2,Z3,Plug,Weekday Daytime,0.410,0.410,1.000,,,,,False,,99.854,OK
+2019,2,Z3,Plug,Weekend,0.256,0.410,0.625,0.155,0.273,0.144,393.770,False,,99.679,OK
+2019,2,Z4,AC,Weekday After-Hours,0.186,8.416,0.022,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,2,Z4,AC,Weekday Daytime,8.416,8.416,1.000,,,,,False,,99.127,OK
+2019,2,Z4,AC,Weekend,0.060,8.416,0.007,0.003,0.115,0.000,0.000,False,,93.910,OK
+2019,2,Z4,Light,Weekday After-Hours,0.233,1.774,0.131,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,2,Z4,Light,Weekday Daytime,1.774,1.774,1.000,,,,,False,,99.854,OK
+2019,2,Z4,Light,Weekend,0.063,1.774,0.036,0.063,0.153,0.000,0.000,False,,99.599,OK
+2019,2,Z4,Plug,Weekday After-Hours,0.028,0.028,,0.227,0.374,0.017,65.099,False,,99.942,OK
+2019,2,Z4,Plug,Weekday Daytime,0.028,0.028,,,,,,False,,99.854,OK
+2019,2,Z4,Plug,Weekend,0.027,0.028,,0.155,0.273,0.019,52.105,False,,99.679,OK
+2019,3,All,AC,Weekday After-Hours,1.157,55.621,0.021,0.015,0.123,0.000,0.000,False,,96.448,OK
+2019,3,All,AC,Weekday Daytime,55.621,55.621,1.000,,,,,False,,95.682,OK
+2019,3,All,AC,Weekend,0.500,55.621,0.009,0.003,0.115,0.000,0.000,False,,91.947,OK
+2019,3,All,All,Weekday After-Hours,6.279,75.415,0.083,0.078,0.135,0.000,0.000,False,,96.448,OK
+2019,3,All,All,Weekday Daytime,75.415,75.415,1.000,,,,,False,,95.682,OK
+2019,3,All,All,Weekend,2.209,75.415,0.029,0.029,0.110,0.000,0.000,False,,91.947,OK
+2019,3,All,Light,Weekday After-Hours,4.143,16.478,0.251,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,3,All,Light,Weekday Daytime,16.478,16.478,1.000,,,,,False,,99.709,OK
+2019,3,All,Light,Weekend,1.037,16.478,0.063,0.063,0.153,0.000,0.000,False,,99.159,OK
+2019,3,All,Plug,Weekday After-Hours,0.990,3.340,0.296,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,3,All,Plug,Weekday Daytime,3.340,3.340,1.000,,,,,False,,99.854,OK
+2019,3,All,Plug,Weekend,0.655,3.340,0.196,0.155,0.273,0.000,0.000,False,,99.720,OK
+2019,3,Z1,AC,Weekday After-Hours,0.336,18.487,0.018,0.015,0.123,0.000,0.000,False,,96.448,OK
+2019,3,Z1,AC,Weekday Daytime,18.487,18.487,1.000,,,,,False,,95.682,OK
+2019,3,Z1,AC,Weekend,0.244,18.487,0.013,0.003,0.115,0.000,0.000,False,,91.947,OK
+2019,3,Z1,Light,Weekday After-Hours,1.155,4.731,0.244,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,3,Z1,Light,Weekday Daytime,4.731,4.731,1.000,,,,,False,,99.854,OK
+2019,3,Z1,Light,Weekend,0.321,4.731,0.068,0.063,0.153,0.000,0.000,False,,99.720,OK
+2019,3,Z1,Plug,Weekday After-Hours,0.181,0.609,0.297,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,3,Z1,Plug,Weekday Daytime,0.609,0.609,1.000,,,,,False,,99.903,OK
+2019,3,Z1,Plug,Weekend,0.079,0.609,0.130,0.155,0.273,0.000,0.000,False,,99.720,OK
+2019,3,Z2,AC,Weekday After-Hours,0.277,14.420,0.019,0.015,0.123,0.000,0.000,False,,96.448,OK
+2019,3,Z2,AC,Weekday Daytime,14.420,14.420,1.000,,,,,False,,95.682,OK
+2019,3,Z2,AC,Weekend,0.183,14.420,0.013,0.003,0.115,0.000,0.000,False,,91.987,OK
+2019,3,Z2,Light,Weekday After-Hours,1.581,5.652,0.280,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,3,Z2,Light,Weekday Daytime,5.652,5.652,1.000,,,,,False,,99.854,OK
+2019,3,Z2,Light,Weekend,0.281,5.652,0.050,0.063,0.153,0.000,0.000,False,,99.679,OK
+2019,3,Z2,Plug,Weekday After-Hours,0.146,0.930,0.157,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,3,Z2,Plug,Weekday Daytime,0.930,0.930,1.000,,,,,False,,99.903,OK
+2019,3,Z2,Plug,Weekend,0.072,0.930,0.078,0.155,0.273,0.000,0.000,False,,99.720,OK
+2019,3,Z3,Light,Weekday After-Hours,0.370,0.980,0.377,0.168,0.317,0.059,221.880,False,,99.942,OK
+2019,3,Z3,Light,Weekday Daytime,0.980,0.980,1.000,,,,,False,,99.903,OK
+2019,3,Z3,Light,Weekend,0.183,0.980,0.187,0.063,0.153,0.034,91.913,False,,99.720,OK
+2019,3,Z3,Plug,Weekday After-Hours,0.447,0.566,0.790,0.227,0.374,0.235,885.875,False,,99.942,OK
+2019,3,Z3,Plug,Weekday Daytime,0.566,0.566,1.000,,,,,False,,99.903,OK
+2019,3,Z3,Plug,Weekend,0.412,0.566,0.728,0.155,0.273,0.257,704.395,False,,99.720,OK
+2019,3,Z4,AC,Weekday After-Hours,0.347,15.827,0.022,0.015,0.123,0.000,0.000,False,,96.448,OK
+2019,3,Z4,AC,Weekday Daytime,15.827,15.827,1.000,,,,,False,,95.682,OK
+2019,3,Z4,AC,Weekend,0.035,15.827,0.002,0.003,0.115,0.000,0.000,False,,91.987,OK
+2019,3,Z4,Light,Weekday After-Hours,0.621,2.824,0.220,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,3,Z4,Light,Weekday Daytime,2.824,2.824,1.000,,,,,False,,99.709,OK
+2019,3,Z4,Light,Weekend,0.192,2.824,0.068,0.063,0.153,0.000,0.000,False,,99.199,OK
+2019,3,Z4,Plug,Weekday After-Hours,0.102,0.669,0.153,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,3,Z4,Plug,Weekday Daytime,0.669,0.669,1.000,,,,,False,,99.854,OK
+2019,3,Z4,Plug,Weekend,0.047,0.669,0.071,0.155,0.273,0.000,0.000,False,,99.720,OK
+2019,3,Z5,AC,Weekday After-Hours,0.197,6.887,0.029,0.015,0.123,0.000,0.000,False,,96.448,OK
+2019,3,Z5,AC,Weekday Daytime,6.887,6.887,1.000,,,,,False,,95.682,OK
+2019,3,Z5,AC,Weekend,0.038,6.887,0.006,0.003,0.115,0.000,0.000,False,,91.987,OK
+2019,3,Z5,Light,Weekday After-Hours,0.416,2.292,0.181,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,3,Z5,Light,Weekday Daytime,2.292,2.292,1.000,,,,,False,,99.709,OK
+2019,3,Z5,Light,Weekend,0.056,2.292,0.024,0.063,0.153,0.000,0.000,False,,99.199,OK
+2019,3,Z5,Plug,Weekday After-Hours,0.114,0.567,0.201,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,3,Z5,Plug,Weekday Daytime,0.567,0.567,1.000,,,,,False,,99.903,OK
+2019,3,Z5,Plug,Weekend,0.045,0.567,0.079,0.155,0.273,0.000,0.000,False,,99.720,OK
+2019,4,All,AC,Weekday After-Hours,0.826,56.621,0.015,0.015,0.123,0.000,0.000,False,,73.042,OK
+2019,4,All,AC,Weekday Daytime,56.621,56.621,1.000,,,,,False,,72.683,OK
+2019,4,All,AC,Weekend,0.832,56.621,0.015,0.003,0.115,0.000,0.000,False,,73.237,OK
+2019,4,All,All,Weekday After-Hours,5.712,73.411,0.078,0.078,0.135,0.000,0.000,False,,73.042,OK
+2019,4,All,All,Weekday Daytime,73.411,73.411,1.000,,,,,False,,72.683,OK
+2019,4,All,All,Weekend,3.106,73.411,0.042,0.029,0.110,0.000,0.000,False,,73.237,OK
+2019,4,All,Light,Weekday After-Hours,3.203,11.449,0.280,0.168,0.317,0.000,0.000,False,,94.672,OK
+2019,4,All,Light,Weekday Daytime,11.449,11.449,1.000,,,,,False,,94.275,OK
+2019,4,All,Light,Weekend,1.094,11.449,0.096,0.063,0.153,0.000,0.000,False,,93.870,OK
+2019,4,All,Plug,Weekday After-Hours,1.504,5.012,0.300,0.227,0.374,0.000,0.000,False,,94.672,OK
+2019,4,All,Plug,Weekday Daytime,5.012,5.012,1.000,,,,,False,,94.275,OK
+2019,4,All,Plug,Weekend,1.051,5.012,0.210,0.155,0.273,0.000,0.000,False,,93.870,OK
+2019,4,Z1,AC,Weekday After-Hours,0.279,18.803,0.015,0.015,0.123,0.000,0.000,False,,73.042,OK
+2019,4,Z1,AC,Weekday Daytime,18.803,18.803,1.000,,,,,False,,72.683,OK
+2019,4,Z1,AC,Weekend,0.058,18.803,0.003,0.003,0.115,0.000,0.000,False,,73.237,OK
+2019,4,Z1,Light,Weekday After-Hours,1.047,4.193,0.250,0.168,0.317,0.000,0.000,False,,94.672,OK
+2019,4,Z1,Light,Weekday Daytime,4.193,4.193,1.000,,,,,False,,94.275,OK
+2019,4,Z1,Light,Weekend,0.200,4.193,0.048,0.063,0.153,0.000,0.000,False,,93.910,OK
+2019,4,Z1,Plug,Weekday After-Hours,0.537,2.601,0.207,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,4,Z1,Plug,Weekday Daytime,2.601,2.601,1.000,,,,,False,,99.854,OK
+2019,4,Z1,Plug,Weekend,0.335,2.601,0.129,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,4,Z2,AC,Weekday After-Hours,0.242,13.785,0.018,0.015,0.123,0.000,0.000,False,,98.836,OK
+2019,4,Z2,AC,Weekday Daytime,13.785,13.785,1.000,,,,,False,,98.544,OK
+2019,4,Z2,AC,Weekend,0.028,13.785,0.002,0.003,0.115,0.000,0.000,False,,99.519,OK
+2019,4,Z2,Light,Weekday After-Hours,0.418,1.865,0.224,0.168,0.317,0.000,0.000,False,,94.672,OK
+2019,4,Z2,Light,Weekday Daytime,1.865,1.865,1.000,,,,,False,,94.275,OK
+2019,4,Z2,Light,Weekend,0.084,1.865,0.045,0.063,0.153,0.000,0.000,False,,93.910,OK
+2019,4,Z2,Plug,Weekday After-Hours,0.158,0.398,0.398,0.227,0.374,0.010,36.265,False,,94.672,OK
+2019,4,Z2,Plug,Weekday Daytime,0.398,0.398,1.000,,,,,False,,94.275,OK
+2019,4,Z2,Plug,Weekend,0.101,0.398,0.255,0.155,0.273,0.000,0.000,False,,93.910,OK
+2019,4,Z3,Light,Weekday After-Hours,0.304,0.657,0.463,0.168,0.317,0.096,359.699,False,,99.942,OK
+2019,4,Z3,Light,Weekday Daytime,0.657,0.657,1.000,,,,,False,,99.854,OK
+2019,4,Z3,Light,Weekend,0.143,0.657,0.218,0.063,0.153,0.043,116.948,False,,99.679,OK
+2019,4,Z3,Plug,Weekday After-Hours,0.346,0.357,0.969,0.227,0.374,0.213,801.218,False,,99.942,OK
+2019,4,Z3,Plug,Weekday Daytime,0.357,0.357,1.000,,,,,False,,99.854,OK
+2019,4,Z3,Plug,Weekend,0.336,0.357,0.941,0.155,0.273,0.238,652.190,False,,99.679,OK
+2019,4,Z4,AC,Weekday After-Hours,0.235,17.505,0.013,0.015,0.123,0.000,0.000,False,,98.836,OK
+2019,4,Z4,AC,Weekday Daytime,17.505,17.505,1.000,,,,,False,,98.544,OK
+2019,4,Z4,AC,Weekend,0.705,17.505,0.040,0.003,0.115,0.000,0.000,False,,99.519,OK
+2019,4,Z4,Light,Weekday After-Hours,1.207,3.158,0.382,0.168,0.317,0.206,774.498,False,,99.942,OK
+2019,4,Z4,Light,Weekday Daytime,3.158,3.158,1.000,,,,,False,,99.854,OK
+2019,4,Z4,Light,Weekend,0.591,3.158,0.187,0.063,0.153,0.109,296.939,False,,99.639,OK
+2019,4,Z4,Plug,Weekday After-Hours,0.264,1.035,0.255,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,4,Z4,Plug,Weekday Daytime,1.035,1.035,1.000,,,,,False,,99.854,OK
+2019,4,Z4,Plug,Weekend,0.130,1.035,0.126,0.155,0.273,0.000,0.000,False,,99.639,OK
+2019,4,Z5,AC,Weekday After-Hours,0.113,7.190,0.016,0.015,0.123,0.000,0.000,False,,98.836,OK
+2019,4,Z5,AC,Weekday Daytime,7.190,7.190,1.000,,,,,False,,98.544,OK
+2019,4,Z5,AC,Weekend,0.076,7.190,0.011,0.003,0.115,0.000,0.000,False,,99.519,OK
+2019,4,Z5,Light,Weekday After-Hours,0.225,1.562,0.144,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,4,Z5,Light,Weekday Daytime,1.562,1.562,1.000,,,,,False,,99.854,OK
+2019,4,Z5,Light,Weekend,0.060,1.562,0.038,0.063,0.153,0.000,0.000,False,,99.639,OK
+2019,4,Z5,Plug,Weekday After-Hours,0.162,0.519,0.312,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,4,Z5,Plug,Weekday Daytime,0.519,0.519,1.000,,,,,False,,99.854,OK
+2019,4,Z5,Plug,Weekend,0.114,0.519,0.219,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,5,All,AC,Weekday After-Hours,1.027,57.014,0.018,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,5,All,AC,Weekday Daytime,57.014,57.014,1.000,,,,,False,,99.078,OK
+2019,5,All,AC,Weekend,0.210,57.014,0.004,0.003,0.115,0.000,0.000,False,,93.830,OK
+2019,5,All,All,Weekday After-Hours,6.202,75.800,0.082,0.078,0.135,0.000,0.000,False,,95.983,OK
+2019,5,All,All,Weekday Daytime,75.800,75.800,1.000,,,,,False,,95.294,OK
+2019,5,All,All,Weekend,2.363,75.800,0.031,0.029,0.110,0.000,0.000,False,,89.984,OK
+2019,5,All,Light,Weekday After-Hours,4.066,14.963,0.272,0.168,0.317,0.000,0.000,False,,96.332,OK
+2019,5,All,Light,Weekday Daytime,14.963,14.963,1.000,,,,,False,,95.924,OK
+2019,5,All,Light,Weekend,1.292,14.963,0.086,0.063,0.153,0.000,0.000,False,,94.111,OK
+2019,5,All,Plug,Weekday After-Hours,1.117,3.964,0.282,0.227,0.374,0.000,0.000,False,,96.419,OK
+2019,5,All,Plug,Weekday Daytime,3.964,3.964,1.000,,,,,False,,96.070,OK
+2019,5,All,Plug,Weekend,0.822,3.964,0.207,0.155,0.273,0.000,0.000,False,,95.833,OK
+2019,5,Z1,AC,Weekday After-Hours,0.356,20.388,0.017,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,5,Z1,AC,Weekday Daytime,20.388,20.388,1.000,,,,,False,,99.078,OK
+2019,5,Z1,AC,Weekend,0.045,20.388,0.002,0.003,0.115,0.000,0.000,False,,93.870,OK
+2019,5,Z1,Light,Weekday After-Hours,1.060,4.404,0.241,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,5,Z1,Light,Weekday Daytime,4.404,4.404,1.000,,,,,False,,99.854,OK
+2019,5,Z1,Light,Weekend,0.277,4.404,0.063,0.063,0.153,0.000,0.000,False,,99.679,OK
+2019,5,Z1,Plug,Weekday After-Hours,0.298,1.369,0.218,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,5,Z1,Plug,Weekday Daytime,1.369,1.369,1.000,,,,,False,,99.854,OK
+2019,5,Z1,Plug,Weekend,0.187,1.369,0.137,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,5,Z2,AC,Weekday After-Hours,0.214,14.901,0.014,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,5,Z2,AC,Weekday Daytime,14.901,14.901,1.000,,,,,False,,99.078,OK
+2019,5,Z2,AC,Weekend,0.026,14.901,0.002,0.003,0.115,0.000,0.000,False,,93.870,OK
+2019,5,Z2,Light,Weekday After-Hours,0.836,3.549,0.236,0.168,0.317,0.000,0.000,False,,96.419,OK
+2019,5,Z2,Light,Weekday Daytime,3.549,3.549,1.000,,,,,False,,96.070,OK
+2019,5,Z2,Light,Weekend,0.114,3.549,0.032,0.063,0.153,0.000,0.000,False,,95.833,OK
+2019,5,Z2,Plug,Weekday After-Hours,0.041,0.354,0.117,0.227,0.374,0.000,0.000,False,,96.419,OK
+2019,5,Z2,Plug,Weekday Daytime,0.354,0.354,1.000,,,,,False,,96.070,OK
+2019,5,Z2,Plug,Weekend,0.022,0.354,0.063,0.155,0.273,0.000,0.000,False,,95.833,OK
+2019,5,Z3,Light,Weekday After-Hours,0.332,0.737,0.450,0.168,0.317,0.098,368.475,False,,99.942,OK
+2019,5,Z3,Light,Weekday Daytime,0.737,0.737,1.000,,,,,False,,99.854,OK
+2019,5,Z3,Light,Weekend,0.117,0.737,0.158,0.063,0.153,0.004,11.194,False,,99.679,OK
+2019,5,Z3,Plug,Weekday After-Hours,0.278,0.279,0.993,0.227,0.374,0.173,651.863,False,,99.942,OK
+2019,5,Z3,Plug,Weekday Daytime,0.279,0.279,1.000,,,,,False,,99.854,OK
+2019,5,Z3,Plug,Weekend,0.276,0.279,0.987,0.155,0.273,0.199,545.223,False,,99.679,OK
+2019,5,Z4,AC,Weekday After-Hours,0.316,14.912,0.021,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,5,Z4,AC,Weekday Daytime,14.912,14.912,1.000,,,,,False,,99.127,OK
+2019,5,Z4,AC,Weekend,0.030,14.912,0.002,0.003,0.115,0.000,0.000,False,,93.870,OK
+2019,5,Z4,Light,Weekday After-Hours,1.107,3.401,0.325,0.168,0.317,0.028,105.622,False,,99.854,OK
+2019,5,Z4,Light,Weekday Daytime,3.401,3.401,1.000,,,,,False,,99.709,OK
+2019,5,Z4,Light,Weekend,0.505,3.401,0.149,0.063,0.153,0.000,0.000,False,,97.957,OK
+2019,5,Z4,Plug,Weekday After-Hours,0.441,1.551,0.284,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,5,Z4,Plug,Weekday Daytime,1.551,1.551,1.000,,,,,False,,99.854,OK
+2019,5,Z4,Plug,Weekend,0.316,1.551,0.203,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,5,Z5,AC,Weekday After-Hours,0.141,6.815,0.021,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,5,Z5,AC,Weekday Daytime,6.815,6.815,1.000,,,,,False,,99.078,OK
+2019,5,Z5,AC,Weekend,0.108,6.815,0.016,0.003,0.115,0.000,0.000,False,,93.870,OK
+2019,5,Z5,Light,Weekday After-Hours,0.696,2.737,0.254,0.168,0.317,0.000,0.000,False,,99.854,OK
+2019,5,Z5,Light,Weekday Daytime,2.737,2.737,1.000,,,,,False,,99.709,OK
+2019,5,Z5,Light,Weekend,0.270,2.737,0.099,0.063,0.153,0.000,0.000,False,,97.957,OK
+2019,5,Z5,Plug,Weekday After-Hours,0.054,0.393,0.138,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,5,Z5,Plug,Weekday Daytime,0.393,0.393,1.000,,,,,False,,99.854,OK
+2019,5,Z5,Plug,Weekend,0.017,0.393,0.044,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,6,All,AC,Weekday After-Hours,1.357,51.170,0.027,0.015,0.123,0.000,0.000,False,,80.087,OK
+2019,6,All,AC,Weekday Daytime,51.170,51.170,1.000,,,,,False,,80.010,OK
+2019,6,All,AC,Weekend,0.160,51.170,0.003,0.003,0.115,0.000,0.000,False,,80.449,OK
+2019,6,All,All,Weekday After-Hours,7.418,72.113,0.103,0.078,0.135,0.000,0.000,False,,80.087,OK
+2019,6,All,All,Weekday Daytime,72.113,72.113,1.000,,,,,False,,80.010,OK
+2019,6,All,All,Weekend,3.162,72.113,0.044,0.029,0.110,0.000,0.000,False,,80.449,OK
+2019,6,All,Light,Weekday After-Hours,4.943,17.385,0.284,0.168,0.317,0.000,0.000,False,,80.087,OK
+2019,6,All,Light,Weekday Daytime,17.385,17.385,1.000,,,,,False,,80.010,OK
+2019,6,All,Light,Weekend,2.144,17.385,0.123,0.063,0.153,0.000,0.000,False,,80.449,OK
+2019,6,All,Plug,Weekday After-Hours,1.118,3.558,0.314,0.227,0.374,0.000,0.000,False,,80.087,OK
+2019,6,All,Plug,Weekday Daytime,3.558,3.558,1.000,,,,,False,,80.010,OK
+2019,6,All,Plug,Weekend,0.858,3.558,0.241,0.155,0.273,0.000,0.000,False,,80.449,OK
+2019,6,Z1,AC,Weekday After-Hours,0.372,16.596,0.022,0.015,0.123,0.000,0.000,False,,80.087,OK
+2019,6,Z1,AC,Weekday Daytime,16.596,16.596,1.000,,,,,False,,80.010,OK
+2019,6,Z1,AC,Weekend,0.007,16.596,0.000,0.003,0.115,0.000,0.000,False,,80.489,OK
+2019,6,Z1,Light,Weekday After-Hours,0.922,3.403,0.271,0.168,0.317,0.000,0.000,False,,80.087,OK
+2019,6,Z1,Light,Weekday Daytime,3.403,3.403,1.000,,,,,False,,80.010,OK
+2019,6,Z1,Light,Weekend,0.460,3.403,0.135,0.063,0.153,0.000,0.000,False,,80.449,OK
+2019,6,Z1,Plug,Weekday After-Hours,0.332,0.908,0.365,0.227,0.374,0.000,0.000,False,,80.087,OK
+2019,6,Z1,Plug,Weekday Daytime,0.908,0.908,1.000,,,,,False,,80.010,OK
+2019,6,Z1,Plug,Weekend,0.245,0.908,0.270,0.155,0.273,0.000,0.000,False,,80.449,OK
+2019,6,Z2,AC,Weekday After-Hours,0.391,13.762,0.028,0.015,0.123,0.000,0.000,False,,80.087,OK
+2019,6,Z2,AC,Weekday Daytime,13.762,13.762,1.000,,,,,False,,80.010,OK
+2019,6,Z2,AC,Weekend,0.130,13.762,0.009,0.003,0.115,0.000,0.000,False,,80.489,OK
+2019,6,Z2,Light,Weekday After-Hours,2.194,5.888,0.373,0.168,0.317,0.326,1228.707,False,,80.087,OK
+2019,6,Z2,Light,Weekday Daytime,5.888,5.888,1.000,,,,,False,,80.010,OK
+2019,6,Z2,Light,Weekend,0.618,5.888,0.105,0.063,0.153,0.000,0.000,False,,80.449,OK
+2019,6,Z2,Plug,Weekday After-Hours,0.244,1.004,0.243,0.227,0.374,0.000,0.000,False,,80.087,OK
+2019,6,Z2,Plug,Weekday Daytime,1.004,1.004,1.000,,,,,False,,80.010,OK
+2019,6,Z2,Plug,Weekend,0.148,1.004,0.147,0.155,0.273,0.000,0.000,False,,80.449,OK
+2019,6,Z3,Light,Weekday After-Hours,0.762,1.804,0.423,0.168,0.317,0.190,716.378,False,,80.087,OK
+2019,6,Z3,Light,Weekday Daytime,1.804,1.804,1.000,,,,,False,,80.010,OK
+2019,6,Z3,Light,Weekend,0.382,1.804,0.212,0.063,0.153,0.107,291.985,False,,80.449,OK
+2019,6,Z3,Plug,Weekday After-Hours,0.269,0.273,0.986,0.227,0.374,0.167,628.440,False,,80.087,OK
+2019,6,Z3,Plug,Weekday Daytime,0.273,0.273,1.000,,,,,False,,80.010,OK
+2019,6,Z3,Plug,Weekend,0.267,0.273,0.980,0.155,0.273,0.193,526.743,False,,80.449,OK
+2019,6,Z4,AC,Weekday After-Hours,0.336,15.395,0.022,0.015,0.123,0.000,0.000,False,,80.087,OK
+2019,6,Z4,AC,Weekday Daytime,15.395,15.395,1.000,,,,,False,,80.010,OK
+2019,6,Z4,AC,Weekend,0.020,15.395,0.001,0.003,0.115,0.000,0.000,False,,80.449,OK
+2019,6,Z4,Light,Weekday After-Hours,0.680,3.987,0.171,0.168,0.317,0.000,0.000,False,,80.087,OK
+2019,6,Z4,Light,Weekday Daytime,3.987,3.987,1.000,,,,,False,,80.010,OK
+2019,6,Z4,Light,Weekend,0.448,3.987,0.112,0.063,0.153,0.000,0.000,False,,80.449,OK
+2019,6,Z4,Plug,Weekday After-Hours,0.187,0.970,0.193,0.227,0.374,0.000,0.000,False,,80.087,OK
+2019,6,Z4,Plug,Weekday Daytime,0.970,0.970,1.000,,,,,False,,80.010,OK
+2019,6,Z4,Plug,Weekend,0.123,0.970,0.127,0.155,0.273,0.000,0.000,False,,80.449,OK
+2019,6,Z5,AC,Weekday After-Hours,0.257,5.417,0.048,0.015,0.123,0.000,0.000,False,,80.087,OK
+2019,6,Z5,AC,Weekday Daytime,5.417,5.417,1.000,,,,,False,,80.010,OK
+2019,6,Z5,AC,Weekend,0.004,5.417,0.001,0.003,0.115,0.000,0.000,False,,80.489,OK
+2019,6,Z5,Light,Weekday After-Hours,0.384,2.303,0.167,0.168,0.317,0.000,0.000,False,,80.087,OK
+2019,6,Z5,Light,Weekday Daytime,2.303,2.303,1.000,,,,,False,,80.010,OK
+2019,6,Z5,Light,Weekend,0.236,2.303,0.102,0.063,0.153,0.000,0.000,False,,80.449,OK
+2019,6,Z5,Plug,Weekday After-Hours,0.087,0.404,0.216,0.227,0.374,0.000,0.000,False,,80.087,OK
+2019,6,Z5,Plug,Weekday Daytime,0.404,0.404,1.000,,,,,False,,80.010,OK
+2019,6,Z5,Plug,Weekend,0.075,0.404,0.186,0.155,0.273,0.000,0.000,False,,80.449,OK
+2019,7,All,AC,Weekday After-Hours,3.518,84.110,0.042,0.015,0.123,0.000,0.000,False,,99.039,OK
+2019,7,All,AC,Weekday Daytime,84.110,84.110,1.000,,,,,False,,98.690,OK
+2019,7,All,AC,Weekend,4.048,84.110,0.048,0.003,0.115,0.000,0.000,False,,93.870,OK
+2019,7,All,All,Weekday After-Hours,8.468,99.444,0.085,0.078,0.135,0.000,0.000,False,,99.039,OK
+2019,7,All,All,Weekday Daytime,99.444,99.444,1.000,,,,,False,,98.690,OK
+2019,7,All,All,Weekend,6.624,99.444,0.067,0.029,0.110,0.000,0.000,False,,93.870,OK
+2019,7,All,Light,Weekday After-Hours,4.382,13.813,0.317,0.168,0.317,0.000,0.000,False,,99.476,OK
+2019,7,All,Light,Weekday Daytime,13.813,13.813,1.000,,,,,False,,99.272,OK
+2019,7,All,Light,Weekend,2.111,13.813,0.153,0.063,0.153,0.000,0.000,False,,96.875,OK
+2019,7,All,Plug,Weekday After-Hours,0.565,1.511,0.374,0.227,0.374,0.000,0.000,False,,99.476,OK
+2019,7,All,Plug,Weekday Daytime,1.511,1.511,1.000,,,,,False,,99.418,OK
+2019,7,All,Plug,Weekend,0.413,1.511,0.273,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,7,Z1,AC,Weekday After-Hours,1.778,29.111,0.061,0.015,0.123,0.000,0.000,False,,99.039,OK
+2019,7,Z1,AC,Weekday Daytime,29.111,29.111,1.000,,,,,False,,98.690,OK
+2019,7,Z1,AC,Weekend,2.119,29.111,0.073,0.003,0.115,0.000,0.000,False,,93.870,OK
+2019,7,Z1,Light,Weekday After-Hours,0.562,2.063,0.272,0.168,0.317,0.000,0.000,False,,99.942,OK
+2019,7,Z1,Light,Weekday Daytime,2.063,2.063,1.000,,,,,False,,99.854,OK
+2019,7,Z1,Light,Weekend,0.236,2.063,0.114,0.063,0.153,0.000,0.000,False,,99.679,OK
+2019,7,Z1,Plug,Weekday After-Hours,0.126,0.403,0.312,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,7,Z1,Plug,Weekday Daytime,0.403,0.403,1.000,,,,,False,,99.854,OK
+2019,7,Z1,Plug,Weekend,0.087,0.403,0.216,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,7,Z2,AC,Weekday After-Hours,1.151,22.506,0.051,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,7,Z2,AC,Weekday Daytime,22.506,22.506,1.000,,,,,False,,99.127,OK
+2019,7,Z2,AC,Weekend,1.233,22.506,0.055,0.003,0.115,0.000,0.000,False,,93.910,OK
+2019,7,Z2,Light,Weekday After-Hours,0.990,2.721,0.364,0.168,0.317,0.127,478.376,False,,99.942,OK
+2019,7,Z2,Light,Weekday Daytime,2.721,2.721,1.000,,,,,False,,99.854,OK
+2019,7,Z2,Light,Weekend,0.522,2.721,0.192,0.063,0.153,0.106,289.245,False,,99.679,OK
+2019,7,Z2,Plug,Weekday After-Hours,0.043,0.165,0.263,0.227,0.374,0.000,0.000,False,,99.942,OK
+2019,7,Z2,Plug,Weekday Daytime,0.165,0.165,1.000,,,,,False,,99.854,OK
+2019,7,Z2,Plug,Weekend,0.022,0.165,0.135,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,7,Z3,Light,Weekday After-Hours,0.131,0.128,1.022,0.168,0.317,0.090,339.554,False,,99.942,OK
+2019,7,Z3,Light,Weekday Daytime,0.128,0.128,1.000,,,,,False,,99.854,OK
+2019,7,Z3,Light,Weekend,0.064,0.128,0.503,0.063,0.153,0.045,122.519,False,,99.639,OK
+2019,7,Z3,Plug,Weekday After-Hours,0.165,0.199,0.833,0.227,0.374,0.091,343.248,False,,99.680,OK
+2019,7,Z3,Plug,Weekday Daytime,0.199,0.199,1.000,,,,,False,,99.515,OK
+2019,7,Z3,Plug,Weekend,0.155,0.199,0.781,0.155,0.273,0.101,275.558,False,,99.679,OK
+2019,7,Z4,AC,Weekday After-Hours,0.466,23.396,0.020,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,7,Z4,AC,Weekday Daytime,23.396,23.396,1.000,,,,,False,,99.127,OK
+2019,7,Z4,AC,Weekend,0.466,23.396,0.020,0.003,0.115,0.000,0.000,False,,93.910,OK
+2019,7,Z4,Light,Weekday After-Hours,1.410,4.191,0.336,0.168,0.317,0.080,302.792,False,,99.680,OK
+2019,7,Z4,Light,Weekday Daytime,4.191,4.191,1.000,,,,,False,,99.369,OK
+2019,7,Z4,Light,Weekend,0.686,4.191,0.164,0.063,0.153,0.045,123.178,False,,96.875,OK
+2019,7,Z4,Plug,Weekday After-Hours,0.168,0.625,0.269,0.227,0.374,0.000,0.000,False,,99.476,OK
+2019,7,Z4,Plug,Weekday Daytime,0.625,0.625,1.000,,,,,False,,99.418,OK
+2019,7,Z4,Plug,Weekend,0.104,0.625,0.166,0.155,0.273,0.000,0.000,False,,99.679,OK
+2019,7,Z5,AC,Weekday After-Hours,0.143,9.139,0.016,0.015,0.123,0.000,0.000,False,,99.505,OK
+2019,7,Z5,AC,Weekday Daytime,9.139,9.139,1.000,,,,,False,,99.127,OK
+2019,7,Z5,AC,Weekend,0.229,9.139,0.025,0.003,0.115,0.000,0.000,False,,93.910,OK
+2019,7,Z5,Light,Weekday After-Hours,1.287,4.701,0.274,0.168,0.317,0.000,0.000,False,,99.476,OK
+2019,7,Z5,Light,Weekday Daytime,4.701,4.701,1.000,,,,,False,,99.418,OK
+2019,7,Z5,Light,Weekend,0.574,4.701,0.122,0.063,0.153,0.000,0.000,False,,99.679,OK
+2019,7,Z5,Plug,Weekday After-Hours,0.063,0.119,0.525,0.227,0.374,0.018,67.904,False,,99.476,OK
+2019,7,Z5,Plug,Weekday Daytime,0.119,0.119,1.000,,,,,False,,99.418,OK
+2019,7,Z5,Plug,Weekend,0.045,0.119,0.381,0.155,0.273,0.013,35.064,False,,99.679,OK

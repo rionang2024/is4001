@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Question A chart options: after-hours energy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/building.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand">
+        <h1>After-hours energy: chart options</h1>
+        <p class="lede">Question A, CU-BEMS building. Thirteen charts, ordered from most to least important for telling the story. P1 to P3 are the ones in the delegation plan.</p>
+      </div>
+      <div class="top-controls">
+        <label class="field">Period
+          <select id="year" aria-label="Period"></select>
+        </label>
+      </div>
+    </div>
+    <div class="shortlist" aria-live="polite">
+      <span class="shortlist-label">Shortlist</span>
+      <span id="shortlist-items" class="shortlist-items"></span>
+      <button id="copy-shortlist" class="btn" type="button" disabled>Copy list</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="status" class="status" role="status" hidden></div>
+
+    <section class="explorer" id="explorer" aria-labelledby="ex-title">
+      <svg style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="ex-ico-ac" viewBox="0 0 16 16"><rect x="1" y="2.5" width="14" height="6" rx="2" fill="currentColor"/><path d="M3 12c2-1.6 3 1.6 5 0s3 1.6 5 0" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/></symbol>
+          <symbol id="ex-ico-light" viewBox="0 0 16 16"><path d="M8 1.2a4.6 4.6 0 0 0-2.7 8.3c.5.4.8.9.8 1.5v.8h3.8V11c0-.6.3-1.1.8-1.5A4.6 4.6 0 0 0 8 1.2z" fill="currentColor"/><rect x="6.2" y="13" width="3.6" height="1.7" rx=".85" fill="currentColor"/></symbol>
+          <symbol id="ex-ico-plug" viewBox="0 0 16 16"><path d="M5.2 1v4M10.8 1v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3.5 5h9v3a4.5 4.5 0 0 1-9 0z" fill="currentColor"/><path d="M8 12.4V15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+        </defs>
+      </svg>
+
+      <header class="ex-head">
+        <div>
+          <h2 id="ex-title">Building explorer</h2>
+          <p>Each floor shows its average load. Click a floor to open its plan with the zones, and use the switches to choose which loads are counted.</p>
+        </div>
+      </header>
+
+      <div class="ex-controls">
+        <fieldset class="seg"><legend>Period</legend>
+          <label><input type="radio" name="ex-dt" value="Weekday After-Hours" checked>Weekday night</label>
+          <label><input type="radio" name="ex-dt" value="Weekday Daytime">Weekday day</label>
+          <label><input type="radio" name="ex-dt" value="Weekend">Weekend</label>
+        </fieldset>
+        <div class="ex-switches" role="group" aria-label="Load types">
+          <button type="button" class="sw" role="switch" aria-checked="true" data-eu="AC">
+            <span class="sw-art" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <rect class="ac-body" x="5" y="10" width="54" height="26" rx="6"/>
+                <rect x="11" y="16" width="26" height="3" rx="1.5" fill="#c3c9d4"/>
+                <circle class="ac-led" cx="50" cy="19" r="2.6"/>
+                <rect class="ac-louver" x="10" y="36" width="44" height="4.5" rx="2"/>
+                <path class="ac-air" d="M16 47c5-4 9 4 14 0s9 4 14 0"/>
+                <path class="ac-air" style="animation-delay:-0.45s" d="M20 55c5-4 9 4 14 0s9 4 14 0"/>
+              </svg>
+            </span>
+            <span class="sw-text"><b>AC</b><small class="sw-state">On</small></span>
+            <span class="sw-rocker" aria-hidden="true"><i></i></span>
+          </button>
+          <button type="button" class="sw" role="switch" aria-checked="true" data-eu="Light">
+            <span class="sw-art" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <defs><radialGradient id="exglow"><stop offset="0" stop-color="#ffe27a" stop-opacity="0.95"/><stop offset="1" stop-color="#ffe27a" stop-opacity="0"/></radialGradient></defs>
+                <circle class="bulb-glow" cx="32" cy="26" r="30" fill="url(#exglow)"/>
+                <g class="bulb-rays" stroke-width="2.5" stroke-linecap="round"><line x1="32" y1="1" x2="32" y2="6"/><line x1="9" y1="9" x2="13" y2="13"/><line x1="55" y1="9" x2="51" y2="13"/><line x1="3" y1="26" x2="8" y2="26"/><line x1="61" y1="26" x2="56" y2="26"/></g>
+                <path class="bulb-glass" d="M32 10c-8.8 0-15 6.4-15 14.4 0 5.2 2.6 8.4 5.4 11.2 1.6 1.6 2.6 3.4 2.6 5.4V43h14v-2c0-2 1-3.8 2.6-5.4 2.8-2.8 5.4-6 5.4-11.2C47 16.4 40.8 10 32 10z"/>
+                <path class="bulb-fil" d="M28 36l4-8 4 8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="26" y="45" width="12" height="4" rx="1.5" fill="#8d939e"/><rect x="28" y="50.5" width="8" height="4" rx="1.5" fill="#6f7683"/>
+              </svg>
+            </span>
+            <span class="sw-text"><b>Lighting</b><small class="sw-state">On</small></span>
+            <span class="sw-rocker" aria-hidden="true"><i></i></span>
+          </button>
+          <button type="button" class="sw" role="switch" aria-checked="true" data-eu="Plug">
+            <span class="sw-art" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <g class="plug">
+                  <path d="M6 32H-2" stroke="#8d939e" stroke-width="3.5" stroke-linecap="round"/>
+                  <rect class="plug-metal" x="28" y="25.5" width="15" height="3.4" rx="1.2"/>
+                  <rect class="plug-metal" x="28" y="35" width="15" height="3.4" rx="1.2"/>
+                  <rect class="plug-body" x="6" y="19" width="23" height="26" rx="6"/>
+                  <circle class="plug-led" cx="17" cy="32" r="2.8"/>
+                </g>
+                <rect x="42" y="14" width="19" height="36" rx="5" fill="#d9dee6" stroke="#9aa2b0" stroke-width="1.5"/>
+                <g class="plug-spark" stroke="#ffc83a" stroke-width="2.2" stroke-linecap="round"><line x1="40" y1="16" x2="38" y2="11"/><line x1="40" y1="48" x2="38" y2="53"/><line x1="36" y1="31" x2="30" y2="31"/><line x1="38" y1="22" x2="33" y2="19"/><line x1="38" y1="40" x2="33" y2="43"/></g>
+              </svg>
+            </span>
+            <span class="sw-text"><b>Plug load</b><small class="sw-state">On</small></span>
+            <span class="sw-rocker" aria-hidden="true"><i></i></span>
+          </button>
+        </div>
+      </div>
+      <p class="ex-sub" id="ex-sub"></p>
+      <p class="ex-hint" id="ex-hint" role="status"></p>
+
+      <div class="ex-stage" id="ex-stage">
+        <div class="ex-building" id="ex-building">
+          <div class="ex-canvas">
+            <svg class="ex-svg" id="ex-svg" viewBox="0 0 980 700" role="img" aria-label="Seven-storey building, one row per floor with its average load"></svg>
+            <div class="ex-labels" id="ex-labels"></div>
+          </div>
+          <div class="ex-legend">
+            <span><i></i>Window brightness: less to more kW</span>
+            <span><i class="dot"></i>Floor has loads above benchmark</span>
+            <span>Click a floor or its label to open the plan</span>
+          </div>
+        </div>
+        <div class="ex-plan" id="ex-plan" inert></div>
+      </div>
+    </section>
+
+    <aside class="method">
+      <p><strong>Preliminary numbers.</strong> Built from the raw CU-BEMS files with quick rules: hourly averages, meter spikes removed, public holidays and the 24 Jan to 11 Feb 2019 meter gap left out. Person 1's cleaned files will replace them without code changes.</p>
+      <dl class="defs">
+        <div><dt>Weekday day</dt><dd>Mon to Fri, 08:00 to 17:00</dd></div>
+        <div><dt>Weekday night</dt><dd>Mon to Fri, 17:00 to 08:00</dd></div>
+        <div><dt>Weekend</dt><dd>Saturday and Sunday</dd></div>
+        <div><dt>Ratio</dt><dd>After-hours kW ÷ weekday daytime kW</dd></div>
+        <div><dt>Benchmark</dt><dd>Range of Floors 2 to 7, per end use</dd></div>
+      </dl>
+      <div class="daystrip" aria-hidden="true">
+        <div class="daystrip-bar"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="daystrip-ticks"><span>00</span><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span></div>
+        <div class="daystrip-key"><span><i style="background:var(--day)"></i>Weekday day</span><span><i style="background:var(--night)"></i>Weekday night</span><span><i style="background:var(--weekend)"></i>Weekend</span></div>
+      </div>
+    </aside>
+
+    <h2 class="group">Tell the story</h2>
+    <p class="group-note">Read in this order: is there a problem, which floor, which equipment, how big, what to fix first.</p>
+
+    <section class="chart" data-chart="c1" id="c1">
+      <header class="chart-head">
+        <span class="chart-id">C1</span>
+        <div class="chart-title">
+          <h3>24-hour profile against the other floors</h3>
+          <p class="q">What does a typical day look like on this floor compared with the rest?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <label class="field">Floor <select data-opt="floor" data-fill="floors" data-default="1" data-num></select></label>
+        <label class="field">End use
+          <select data-opt="endUse">
+            <option value="All">All</option><option value="AC">AC</option><option value="Light">Lighting</option><option value="Plug">Plug load</option>
+          </select>
+        </label>
+        <fieldset class="seg"><legend>Days</legend>
+          <label><input type="radio" name="c1-wp" data-opt="weekPart" value="Weekday" checked>Weekdays</label>
+          <label><input type="radio" name="c1-wp" data-opt="weekPart" value="Weekend">Weekends</label>
+        </fieldset>
+      </div>
+      <div class="plot h-md"></div>
+      <p class="note"><span>Good for:</span> the story chart. Floor 1 rises when the office empties, while the other floors drop to about 10%. <span>Watch out:</span> it shows percentages, so pair it with P3 for size.</p>
+    </section>
+
+    <section class="chart" data-chart="p1" id="p1">
+      <header class="chart-head">
+        <span class="chart-id">P1</span>
+        <div class="chart-title">
+          <h3>Floor × day-type heatmap</h3>
+          <p class="q">Which floors keep drawing power after hours?</p>
+        </div>
+        <span class="tag">In plan</span>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="plot h-sm"></div>
+      <p class="note"><span>Good for:</span> one glance shows Floor 1 is the outlier. <span>Watch out:</span> only two columns, so it needs a drill-down next to it.</p>
+    </section>
+
+    <section class="chart" data-chart="p2" id="p2">
+      <header class="chart-head">
+        <span class="chart-id">P2</span>
+        <div class="chart-title">
+          <h3>Zone × end-use heatmap</h3>
+          <p class="q">Inside a floor, which zone and equipment carry the excess?</p>
+        </div>
+        <span class="tag">In plan</span>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <label class="field">Floor <select data-opt="floor" data-fill="floors" data-default="1" data-num></select></label>
+        <fieldset class="seg"><legend>Period</legend>
+          <label><input type="radio" name="p2-dt" data-opt="dayType" value="Weekday After-Hours" checked>Weekday night</label>
+          <label><input type="radio" name="p2-dt" data-opt="dayType" value="Weekend">Weekend</label>
+        </fieldset>
+      </div>
+      <div class="plot h-sm"></div>
+      <p class="note"><span>Good for:</span> pinpoints Z2 AC and Z4 lighting on Floor 1. Colour is kW above benchmark and bold cells are flagged. <span>Watch out:</span> the ratio label gets huge when daytime load is near zero (Z4 lighting), which is why colour uses kW.</p>
+    </section>
+
+    <section class="chart" data-chart="c2" id="c2">
+      <header class="chart-head">
+        <span class="chart-id">C2</span>
+        <div class="chart-title">
+          <h3>Day vs night dumbbell</h3>
+          <p class="q">How far does each load move between day and night?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <fieldset class="seg"><legend>Compare with</legend>
+          <label><input type="radio" name="c2-dt" data-opt="dayType" value="Weekday After-Hours" checked>Weekday night</label>
+          <label><input type="radio" name="c2-dt" data-opt="dayType" value="Weekend">Weekend</label>
+        </fieldset>
+        <label class="field">Show
+          <select data-opt="topN" data-num><option value="10">Top 10</option><option value="15" selected>Top 15</option><option value="25">Top 25</option></select>
+        </label>
+      </div>
+      <div class="plot"></div>
+      <p class="note"><span>Good for:</span> loads that switch on at night jump right, with no ratio blow-up. A red ring marks a flagged load. <span>Watch out:</span> shows the top loads only.</p>
+    </section>
+
+    <section class="chart" data-chart="c3" id="c3">
+      <header class="chart-head">
+        <span class="chart-id">C3</span>
+        <div class="chart-title">
+          <h3>Pareto of excess energy</h3>
+          <p class="q">Which few loads make up most of the energy above benchmark?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="plot h-md"></div>
+      <p class="note"><span>Good for:</span> sets the order of the alert sidebar and matches the plan's "start where the energy is". Bar colour is priority. <span>Watch out:</span> MWh a year assumes the pattern holds all year.</p>
+    </section>
+
+    <h2 class="group">Drill-downs</h2>
+    <p class="group-note">For follow-up questions: which days, which unit, every month, every night.</p>
+
+    <section class="chart" data-chart="c4" id="c4">
+      <header class="chart-head">
+        <span class="chart-id">C4</span>
+        <div class="chart-title">
+          <h3>Day of week × hour heatmap</h3>
+          <p class="q">Which days and hours carry the most load?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <label class="field wide">Load <select data-opt="series" data-fill="series" data-default="1|All|All"></select></label>
+      </div>
+      <div class="plot h-sm"></div>
+      <p class="note"><span>Good for:</span> answers the professor's "which days does waste happen most". The dashed box is office hours. <span>Watch out:</span> one load at a time.</p>
+    </section>
+
+    <section class="chart" data-chart="c7" id="c7">
+      <header class="chart-head">
+        <span class="chart-id">C7</span>
+        <div class="chart-title">
+          <h3>AC units within a zone</h3>
+          <p class="q">Is one unit doing all the work?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <label class="field wide">Zone <select data-opt="zone" data-fill="acZones" data-default="1|Z2"></select></label>
+      </div>
+      <div class="plot"></div>
+      <p class="note"><span>Good for:</span> links to the load-concentration finding, where Floor 1 Z2 AC1 carries most of the night load. <span>Watch out:</span> needs a Unit column from Person 1.</p>
+    </section>
+
+    <section class="chart" data-chart="c5" id="c5">
+      <header class="chart-head">
+        <span class="chart-id">C5</span>
+        <div class="chart-title">
+          <h3>Month × floor ratio</h3>
+          <p class="q">Does the pattern break down in any month?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <fieldset class="seg"><legend>Period</legend>
+          <label><input type="radio" name="c5-dt" data-opt="dayType" value="Weekday After-Hours" checked>Weekday night</label>
+          <label><input type="radio" name="c5-dt" data-opt="dayType" value="Weekend">Weekend</label>
+        </fieldset>
+      </div>
+      <div class="plot h-sm"></div>
+      <p class="note"><span>Good for:</span> shows Floor 1 stays high every month. Grey cells have too little data. <span>Watch out:</span> monthly ratios are noisier than yearly ones.</p>
+    </section>
+
+    <section class="chart" data-chart="c6" id="c6">
+      <header class="chart-head">
+        <span class="chart-id">C6</span>
+        <div class="chart-title">
+          <h3>Night-to-night spread</h3>
+          <p class="q">How consistent is the drop from one night to the next?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <fieldset class="seg"><legend>Period</legend>
+          <label><input type="radio" name="c6-dt" data-opt="dayType" value="Weekday After-Hours" checked>Weekday night</label>
+          <label><input type="radio" name="c6-dt" data-opt="dayType" value="Weekend">Weekend</label>
+        </fieldset>
+        <fieldset class="seg"><legend>Scale</legend>
+          <label><input type="radio" name="c6-sc" data-opt="scale" value="log" checked>Log</label>
+          <label><input type="radio" name="c6-sc" data-opt="scale" value="linear">Linear</label>
+        </fieldset>
+      </div>
+      <div class="plot h-md"></div>
+      <p class="note"><span>Good for:</span> your question literally asks "how consistent", and averages hide the spread. <span>Watch out:</span> the log scale needs a sentence of explanation.</p>
+    </section>
+
+    <h2 class="group">Alternatives and appendix</h2>
+    <p class="group-note">These overlap with charts above, or belong on a methods slide.</p>
+
+    <section class="chart" data-chart="p3" id="p3">
+      <header class="chart-head">
+        <span class="chart-id">P3</span>
+        <div class="chart-title">
+          <h3>Absolute power by period</h3>
+          <p class="q">How big are these loads in kW, by day, at night and at weekends?</p>
+        </div>
+        <span class="tag">In plan</span>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="controls">
+        <label class="field">Floor <select data-opt="floor" data-fill="floors" data-default="1" data-num></select></label>
+      </div>
+      <div class="plot"></div>
+      <p class="note"><span>Good for:</span> shows scale, like Z2 AC at about 40 kW every night. <span>Watch out:</span> crowded on floors with many zones.</p>
+    </section>
+
+    <section class="chart" data-chart="c10" id="c10">
+      <header class="chart-head">
+        <span class="chart-id">C10</span>
+        <div class="chart-title">
+          <h3>Ratio against the benchmark</h3>
+          <p class="q">Is each floor inside the normal range?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="plot h-sm"></div>
+      <p class="note"><span>Good for:</span> maps to the KPI "bring Floor 1 within the benchmark", so it can sit next to the KPI tile. The shaded band is Floors 2 to 7. <span>Watch out:</span> log scale.</p>
+    </section>
+
+    <section class="chart" data-chart="c9" id="c9">
+      <header class="chart-head">
+        <span class="chart-id">C9</span>
+        <div class="chart-title">
+          <h3>Data coverage</h3>
+          <p class="q">Which months have enough data to trust?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="plot h-sm"></div>
+      <p class="note"><span>Good for:</span> credibility. Shows the Floor 4 AC gap in early 2019 and Floor 6 ending in October 2019. <span>Watch out:</span> belongs on a methods slide more than the main story.</p>
+    </section>
+
+    <section class="chart" data-chart="c8" id="c8">
+      <header class="chart-head">
+        <span class="chart-id">C8</span>
+        <div class="chart-title">
+          <h3>Treemap of excess energy</h3>
+          <p class="q">Where does the excess sit, floor by zone by equipment?</p>
+        </div>
+        <button class="pick btn" type="button" aria-pressed="false">Shortlist</button>
+      </header>
+      <div class="plot h-lg"></div>
+      <p class="note"><span>Good for:</span> compact overview page. Click a floor to zoom in, colour is priority. <span>Watch out:</span> small tiles are hard to read.</p>
+    </section>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script>window.Papa || document.write('<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"><\/script>');</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js"></script>
+  <script>window.Plotly || document.write('<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"><\/script>');</script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/building.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

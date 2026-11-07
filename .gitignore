@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Question A: the minute-level data (about 860 MB) stays local. Not *.parquet: Question B commits small Parquet files.
+dashboard_data/
+
+# Claude Code local settings
+.claude/settings.local.json
