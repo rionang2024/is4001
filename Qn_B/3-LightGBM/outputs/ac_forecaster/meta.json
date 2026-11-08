@@ -1,10 +1,8 @@
 {
   "features": [
-    "floor",
     "zone_code",
     "hour",
     "weekday",
-    "is_weekend",
     "is_holiday",
     "ac_load_kw_yesterday",
     "ac_load_kw_2_days_ago",
@@ -75,7 +73,9 @@
       "num_leaves": 63,
       "min_child_samples": 100
     },
-    "test_WAPE_op%": 12.17,
-    "test_CVRMSE_op%": 19.91
+    "data": "question_b_model_data_screened.parquet (Stage 1 screened)",
+    "feature_selection": "Stage 1 excluded 3, Stage 2 dropped 7, 14 kept",
+    "test_WAPE_op%": 12.49,
+    "test_CVRMSE_op%": 20.33
   }
 }

@@ -1,0 +1,23 @@
+model,hours,MAE,RMSE,CV(RMSE)%,NMBE%,WAPE%
+B1 seasonal naive,operating hours,2.31,4.77,34.87,4.7,16.92
+B2 average profile,operating hours,2.66,3.85,28.13,-11.83,19.47
+B3 calendar + AC lags,operating hours,2.48,4.02,29.41,4.07,18.12
+M1 (A),operating hours,1.43,2.53,18.51,-2.52,10.45
+M2 (A),operating hours,1.74,2.91,21.25,-6.44,12.75
+M3 (A),operating hours,1.65,2.73,19.93,3.8,12.03
+M4 (A),operating hours,1.67,2.81,20.53,0.85,12.21
+M1 (B),operating hours,1.43,2.53,18.51,-2.52,10.45
+M2 (B),operating hours,1.74,2.91,21.25,-6.44,12.75
+M3 (B),operating hours,1.59,2.68,19.62,3.21,11.61
+M4 (B),operating hours,1.7,2.78,20.34,-0.51,12.43
+M1 (A),all hours,,,,,16.77
+M1 (B),all hours,,,,,16.77
+M3 (B),all hours,,,,,18.38
+M3 (A),all hours,,,,,18.98
+M4 (A),all hours,,,,,19.73
+M4 (B),all hours,,,,,19.53
+M2 (B),all hours,,,,,19.53
+M2 (A),all hours,,,,,19.53
+B1 seasonal naive,all hours,,,,,28.33
+B3 calendar + AC lags,all hours,,,,,39.58
+B2 average profile,all hours,,,,,27.11

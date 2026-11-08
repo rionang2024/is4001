@@ -1,0 +1,11 @@
+feature,stage,reason
+floor,Stage 1 (pre-training screen),Check 3: fully determined by zone_code (r = 0.99)
+month,Stage 1 (pre-training screen),"Check 2d: validation months (Apr, Aug, Dec) never appear in training"
+is_weekend,Stage 1 (pre-training screen),Check 3: fully determined by weekday (weekday >= 5)
+indoor_humidity_pct_yesterday,Stage 2 (permutation on validation),low influence (-0.00 pp when shuffled)
+indoor_humidity_pct_last_week,Stage 2 (permutation on validation),low influence (+0.04 pp when shuffled)
+indoor_humidity_pct_yesterday_avg,Stage 2 (permutation on validation),low influence (-0.03 pp when shuffled)
+outdoor_temp_hourly_c,Stage 2 (permutation on validation),low influence (+0.02 pp when shuffled)
+outdoor_humidity_daily_avg_pct,Stage 2 (permutation on validation),low influence (-0.03 pp when shuffled)
+rainfall_hourly_mm,Stage 2 (permutation on validation),low influence (+0.04 pp when shuffled)
+solar_radiation_daily_total_mjm2,Stage 2 (permutation on validation),low influence (-0.04 pp when shuffled)
