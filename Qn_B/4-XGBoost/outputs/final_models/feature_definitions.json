@@ -34,6 +34,93 @@
       "rainfall_daily_total_mm",
       "solar_radiation_hourly_wm2",
       "solar_radiation_daily_total_mjm2"
+    ],
+    "correlation_reduced": [
+      "zone_code",
+      "hour",
+      "weekday",
+      "is_holiday",
+      "ac_load_kw_yesterday",
+      "ac_load_kw_2_days_ago",
+      "ac_load_kw_last_week",
+      "indoor_temp_c_yesterday",
+      "indoor_temp_c_last_week",
+      "indoor_temp_c_yesterday_avg",
+      "indoor_humidity_pct_yesterday",
+      "indoor_humidity_pct_last_week",
+      "indoor_humidity_pct_yesterday_avg",
+      "outdoor_temp_hourly_c",
+      "outdoor_temp_daily_avg_c",
+      "outdoor_humidity_hourly_pct",
+      "outdoor_humidity_daily_avg_pct",
+      "rainfall_hourly_mm",
+      "rainfall_daily_total_mm",
+      "solar_radiation_hourly_wm2",
+      "solar_radiation_daily_total_mjm2"
+    ],
+    "correlation_reduced_M1": [
+      "zone_code",
+      "hour",
+      "weekday",
+      "is_holiday",
+      "ac_load_kw_yesterday",
+      "ac_load_kw_2_days_ago",
+      "ac_load_kw_last_week"
+    ],
+    "correlation_reduced_M2": [
+      "zone_code",
+      "hour",
+      "weekday",
+      "is_holiday",
+      "ac_load_kw_yesterday",
+      "ac_load_kw_2_days_ago",
+      "ac_load_kw_last_week",
+      "indoor_temp_c_yesterday",
+      "indoor_temp_c_last_week",
+      "indoor_temp_c_yesterday_avg",
+      "indoor_humidity_pct_yesterday",
+      "indoor_humidity_pct_last_week",
+      "indoor_humidity_pct_yesterday_avg"
+    ],
+    "correlation_reduced_M3": [
+      "zone_code",
+      "hour",
+      "weekday",
+      "is_holiday",
+      "ac_load_kw_yesterday",
+      "ac_load_kw_2_days_ago",
+      "ac_load_kw_last_week",
+      "outdoor_temp_hourly_c",
+      "outdoor_temp_daily_avg_c",
+      "outdoor_humidity_hourly_pct",
+      "outdoor_humidity_daily_avg_pct",
+      "rainfall_hourly_mm",
+      "rainfall_daily_total_mm",
+      "solar_radiation_hourly_wm2",
+      "solar_radiation_daily_total_mjm2"
+    ],
+    "correlation_reduced_M4": [
+      "zone_code",
+      "hour",
+      "weekday",
+      "is_holiday",
+      "ac_load_kw_yesterday",
+      "ac_load_kw_2_days_ago",
+      "ac_load_kw_last_week",
+      "indoor_temp_c_yesterday",
+      "indoor_temp_c_last_week",
+      "indoor_temp_c_yesterday_avg",
+      "indoor_humidity_pct_yesterday",
+      "indoor_humidity_pct_last_week",
+      "indoor_humidity_pct_yesterday_avg",
+      "outdoor_temp_hourly_c",
+      "outdoor_temp_daily_avg_c",
+      "outdoor_humidity_hourly_pct",
+      "outdoor_humidity_daily_avg_pct",
+      "rainfall_hourly_mm",
+      "rainfall_daily_total_mm",
+      "solar_radiation_hourly_wm2",
+      "solar_radiation_daily_total_mjm2"
     ]
   },
   "definitions": {
@@ -51,6 +138,51 @@
         "indoor_humidity_pct_last_week"
       ],
       "reason": "conservative removal of redundant or low-gain variables while retaining indoor and weather groups"
+    },
+    "correlation_reduced": {
+      "base": "M4",
+      "dropped": [
+        "floor",
+        "month",
+        "is_weekend"
+      ],
+      "reason": "applies the supplied feature-selection exclusions: floor is nearly determined by zone_code, is_weekend by weekday, and validation months are absent from the training months"
+    },
+    "correlation_reduced_M1": {
+      "base": "M1",
+      "dropped": [
+        "floor",
+        "is_weekend",
+        "month"
+      ],
+      "reason": "matched ablation applying the supplied feature-selection exclusions to the original feature set"
+    },
+    "correlation_reduced_M2": {
+      "base": "M2",
+      "dropped": [
+        "floor",
+        "is_weekend",
+        "month"
+      ],
+      "reason": "matched ablation applying the supplied feature-selection exclusions to the original feature set"
+    },
+    "correlation_reduced_M3": {
+      "base": "M3",
+      "dropped": [
+        "floor",
+        "is_weekend",
+        "month"
+      ],
+      "reason": "matched ablation applying the supplied feature-selection exclusions to the original feature set"
+    },
+    "correlation_reduced_M4": {
+      "base": "M4",
+      "dropped": [
+        "floor",
+        "is_weekend",
+        "month"
+      ],
+      "reason": "matched ablation applying the supplied feature-selection exclusions to the original feature set"
     }
   }
 }
