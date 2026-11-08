@@ -224,3 +224,12 @@ dashboard_data/
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Question B: files the cleaning notebooks in Qn_B/cleaned_data/ create locally. Not committed:
+# the raw Kaggle CSVs (up to 96 MB each), the Open-Meteo weather downloads, and large intermediate outputs.
+Qn_B/cleaned_data/20*Floor*.csv
+Qn_B/cleaned_data/weather_bangkok_*.csv
+Qn_B/cleaned_data/question_b_minute_data.parquet
+Qn_B/cleaned_data/question_b_hourly_data.csv
+Qn_B/cleaned_data/question_b_model_data.csv
+Qn_B/cleaned_data/question_b_model_data_full.parquet
