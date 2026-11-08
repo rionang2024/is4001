@@ -1,0 +1,29 @@
+{
+  "base": "M1",
+  "dropped": [
+    "floor",
+    "is_weekend",
+    "month"
+  ],
+  "reason": "matched ablation applying the supplied feature-selection exclusions to the original feature set",
+  "model": "correlation_reduced_M1",
+  "features": [
+    "zone_code",
+    "hour",
+    "weekday",
+    "is_holiday",
+    "ac_load_kw_yesterday",
+    "ac_load_kw_2_days_ago",
+    "ac_load_kw_last_week"
+  ],
+  "params": {
+    "max_depth": 8,
+    "learning_rate": 0.05,
+    "min_child_weight": 1,
+    "subsample": 1.0,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 20.0,
+    "reg_alpha": 1.0,
+    "n_estimators": 255
+  }
+}
