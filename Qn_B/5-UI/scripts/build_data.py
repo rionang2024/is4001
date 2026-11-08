@@ -41,6 +41,7 @@ PRIMARY_MODEL = "LGBM final"     # model the alerts, band and schedule are built
 BASE_COLS = {"zone_id", "timestamp", "period", "split", "is_operating_hours",
              "ac_load_kw", "scored", "rainfall_hourly_mm"}
 BASELINES = ["B1 seasonal naive", "B2 average profile", "B3 calendar + AC lags"]
+XGB_MODELS = {"accuracy_first": "XGB accuracy-first", "research_preserving": "XGB research-preserving"}
 REFERENCE_BASELINE = "B1 seasonal naive"   # the "must beat" baseline (best on test WAPE)
 
 BAND_LOW_Q, BAND_HIGH_Q = 0.10, 0.90       # empirical band from residual quantiles
@@ -55,12 +56,13 @@ ACTIVE_DAY_PEAK_KW = 2.0                   # days with forecast peak below this 
 
 def load_predictions() -> tuple[pd.DataFrame, list[str]]:
     pred = pd.read_parquet(QB / "3-LightGBM" / "outputs" / "test_predictions.parquet")
-    xgb_path = QB / "4-XGBoost" / "outputs" / "test_predictions.parquet"
+    # XGBoost final candidates: long format (one row per zone-hour per model)
+    xgb_path = QB / "4-XGBoost" / "outputs" / "final_models" / "predictions.csv"
     if xgb_path.exists():
-        xgb = pd.read_parquet(xgb_path)
-        new_cols = [c for c in xgb.columns if c not in BASE_COLS and c not in pred.columns]
-        pred = pred.merge(xgb[["zone_id", "timestamp", *new_cols]],
-                          on=["zone_id", "timestamp"], how="left")
+        xgb = pd.read_csv(xgb_path, parse_dates=["timestamp"])
+        xgb = (xgb.pivot_table(index=["zone_id", "timestamp"], columns="model", values="prediction")
+                  .rename(columns=XGB_MODELS)[list(XGB_MODELS.values())].reset_index())
+        pred = pred.merge(xgb, on=["zone_id", "timestamp"], how="left")
     pred = pred[pred["scored"] == 1].copy()
     models = [c for c in pred.columns if c not in BASE_COLS]
     # baselines first, then ML models in file order

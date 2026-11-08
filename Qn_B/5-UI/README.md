@@ -17,6 +17,23 @@ npm run dev          # open the printed http://localhost:5173 link
 
 `npm run build` produces a static site in `dist/` (works on GitHub Pages or any static host).
 
+## Upcoming forecast tab (today + next 7 days)
+
+The **AC forecast · upcoming** tab runs a trained model in the browser on real future dates. Two can be picked on the page: **LightGBM (final)** (default) and **XGBoost (accuracy-first)**.
+
+- **Weather**: live Open-Meteo forecast for the building (same source and grid as the training weather). Used by LightGBM only.
+- **Calendar**: weekday/weekend plus Thai public holidays; office closures can be marked per day.
+- **Last 7 days of AC load and indoor temperature**: the models need these, and the CU-BEMS record ends in Dec 2019. Until real readings are uploaded (CSV, template on the page), they are filled with a **typical 2019 week** (median per zone, day type and hour).
+
+Backtest on the Jul–Sep 2018 test period, operating-hours WAPE (real readings / typical-week stand-in): LightGBM **12.5 % / 18.2 %**, XGBoost **10.8 % / 19.3 %**; B2 average-profile baseline 19.5 %. LightGBM is the default because readings are not connected yet.
+
+```bash
+npm run data:live    # export models + typical week + backtest to public/data/live/ (needs lightgbm, xgboost, holidays)
+npm run check:live   # confirm the browser evaluators reproduce the Python predictions
+```
+
+Re-run both whenever `../3-LightGBM/outputs/ac_forecaster/` or `../4-XGBoost/outputs/final_models/accuracy_first/` changes.
+
 ## How data gets in
 
 `scripts/build_data.py` reads the model outputs and writes small JSON files to `public/data/`. The UI only reads those JSON files, so **re-run `npm run data` whenever a model's outputs change**.
