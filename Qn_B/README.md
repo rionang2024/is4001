@@ -4,16 +4,16 @@
 
 - **Zone AC demand** = the sum of that zone's AC units' energy demand
 - **Indoor environmental conditions** = temperature, humidity
-- **External weather** = temperature, humidity, rainfall
+- **External weather** = temperature, humidity, rainfall, solar radiation
 
 ## Pipeline
 
-Run in order — each stage reads the cleaned dataset in [`cleaned_data/`](cleaned_data/).
+Run in order — each stage reads the cleaned data in [`cleaned_data/`](cleaned_data/), which also holds the notebooks that build it from the raw Kaggle files.
 
 | Stage | Folder | What it does | Status |
 |---|---|---|---|
 | 1 | [`1-eda/`](1-eda/) | Exploratory analysis: dead sensors, demand patterns, weather relationships | notebook committed |
-| 2 | [`2-baselines/`](2-baselines/) | Seasonal naive, average profile, feature-only baseline | empty |
+| 2 | [`2-baselines/`](2-baselines/) | Seasonal naive, average profile, feature-only baseline | notebook and results committed |
 | 3 | [`3-LightGBM/`](3-LightGBM/) | Main forecasting model | empty |
 | 4 | [`4-XGBoost/`](4-XGBoost/) | Comparator model | empty |
 | 5 | [`5-UI/`](5-UI/) | Facilities-manager dashboard (React + Vite) | first version |
@@ -25,7 +25,7 @@ Run in order — each stage reads the cleaned dataset in [`cleaned_data/`](clean
 | | |
 |---|---|
 | **Main modelling** | 2019-03 to 2019-12 |
-| **Extra training data** | 2018-07 to 2018-09 |
+| **Out-of-year test** | 2018-07 to 2018-09 |
 
 The rest of the record has no temperature or humidity readings, so it cannot support an indoor-conditions model.
 
@@ -47,8 +47,8 @@ Excluded because: **Floor 1** has no temperature or humidity sensors · **Zone 3
 ## Analytics plan
 
 1. **Data preparation** — parse date formats; sum each zone's AC units into `AC_Zone`; resample to hourly; reshape to one row per zone-hour (`zone`, `floor`, `timestamp`, `AC_zone`, `T_in`, `RH_in`).
-2. **Integrate external data** — retrieve hourly Bangkok temperature, humidity and rainfall for Jul 2018 – Dec 2019 and join onto the 23 zones' hourly dataset.
-3. **Anomaly detection** — flag impossible values and spike caps; set to missing and interpolate short gaps.
+2. **Integrate external data** — retrieve hourly Bangkok temperature, humidity, rainfall and solar radiation for Jul 2018 – Dec 2019 and join onto the 23 zones' hourly dataset.
+3. **Anomaly detection** — flag impossible values and AC spikes; values are kept, not removed or capped. No gaps are interpolated: an hour's value is left missing if fewer than 54 of its 60 minutes have a reading.
 4. **Set baselines** — see [`2-baselines/`](2-baselines/).
 5. **Modelling** — LightGBM / XGBoost, comparing the contribution of indoor conditions against outdoor weather.
 6. **Validation** — time-based splits, then MAE, RMSE, CV(RMSE), NMBE and WAPE, with a Diebold–Mariano test against the baselines.
@@ -68,13 +68,13 @@ The point of the question is which inputs actually help, so the models are compa
 
 ## Splits
 
+The `split` column of [`cleaned_data/question_b_model_data.parquet`](cleaned_data/) labels every row:
+
 | Split | Window |
 |---|---|
-| Train (main) | 2019-03-07 → 2019-12-31 |
-| Validate | Sep–Oct 2019 |
-| Test | Nov–Dec 2019 |
-| Out-of-year test | 2018-07-01 → 2018-09-12 |
-| AC-only baseline (no sensors) | Sep 2018 – Mar 2019 |
+| Train | 2019-03-01 → 2019-12-31, except April, August and December |
+| Validate | April, August and December 2019 — one month from each season (hot, rainy, cool), so every season is also in training |
+| Test | 2018-07-01 → 2018-09-30 — a different year; retrain the chosen model on all of 2019 (train + validate), then test once |
 
 Plus rolling monthly folds, and a **weather-noise test** (±1.5 °C, rain flips) to mimic the error a real forecast would carry.
 
