@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { API_DOWN, minuteOf, stamp, useApi } from '../qnaApi.js'
+import { API_DOWN, clock, minuteOf, stamp, useApi } from '../qnaApi.js'
 import BuildingExplorer from '../components/qn_a/BuildingExplorer.jsx'
 import LoadProfileChart from '../components/qn_a/LoadProfileChart.jsx'
 import StatusKey from '../components/qn_a/StatusKey.jsx'
@@ -15,13 +15,19 @@ export default function AfterHoursPage() {
   const [playing, setPlaying] = useState(false)
   const [step, setStep] = useState(1)
   const [alertId, setAlertId] = useState(null)
+  const [focus, setFocus] = useState(null)
 
-  // Clicking an alert moves the replay to the alert's peak minute.
+  // Clicking an alert moves the replay to the alert's peak minute and points the chart at its zone and load.
+  // The chart shows one date, so the window is the part of the alert on its peak day, plus half an hour either side.
   const pickAlert = (a) => {
+    const day = a.peak_at.slice(0, 10)
+    const from = a.start.slice(0, 10) === day ? minuteOf(a.start.slice(11, 16)) : 0
+    const to = a.end.slice(0, 10) === day ? minuteOf(a.end.slice(11, 16)) : 1439
     setPlaying(false)
     setAlertId(a.id)
-    setDate(a.peak_at.slice(0, 10))
+    setDate(day)
     setMinute(minuteOf(a.peak_at.slice(11, 16)))
+    setFocus({ floor: a.floor, zone: a.zone, endUse: a.end_use, start: clock(Math.max(0, from - 30)), end: clock(Math.min(1439, to + 30)) })
   }
 
   const when = stamp(date, minute)
@@ -72,7 +78,7 @@ export default function AfterHoursPage() {
 
         <BuildingExplorer rows={snap.data?.rows ?? null} when={when.replace('T', ' ')} error={snap.error} loading={snap.loading} />
 
-        <LoadProfileChart meta={meta.data} date={date} minute={minute} />
+        <LoadProfileChart meta={meta.data} date={date} minute={minute} focus={focus} />
 
         <section className="panel assumptions qa-notes">
           <div className="panel-head"><h2>How to read this page</h2></div>
