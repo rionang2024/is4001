@@ -63,7 +63,7 @@ function verify(issueAlerts, changeDay, dataStart, dataEnd) {
 const VERDICT = {
   stopped: { cls: 'good', text: 'No alerts since the change. The fix looks like it worked.' },
   fewer: { cls: 'good', text: 'Less than half the kWh above P99 since the change, but still some alerts. Keep watching.' },
-  still: { cls: 'bad', text: 'Still happening at a similar level. Reopen and check again.' },
+  still: { cls: 'bad', text: 'Still happening, without a clear drop (less than half). Reopen and check again.' },
   nodata: { cls: 'plain', text: 'No data after this date to check against.' },
 }
 
