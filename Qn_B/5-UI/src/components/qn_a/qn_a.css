@@ -172,3 +172,15 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
 .qa-ticket-form input[type=text], .qa-ticket-form textarea { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 6px 8px; font-size: 13px; resize: vertical; }
 .qa-ticket-form select { max-width: 100%; }
 .qa-note { font-style: italic; }
+.qa-lead { margin-top: 12px; }
+.qa-guide { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; padding: 0 12px; font-size: 13px; color: var(--ink-2); }
+.qa-guide summary { cursor: pointer; padding: 10px 0; font-weight: 600; color: var(--ink); min-height: 24px; }
+.qa-guide[open] summary { border-bottom: 1px solid var(--line-2); margin-bottom: 8px; }
+.qa-guide h3 { font-size: 13px; margin: 12px 0 4px; color: var(--ink); }
+.qa-guide p, .qa-guide ul, .qa-guide ol { margin: 0 0 8px; line-height: 1.5; }
+.qa-guide ul, .qa-guide ol { padding-left: 18px; }
+.qa-guide dl { margin: 0 0 8px; }
+.qa-guide dt { font-weight: 600; color: var(--ink); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
+.qa-guide dd { margin: 2px 0 0; line-height: 1.5; }
+.qa-guide > :last-child { margin-bottom: 12px; }
+.qa-demo { margin-top: 10px; line-height: 1.5; }

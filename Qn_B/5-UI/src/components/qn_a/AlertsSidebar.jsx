@@ -212,7 +212,7 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                     {p.next_action && (
                       <div className="qa-nba">
                         <div className="qa-nba-head"><span className="qa-label">Next best action</span>
-                          {p.next_action.lever !== 'None' && <span className="chip plain">{p.next_action.lever} lever</span>}</div>
+                          {p.next_action.lever !== 'None' && <span className="chip plain">Fix type: {p.next_action.lever}</span>}</div>
                         <div className="qa-nba-text"><span className="qa-step">1</span>{p.next_action.first_check}</div>
                         <div className="qa-nba-text"><span className="qa-step">2</span>{p.next_action.text}</div>
                       </div>
@@ -304,25 +304,86 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
         )
       )}
 
-      <div className="note" style={{ marginTop: 12 }}>
-        <b>Leads to investigate, not confirmed faults.</b> There is no occupancy data behind them.
-        <div style={{ marginTop: 4 }}>
-          Each card is one problem: all the alerts for one floor, zone and load. An alert is red P99 time with gaps of {r.gap_minutes} min or less joined,
-          at least {r.min_minutes_above} min above P99 and {r.min_kw_above} kW or more above it on average. {meta.events} of {meta.events_before_filter} events pass.
-          {r.priority
-            ? <> Priority is how often the problem comes back: <b>high</b> = recurring, alerts in at least {Math.round(r.recurring_share * 100)}% of its months
-              (and {r.recurring_min_months}+ months); <b>medium</b> = intermittent, 2+ months; <b>low</b> = occasional, one month. Ranked by kWh above P99 within each.</>
-            : ' Re-run the alert script to add recurrence-based priority.'}
-        </div>
-        <div style={{ marginTop: 4 }}>
-          Next best actions are fixed rules by load and usual pattern, not AI, each linked to a Week 4 optimisation lever (schedule, lighting, behaviour).
-          Step 1 always checks the meter and rules out 24/7 equipment first, because there is no occupancy data. Rules are in the alert script.
-        </div>
-        {partial && <div style={{ marginTop: 4 }}>Built from Floor{meta.floors_in_data.length > 1 ? 's' : ''} {meta.floors_in_data.join(', ')} only, {day(meta.period[0])} to {day(meta.period[1])}. Re-run the script with the full minute data for all floors.</div>}
-        <div style={{ marginTop: 4 }}>
-          Tickets are a mock-up and reset when the page reloads. "Did it work?" compares the problem's alerts {VERIFY_DAYS} days before and after the change date.
-          The data is historical and no change was really made, so this shows how the check would work, not a real result.
-        </div>
+      <div className="note qa-lead">
+        <b>Every alert is a lead to check, not a confirmed fault.</b> This panel has no occupancy or booking data,
+        so always confirm on site before changing anything.
+      </div>
+
+      <details className="qa-guide">
+        <summary>How to use this panel</summary>
+
+        <h3>What an alert means</h3>
+        <p>
+          Each zone's AC, lighting and plug load has its own <b>normal upper limit</b> for every hour of the week, worked out from the
+          last 8 weeks of readings. It is the level that zone stays under 99% of the time at that hour and weekday (shown as "P99").
+          An alert means the load went well above that limit outside office hours:
+        </p>
+        <ul>
+          <li>above the limit for at least 5 minutes in a row at some point,</li>
+          <li>above it for at least {r.min_minutes_above} minutes in total, and</li>
+          <li>on average at least {r.min_kw_above} kW above it, so tiny loads are left out.</li>
+        </ul>
+        <p>
+          Short dips of {r.gap_minutes} minutes or less are joined, so equipment switching on and off through one evening counts as one alert.
+          Office hours are weekdays 08:00 to 17:00. Public holidays are not checked.
+        </p>
+
+        <h3>Problems, not single alerts</h3>
+        <p>
+          Each card is one <b>problem</b>: every alert for one floor, zone and load, such as "F1 Z2 · AC". You fix a problem once,
+          so tickets are made per problem. The card shows when it usually happens, how many months it appeared in, and how much
+          energy went above the normal limit (kWh above P99). Click the card to see its biggest alert on the building and chart,
+          or <b>Show alerts</b> to pick a specific one.
+        </p>
+
+        <h3>Which tab to start with</h3>
+        <dl>
+          <dt><span className="chip qa-pri high">High</span> Recurring</dt>
+          <dd>Comes back in at least half of the months, and in 3 or more. Most likely a setting or habit, and usually where the
+            biggest savings are. Start here.</dd>
+          <dt><span className="chip qa-pri medium">Medium</span> Intermittent</dt>
+          <dd>Comes back in 2 or more months, but not most of them. Look for what triggers it, such as certain days or events.</dd>
+          <dt><span className="chip qa-pri low">Low</span> Occasional</dt>
+          <dd>Seen in one month only. Often a one-off, such as an event or late work. Check before acting.</dd>
+        </dl>
+        <p>Within each tab, problems are ranked by energy above the normal limit, biggest first. Use the floor and load filters to narrow the list.</p>
+
+        <h3>Next best action</h3>
+        <p>
+          Each card suggests two steps, picked by fixed rules from the load and when the problem usually happens.
+          <b> Step 1 is always a check</b>: confirm the meter reads the right equipment, and that the zone has nothing that must run
+          around the clock, such as a server room, or security lighting. Only then do step 2.
+        </p>
+        <p>The tag on each card says what kind of fix step 2 is:</p>
+        <dl>
+          <dt>Fix type: Schedule</dt>
+          <dd>Change when equipment switches on or off in the building management system. For example, stop the AC at 18:00 instead of
+            letting it run to 23:00, turn the weekend AC schedule off, or start lighting later in the morning. Often quick and low-cost.</dd>
+          <dt>Fix type: Lighting</dt>
+          <dd>Add lighting controls, such as a timer, an occupancy sensor that switches lights off when nobody is there, or daylight
+            dimming. Best when lights are on in empty spaces at night or weekends.</dd>
+          <dt>Fix type: Behaviour</dt>
+          <dd>Change how the space is used. For example, ask tenants to switch off equipment, put chargers on timers, or confirm whether
+            an event or booking explains the load.</dd>
+        </dl>
+        <p>
+          If no rule fits, the card says to investigate on site. Any change should still respect comfort, safety, tenant needs and
+          equipment limits. You can also type your own action when creating a ticket.
+        </p>
+
+        <h3>Tickets</h3>
+        <ol>
+          <li><b>Create ticket</b> on a problem, choose or type the action, and add a note for whoever goes on site.</li>
+          <li><b>Mark verified</b> once the on-site check is done.</li>
+          <li><b>Mark change made</b> and enter the date the fix went in.</li>
+          <li><b>Did it work?</b> compares the problem's alerts in the {VERIFY_DAYS} days before and after that date.
+            Close the ticket if the alerts stop, or reopen it if they continue.</li>
+        </ol>
+      </details>
+
+      <div className="muted small qa-demo">
+        Demo: historical CU-BEMS data, {day(meta.period[0])} to {day(meta.period[1])}{partial ? `, Floor${meta.floors_in_data.length > 1 ? 's' : ''} ${meta.floors_in_data.join(', ')} only` : ''}.
+        Tickets reset when the page reloads, and no change was really made, so "Did it work?" shows how the check works, not a real result.
       </div>
     </section>
   )
