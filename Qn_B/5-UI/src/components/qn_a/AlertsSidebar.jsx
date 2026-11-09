@@ -1,6 +1,7 @@
-// Sidebar for Question A: after-hours alert events and mock work tickets.
-// Events come from public/data/qa_alerts.json, built by Qn_A/scripts/build_alerts.py from the minute data.
-// Leads to investigate, not confirmed faults. Tickets live in memory only and reset on reload.
+// Sidebar for Question A: after-hours problems (one per floor, zone and load) and mock work tickets.
+// Data comes from public/data/qa_alerts.json, built by Qn_A/scripts/build_alerts.py from the minute data.
+// Each problem groups its alert events; open one to see them. Leads to investigate, not confirmed faults.
+// Tickets live in memory only and reset on reload.
 import { useEffect, useState } from 'react'
 import { dayMonth, dow, loadJSON } from '../../data.js'
 import { LOAD_NAME } from '../../qnaApi.js'
@@ -17,13 +18,28 @@ const ACTIONS = {
 }
 const NEXT = { Open: 'Verified on site', 'Verified on site': 'Closed' }
 const NEXT_LABEL = { Open: 'Mark verified', 'Verified on site': 'Close ticket' }
+const PATTERN = { Weeknight: 'weeknights', Weekend: 'weekends', 'Early morning': 'early mornings' }
+const SHOW_ALERTS = 8 // alerts listed inside an opened problem before "show all"
 
 const day = (ts) => ts.slice(0, 10)
 const time = (ts) => ts.slice(11, 16)
+const kwh = (v) => Math.round(v).toLocaleString('en-US')
 const where = (a) => `F${a.floor} Z${a.zone} · ${LOAD_NAME[a.end_use] ?? a.end_use}`
-const when = (a) => {
-  const sameDay = day(a.start) === day(a.end)
-  return `${dow(day(a.start))} ${dayMonth(day(a.start))}, ${time(a.start)} to ${time(a.end)}${sameDay ? '' : ' next day'}`
+const when = (a) => `${dow(day(a.start))} ${dayMonth(day(a.start))}, ${time(a.start)} to ${time(a.end)}${day(a.start) === day(a.end) ? '' : ' next day'}`
+const monthYear = (ts) => new Date(day(ts) + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
+const usual = (p) => `Usually ${PATTERN[p.usual_pattern] ?? p.usual_pattern}, ${p.usual_start} to ${p.usual_end}${p.usual_end_next_day ? ' next day' : ''}`
+
+// Older alert files have no problem list: build a plain one so the page still works until the script is re-run.
+function fallbackIssues(alerts) {
+  const byKey = new Map()
+  for (const a of alerts) {
+    const id = `F${a.floor}-Z${a.zone}-${a.end_use}`
+    if (!byKey.has(id)) byKey.set(id, { id, floor: a.floor, zone: a.zone, end_use: a.end_use, priority: a.priority, recurrence: a.recurrence, alerts: 0, kwh_above: 0, biggest_alert: a.id })
+    const p = byKey.get(id)
+    p.alerts += 1
+    p.kwh_above += a.kwh_above
+  }
+  return [...byKey.values()]
 }
 
 export default function AlertsSidebar({ selectedId, onPick }) {
@@ -32,8 +48,10 @@ export default function AlertsSidebar({ selectedId, onPick }) {
   const [tab, setTab] = useState('Recurring')
   const [floor, setFloor] = useState('All')
   const [use, setUse] = useState('All')
+  const [openId, setOpenId] = useState(null)
+  const [showAll, setShowAll] = useState(false)
   const [tickets, setTickets] = useState([])
-  const [draft, setDraft] = useState(null) // { alert, action }
+  const [draft, setDraft] = useState(null) // { issue, action }
 
   useEffect(() => {
     loadJSON('qa_alerts.json').then(setData).catch(() =>
@@ -44,21 +62,28 @@ export default function AlertsSidebar({ selectedId, onPick }) {
   if (!data) return <section className="panel"><div className="panel-head"><h2>Alerts</h2></div><div className="muted small">Loading alerts…</div></section>
 
   const { meta, alerts } = data
-  const ticketed = new Set(tickets.map((t) => t.alert.id))
-  const open = alerts.filter((a) => !ticketed.has(a.id))
-  const filtered = open.filter((a) => (floor === 'All' || a.floor === Number(floor)) && (use === 'All' || a.end_use === use))
-  // Older alert files have no recurrence field: fall back to the priority they carry.
-  const groupOf = (a) => a.recurrence ?? GROUPS.find((g) => g.priority === a.priority)?.id ?? 'Occasional'
-  const counts = filtered.reduce((m, a) => ({ ...m, [groupOf(a)]: (m[groupOf(a)] ?? 0) + 1 }), {})
-  const isAlerts = tab !== 'tickets'
-  const list = filtered.filter((a) => groupOf(a) === tab)
+  const issues = data.issues ?? fallbackIssues(alerts)
+  const byId = new Map(alerts.map((a) => [a.id, a]))
+  const alertsOf = (p) => alerts.filter((a) => a.floor === p.floor && a.zone === p.zone && a.end_use === p.end_use)
+    .sort((x, y) => (x.start < y.start ? 1 : -1))
+  const groupOf = (p) => p.recurrence ?? GROUPS.find((g) => g.priority === p.priority)?.id ?? 'Occasional'
+
+  const ticketed = new Set(tickets.map((t) => t.issue.id))
+  const open = issues.filter((p) => !ticketed.has(p.id))
+  const filtered = open.filter((p) => (floor === 'All' || p.floor === Number(floor)) && (use === 'All' || p.end_use === use))
+  const counts = filtered.reduce((m, p) => ({ ...m, [groupOf(p)]: (m[groupOf(p)] ?? 0) + 1 }), {})
+  const list = filtered.filter((p) => groupOf(p) === tab)
+  const openAlerts = open.reduce((n, p) => n + p.alerts, 0)
   const r = meta.rule
   const partial = meta.floors_in_data.length < 7
 
+  const pickTab = (t) => { setTab(t); setOpenId(null) }
+  const toggle = (p) => { setOpenId(openId === p.id ? null : p.id); setShowAll(false) }
   const createTicket = () => {
     const id = `T-${String(tickets.length + 1).padStart(3, '0')}`
-    setTickets([...tickets, { id, alert: draft.alert, action: draft.action, status: 'Open' }])
+    setTickets([...tickets, { id, issue: draft.issue, action: draft.action, status: 'Open' }])
     setDraft(null)
+    setOpenId(null)
   }
   const advance = (id) => setTickets(tickets.map((t) => (t.id === id ? { ...t, status: NEXT[t.status] } : t)))
 
@@ -66,17 +91,17 @@ export default function AlertsSidebar({ selectedId, onPick }) {
     <section className="panel qa-alerts" aria-labelledby="qa-alerts-title">
       <div className="panel-head">
         <h2 id="qa-alerts-title">Alerts</h2>
-        <span className="sub">{open.length} open</span>
+        <span className="sub">{open.length} problems · {openAlerts} alerts</span>
       </div>
       <div className="qa-tabs" role="tablist" aria-label="Alert groups">
         {GROUPS.map((g) => (
           <button key={g.id} type="button" role="tab" aria-selected={tab === g.id}
-                  className={`qa-tab ${g.priority.toLowerCase()}${tab === g.id ? ' on' : ''}`} onClick={() => setTab(g.id)}>
+                  className={`qa-tab ${g.priority.toLowerCase()}${tab === g.id ? ' on' : ''}`} onClick={() => pickTab(g.id)}>
             <span>{g.id}</span>
             <span className="qa-tab-sub">{g.priority} priority · {counts[g.id] ?? 0}</span>
           </button>
         ))}
-        <button type="button" role="tab" aria-selected={tab === 'tickets'} className={`qa-tab ticket${tab === 'tickets' ? ' on' : ''}`} onClick={() => setTab('tickets')}>
+        <button type="button" role="tab" aria-selected={tab === 'tickets'} className={`qa-tab ticket${tab === 'tickets' ? ' on' : ''}`} onClick={() => pickTab('tickets')}>
           <span>Tickets</span>
           <span className="qa-tab-sub">{tickets.length}</span>
         </button>
@@ -84,13 +109,13 @@ export default function AlertsSidebar({ selectedId, onPick }) {
 
       {draft && (
         <div className="qa-ticket-form">
-          <div className="qa-alert-top"><b>New work ticket</b><span className={`chip qa-pri ${draft.alert.priority.toLowerCase()}`}>{draft.alert.priority}</span></div>
-          <div className="meta">{where(draft.alert)} · {when(draft.alert)}</div>
-          <div className="meta">{draft.alert.avg_kw} kW average vs {draft.alert.p99_kw} kW P99. A lead to check, not a confirmed fault.</div>
+          <div className="qa-alert-top"><b>New work ticket</b><span className={`chip qa-pri ${draft.issue.priority.toLowerCase()}`}>{draft.issue.priority}</span></div>
+          <div className="meta">{where(draft.issue)} · {draft.issue.alerts} alert{draft.issue.alerts === 1 ? '' : 's'}</div>
+          {draft.issue.usual_pattern && <div className="meta">{usual(draft.issue)}. A lead to check, not a confirmed fault.</div>}
           <label className="field">
             <span className="qa-label">Action</span>
             <select value={draft.action} onChange={(e) => setDraft({ ...draft, action: e.target.value })}>
-              {(ACTIONS[draft.alert.end_use] ?? ACTIONS.Plug).map((a) => <option key={a}>{a}</option>)}
+              {(ACTIONS[draft.issue.end_use] ?? ACTIONS.Plug).map((a) => <option key={a}>{a}</option>)}
             </select>
           </label>
           <div className="row">
@@ -100,7 +125,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
         </div>
       )}
 
-      {isAlerts && (
+      {tab !== 'tickets' && (
         <>
           <div className="qa-alert-filters">
             <label className="field">
@@ -120,38 +145,70 @@ export default function AlertsSidebar({ selectedId, onPick }) {
             </div>
           </div>
 
-          {list.length === 0 ? <div className="note">No {tab.toLowerCase()} alerts match these filters.</div> : (
+          {list.length === 0 ? <div className="note">No {tab.toLowerCase()} problems match these filters.</div> : (
             <div className="alert-list">
-              {list.map((a) => (
-                <div key={a.id} className={`qa-alert ${a.priority.toLowerCase()}${a.id === selectedId ? ' sel' : ''}`}>
-                  <button type="button" className="qa-alert-main" onClick={() => onPick(a)} aria-pressed={a.id === selectedId}
-                          title="Show this alert's floor and time on the page">
-                    <span className="qa-alert-top"><span>{where(a)}</span><span className="num">+{a.kw_above} kW</span></span>
-                    <span className="meta">{when(a)}</span>
-                    <span className="meta">Above P99 for {a.minutes_above} of {a.span_minutes} min · peak <span className="num">{a.peak_kw}</span> kW at {time(a.peak_at)}</span>
-                    {a.recurrence && <span className="meta">Alerts in {a.months_with_alerts} of {a.months_assessed} months for this zone and load</span>}
-                  </button>
-                  <div className="qa-alert-foot">
-                    <span className={`chip qa-pri ${a.priority.toLowerCase()}`}>{a.priority}</span>
-                    <span className="muted small num">{a.kwh_above} kWh above P99</span>
-                    <button type="button" className="btn small" onClick={() => setDraft({ alert: a, action: (ACTIONS[a.end_use] ?? ACTIONS.Plug)[0] })}>Create ticket</button>
+              {list.map((p) => {
+                const isOpen = openId === p.id
+                const inside = isOpen ? alertsOf(p) : []
+                const shown = showAll ? inside : inside.slice(0, SHOW_ALERTS)
+                const biggest = byId.get(p.biggest_alert)
+                const holdsSel = selectedId && selectedId.startsWith(p.id + '-')
+                return (
+                  <div key={p.id} className={`qa-alert ${p.priority.toLowerCase()}${holdsSel ? ' sel' : ''}`}>
+                    <button type="button" className="qa-alert-main" onClick={() => biggest && onPick(biggest)}
+                            title="Show this problem's biggest alert on the page">
+                      <span className="qa-alert-top"><span>{where(p)}</span><span className="num">{p.alerts} alert{p.alerts === 1 ? '' : 's'}</span></span>
+                      {p.usual_pattern && <span className="meta">{usual(p)} <span className="muted">({p.usual_count} of {p.alerts})</span></span>}
+                      {p.months_with_alerts != null && (
+                        <span className="meta">Alerts in {p.months_with_alerts} of {p.months_assessed} months · {monthYear(p.first)} to {monthYear(p.last)}</span>
+                      )}
+                      {p.kw_above != null && <span className="meta">Average <span className="num">+{p.kw_above}</span> kW above P99 · peak <span className="num">{p.peak_kw}</span> kW</span>}
+                    </button>
+                    <div className="qa-alert-foot">
+                      <span className={`chip qa-pri ${p.priority.toLowerCase()}`}>{p.priority}</span>
+                      <span className="muted small num">{kwh(p.kwh_above)} kWh above P99</span>
+                    </div>
+                    <div className="qa-alert-foot">
+                      <button type="button" className="btn small" aria-expanded={isOpen} onClick={() => toggle(p)}>
+                        {isOpen ? 'Hide alerts' : `Show alerts (${p.alerts})`}
+                      </button>
+                      <button type="button" className="btn small" onClick={() => setDraft({ issue: p, action: (ACTIONS[p.end_use] ?? ACTIONS.Plug)[0] })}>Create ticket</button>
+                    </div>
+                    {isOpen && (
+                      <ul className="qa-events">
+                        {shown.map((a) => (
+                          <li key={a.id}>
+                            <button type="button" className={`qa-event${a.id === selectedId ? ' sel' : ''}`} onClick={() => onPick(a)}
+                                    aria-pressed={a.id === selectedId} title="Show this alert on the page">
+                              <span>{when(a)}</span>
+                              <span className="num">+{a.kw_above} kW · {a.minutes_above} min</span>
+                            </button>
+                          </li>
+                        ))}
+                        {inside.length > SHOW_ALERTS && (
+                          <li><button type="button" className="btn small" onClick={() => setShowAll(!showAll)}>
+                            {showAll ? 'Show fewer' : `Show all ${inside.length}`}
+                          </button></li>
+                        )}
+                      </ul>
+                    )}
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </>
       )}
 
       {tab === 'tickets' && (
-        tickets.length === 0 ? <div className="note">No tickets yet. Create one from an alert.</div> : (
+        tickets.length === 0 ? <div className="note">No tickets yet. Create one from a problem.</div> : (
           <div className="alert-list">
             {tickets.map((t) => (
               <div key={t.id} className="qa-alert ticket">
                 <div className="qa-alert-main static">
-                  <span className="qa-alert-top"><span>{t.id} · {where(t.alert)}</span><span className="small">{t.status}</span></span>
+                  <span className="qa-alert-top"><span>{t.id} · {where(t.issue)}</span><span className="small">{t.status}</span></span>
                   <span className="meta">{t.action}</span>
-                  <span className="meta">{when(t.alert)}</span>
+                  <span className="meta">{t.issue.alerts} alert{t.issue.alerts === 1 ? '' : 's'}{t.issue.usual_pattern ? ` · ${usual(t.issue).toLowerCase()}` : ''}</span>
                 </div>
                 {NEXT[t.status] && (
                   <div className="qa-alert-foot"><button type="button" className="btn small" onClick={() => advance(t.id)}>{NEXT_LABEL[t.status]}</button></div>
@@ -165,10 +222,10 @@ export default function AlertsSidebar({ selectedId, onPick }) {
       <div className="note" style={{ marginTop: 12 }}>
         <b>Leads to investigate, not confirmed faults.</b> There is no occupancy data behind them.
         <div style={{ marginTop: 4 }}>
-          An alert is red P99 time in one zone and load, with gaps of {r.gap_minutes} min or less joined, at least {r.min_minutes_above} min above P99
-          and {r.min_kw_above} kW or more above it on average. {meta.events} of {meta.events_before_filter} events pass.
+          Each card is one problem: all the alerts for one floor, zone and load. An alert is red P99 time with gaps of {r.gap_minutes} min or less joined,
+          at least {r.min_minutes_above} min above P99 and {r.min_kw_above} kW or more above it on average. {meta.events} of {meta.events_before_filter} events pass.
           {r.priority
-            ? <> Priority is how often that zone and load comes back: <b>high</b> = recurring, alerts in at least {Math.round(r.recurring_share * 100)}% of its months
+            ? <> Priority is how often the problem comes back: <b>high</b> = recurring, alerts in at least {Math.round(r.recurring_share * 100)}% of its months
               (and {r.recurring_min_months}+ months); <b>medium</b> = intermittent, 2+ months; <b>low</b> = occasional, one month. Ranked by kWh above P99 within each.</>
             : ' Re-run the alert script to add recurrence-based priority.'}
         </div>
