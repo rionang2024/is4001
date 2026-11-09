@@ -54,7 +54,7 @@ const Select = ({ label, value, onChange, children, id }) => (
   </div>
 )
 
-export default function LoadProfileChart({ meta, date, minute }) {
+export default function LoadProfileChart({ meta, date, minute, focus }) {
   const [mode, setMode] = useState('zone')
   const [floor, setFloor] = useState(1)
   const [zone, setZone] = useState(2)
@@ -63,6 +63,12 @@ export default function LoadProfileChart({ meta, date, minute }) {
   const [cmpUse, setCmpUse] = useState('AC')
   const [start, setStart] = useState('20:25')
   const [end, setEnd] = useState('20:48')
+
+  // An alert picked in the sidebar points the chart at that zone, load and window (a new object each pick).
+  useEffect(() => {
+    if (!focus) return
+    setMode('zone'); setFloor(focus.floor); setZone(focus.zone); setEndUse(focus.endUse); setStart(focus.start); setEnd(focus.end)
+  }, [focus])
 
   const zonesOf = meta.zones[floor] ?? {}
   const zoneIds = Object.keys(zonesOf)
