@@ -28,6 +28,7 @@ const where = (a) => `F${a.floor} Z${a.zone} · ${LOAD_NAME[a.end_use] ?? a.end_
 const when = (a) => `${dow(day(a.start))} ${dayMonth(day(a.start))}, ${time(a.start)} to ${time(a.end)}${day(a.start) === day(a.end) ? '' : ' next day'}`
 const monthYear = (ts) => new Date(day(ts) + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
 // The ticket's action list: the problem's next best action and first check, then the general checks for its load.
+const OTHER = 'Other (type your own)'
 const actionsFor = (p) => [...new Set([p.next_action?.text, p.next_action?.first_check, ...(ACTIONS[p.end_use] ?? ACTIONS.Plug)].filter(Boolean))]
 const usual = (p) => `Usually ${PATTERN[p.usual_pattern] ?? p.usual_pattern}, ${p.usual_start} to ${p.usual_end}${p.usual_end_next_day ? ' next day' : ''}`
 
@@ -80,7 +81,7 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
   const [openId, setOpenId] = useState(null)
   const [showAll, setShowAll] = useState(false)
   const [tickets, setTickets] = useState([])
-  const [draft, setDraft] = useState(null) // { issue, action }
+  const [draft, setDraft] = useState(null) // { issue, action, custom, note }
 
   useEffect(() => {
     loadJSON('qa_alerts.json').then(setData).catch(() =>
@@ -110,7 +111,8 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
   const toggle = (p) => { setOpenId(openId === p.id ? null : p.id); setShowAll(false) }
   const createTicket = () => {
     const id = `T-${String(tickets.length + 1).padStart(3, '0')}`
-    setTickets([...tickets, { id, issue: draft.issue, action: draft.action, status: 'Open' }])
+    const action = draft.action === OTHER ? draft.custom.trim() : draft.action
+    setTickets([...tickets, { id, issue: draft.issue, action, note: draft.note.trim(), status: 'Open' }])
     setDraft(null)
     setOpenId(null)
   }
@@ -145,10 +147,24 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
             <span className="qa-label">Action</span>
             <select value={draft.action} onChange={(e) => setDraft({ ...draft, action: e.target.value })}>
               {actionsFor(draft.issue).map((a) => <option key={a}>{a}</option>)}
+              <option>{OTHER}</option>
             </select>
           </label>
+          {draft.action === OTHER && (
+            <label className="field">
+              <span className="qa-label">Your action</span>
+              <input type="text" value={draft.custom} autoFocus placeholder="e.g. Ask tenant about the late Thursday meeting"
+                     onChange={(e) => setDraft({ ...draft, custom: e.target.value })} />
+            </label>
+          )}
+          <label className="field">
+            <span className="qa-label">Note for the team (optional)</span>
+            <textarea rows="2" value={draft.note} placeholder="Anything the person on site should know"
+                      onChange={(e) => setDraft({ ...draft, note: e.target.value })} />
+          </label>
           <div className="row">
-            <button type="button" className="btn qa-primary" onClick={createTicket}>Create ticket</button>
+            <button type="button" className="btn qa-primary" onClick={createTicket}
+                    disabled={draft.action === OTHER && !draft.custom.trim()}>Create ticket</button>
             <button type="button" className="btn" onClick={() => setDraft(null)}>Cancel</button>
           </div>
         </div>
@@ -209,7 +225,7 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                       <button type="button" className="btn small" aria-expanded={isOpen} onClick={() => toggle(p)}>
                         {isOpen ? 'Hide alerts' : `Show alerts (${p.alerts})`}
                       </button>
-                      <button type="button" className="btn small" onClick={() => setDraft({ issue: p, action: actionsFor(p)[0] })}>Create ticket</button>
+                      <button type="button" className="btn small" onClick={() => setDraft({ issue: p, action: actionsFor(p)[0], custom: '', note: '' })}>Create ticket</button>
                     </div>
                     {isOpen && (
                       <ul className="qa-events">
@@ -245,6 +261,7 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                 <div className="qa-alert-main static">
                   <span className="qa-alert-top"><span>{t.id} · {where(t.issue)}</span><span className="small">{t.status}</span></span>
                   <span className="meta">{t.action}</span>
+                  {t.note && <span className="meta qa-note">Note: {t.note}</span>}
                   <span className="meta">{t.issue.alerts} alert{t.issue.alerts === 1 ? '' : 's'}{t.issue.usual_pattern ? ` · ${usual(t.issue).toLowerCase()}` : ''}</span>
                 </div>
                 {t.status === 'Open' && (
