@@ -219,9 +219,6 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Question A: the minute-level data (about 860 MB) stays local. Not *.parquet: Question B commits small Parquet files.
-dashboard_data/
-
 # Claude Code local settings
 .claude/settings.local.json
 
@@ -233,3 +230,6 @@ Qn_B/cleaned_data/question_b_minute_data.parquet
 Qn_B/cleaned_data/question_b_hourly_data.csv
 Qn_B/cleaned_data/question_b_model_data.csv
 Qn_B/cleaned_data/question_b_model_data_full.parquet
+
+# Vite cache
+.vite/

@@ -16,16 +16,16 @@
 
 ## The data
 
-Minute-level, cleaned CU-BEMS Parquet for all 7 floors, Jul 2018 to Dec 2019: power per zone and end use, with a historical median, a P99 threshold, a status (green / amber / red / grey / neutral) and a `status_reason` for every minute. It is about 860 MB, so it is **not in git**.
+Minute-level, cleaned CU-BEMS Parquet for all 7 floors, Jul 2018 to Dec 2019: power per zone and end use, with a historical median, a P99 threshold, a status (green / amber / red / grey / neutral) and a `status_reason` for every minute. It is about 860 MB and is committed to git, so `git pull` brings it in (126 Parquet files, none over 8 MB). Don't add more large data to the repo without asking the team: it stays in history for every clone.
 
-Put it here, exactly as received (`minute.zip` unzips to a `minute/` folder):
+It sits here, as received (`minute.zip` unzips to a `minute/` folder):
 
 ```
 dashboard_data/minute/floor=1/month=2018-10/part-00000.parquet
 dashboard_data/minute/floor=2/...
 ```
 
-Share it with the team through Drive. Field definitions and the rules for reading status colours are in [`../docs/qa/dashboard_data_README.md`](../docs/qa/dashboard_data_README.md) and [`../docs/qa/DATA_CONTRACT.md`](../docs/qa/DATA_CONTRACT.md).
+Field definitions and the rules for reading status colours are in [`../docs/qa/dashboard_data_README.md`](../docs/qa/dashboard_data_README.md) and [`../docs/qa/DATA_CONTRACT.md`](../docs/qa/DATA_CONTRACT.md).
 
 **Check against the analysis above:** summing AC, lighting and plug per floor, Jul to Dec 2018, public holidays excluded, the minute data gives a Floor 1 weekday after-hours ratio of 1.92 and a weekend ratio of 1.56, the same as the Key findings table. Every other floor is below 1 (0.08 to 0.17 on weekday nights).
 
@@ -45,6 +45,11 @@ cd Qn_B/5-UI && npm install && npm run dev
 ```
 
 Open the **After-hours energy** tab (`#/qn-a`). It opens on 2018-10-03 20:35: Floor 1, Zone 2, AC is red (amber from 20:31, red from 20:35, green again at 20:44).
+
+**Alerts sidebar.** The sidebar reads `Qn_B/5-UI/public/data/qa_alerts.json`, a short list of alert events built from the minute data by `Qn_A/scripts/build_alerts.py`.
+Re-run it after the minute data changes: `.venv/bin/python Qn_A/scripts/build_alerts.py` (Windows: `.venv\Scripts\python Qn_A\scripts\build_alerts.py`).
+The joining and filter rules (10-min gaps, 30+ min and 5+ kW above P99, priority by how often a zone and load recurs: recurring = high, intermittent = medium, occasional = low) are at the top of the script and are the team's choice on top of the data README.
+The committed file was built from Floor 1, October 2018 only.
 
 API tests: `cd Qn_A/api && ../../.venv/bin/python -m pytest`. To read data from another folder, set `QA_DATA_DIR` to the `minute/` folder.
 

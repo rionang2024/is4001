@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import ForecastPage from './pages/ForecastPage.jsx'
 import AfterHoursPage from './pages/AfterHoursPage.jsx'
+import LiveForecastPage from './pages/LiveForecastPage.jsx'
 
 // Add a page here to give it a tab. Hash routing keeps it working as a static site.
 const PAGES = [
   { id: 'qn-a', label: 'After-hours energy', sub: 'Question A', Component: AfterHoursPage },
-  { id: 'qn-b', label: 'AC demand forecast', sub: 'Question B', Component: ForecastPage },
+  { id: 'qn-b-live', label: 'AC forecast · upcoming', sub: 'Question B: today and the next 7 days', Component: LiveForecastPage },
+  { id: 'qn-b', label: 'AC forecast · test period', sub: 'Question B: model vs actual, Jul–Sep 2018', Component: ForecastPage },
 ]
 
 const fromHash = () => PAGES.find((p) => `#/${p.id}` === window.location.hash)?.id ?? 'qn-b'

@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-02T09:47:01+00:00",
+ "generated_at": "2026-11-08T19:53:57+00:00",
  "period": {
   "start": "2018-07-08",
   "end": "2018-09-30",
@@ -165,13 +165,19 @@
   {
    "id": "LGBM final",
    "kind": "model"
+  },
+  {
+   "id": "XGB accuracy-first",
+   "kind": "model"
+  },
+  {
+   "id": "XGB research-preserving",
+   "kind": "model"
   }
  ],
  "primary_model": "LGBM final",
  "reference_baseline": "B1 seasonal naive",
- "pending_models": [
-  "XGBoost"
- ],
+ "pending_models": [],
  "rules": {
   "band": "10\u201390% range of LGBM final errors, per zone and hour of day (from test residuals until validation residuals are exported)",
   "deviation": "Operating hours: |actual \u2212 forecast| > max(2.0 kW, 3.0\u00d7 the zone's operating-hours MAE). After hours: actual > 2.0 kW while forecast < 0.5 kW.",
@@ -183,83 +189,83 @@
    "hours": "all hours",
    "model": "LGBM final",
    "vs": "B1 seasonal naive",
-   "DM": -3.0972936926897816,
-   "p_value": 0.0019529628173335
+   "DM": -3.0498117720912523,
+   "p_value": 0.0022898482809065165
   },
   {
    "hours": "all hours",
    "model": "LGBM final",
    "vs": "B2 average profile",
-   "DM": -8.067658404054482,
-   "p_value": 7.165920263570363e-16
+   "DM": -7.433742778325376,
+   "p_value": 1.0556716166870619e-13
   },
   {
    "hours": "all hours",
    "model": "LGBM final",
    "vs": "B3 calendar + AC lags",
-   "DM": -13.174142891906458,
-   "p_value": 1.2362340921105422e-39
+   "DM": -13.204479363476706,
+   "p_value": 8.266930676225543e-40
   },
   {
    "hours": "all hours",
    "model": "LGBM final",
    "vs": "LGBM full",
-   "DM": -7.186724371053866,
-   "p_value": 6.63641918886746e-13
+   "DM": -6.660057109398973,
+   "p_value": 2.7372120282123875e-11
   },
   {
    "hours": "operating hours",
    "model": "LGBM final",
    "vs": "B1 seasonal naive",
-   "DM": -1.9053724640483587,
-   "p_value": 0.0567316719711274
+   "DM": -1.7481271623152692,
+   "p_value": 0.08044201052949822
   },
   {
    "hours": "operating hours",
    "model": "LGBM final",
    "vs": "B2 average profile",
-   "DM": -7.227250213206679,
-   "p_value": 4.928715294844439e-13
+   "DM": -6.931765706075,
+   "p_value": 4.156199131671851e-12
   },
   {
    "hours": "operating hours",
    "model": "LGBM final",
    "vs": "B3 calendar + AC lags",
-   "DM": -5.049410319283183,
-   "p_value": 4.43175924740208e-07
+   "DM": -4.622687481029149,
+   "p_value": 3.788001909184492e-06
   },
   {
    "hours": "operating hours",
    "model": "LGBM final",
    "vs": "LGBM full",
-   "DM": -1.007182871850745,
-   "p_value": 0.3138469024964057
+   "DM": -0.6611288355207724,
+   "p_value": 0.5085296943635975
   }
  ],
  "feature_groups": [
   {
    "group": "indoor",
-   "perm_WAPE_increase_pp": 2.981363730048898,
-   "sd_pp": 0.0862704178697239,
+   "perm_WAPE_increase_pp": 1.912230997598364,
+   "sd_pp": 0.06070826220708207,
    "n_features": 6.0
   },
   {
    "group": "weather",
-   "perm_WAPE_increase_pp": 11.303610560902433,
-   "sd_pp": 0.1501201755100379,
+   "perm_WAPE_increase_pp": 11.769894085456269,
+   "sd_pp": 0.102492393175953,
    "n_features": 8.0
   },
   {
    "group": "AC lag",
-   "perm_WAPE_increase_pp": 55.233348707914445,
-   "sd_pp": 0.2900156103528368,
+   "perm_WAPE_increase_pp": 52.38489245234994,
+   "sd_pp": 0.23682145591442585,
    "n_features": 3.0
   },
   {
    "group": "calendar/zone",
-   "perm_WAPE_increase_pp": 29.2672411469896,
-   "sd_pp": 0.1982601380605453,
-   "n_features": 7.0
+   "perm_WAPE_increase_pp": 29.22416876940657,
+   "sd_pp": 0.3284713369595513,
+   "n_features": 4.0
   }
  ]
 }

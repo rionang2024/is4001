@@ -348,7 +348,15 @@ def run(config: Config) -> None:
     metadata["data_dir"] = str(config.data_dir)
     metadata["output_dir"] = str(config.output_dir)
     metadata["versions"] = package_versions()
-    (config.output_dir / "run_metadata.json").write_text(json.dumps(metadata, indent=2, default=str))
+    metadata_dir = config.output_dir / "metadata"
+    predictions_dir = config.output_dir / "predictions"
+    evaluation_dir = config.output_dir / "evaluation"
+    tuning_dir = config.output_dir / "tuning"
+    for directory in (metadata_dir, predictions_dir, evaluation_dir, tuning_dir):
+        directory.mkdir(parents=True, exist_ok=True)
+    (metadata_dir / "run_metadata.json").write_text(
+        json.dumps(metadata, indent=2, default=str)
+    )
 
     for model_name, features in sets.items():
         best_params, trials = tune_model(train, validation, features, model_name, config)
@@ -376,8 +384,10 @@ def run(config: Config) -> None:
     predictions = predictions.merge(
         baseline, on=KEYS, how="left", suffixes=("", "_baseline")
     )
-    predictions.to_csv(config.output_dir / "test_predictions.csv", index=False)
-    pd.concat(tuning_frames, ignore_index=True).to_csv(config.output_dir / "tuning_results.csv", index=False)
+    predictions.to_csv(predictions_dir / "test_predictions.csv", index=False)
+    pd.concat(tuning_frames, ignore_index=True).to_csv(
+        tuning_dir / "tuning_results.csv", index=False
+    )
     scores = []
     for model_name in MODEL_NAMES:
         column = f"{model_name}_prediction"
@@ -389,7 +399,9 @@ def run(config: Config) -> None:
         )
         grouped.insert(0, "model", model_name)
         scores.append(grouped.assign(slice="grouped"))
-    pd.concat(scores, ignore_index=True).to_csv(config.output_dir / "test_metrics.csv", index=False)
+    pd.concat(scores, ignore_index=True).to_csv(
+        evaluation_dir / "test_metrics.csv", index=False
+    )
     if "scored" in predictions:
         common = predictions.loc[predictions["scored"].eq(1)].copy()
         common_scores = []
@@ -398,7 +410,7 @@ def run(config: Config) -> None:
             result.insert(0, "model", model_name)
             common_scores.append(result)
         pd.concat(common_scores, ignore_index=True).to_csv(
-            config.output_dir / "common_scored_metrics.csv", index=False
+            evaluation_dir / "common_scored_metrics.csv", index=False
         )
     noisy_test = add_weather_noise(test, config.weather_noise_seed)
     noise_scores = []
@@ -410,7 +422,7 @@ def run(config: Config) -> None:
         result.insert(1, "scenario", "weather_noise")
         noise_scores.append(result)
     pd.concat(noise_scores, ignore_index=True).to_csv(
-        config.output_dir / "weather_noise_metrics.csv", index=False
+        evaluation_dir / "weather_noise_metrics.csv", index=False
     )
     if all(column in predictions for column in ("M1_prediction", "M4_prediction")):
         dm_rows.append(
@@ -428,7 +440,9 @@ def run(config: Config) -> None:
             )}
         )
     if dm_rows:
-        pd.DataFrame(dm_rows).to_csv(config.output_dir / "diebold_mariano.csv", index=False)
+        pd.DataFrame(dm_rows).to_csv(
+            evaluation_dir / "diebold_mariano.csv", index=False
+        )
 
 
 def parse_args() -> Config:

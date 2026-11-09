@@ -71,7 +71,7 @@ export default function ForecastPage() {
 
       <div className="layout">
         <div className="main-col">
-          <section className="panel">
+          <section className="panel controls-panel">
             <div className="controls">
               <ZonePicker zones={meta.zones} value={zoneId} onChange={setZoneId} />
               <div className="field">

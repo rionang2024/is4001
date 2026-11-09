@@ -1,7 +1,7 @@
 import { addDays, dow, dayMonth, fmt } from '../data.js'
 
 // 7-day outlook for the selected zone: weather inputs and forecast peak per day.
-export default function OutlookStrip({ days, date, onPick }) {
+export default function OutlookStrip({ days, date, onPick, note }) {
   const list = Array.from({ length: 7 }, (_, i) => addDays(date, i))
   const maxPeak = Math.max(1, ...list.map((d) => days[d]?.forecast_peak ?? 0))
 
@@ -35,7 +35,7 @@ export default function OutlookStrip({ days, date, onPick }) {
         })}
       </div>
       <p className="muted small" style={{ margin: '8px 0 0' }}>
-        Weather here is <b>observed</b> Open-Meteo data standing in for a forecast, so real-world accuracy would be somewhat lower.
+        {note ?? <>Weather here is <b>observed</b> Open-Meteo data standing in for a forecast, so real-world accuracy would be somewhat lower.</>}
       </p>
     </section>
   )
