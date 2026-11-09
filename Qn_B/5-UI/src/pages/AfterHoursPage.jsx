@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { API_DOWN, clock, minuteOf, stamp, useApi } from '../qnaApi.js'
 import BuildingExplorer from '../components/qn_a/BuildingExplorer.jsx'
 import LoadProfileChart from '../components/qn_a/LoadProfileChart.jsx'
 import StatusKey from '../components/qn_a/StatusKey.jsx'
 import TimeControl, { INCIDENT } from '../components/qn_a/TimeControl.jsx'
 import AlertsSidebar from '../components/qn_a/AlertsSidebar.jsx'
+import { bindQaBuilding, emitEventSelect } from '../qaBuilding.js'
 
 // Question A: where and when does the building use energy after hours?
 // Minute-level data comes from Qn_A/api (Parquet in dashboard_data/, never sent to the browser whole).
@@ -24,6 +25,7 @@ export default function AfterHoursPage() {
     const from = a.start.slice(0, 10) === day ? minuteOf(a.start.slice(11, 16)) : 0
     const to = a.end.slice(0, 10) === day ? minuteOf(a.end.slice(11, 16)) : 1439
     setPlaying(false)
+    emitEventSelect(a)
     setAlertId(a.id)
     setDate(day)
     setMinute(minuteOf(a.peak_at.slice(11, 16)))
@@ -31,6 +33,23 @@ export default function AfterHoursPage() {
   }
 
   const when = stamp(date, minute)
+
+  // window.QA_BUILDING (see src/qaBuilding.js): lets other parts of the app set the time or pick an alert.
+  const live = useRef({})
+  live.current = { meta: meta.data, when, pickAlert }
+  useEffect(() => bindQaBuilding({
+    getTime: () => live.current.when,
+    selectEvent: (a) => live.current.pickAlert(a),
+    setTime: (ts) => {
+      const m = /^(\d{4}-\d{2}-\d{2})[T ](\d{1,2}):(\d{2})$/.exec(String(ts))
+      const lo = live.current.meta?.date_min, hi = live.current.meta?.date_max
+      if (!m || +m[2] > 23 || +m[3] > 59 || (lo && m[1] < lo) || (hi && m[1] > hi)) return false
+      setPlaying(false)
+      setDate(m[1])
+      setMinute(+m[2] * 60 + +m[3])
+      return true
+    },
+  }), [])
   const snap = useApi('snapshot', { timestamp: when }, { enabled: !!meta.data, debounce: playing ? 0 : 60 })
 
   useEffect(() => {
