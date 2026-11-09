@@ -55,6 +55,50 @@ API tests: `cd Qn_A/api && ../../.venv/bin/python -m pytest`. To read data from 
 
 The API is for local use. A static host such as GitHub Pages cannot run it, so the Question A tab needs the API running somewhere reachable (set `VITE_QA_API` to its address when building).
 
+## Anomaly glow, red zones and the page hooks
+
+At the minute chosen in the replay control, the page points at what is wrong:
+
+- **Building.** A floor with a red reading glows and pulses red, an amber one glows amber more softly, and a floor with nothing wrong has no glow. A floor where nothing could be checked is muted, never green: grey (missing, too little history, excluded) is a solid tint, neutral (outside the after-hours schedule) a dashed outline. Each floor label carries an icon and a tooltip, e.g. "Floor 1 · Zone 2 · AC · red since 20:35". With `prefers-reduced-motion` the glow is static. The existing kW labels and window brightness are unchanged.
+- **"At 20:35" list** above the building: each problem floor with its numbers; click one to open its plan.
+- **Floor plan.** The same minute. The breached zone's block turns red and only the breaching load is red, with its numbers in red: "AC 85.2 kW vs 51.2 kW threshold · 5 min above P99 · Above P99 for 5+ minutes". Other zones and loads keep their colours.
+
+How it is worked out (`Qn_B/5-UI/src/components/qn_a/anomaly.js`), from the minute snapshot the page already loads, with no extra endpoint:
+
+- A load is a problem when its `status` is `amber` or `red`, for the loads that are switched on.
+- `exceedance_duration_minutes` is the run of consecutive minutes above P99 up to that minute, so *above P99 since* = minute − (duration − 1) and *red since* = minute − (duration − 5). For 2018-10-03 20:35 (duration 5): amber from 20:31, red from 20:35.
+- If an alert from `public/data/qa_alerts.json` (the sidebar's file) covers that floor, zone, load and minute, its start, end and peak are added to the tooltip. Short runs the sidebar filters out still glow; they just have no alert line.
+- Red means investigate, not a confirmed fault.
+
+### Event shape
+
+An event is one entry of `alerts` in `qa_alerts.json` (built by `scripts/build_alerts.py`):
+
+```js
+{
+  id: 'F1-Z2-AC-2018-10-03T18:50',
+  floor: 1, zone: 2, end_use: 'AC',          // end_use: 'AC' | 'Lighting' | 'Plug'
+  start: '2018-10-03T18:50', end: '2018-10-04T00:45',   // Bangkok local time, no timezone
+  peak_at: '2018-10-03T19:08', peak_kw: 98.2,
+  span_minutes, minutes_above, red_minutes,  // minutes above P99 in total, and how many of them were red
+  avg_kw, p99_kw, median_kw, kw_above, kwh_above,   // kw_above = mean kW above P99
+  priority: 'High' | 'Medium' | 'Low', recurrence, months_with_alerts, months_assessed
+}
+```
+
+### Hooks for other parts of the app
+
+`src/qaBuilding.js` sets `window.QA_BUILDING` while the Question A tab is open (before that, calls do nothing):
+
+```js
+QA_BUILDING.setTime('2018-10-03T20:35')   // building, floor plan and chart jump to that minute; returns false if it is not a valid minute in the data
+QA_BUILDING.selectEvent(alert)            // same as clicking that alert in the sidebar (moves to its peak minute and focuses the chart)
+const off = QA_BUILDING.onEventSelect((alert) => { /* ... */ })   // runs whenever an alert is picked; off() unsubscribes
+QA_BUILDING.getTime()                     // 'YYYY-MM-DDTHH:MM', the minute on show
+```
+
+You can also `import { QA_BUILDING } from './qaBuilding.js'`. The page binds itself in `AfterHoursPage.jsx`.
+
 ## Scope
 
 | | |
