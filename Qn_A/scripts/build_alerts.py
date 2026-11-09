@@ -18,6 +18,8 @@ How an alert is built (the P99 status comes from the data processing, see docs/q
        Occasional (Low)     alerts in one month only
      "Assessed" = months with any green, amber or red after-hours minute for that zone and end use.
      Within each priority, alerts are ranked by kWh above P99.
+  6. Give each problem a next best action from a fixed rule (ACTION_RULES below), by load and usual pattern,
+     linked to a Week 4 lever (schedule, lighting, behaviour), with a first check from Qn_A/README.md.
 
 These cut-offs are the team's choice on top of the README, not part of it. Change them below and re-run.
 
@@ -129,6 +131,37 @@ def clock(minutes: float) -> str:
     return f"{m // 60:02d}:{m % 60:02d}"
 
 
+# Next best action: a fixed rule per load and usual pattern, linked to a Week 4 optimisation lever.
+# Worded as checks, because there is no occupancy data. "{start}" and "{end}" fill in the usual time window.
+FIRST_CHECK = {  # from Qn_A/README.md, Actions: verify the meter and rule out 24/7 equipment before changing anything
+    "AC": "Verify meter mapping and confirm there is no 24/7 equipment in this zone",
+    "Lighting": "Verify meter mapping and confirm it is not security or 24/7 lighting",
+    "Plug": "Verify meter mapping and confirm what is plugged in",
+}
+ACTION_RULES = {  # (load, usual pattern) -> (lever, action)
+    ("AC", "Weeknight"): ("Schedule", "Check the BMS AC stop time: AC keeps running after office hours, usually {start} to {end}"),
+    ("AC", "Weekend"): ("Schedule", "Check the weekend AC schedule: AC runs on weekends, usually {start} to {end}"),
+    ("AC", "Early morning"): ("Schedule", "Check the BMS AC start time: AC comes on early, usually from {start}"),
+    ("Lighting", "Weeknight"): ("Lighting", "Add a timer or occupancy sensor: lights stay on after hours, usually {start} to {end}"),
+    ("Lighting", "Weekend"): ("Lighting", "Add a timer or occupancy sensor: lights are on at weekends, usually {start} to {end}"),
+    ("Lighting", "Early morning"): ("Schedule", "Check the lighting start time: lights come on early, usually from {start}"),
+    ("Plug", "Weeknight"): ("Behaviour", "Look for equipment left on overnight, such as servers, chargers or appliances"),
+    ("Plug", "Weekend"): ("Behaviour", "Look for equipment left on at weekends, such as servers, chargers or appliances"),
+    ("Plug", "Early morning"): ("Behaviour", "Look for equipment switching on early, such as timers or chargers"),
+}
+OCCASIONAL_ACTION = ("Behaviour", "Check whether the zone was in use that day, such as an event or booking, before changing anything")
+FALLBACK_ACTION = ("None", "Investigate on site: no standard pattern matched")
+
+
+def next_action(end_use: str, usual: str, recurrence: str, start: str, end: str) -> dict:
+    if recurrence == "Occasional":
+        lever, text = OCCASIONAL_ACTION
+    else:
+        lever, text = ACTION_RULES.get((end_use, usual), FALLBACK_ACTION)
+    return {"lever": lever, "text": text.format(start=start, end=end),
+            "first_check": FIRST_CHECK.get(end_use, "Verify meter mapping on site")}
+
+
 def issues(ev: pd.DataFrame, stamp) -> list[dict]:
     """One problem per floor, zone and end use: what an FM would fix once, with its alerts listed inside."""
     ev = ev.assign(pattern=ev["start"].map(pattern))
@@ -153,6 +186,9 @@ def issues(ev: pd.DataFrame, stamp) -> list[dict]:
             "first": stamp(g["start"].min()), "last": stamp(g["start"].max()),
             "biggest_alert": f"F{floor}-Z{zone}-{end_use}-{stamp(biggest.start)}",
         })
+        p = out[-1]
+        p["next_action"] = next_action(end_use, usual, p["recurrence"], p["usual_start"],
+                                       p["usual_end"] + (" next day" if p["usual_end_next_day"] else ""))
     rank = {"High": 0, "Medium": 1, "Low": 2}
     return sorted(out, key=lambda i: (rank[i["priority"]], -i["kwh_above"]))
 
