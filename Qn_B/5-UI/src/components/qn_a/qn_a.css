@@ -169,3 +169,6 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
 .qa-verify-grid > div { display: flex; flex-direction: column; gap: 1px; }
 .qa-verify .row { display: flex; gap: 8px; }
 .qa-verify .chip { border-radius: 6px; padding: 4px 8px; line-height: 1.4; }
+.qa-ticket-form input[type=text], .qa-ticket-form textarea { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 6px 8px; font-size: 13px; resize: vertical; }
+.qa-ticket-form select { max-width: 100%; }
+.qa-note { font-style: italic; }
