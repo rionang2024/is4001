@@ -91,7 +91,7 @@ export default function AfterHoursPage() {
         </section>
       </div>
       <aside className="side-col">
-        <AlertsSidebar selectedId={alertId} onPick={pickAlert} />
+        <AlertsSidebar selectedId={alertId} onPick={pickAlert} date={date} />
       </aside>
       </div>
     </main>
