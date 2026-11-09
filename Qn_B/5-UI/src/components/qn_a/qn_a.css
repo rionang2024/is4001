@@ -113,3 +113,29 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
   .qa-chart .field, .qa-time .field { max-width: 100%; }
   dl.status-key div { grid-template-columns: 78px 1fr; gap: 8px; }
 }
+
+/* ---------- alerts sidebar (AlertsSidebar.jsx) */
+.qa-alerts .qa-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 500; }
+.qa-alert-filters { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-bottom: 10px; }
+.qa-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.chip.qa-pri.high { color: var(--st-red); }
+.chip.qa-pri.medium { color: var(--st-amber); }
+.chip.qa-pri.low { color: var(--ink-3); }
+.qa-alert { border: 1px solid var(--line); border-left: 3px solid var(--ink-3); border-radius: 8px; background: var(--panel); }
+.qa-alert.high { border-left-color: var(--st-red); }
+.qa-alert.medium { border-left-color: var(--st-amber); }
+.qa-alert.ticket { border-left-color: var(--accent); }
+.qa-alert.sel { box-shadow: 0 0 0 2px var(--accent); }
+.qa-alert-main { display: flex; flex-direction: column; gap: 2px; width: 100%; padding: 9px 11px 6px; border: 0; background: none; text-align: left; cursor: pointer; border-radius: 8px 8px 0 0; }
+.qa-alert-main:hover { background: var(--line-2); }
+.qa-alert-main.static { cursor: default; }
+.qa-alert-main.static:hover { background: none; }
+.qa-alert-top { display: flex; justify-content: space-between; gap: 8px; font-weight: 500; }
+.qa-alert .meta, .qa-ticket-form .meta { font-size: 12px; color: var(--ink-2); }
+.qa-alert-foot { display: flex; align-items: center; gap: 8px; padding: 0 11px 9px; flex-wrap: wrap; }
+.qa-alert-foot .btn { margin-left: auto; }
+.btn.small { padding: 3px 8px; font-size: 12px; }
+.qa-ticket-form { display: flex; flex-direction: column; gap: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent-soft); }
+.qa-ticket-form .row { display: flex; gap: 8px; }
+.btn.qa-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.qa-primary:hover { opacity: .9; background: var(--accent); }
