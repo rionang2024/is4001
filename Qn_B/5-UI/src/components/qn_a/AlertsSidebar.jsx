@@ -3,7 +3,7 @@
 // Each problem groups its alert events; open one to see them. Leads to investigate, not confirmed faults.
 // Tickets live in memory only and reset on reload.
 import { useEffect, useState } from 'react'
-import { dayMonth, dow, loadJSON } from '../../data.js'
+import { addDays, dayMonth, dow, loadJSON } from '../../data.js'
 import { LOAD_NAME } from '../../qnaApi.js'
 
 const GROUPS = [
@@ -16,8 +16,8 @@ const ACTIONS = {
   Lighting: ['Verify meter mapping on site', 'Confirm no security or 24/7 lighting', 'Check lighting schedule or occupancy sensor'],
   Plug: ['Verify meter mapping on site', 'Inspect after-hours plug loads'],
 }
-const NEXT = { Open: 'Verified on site', 'Verified on site': 'Closed' }
-const NEXT_LABEL = { Open: 'Mark verified', 'Verified on site': 'Close ticket' }
+// Ticket flow: Open -> Verified on site -> Change made (verify before vs after) -> Closed, or back to Open.
+const VERIFY_DAYS = 28 // compare this many days before and after the change
 const PATTERN = { Weeknight: 'weeknights', Weekend: 'weekends', 'Early morning': 'early mornings' }
 const SHOW_ALERTS = 8 // alerts listed inside an opened problem before "show all"
 
@@ -44,7 +44,30 @@ function fallbackIssues(alerts) {
   return [...byKey.values()]
 }
 
-export default function AlertsSidebar({ selectedId, onPick }) {
+// Before vs after a change: this problem's alerts in VERIFY_DAYS before the change day and VERIFY_DAYS from it.
+// If the data ends sooner, both windows shrink to the days available after the change, so the two sides stay comparable.
+function verify(issueAlerts, changeDay, dataStart, dataEnd) {
+  const span = (x, y) => Math.round((new Date(y) - new Date(x)) / 864e5)
+  const days = Math.max(0, Math.min(VERIFY_DAYS, span(changeDay, day(dataEnd)) + 1, span(day(dataStart), changeDay)))
+  const from = addDays(changeDay, -days), to = addDays(changeDay, days)
+  const sum = (xs) => Math.round(xs.reduce((n, a) => n + a.kwh_above, 0))
+  const before = issueAlerts.filter((a) => day(a.start) >= from && day(a.start) < changeDay)
+  const after = issueAlerts.filter((a) => day(a.start) >= changeDay && day(a.start) < to)
+  const daysAfter = days
+  let verdict = 'still'
+  if (days === 0) verdict = 'nodata'
+  else if (after.length === 0 && before.length > 0) verdict = 'stopped'
+  else if (sum(after) < sum(before) * 0.5) verdict = 'fewer'
+  return { before: before.length, beforeKwh: sum(before), after: after.length, afterKwh: sum(after), daysAfter, verdict }
+}
+const VERDICT = {
+  stopped: { cls: 'good', text: 'No alerts since the change. The fix looks like it worked.' },
+  fewer: { cls: 'good', text: 'Less than half the kWh above P99 since the change, but still some alerts. Keep watching.' },
+  still: { cls: 'bad', text: 'Still happening at a similar level. Reopen and check again.' },
+  nodata: { cls: 'plain', text: 'No data after this date to check against.' },
+}
+
+export default function AlertsSidebar({ selectedId, onPick, date }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('Recurring')
@@ -87,7 +110,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
     setDraft(null)
     setOpenId(null)
   }
-  const advance = (id) => setTickets(tickets.map((t) => (t.id === id ? { ...t, status: NEXT[t.status] } : t)))
+  const update = (id, patch) => setTickets(tickets.map((t) => (t.id === id ? { ...t, ...patch } : t)))
 
   return (
     <section className="panel qa-alerts" aria-labelledby="qa-alerts-title">
@@ -220,9 +243,39 @@ export default function AlertsSidebar({ selectedId, onPick }) {
                   <span className="meta">{t.action}</span>
                   <span className="meta">{t.issue.alerts} alert{t.issue.alerts === 1 ? '' : 's'}{t.issue.usual_pattern ? ` · ${usual(t.issue).toLowerCase()}` : ''}</span>
                 </div>
-                {NEXT[t.status] && (
-                  <div className="qa-alert-foot"><button type="button" className="btn small" onClick={() => advance(t.id)}>{NEXT_LABEL[t.status]}</button></div>
+                {t.status === 'Open' && (
+                  <div className="qa-alert-foot"><button type="button" className="btn small" onClick={() => update(t.id, { status: 'Verified on site' })}>Mark verified</button></div>
                 )}
+                {t.status === 'Verified on site' && (
+                  <div className="qa-alert-foot qa-change">
+                    <label className="field">
+                      <span className="qa-label">Change made on</span>
+                      <input type="date" value={t.changeDay ?? date} min={day(meta.period[0])} max={day(meta.period[1])}
+                             onChange={(e) => e.target.value && update(t.id, { changeDay: e.target.value })} />
+                    </label>
+                    <button type="button" className="btn small qa-primary" onClick={() => update(t.id, { status: 'Change made', changeDay: t.changeDay ?? date })}>Mark change made</button>
+                  </div>
+                )}
+                {(t.status === 'Change made' || t.status === 'Closed') && (() => {
+                  const v = verify(alertsOf(t.issue), t.changeDay, meta.period[0], meta.period[1])
+                  return (
+                    <div className="qa-verify">
+                      <div className="qa-nba-head"><span className="qa-label">Did it work?</span><span className="muted small">change on {dayMonth(t.changeDay)} {t.changeDay.slice(0, 4)}</span></div>
+                      <div className="qa-verify-grid">
+                        <div><span className="muted small">{v.daysAfter} days before</span><b className="num">{v.before} alerts</b><span className="muted small num">{v.beforeKwh} kWh above P99</span></div>
+                        <div><span className="muted small">{v.daysAfter} days after</span><b className="num">{v.after} alerts</b><span className="muted small num">{v.afterKwh} kWh above P99</span></div>
+                      </div>
+                      {v.daysAfter > 0 && v.daysAfter < VERIFY_DAYS && <span className="muted small">Shortened to {v.daysAfter} days each side, because the data runs out.</span>}
+                      <div className={`chip ${VERDICT[v.verdict].cls}`} style={{ whiteSpace: 'normal' }}>{VERDICT[v.verdict].text}</div>
+                      {t.status === 'Change made' && (
+                        <div className="row">
+                          <button type="button" className="btn small qa-primary" onClick={() => update(t.id, { status: 'Closed' })}>Close ticket</button>
+                          <button type="button" className="btn small" onClick={() => update(t.id, { status: 'Open', changeDay: undefined })}>Reopen</button>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })()}
               </div>
             ))}
           </div>
@@ -244,7 +297,10 @@ export default function AlertsSidebar({ selectedId, onPick }) {
           Step 1 always checks the meter and rules out 24/7 equipment first, because there is no occupancy data. Rules are in the alert script.
         </div>
         {partial && <div style={{ marginTop: 4 }}>Built from Floor{meta.floors_in_data.length > 1 ? 's' : ''} {meta.floors_in_data.join(', ')} only, {day(meta.period[0])} to {day(meta.period[1])}. Re-run the script with the full minute data for all floors.</div>}
-        <div style={{ marginTop: 4 }}>Tickets are a mock-up and reset when the page reloads.</div>
+        <div style={{ marginTop: 4 }}>
+          Tickets are a mock-up and reset when the page reloads. "Did it work?" compares the problem's alerts {VERIFY_DAYS} days before and after the change date.
+          The data is historical and no change was really made, so this shows how the check would work, not a real result.
+        </div>
       </div>
     </section>
   )
