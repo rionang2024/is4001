@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { API_DOWN, stamp, useApi } from '../qnaApi.js'
+import { API_DOWN, minuteOf, stamp, useApi } from '../qnaApi.js'
 import BuildingExplorer from '../components/qn_a/BuildingExplorer.jsx'
 import LoadProfileChart from '../components/qn_a/LoadProfileChart.jsx'
 import StatusKey from '../components/qn_a/StatusKey.jsx'
 import TimeControl, { INCIDENT } from '../components/qn_a/TimeControl.jsx'
+import AlertsSidebar from '../components/qn_a/AlertsSidebar.jsx'
 
 // Question A: where and when does the building use energy after hours?
 // Minute-level data comes from Qn_A/api (Parquet in dashboard_data/, never sent to the browser whole).
@@ -13,6 +14,15 @@ export default function AfterHoursPage() {
   const [minute, setMinute] = useState(INCIDENT.minute)
   const [playing, setPlaying] = useState(false)
   const [step, setStep] = useState(1)
+  const [alertId, setAlertId] = useState(null)
+
+  // Clicking an alert moves the replay to the alert's peak minute.
+  const pickAlert = (a) => {
+    setPlaying(false)
+    setAlertId(a.id)
+    setDate(a.peak_at.slice(0, 10))
+    setMinute(minuteOf(a.peak_at.slice(11, 16)))
+  }
 
   const when = stamp(date, minute)
   const snap = useApi('snapshot', { timestamp: when }, { enabled: !!meta.data, debounce: playing ? 0 : 60 })
@@ -55,6 +65,7 @@ export default function AfterHoursPage() {
   return (
     <main className="page">
       {head}
+      <div className="layout">
       <div className="main-col">
         <TimeControl meta={meta.data} date={date} minute={minute} onDate={setDate} onMinute={setMinute}
                      playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} busy={snap.loading} />
@@ -78,6 +89,10 @@ export default function AfterHoursPage() {
             <li>Without occupancy or schedule data, high after-hours load is a lead to check, not a finding.</li>
           </ul>
         </section>
+      </div>
+      <aside className="side-col">
+        <AlertsSidebar selectedId={alertId} onPick={pickAlert} date={date} />
+      </aside>
       </div>
     </main>
   )
