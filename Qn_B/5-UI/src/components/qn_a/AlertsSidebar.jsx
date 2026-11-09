@@ -1,7 +1,7 @@
 // Sidebar for Question A: after-hours problems (one per floor, zone and load) and mock work tickets.
 // Data comes from public/data/qa_alerts.json, built by Qn_A/scripts/build_alerts.py from the minute data.
 // Each problem groups its alert events; open one to see them. Leads to investigate, not confirmed faults.
-// Tickets live in memory only and reset on reload.
+// Tickets are kept in this browser (localStorage) and can be cleared from the Tickets tab.
 import { useEffect, useState } from 'react'
 import { addDays, dayMonth, dow, loadJSON } from '../../data.js'
 import { LOAD_NAME } from '../../qnaApi.js'
@@ -72,6 +72,20 @@ const VERDICT = {
   new: { cls: 'bad', text: 'Alerts appear after the change but none before it. Check whether the change caused them.' },
 }
 
+// Tickets are saved in this browser only (localStorage), so they survive a refresh on the demo laptop.
+// Storage can be blocked (private windows, some previews), so every read and write is guarded and the page works without it.
+const TICKETS_KEY = 'qa-tickets-v1'
+function loadTickets() {
+  try {
+    const raw = window.localStorage.getItem(TICKETS_KEY)
+    const list = raw ? JSON.parse(raw) : []
+    return Array.isArray(list) ? list : []
+  } catch { return [] }
+}
+function saveTickets(list) {
+  try { window.localStorage.setItem(TICKETS_KEY, JSON.stringify(list)) } catch { /* storage unavailable: keep in memory only */ }
+}
+
 export default function AlertsSidebar({ selectedId, onPick, date }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -80,7 +94,8 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
   const [use, setUse] = useState('All')
   const [openId, setOpenId] = useState(null)
   const [showAll, setShowAll] = useState(false)
-  const [tickets, setTickets] = useState([])
+  const [tickets, setTicketsState] = useState(loadTickets)
+  const setTickets = (list) => { setTicketsState(list); saveTickets(list) }
   const [draft, setDraft] = useState(null) // { issue, action, custom, note }
 
   useEffect(() => {
@@ -256,6 +271,10 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
       {tab === 'tickets' && (
         tickets.length === 0 ? <div className="note">No tickets yet. Create one from a problem.</div> : (
           <div className="alert-list">
+            <div className="qa-tickets-head">
+              <span className="muted small">Saved in this browser</span>
+              <button type="button" className="btn small" onClick={() => setTickets([])}>Clear tickets</button>
+            </div>
             {tickets.map((t) => (
               <div key={t.id} className="qa-alert ticket">
                 <div className="qa-alert-main static">
@@ -383,7 +402,7 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
 
       <div className="muted small qa-demo">
         Demo: historical CU-BEMS data, {day(meta.period[0])} to {day(meta.period[1])}{partial ? `, Floor${meta.floors_in_data.length > 1 ? 's' : ''} ${meta.floors_in_data.join(', ')} only` : ''}.
-        Tickets reset when the page reloads, and no change was really made, so "Did it work?" shows how the check works, not a real result.
+        Tickets are saved in this browser only, so other people will not see them. No change was really made, so "Did it work?" shows how the check works, not a real result.
       </div>
     </section>
   )

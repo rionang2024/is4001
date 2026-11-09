@@ -184,3 +184,4 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
 .qa-guide dd { margin: 2px 0 0; line-height: 1.5; }
 .qa-guide > :last-child { margin-bottom: 12px; }
 .qa-demo { margin-top: 10px; line-height: 1.5; }
+.qa-tickets-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
