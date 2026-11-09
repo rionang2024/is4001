@@ -6,7 +6,21 @@
     "is_holiday",
     "ac_load_kw_yesterday",
     "ac_load_kw_2_days_ago",
-    "ac_load_kw_last_week"
+    "ac_load_kw_last_week",
+    "indoor_temp_c_yesterday",
+    "indoor_temp_c_last_week",
+    "indoor_temp_c_yesterday_avg",
+    "indoor_humidity_pct_yesterday",
+    "indoor_humidity_pct_last_week",
+    "indoor_humidity_pct_yesterday_avg",
+    "outdoor_temp_hourly_c",
+    "outdoor_temp_daily_avg_c",
+    "outdoor_humidity_hourly_pct",
+    "outdoor_humidity_daily_avg_pct",
+    "rainfall_hourly_mm",
+    "rainfall_daily_total_mm",
+    "solar_radiation_hourly_wm2",
+    "solar_radiation_daily_total_mjm2"
   ],
   "zone_categories": [
     0,
@@ -60,15 +74,13 @@
   },
   "metadata": {
     "target": "ac_load_kw",
-    "feature_set": "M1: calendar + AC lags",
     "trained_on": "2019 (train + validation)",
     "params": {
       "objective": "regression_l1",
-      "num_leaves": 63,
+      "num_leaves": 31,
       "min_child_samples": 100
     },
-    "data": "question_b_model_data_screened.parquet (Stage 1 screened)",
-    "test_WAPE_op%": 10.45,
-    "test_CVRMSE_op%": 18.51
+    "test_WAPE_op%": 12.43,
+    "test_CVRMSE_op%": 20.34
   }
 }
