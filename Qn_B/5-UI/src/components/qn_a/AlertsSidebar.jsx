@@ -115,6 +115,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
                     <span className="qa-alert-top"><span>{where(a)}</span><span className="num">+{a.kw_above} kW</span></span>
                     <span className="meta">{when(a)}</span>
                     <span className="meta">Above P99 for {a.minutes_above} of {a.span_minutes} min · peak <span className="num">{a.peak_kw}</span> kW at {time(a.peak_at)}</span>
+                    {a.recurrence && <span className="meta">{a.recurrence}: alerts in {a.months_with_alerts} of {a.months_assessed} months for this zone and load</span>}
                   </button>
                   <div className="qa-alert-foot">
                     <span className={`chip qa-pri ${a.priority.toLowerCase()}`}>{a.priority}</span>
@@ -151,8 +152,11 @@ export default function AlertsSidebar({ selectedId, onPick }) {
         <b>Leads to investigate, not confirmed faults.</b> There is no occupancy data behind them.
         <div style={{ marginTop: 4 }}>
           An alert is red P99 time in one zone and load, with gaps of {r.gap_minutes} min or less joined, at least {r.min_minutes_above} min above P99
-          and {r.min_kw_above} kW or more above it on average. {meta.events} of {meta.events_before_filter} events pass. Priority by kWh above P99:
-          high {r.priority_kwh_above.High}+, medium {r.priority_kwh_above.Medium}+.
+          and {r.min_kw_above} kW or more above it on average. {meta.events} of {meta.events_before_filter} events pass.
+          {r.priority
+            ? <> Priority is how often that zone and load comes back: <b>high</b> = recurring, alerts in at least {Math.round(r.recurring_share * 100)}% of its months
+              (and {r.recurring_min_months}+ months); <b>medium</b> = intermittent, 2+ months; <b>low</b> = occasional, one month. Ranked by kWh above P99 within each.</>
+            : ' Re-run the alert script to add recurrence-based priority.'}
         </div>
         {partial && <div style={{ marginTop: 4 }}>Built from Floor{meta.floors_in_data.length > 1 ? 's' : ''} {meta.floors_in_data.join(', ')} only, {day(meta.period[0])} to {day(meta.period[1])}. Re-run the script with the full minute data for all floors.</div>}
         <div style={{ marginTop: 4 }}>Tickets are a mock-up and reset when the page reloads.</div>
