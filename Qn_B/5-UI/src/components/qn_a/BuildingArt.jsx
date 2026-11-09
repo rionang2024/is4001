@@ -10,6 +10,7 @@ const shortQ = (y0, y1, z0, z1, x = G.L) => [[x, y0, z0], [x, y1, z0], [x, y1, z
 const topQ = (x0, x1, y0, y1, z) => [[x0, y0, z], [x1, y0, z], [x1, y1, z], [x0, y1, z]]
 export const floorMidY = (j) => G.OY + G.W * G.s - ((j - 1) * G.H + G.H / 2)
 
+const SHOWN = new Set(['red', 'amber', 'grey', 'neutral'])
 const Poly = ({ q, cls }) => <polygon className={cls} points={pts(q)} />
 
 function Windows({ z0, z1 }) {
@@ -90,8 +91,21 @@ function Roof() {
   )
 }
 
+// Anomaly overlay for one floor: a tint over its two facades that glows red / amber when the floor has a problem at the
+// selected minute, and a muted tint when nothing on it could be checked. Styled in anomaly.css; absent when there is nothing to show.
+function FloorGlow({ j }) {
+  const z0 = (j - 1) * G.H, z1 = j * G.H - G.T
+  return (
+    <>
+      <Poly q={longQ(0, G.L, z0, z1)} cls="ag ag-long" />
+      <Poly q={shortQ(0, G.W, z0, z1)} cls="ag ag-short" />
+    </>
+  )
+}
+
 // glow: floor -> 0..1 window brightness; flagged: floor -> status group of its worst reading (the beacon shows for red)
-export function BuildingSVG({ glow, beacon, hover, selected, narrow, onHover, onOpen }) {
+// anom: floor -> { state, summary } from anomaly.js; red and amber glow, grey and neutral are muted, anything else draws nothing extra
+export function BuildingSVG({ glow, beacon, anom = {}, hover, selected, narrow, onHover, onOpen }) {
   const m = 26
   const ax = G.OX + G.W * G.c + 4
   return (
@@ -102,11 +116,13 @@ export function BuildingSVG({ glow, beacon, hover, selected, narrow, onHover, on
       <Poly q={topQ(-10, G.L + 70, G.W + 34, G.W + 66, 0)} cls="road" />
       {FLOORS.map((j, i) => (
         <g key={j} className="floor-in" style={{ '--i': i }}>
-          <g className={`floor${hover === j ? ' hl' : ''}${selected === j ? ' sel' : ''}`} data-floor={j}
+          <g className={`floor${hover === j ? ' hl' : ''}${selected === j ? ' sel' : ''}${SHOWN.has(anom[j]?.state) ? ` anom-${anom[j].state}` : ''}`} data-floor={j}
              style={{ '--glow': glow[j] ?? 0 }}
              onMouseEnter={() => onHover(j)} onMouseLeave={() => onHover(null)}
              onClick={(e) => onOpen(j, e.currentTarget)}>
+            {SHOWN.has(anom[j]?.state) && <title>{anom[j].summary}</title>}
             <FloorArt j={j} />
+            {SHOWN.has(anom[j]?.state) && <FloorGlow j={j} />}
           </g>
         </g>
       ))}
