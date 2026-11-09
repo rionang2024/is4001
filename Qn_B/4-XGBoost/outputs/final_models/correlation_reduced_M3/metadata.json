@@ -1,0 +1,37 @@
+{
+  "base": "M3",
+  "dropped": [
+    "floor",
+    "is_weekend",
+    "month"
+  ],
+  "reason": "matched ablation applying the supplied feature-selection exclusions to the original feature set",
+  "model": "correlation_reduced_M3",
+  "features": [
+    "zone_code",
+    "hour",
+    "weekday",
+    "is_holiday",
+    "ac_load_kw_yesterday",
+    "ac_load_kw_2_days_ago",
+    "ac_load_kw_last_week",
+    "outdoor_temp_hourly_c",
+    "outdoor_temp_daily_avg_c",
+    "outdoor_humidity_hourly_pct",
+    "outdoor_humidity_daily_avg_pct",
+    "rainfall_hourly_mm",
+    "rainfall_daily_total_mm",
+    "solar_radiation_hourly_wm2",
+    "solar_radiation_daily_total_mjm2"
+  ],
+  "params": {
+    "max_depth": 4,
+    "learning_rate": 0.08,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 20.0,
+    "reg_alpha": 0.0,
+    "n_estimators": 1091
+  }
+}
