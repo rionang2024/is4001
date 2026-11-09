@@ -56,6 +56,8 @@ function verify(issueAlerts, changeDay, dataStart, dataEnd) {
   const daysAfter = days
   let verdict = 'still'
   if (days === 0) verdict = 'nodata'
+  else if (before.length === 0 && after.length === 0) verdict = 'empty'
+  else if (before.length === 0) verdict = 'new'
   else if (after.length === 0 && before.length > 0) verdict = 'stopped'
   else if (sum(after) < sum(before) * 0.5) verdict = 'fewer'
   return { before: before.length, beforeKwh: sum(before), after: after.length, afterKwh: sum(after), daysAfter, verdict }
@@ -65,6 +67,8 @@ const VERDICT = {
   fewer: { cls: 'good', text: 'Less than half the kWh above P99 since the change, but still some alerts. Keep watching.' },
   still: { cls: 'bad', text: 'Still happening, without a clear drop (less than half). Reopen and check again.' },
   nodata: { cls: 'plain', text: 'No data after this date to check against.' },
+  empty: { cls: 'plain', text: 'No alerts either side of this date, so there is nothing to compare. Pick a change date close to this problem\'s alerts.' },
+  new: { cls: 'bad', text: 'Alerts appear after the change but none before it. Check whether the change caused them.' },
 }
 
 export default function AlertsSidebar({ selectedId, onPick, date }) {
@@ -261,11 +265,12 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                   return (
                     <div className="qa-verify">
                       <div className="qa-nba-head"><span className="qa-label">Did it work?</span><span className="muted small">change on {dayMonth(t.changeDay)} {t.changeDay.slice(0, 4)}</span></div>
+                      {t.issue.first && <span className="muted small">This problem's alerts run from {dayMonth(day(t.issue.first))} {t.issue.first.slice(0, 4)} to {dayMonth(day(t.issue.last))} {t.issue.last.slice(0, 4)}.</span>}
                       <div className="qa-verify-grid">
-                        <div><span className="muted small">{v.daysAfter} days before</span><b className="num">{v.before} alerts</b><span className="muted small num">{v.beforeKwh} kWh above P99</span></div>
-                        <div><span className="muted small">{v.daysAfter} days after</span><b className="num">{v.after} alerts</b><span className="muted small num">{v.afterKwh} kWh above P99</span></div>
+                        <div><span className="muted small">{v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} before</span><b className="num">{v.before} alerts</b><span className="muted small num">{v.beforeKwh} kWh above P99</span></div>
+                        <div><span className="muted small">{v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} after</span><b className="num">{v.after} alerts</b><span className="muted small num">{v.afterKwh} kWh above P99</span></div>
                       </div>
-                      {v.daysAfter > 0 && v.daysAfter < VERIFY_DAYS && <span className="muted small">Shortened to {v.daysAfter} days each side, because the data runs out.</span>}
+                      {v.daysAfter > 0 && v.daysAfter < VERIFY_DAYS && <span className="muted small">Shortened to {v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} each side, because the data runs out.</span>}
                       <div className={`chip ${VERDICT[v.verdict].cls}`} style={{ whiteSpace: 'normal' }}>{VERDICT[v.verdict].text}</div>
                       {t.status === 'Change made' && (
                         <div className="row">
