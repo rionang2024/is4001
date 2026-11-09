@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react'
 import { dayMonth, dow, loadJSON } from '../../data.js'
 import { LOAD_NAME } from '../../qnaApi.js'
 
-const PRIORITIES = ['High', 'Medium', 'Low']
+const GROUPS = [
+  { id: 'Recurring', priority: 'High' },
+  { id: 'Intermittent', priority: 'Medium' },
+  { id: 'Occasional', priority: 'Low' },
+]
 const ACTIONS = {
   AC: ['Verify meter mapping on site', 'Confirm no 24/7 equipment in this zone', 'Check BMS AC schedule and setback'],
   Lighting: ['Verify meter mapping on site', 'Confirm no security or 24/7 lighting', 'Check lighting schedule or occupancy sensor'],
@@ -25,7 +29,7 @@ const when = (a) => {
 export default function AlertsSidebar({ selectedId, onPick }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
-  const [tab, setTab] = useState('alerts')
+  const [tab, setTab] = useState('Recurring')
   const [floor, setFloor] = useState('All')
   const [use, setUse] = useState('All')
   const [tickets, setTickets] = useState([])
@@ -42,8 +46,12 @@ export default function AlertsSidebar({ selectedId, onPick }) {
   const { meta, alerts } = data
   const ticketed = new Set(tickets.map((t) => t.alert.id))
   const open = alerts.filter((a) => !ticketed.has(a.id))
-  const list = open.filter((a) => (floor === 'All' || a.floor === Number(floor)) && (use === 'All' || a.end_use === use))
-  const counts = list.reduce((m, a) => ({ ...m, [a.priority]: (m[a.priority] ?? 0) + 1 }), {})
+  const filtered = open.filter((a) => (floor === 'All' || a.floor === Number(floor)) && (use === 'All' || a.end_use === use))
+  // Older alert files have no recurrence field: fall back to the priority they carry.
+  const groupOf = (a) => a.recurrence ?? GROUPS.find((g) => g.priority === a.priority)?.id ?? 'Occasional'
+  const counts = filtered.reduce((m, a) => ({ ...m, [groupOf(a)]: (m[groupOf(a)] ?? 0) + 1 }), {})
+  const isAlerts = tab !== 'tickets'
+  const list = filtered.filter((a) => groupOf(a) === tab)
   const r = meta.rule
   const partial = meta.floors_in_data.length < 7
 
@@ -58,10 +66,20 @@ export default function AlertsSidebar({ selectedId, onPick }) {
     <section className="panel qa-alerts" aria-labelledby="qa-alerts-title">
       <div className="panel-head">
         <h2 id="qa-alerts-title">Alerts</h2>
-        <div className="seg small" role="group" aria-label="Show">
-          <button type="button" className={tab === 'alerts' ? 'on' : ''} aria-pressed={tab === 'alerts'} onClick={() => setTab('alerts')}>Alerts ({open.length})</button>
-          <button type="button" className={tab === 'tickets' ? 'on' : ''} aria-pressed={tab === 'tickets'} onClick={() => setTab('tickets')}>Tickets ({tickets.length})</button>
-        </div>
+        <span className="sub">{open.length} open</span>
+      </div>
+      <div className="qa-tabs" role="tablist" aria-label="Alert groups">
+        {GROUPS.map((g) => (
+          <button key={g.id} type="button" role="tab" aria-selected={tab === g.id}
+                  className={`qa-tab ${g.priority.toLowerCase()}${tab === g.id ? ' on' : ''}`} onClick={() => setTab(g.id)}>
+            <span>{g.id}</span>
+            <span className="qa-tab-sub">{g.priority} priority · {counts[g.id] ?? 0}</span>
+          </button>
+        ))}
+        <button type="button" role="tab" aria-selected={tab === 'tickets'} className={`qa-tab ticket${tab === 'tickets' ? ' on' : ''}`} onClick={() => setTab('tickets')}>
+          <span>Tickets</span>
+          <span className="qa-tab-sub">{tickets.length}</span>
+        </button>
       </div>
 
       {draft && (
@@ -82,7 +100,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
         </div>
       )}
 
-      {tab === 'alerts' && (
+      {isAlerts && (
         <>
           <div className="qa-alert-filters">
             <label className="field">
@@ -102,11 +120,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
             </div>
           </div>
 
-          <div className="qa-chips">
-            {PRIORITIES.map((p) => <span key={p} className={`chip qa-pri ${p.toLowerCase()}`}>{counts[p] ?? 0} {p.toLowerCase()}</span>)}
-          </div>
-
-          {list.length === 0 ? <div className="note">No alerts match these filters.</div> : (
+          {list.length === 0 ? <div className="note">No {tab.toLowerCase()} alerts match these filters.</div> : (
             <div className="alert-list">
               {list.map((a) => (
                 <div key={a.id} className={`qa-alert ${a.priority.toLowerCase()}${a.id === selectedId ? ' sel' : ''}`}>
@@ -115,7 +129,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
                     <span className="qa-alert-top"><span>{where(a)}</span><span className="num">+{a.kw_above} kW</span></span>
                     <span className="meta">{when(a)}</span>
                     <span className="meta">Above P99 for {a.minutes_above} of {a.span_minutes} min · peak <span className="num">{a.peak_kw}</span> kW at {time(a.peak_at)}</span>
-                    {a.recurrence && <span className="meta">{a.recurrence}: alerts in {a.months_with_alerts} of {a.months_assessed} months for this zone and load</span>}
+                    {a.recurrence && <span className="meta">Alerts in {a.months_with_alerts} of {a.months_assessed} months for this zone and load</span>}
                   </button>
                   <div className="qa-alert-foot">
                     <span className={`chip qa-pri ${a.priority.toLowerCase()}`}>{a.priority}</span>

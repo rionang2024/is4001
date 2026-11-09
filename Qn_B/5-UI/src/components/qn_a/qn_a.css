@@ -139,3 +139,15 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
 .qa-ticket-form .row { display: flex; gap: 8px; }
 .btn.qa-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.qa-primary:hover { opacity: .9; background: var(--accent); }
+.qa-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; margin-bottom: 12px; }
+.qa-tab { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-height: 44px; padding: 6px 8px; border: 1px solid var(--line); border-top: 3px solid var(--ink-3); border-radius: 6px; background: var(--panel); cursor: pointer; text-align: left; font-size: 12px; font-weight: 600; min-width: 0; }
+.qa-tab > span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qa-tab:hover { background: var(--line-2); }
+.qa-tab.high { border-top-color: var(--st-red); }
+.qa-tab.medium { border-top-color: var(--st-amber); }
+.qa-tab.ticket { border-top-color: var(--accent); }
+.qa-tab.on { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.qa-tab.on.high { border-top-color: var(--st-red); }
+.qa-tab.on.medium { border-top-color: var(--st-amber); }
+.qa-tab.on.ticket { border-top-color: var(--accent); }
+.qa-tab-sub { font-weight: 400; font-size: 11px; opacity: .8; }
