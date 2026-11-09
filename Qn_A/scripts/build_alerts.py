@@ -10,7 +10,9 @@ How an alert is built (the P99 status comes from the data processing, see docs/q
   3. Keep an event only if it has at least one red minute, at least MIN_MINUTES_ABOVE minutes above P99 in total,
      and an average of at least MIN_KW_ABOVE kW above P99. These cut alert fatigue: the README rule alone gives
      188 red runs for Floor 1 in October 2018.
-  4. Give each alert a priority by how often its floor, zone and end use comes back:
+  4. Group alerts into one problem per floor, zone and end use, with its usual pattern
+     (weeknight, weekend or early morning) and typical time window.
+  5. Give each problem a priority by how often its floor, zone and end use comes back:
        Recurring (High)     alerts in at least half of the months it was assessed, and in RECURRING_MIN_MONTHS+ months
        Intermittent (Medium) alerts in 2 or more months
        Occasional (Low)     alerts in one month only
@@ -115,6 +117,46 @@ def events(df: pd.DataFrame) -> pd.DataFrame:
     return out[keep].sort_values("kwh_above", ascending=False, ignore_index=True), len(out)
 
 
+def pattern(ts: pd.Timestamp) -> str:
+    """When an alert starts: weekend, early morning (weekday before 08:00) or weeknight (weekday from 17:00)."""
+    if ts.weekday() >= 5:
+        return "Weekend"
+    return "Early morning" if ts.hour < 8 else "Weeknight"
+
+
+def clock(minutes: float) -> str:
+    m = int(round(minutes)) % 1440
+    return f"{m // 60:02d}:{m % 60:02d}"
+
+
+def issues(ev: pd.DataFrame, stamp) -> list[dict]:
+    """One problem per floor, zone and end use: what an FM would fix once, with its alerts listed inside."""
+    ev = ev.assign(pattern=ev["start"].map(pattern))
+    out = []
+    for (floor, zone, end_use), g in ev.groupby(KEY, sort=False):
+        usual = g["pattern"].mode().iloc[0]
+        u = g[g["pattern"] == usual]
+        start_min = u["start"].dt.hour * 60 + u["start"].dt.minute
+        end_min = u["end"].dt.hour * 60 + u["end"].dt.minute
+        end_min = end_min.where(u["end"].dt.normalize() == u["start"].dt.normalize(), end_min + 1440)  # runs past midnight
+        biggest = g.loc[g["kwh_above"].idxmax()]
+        first = g.iloc[0]
+        out.append({
+            "id": f"F{floor}-Z{zone}-{end_use}", "floor": int(floor), "zone": int(zone), "end_use": end_use,
+            "priority": first.priority, "recurrence": first.recurrence,
+            "months_with_alerts": int(first.months_with_alerts), "months_assessed": int(first.months_assessed),
+            "alerts": int(len(g)), "usual_pattern": usual, "usual_count": int(len(u)),
+            "usual_start": clock(start_min.median()), "usual_end": clock(end_min.median()),
+            "usual_end_next_day": bool(end_min.median() >= 1440),
+            "kw_above": round(float(g["kw_above"].mean()), 1), "kwh_above": round(float(g["kwh_above"].sum()), 1),
+            "peak_kw": round(float(g["peak_kw"].max()), 1),
+            "first": stamp(g["start"].min()), "last": stamp(g["start"].max()),
+            "biggest_alert": f"F{floor}-Z{zone}-{end_use}-{stamp(biggest.start)}",
+        })
+    rank = {"High": 0, "Medium": 1, "Low": 2}
+    return sorted(out, key=lambda i: (rank[i["priority"]], -i["kwh_above"]))
+
+
 def main() -> None:
     if not DATA_DIR.exists():
         raise SystemExit(f"Minute data not found at {DATA_DIR}. See Qn_A/README.md, or set QA_DATA_DIR.")
@@ -144,9 +186,11 @@ def main() -> None:
                  "recurring_min_months": RECURRING_MIN_MONTHS, "priority": PRIORITY},
         "events_before_filter": int(joined), "events": len(alerts),
     }
+    problems = issues(ev, stamp) if len(ev) else []
+    meta["issues"] = len(problems)
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps({"meta": meta, "alerts": alerts}, indent=1))
-    print(f"{len(alerts)} alerts (from {joined} joined events) written to {OUT.relative_to(REPO_ROOT)}")
+    OUT.write_text(json.dumps({"meta": meta, "issues": problems, "alerts": alerts}, indent=1))
+    print(f"{len(problems)} problems, {len(alerts)} alerts (from {joined} joined events) written to {OUT.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":
