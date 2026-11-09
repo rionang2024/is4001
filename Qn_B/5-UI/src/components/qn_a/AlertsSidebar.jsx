@@ -27,6 +27,8 @@ const kwh = (v) => Math.round(v).toLocaleString('en-US')
 const where = (a) => `F${a.floor} Z${a.zone} · ${LOAD_NAME[a.end_use] ?? a.end_use}`
 const when = (a) => `${dow(day(a.start))} ${dayMonth(day(a.start))}, ${time(a.start)} to ${time(a.end)}${day(a.start) === day(a.end) ? '' : ' next day'}`
 const monthYear = (ts) => new Date(day(ts) + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
+// The ticket's action list: the problem's next best action and first check, then the general checks for its load.
+const actionsFor = (p) => [...new Set([p.next_action?.text, p.next_action?.first_check, ...(ACTIONS[p.end_use] ?? ACTIONS.Plug)].filter(Boolean))]
 const usual = (p) => `Usually ${PATTERN[p.usual_pattern] ?? p.usual_pattern}, ${p.usual_start} to ${p.usual_end}${p.usual_end_next_day ? ' next day' : ''}`
 
 // Older alert files have no problem list: build a plain one so the page still works until the script is re-run.
@@ -115,7 +117,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
           <label className="field">
             <span className="qa-label">Action</span>
             <select value={draft.action} onChange={(e) => setDraft({ ...draft, action: e.target.value })}>
-              {(ACTIONS[draft.issue.end_use] ?? ACTIONS.Plug).map((a) => <option key={a}>{a}</option>)}
+              {actionsFor(draft.issue).map((a) => <option key={a}>{a}</option>)}
             </select>
           </label>
           <div className="row">
@@ -164,6 +166,14 @@ export default function AlertsSidebar({ selectedId, onPick }) {
                       )}
                       {p.kw_above != null && <span className="meta">Average <span className="num">+{p.kw_above}</span> kW above P99 · peak <span className="num">{p.peak_kw}</span> kW</span>}
                     </button>
+                    {p.next_action && (
+                      <div className="qa-nba">
+                        <div className="qa-nba-head"><span className="qa-label">Next best action</span>
+                          {p.next_action.lever !== 'None' && <span className="chip plain">{p.next_action.lever} lever</span>}</div>
+                        <div className="qa-nba-text"><span className="qa-step">1</span>{p.next_action.first_check}</div>
+                        <div className="qa-nba-text"><span className="qa-step">2</span>{p.next_action.text}</div>
+                      </div>
+                    )}
                     <div className="qa-alert-foot">
                       <span className={`chip qa-pri ${p.priority.toLowerCase()}`}>{p.priority}</span>
                       <span className="muted small num">{kwh(p.kwh_above)} kWh above P99</span>
@@ -172,7 +182,7 @@ export default function AlertsSidebar({ selectedId, onPick }) {
                       <button type="button" className="btn small" aria-expanded={isOpen} onClick={() => toggle(p)}>
                         {isOpen ? 'Hide alerts' : `Show alerts (${p.alerts})`}
                       </button>
-                      <button type="button" className="btn small" onClick={() => setDraft({ issue: p, action: (ACTIONS[p.end_use] ?? ACTIONS.Plug)[0] })}>Create ticket</button>
+                      <button type="button" className="btn small" onClick={() => setDraft({ issue: p, action: actionsFor(p)[0] })}>Create ticket</button>
                     </div>
                     {isOpen && (
                       <ul className="qa-events">
@@ -228,6 +238,10 @@ export default function AlertsSidebar({ selectedId, onPick }) {
             ? <> Priority is how often the problem comes back: <b>high</b> = recurring, alerts in at least {Math.round(r.recurring_share * 100)}% of its months
               (and {r.recurring_min_months}+ months); <b>medium</b> = intermittent, 2+ months; <b>low</b> = occasional, one month. Ranked by kWh above P99 within each.</>
             : ' Re-run the alert script to add recurrence-based priority.'}
+        </div>
+        <div style={{ marginTop: 4 }}>
+          Next best actions are fixed rules by load and usual pattern, not AI, each linked to a Week 4 optimisation lever (schedule, lighting, behaviour).
+          Step 1 always checks the meter and rules out 24/7 equipment first, because there is no occupancy data. Rules are in the alert script.
         </div>
         {partial && <div style={{ marginTop: 4 }}>Built from Floor{meta.floors_in_data.length > 1 ? 's' : ''} {meta.floors_in_data.join(', ')} only, {day(meta.period[0])} to {day(meta.period[1])}. Re-run the script with the full minute data for all floors.</div>}
         <div style={{ marginTop: 4 }}>Tickets are a mock-up and reset when the page reloads.</div>
