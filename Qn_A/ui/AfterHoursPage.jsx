@@ -6,6 +6,7 @@ import LoadProfileChart from './components/LoadProfileChart.jsx'
 import StatusKey from './components/StatusKey.jsx'
 import TimeControl, { INCIDENT } from './components/TimeControl.jsx'
 import AlertsSidebar from './components/AlertsSidebar.jsx'
+import { AlertRuleContext } from './components/alertRule.js'
 import { bindQaBuilding, emitEventSelect } from './qaBuilding.js'
 import { isAfterHours, nextAfterHours, prevAfterHours } from './components/afterHours.js'
 
@@ -132,6 +133,7 @@ export default function AfterHoursPage() {
   return (
     <main className="page">
       {head}
+      <AlertRuleContext.Provider value={ruleId}>
       <div className="layout">
       <div className="main-col">
         <TimeControl meta={meta.data} date={date} minute={minute} holidays={holidays}
@@ -155,6 +157,7 @@ export default function AfterHoursPage() {
                        onSetTime={(ts) => { setPlaying(false); setDate(ts.slice(0, 10)); setMinute(minuteOf(ts.slice(11, 16))) }} />
       </aside>
       </div>
+      </AlertRuleContext.Provider>
     </main>
   )
 }

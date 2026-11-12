@@ -1,14 +1,21 @@
 """Build the alert list for the Question A sidebar.
 
-Reads the minute-level Parquet in dashboard_data/minute/ and writes one small JSON file,
-Qn_B/5-UI/public/data/qa_alerts.json, that the website reads. The minute data stays on disk.
+Reads the minute-level Parquet in dashboard_data/minute/ and writes small JSON files that the website reads,
+one per alert rule, so the sidebar follows the page's Alert rule switch. The minute data stays on disk.
+
+  Qn_B/5-UI/public/data/qa_alerts_sd.json  rule "sd":  median + 3 SD, red after 15 min (the page's default)
+  Qn_B/5-UI/public/data/qa_alerts.json     rule "p99": the original frozen P99 in the data, red after 5 min
+  Qn_B/5-UI/public/data/qa_energy.json     daily after-hours power, for the ticket check (the same for both rules)
+
+The sd status is worked out with the API's own code (Qn_A/api/rules.py and the files in Qn_A/api/rules/),
+so the alerts match what the building shows under that rule. "Threshold" below means the rule's threshold.
 
 How an alert is built (the P99 status comes from the data processing, see docs/qa/dashboard_data_README.md):
   1. Take every minute that is amber or red, per floor, zone and end use (end_use "All" is skipped so nothing counts twice).
   2. Join runs of the same floor, zone and end use when the gap between them is GAP_MINUTES or less,
      so one unit switching on and off all evening is one alert, not dozens.
-  3. Keep an event once it has at least one red minute, at least MIN_MINUTES_ABOVE minutes above P99 so far,
-     and an average of at least MIN_KW_ABOVE kW above P99 so far. The minute this first happens is saved as
+  3. Keep an event once it has at least one red minute, at least MIN_MINUTES_ABOVE minutes above threshold so far,
+     and an average of at least MIN_KW_ABOVE kW above threshold so far. The minute this first happens is saved as
      qualified_at, so the live sidebar never shows an alert before it could have been known.
      These cut alert fatigue: the README rule alone gives 188 red runs for Floor 1 in October 2018.
   4. Group alerts into one problem per floor, zone and end use, with its usual pattern
@@ -18,14 +25,14 @@ How an alert is built (the P99 status comes from the data processing, see docs/q
        Intermittent (Medium) alerts in 2 or more months
        Occasional (Low)     alerts in one month only
      "Assessed" = months with any green, amber or red after-hours minute for that zone and end use.
-     Within each priority, alerts are ranked by kWh above P99.
+     Within each priority, alerts are ranked by kWh above threshold.
   6. Give each problem a next best action from a fixed rule (ACTION_RULES below), by load and usual pattern,
      linked to a Week 4 lever (schedule, lighting, behaviour), with a first check from Qn_A/README.md.
 
 These cut-offs are the team's choice on top of the README, not part of it. Change them below and re-run.
 
 Run from the repo root (uses the same Python environment as Qn_A/api):
-    .venv/bin/python Qn_A/scripts/build_alerts.py          (macOS / Linux)
+    .venv/bin/python Qn_A/scripts/build_alerts.py          (macOS / Linux; builds both rules, a few minutes)
     .venv\\Scripts\\python Qn_A\\scripts\\build_alerts.py    (Windows)
 Set QA_DATA_DIR to read the minute/ folder from somewhere else.
 """
@@ -33,6 +40,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -40,16 +48,23 @@ import pandas as pd
 import pyarrow.dataset as ds
 
 GAP_MINUTES = 10        # join runs with a gap this short or shorter
-MIN_MINUTES_ABOVE = 30  # minutes above P99 in the joined event
-MIN_KW_ABOVE = 5.0      # average kW above P99 in the joined event
+MIN_MINUTES_ABOVE = 30  # minutes above threshold in the joined event
+MIN_KW_ABOVE = 5.0      # average kW above threshold in the joined event
 RECURRING_SHARE = 0.5     # alerts in at least this share of assessed months ...
 RECURRING_MIN_MONTHS = 3  # ... and in at least this many months, to count as recurring
 PRIORITY = {"Recurring": "High", "Intermittent": "Medium", "Occasional": "Low"}
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = Path(os.environ.get("QA_DATA_DIR", REPO_ROOT / "dashboard_data" / "minute"))
-OUT = REPO_ROOT / "Qn_B" / "5-UI" / "public" / "data" / "qa_alerts.json"
-ENERGY_OUT = OUT.with_name("qa_energy.json")
+OUT_DIR = REPO_ROOT / "Qn_B" / "5-UI" / "public" / "data"
+OUT = {"p99": OUT_DIR / "qa_alerts.json", "sd": OUT_DIR / "qa_alerts_sd.json"}
+ENERGY_OUT = OUT_DIR / "qa_energy.json"
+sys.path.insert(0, str(REPO_ROOT / "Qn_A" / "api"))
+import rules as api_rules  # noqa: E402  the API's alert rules, so the sd status here is the one the page shows
+
+# How the sidebar names each rule's threshold, and how many minutes in a row make a red.
+RULE_TEXT = {"p99": {"threshold": "P99", "label": api_rules.P99_RULE["label"]},
+             "sd": {"threshold": "median + 3 SD", "label": None}}
 # Daily after-hours power per problem zone and load, for the ticket's "Did it work?" check. Energy, not alert
 # counts: P99 is re-set from the last 56 days, so a load that stays high stops raising alerts without any fix.
 # Three parts of the after-hours schedule, so a ticket compares like with like (its problem's usual pattern):
@@ -57,18 +72,36 @@ SEGMENTS = {"Weeknight": "ev", "Early morning": "em", "Weekend": "we"}
 SEGMENT_MINUTES = {"ev": 7 * 60, "em": 8 * 60, "we": 24 * 60}  # weekday 17:00-24:00, weekday 00:00-08:00, Sat/Sun
 MIN_COVERAGE = 0.7  # a day counts only with 70% of that part's minutes present
 COLUMNS = ["timestamp", "floor", "zone", "end_use", "power_kw", "reference_median_kw", "upper_threshold_kw", "status"]
+SD_COLUMNS = COLUMNS + ["status_reason", "exceedance_duration_minutes"]
 KEY = ["floor", "zone", "end_use"]
 
 
-def flagged_minutes() -> pd.DataFrame:
-    """Amber and red minutes only, read one partition at a time to keep memory low."""
+def flagged_minutes(rule: str) -> pd.DataFrame:
+    """Amber and red minutes only under `rule`, read one partition (floor and month) at a time to keep memory low.
+    p99: the stored status. sd: every minute of the partition restated by the API's SdRule, then amber and red kept
+    (runs reset at month boundaries under both rules, so one month at a time gives the same answer)."""
     dataset = ds.dataset(DATA_DIR, format="parquet", partitioning="hive")
-    keep = ds.field("status").isin(["amber", "red"]) & (ds.field("end_use") != "All")
     parts = []
-    for frag in dataset.get_fragments(filter=keep):
-        t = frag.to_table(columns=COLUMNS, filter=keep)
-        if t.num_rows:
-            parts.append(t.to_pandas())
+    if rule == "p99":
+        keep = ds.field("status").isin(["amber", "red"]) & (ds.field("end_use") != "All")
+        for frag in dataset.get_fragments(filter=keep):
+            t = frag.to_table(columns=COLUMNS, filter=keep)
+            if t.num_rows:
+                parts.append(t.to_pandas())
+    else:
+        sd = api_rules.sd_rule()
+        if sd is None:
+            raise SystemExit(f"The sd rule files are missing from {api_rules.RULES_DIR}. Run Qn_A/scripts/build_rules_sd.py first.")
+        keep = ds.field("end_use") != "All"
+        for frag in dataset.get_fragments(filter=keep):
+            t = frag.to_table(columns=SD_COLUMNS, filter=keep).to_pandas()
+            if not len(t):
+                continue
+            t["timestamp"] = pd.to_datetime(t["timestamp"])
+            t = sd.restate(t)
+            t = t[t["status"].isin(["amber", "red"])]
+            if len(t):
+                parts.append(t[COLUMNS])
     if not parts:
         return pd.DataFrame(columns=COLUMNS)
     df = pd.concat(parts, ignore_index=True)
@@ -97,10 +130,10 @@ def assessed_months() -> pd.DataFrame:
     return months.assign(months_assessed=months["months_checked"].map(len))
 
 
-def recurrence(ev: pd.DataFrame) -> pd.DataFrame:
+def recurrence(ev: pd.DataFrame, assessed: pd.DataFrame) -> pd.DataFrame:
     ev = ev.assign(month=ev["start"].dt.strftime("%Y-%m"))
     seen = ev.groupby(KEY)["month"].nunique().rename("months_with_alerts").reset_index()
-    seen = seen.merge(assessed_months(), on=KEY, how="left")
+    seen = seen.merge(assessed, on=KEY, how="left")
     share = seen["months_with_alerts"] / seen["months_assessed"]
     seen["recurrence"] = "Occasional"
     seen.loc[seen["months_with_alerts"] >= 2, "recurrence"] = "Intermittent"
@@ -253,30 +286,33 @@ def daily_energy(keys: set[tuple[int, int, str]]) -> dict:
     return {"start": first, "days": len(days), "segments": SEGMENTS, "min_coverage": MIN_COVERAGE, "channels": out}
 
 
-def main() -> None:
-    if not DATA_DIR.exists():
-        raise SystemExit(f"Minute data not found at {DATA_DIR}. See Qn_A/README.md, or set QA_DATA_DIR.")
-    df = flagged_minutes()
+def build(rule: str, assessed: pd.DataFrame, floors: list[int]) -> list[dict]:
+    """Alerts and problems under one rule, written to OUT[rule]. Returns the problems."""
+    df = flagged_minutes(rule)
     ev, joined = events(df) if len(df) else (pd.DataFrame(), 0)
     if len(ev):
-        ev = recurrence(ev)
+        ev = recurrence(ev, assessed)
     stamp = lambda t: t.strftime("%Y-%m-%dT%H:%M")
     alerts = [{
         "id": f"F{r.floor}-Z{r.zone}-{r.end_use}-{stamp(r.start)}",
         "floor": int(r.floor), "zone": int(r.zone), "end_use": r.end_use,
         "start": stamp(r.start), "end": stamp(r.end), "peak_at": stamp(r.peak_at), "qualified_at": stamp(r.qualified_at),
         "span_minutes": int(r.span_minutes), "minutes_above": int(r.minutes_above), "red_minutes": int(r.red_minutes),
-        "peak_kw": round(float(r.peak_kw), 1), "avg_kw": round(float(r.avg_kw), 1), "p99_kw": round(float(r.p99_kw), 1),
+        "peak_kw": round(float(r.peak_kw), 1), "avg_kw": round(float(r.avg_kw), 1),
+        # threshold_kw: the rule's threshold; p99_kw kept under the old name for the P99 file
+        "threshold_kw": round(float(r.p99_kw), 1), **({"p99_kw": round(float(r.p99_kw), 1)} if rule == "p99" else {}),
         "median_kw": None if pd.isna(r.median_kw) else round(float(r.median_kw), 1),
         "kw_above": round(float(r.kw_above), 1), "kwh_above": round(float(r.kwh_above), 1),
         "priority": r.priority, "recurrence": r.recurrence,
         "months_with_alerts": int(r.months_with_alerts), "months_assessed": int(r.months_assessed),
     } for r in ev.itertuples()]
-    floors = sorted({int(f.split("=")[1]) for f in os.listdir(DATA_DIR) if f.startswith("floor=")})
+    red_min = api_rules.P99_RULE["red_min"] if rule == "p99" else api_rules.sd_rule().red_min
+    label = RULE_TEXT[rule]["label"] or api_rules.sd_rule().params["label"]
     meta = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         "floors_in_data": floors,
         "period": [stamp(df["timestamp"].min()), stamp(df["timestamp"].max())] if len(df) else None,
+        "alert_rule": {"id": rule, "label": label, "threshold": RULE_TEXT[rule]["threshold"], "red_min": red_min},
         "rule": {"gap_minutes": GAP_MINUTES, "min_minutes_above": MIN_MINUTES_ABOVE,
                  "min_kw_above": MIN_KW_ABOVE, "recurring_share": RECURRING_SHARE,
                  "recurring_min_months": RECURRING_MIN_MONTHS, "priority": PRIORITY},
@@ -290,11 +326,22 @@ def main() -> None:
     }
     problems = issues(ev, stamp) if len(ev) else []
     meta["issues"] = len(problems)
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps({"meta": meta, "issues": problems, "alerts": alerts}, indent=1))
-    energy = daily_energy({(p["floor"], p["zone"], p["end_use"]) for p in problems})
+    OUT[rule].parent.mkdir(parents=True, exist_ok=True)
+    OUT[rule].write_text(json.dumps({"meta": meta, "issues": problems, "alerts": alerts}, indent=1))
+    print(f"{rule}: {len(problems)} problems, {len(alerts)} alerts (from {joined} joined events) written to {OUT[rule].relative_to(REPO_ROOT)}")
+    return problems
+
+
+def main() -> None:
+    if not DATA_DIR.exists():
+        raise SystemExit(f"Minute data not found at {DATA_DIR}. See Qn_A/README.md, or set QA_DATA_DIR.")
+    floors = sorted({int(f.split("=")[1]) for f in os.listdir(DATA_DIR) if f.startswith("floor=")})
+    assessed = assessed_months()
+    keys = set()
+    for rule in ("sd", "p99"):
+        keys |= {(p["floor"], p["zone"], p["end_use"]) for p in build(rule, assessed, floors)}
+    energy = daily_energy(keys)  # one file for both rules: every zone load with a problem under either
     ENERGY_OUT.write_text(json.dumps(energy, separators=(",", ":")))
-    print(f"{len(problems)} problems, {len(alerts)} alerts (from {joined} joined events) written to {OUT.relative_to(REPO_ROOT)}")
     print(f"daily after-hours kW for {len(energy.get('channels', {}))} zone loads written to {ENERGY_OUT.relative_to(REPO_ROOT)}")
 
 

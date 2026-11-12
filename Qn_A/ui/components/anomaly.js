@@ -1,10 +1,11 @@
 // What a minute snapshot says is wrong, per floor and per zone/load, and how long it has been wrong.
 // Pure helpers plus one hook. Nothing here fetches minute data: it reads the same snapshot rows the explorer already has.
-// Alert details (start, end, peak) are borrowed from public/data/qa_alerts.json, the file behind the alerts sidebar.
+// Alert details (start, end, peak) are borrowed from the alerts sidebar's file for the rule on show (alertRule.js).
 import { useEffect, useState } from 'react'
 import { loadJSON } from '../data.js'
 import { LOADS, LOAD_NAME, kw, reasonText } from '../qnaApi.js'
 import { num, planOf } from './explorerModel.js'
+import { alertFile, useAlertRule } from './alertRule.js'
 
 const pad = (n) => String(n).padStart(2, '0')
 
@@ -121,11 +122,13 @@ export function floorAnomaly(idx, floor, on, when, alerts = []) {
 // ---------- alerts file (shared with the sidebar through loadJSON's cache)
 const NONE = []
 export function useAlerts() {
+  const rule = useAlertRule() // the alert file for the rule on show, so the tags match the colours
   const [alerts, setAlerts] = useState(NONE)
   useEffect(() => {
     let live = true
-    loadJSON('qa_alerts.json').then((d) => { if (live) setAlerts(d.alerts ?? NONE) }).catch(() => {})
+    setAlerts(NONE)
+    loadJSON(alertFile(rule)).then((d) => { if (live) setAlerts(d.alerts ?? NONE) }).catch(() => {})
     return () => { live = false }
-  }, [])
+  }, [rule])
   return alerts
 }
