@@ -25,6 +25,9 @@ const ACTIONS = {
 const VERIFY_DAYS = 28 // compare this many days before and after the change
 const PATTERN = { Weeknight: 'weeknights', Weekend: 'weekends', 'Early morning': 'early mornings' }
 const SHOW_ALERTS = 8 // alerts listed inside an opened problem before "show all"
+// A weekday evening that shows the whole story at once: 7 recurring problems, F1 Z2 AC alert running,
+// and red loads on Floors 1, 3, 4 and 5, some alerts and some not yet. Picked from the full data.
+const DEMO_AT = '2019-06-26T22:14'
 
 const day = (ts) => ts.slice(0, 10)
 const time = (ts) => ts.slice(11, 16)
@@ -148,7 +151,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   useEffect(() => {
     if (!pickedProblem) return
     setTab(tickets.some((t) => t.issue.id === pickedProblem.id) ? 'tickets' : pickedProblem.recurrence)
-    setOpenId(pickedProblem.id)
+    setOpenId(null)
     setFloor('All'); setUse('All')
     setFlash((n) => n + 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -157,7 +160,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   useEffect(() => {
     if (!flash) return
     const id = pickedProblem ? `qa-p-${pickedProblem.id}` : 'qa-picked'
-    requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'center', behavior: 'smooth' }))
+    requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start', behavior: 'smooth' }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flash])
 
@@ -214,6 +217,9 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
       <div className="qa-asof">
         <span>As of <b>{stampText(now)}</b></span>
         <span className="muted small">Only what was known by this minute. Move the time to see more.</span>
+        {now !== DEMO_AT && !returnTo && (
+          <button type="button" className="btn small" onClick={() => onSetTime(DEMO_AT)}>Jump to demo moment ({stampText(DEMO_AT)})</button>
+        )}
         {returnTo && (
           <button type="button" className="btn small" onClick={() => { onSetTime(returnTo); setReturnTo(null) }}>
             Back to {stampText(returnTo)}
@@ -222,7 +228,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         {!live_ok && <span className="muted small">This alert file is from an older script: re-run it to hide alerts until they qualify.</span>}
       </div>
 
-      {picked && (
+      {picked && !pickedProblem && (
         <div id="qa-picked" key={`picked-${flash}`} className="qa-picked qa-flash" role="status">
           <div className="qa-alert-top"><b>Selected on the building: {where(picked)}</b>
             <button type="button" className="btn small" onClick={() => setPicked(null)} aria-label="Clear the selected load">Clear</button></div>
@@ -326,7 +332,12 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
                 return (
                   <div key={isPicked ? `${p.id}-${flash}` : p.id} id={`qa-p-${p.id}`}
                        className={`qa-alert ${p.priority.toLowerCase()}${holdsSel ? ' sel' : ''}${isPicked ? ' picked qa-flash' : ''}`}>
-                    {isPicked && <span className="qa-picked-tag">Selected on the building</span>}
+                    {isPicked && (
+                      <span className="qa-picked-tag">
+                        Selected on the building{covered.has(p.id) ? ' · alert running now' : ''}
+                        <button type="button" onClick={() => setPicked(null)} aria-label="Clear the selected load">Clear</button>
+                      </span>
+                    )}
                     <button type="button" className="qa-alert-main" onClick={() => latest && show(latest)}
                             title={p.active ? 'Show the running alert on the building and chart' : 'Replay this problem\'s latest alert'}>
                       <span className="qa-alert-top"><span>{where(p)}</span><span className="num">{p.alerts} alert{p.alerts === 1 ? '' : 's'}</span></span>

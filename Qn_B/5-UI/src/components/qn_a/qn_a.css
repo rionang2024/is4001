@@ -218,3 +218,7 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
 .qa-picked.qa-flash { animation-name: qa-flash-box; }
 @keyframes qa-flash-box { 0%, 30% { box-shadow: 0 0 0 4px var(--accent); } 100% { box-shadow: none; } }
 @media (prefers-reduced-motion: reduce) { .qa-flash { animation: none; } }
+.qa-picked-tag { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.qa-picked-tag button { padding: 1px 8px; border: 1px solid rgba(255,255,255,.7); border-radius: 4px; background: none; color: #fff; font: inherit; font-size: 11px; cursor: pointer; text-transform: none; letter-spacing: 0; }
+.qa-picked-tag button:hover { background: rgba(255,255,255,.15); }
+.qa-alerts .qa-alert, #qa-picked { scroll-margin-top: 96px; }
