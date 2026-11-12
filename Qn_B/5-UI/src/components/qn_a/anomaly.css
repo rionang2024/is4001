@@ -246,3 +246,8 @@
 .qa-ex .plan-table tr.focus th { box-shadow: inset 4px 0 0 var(--accent); }
 @media (prefers-reduced-motion: reduce) { .qa-ex .cam .bill.focus { animation: none; } }
 .qa-ex .ex-plan { scroll-margin-top: 80px; }
+
+/* the "Example simulation" button in the replay panel: filled in the brand colour so it reads differently from the grey controls */
+.qa-time .btn.qa-night { background: var(--accent); color: var(--panel); border-color: var(--accent); font-weight: 700; }
+.qa-time .btn.qa-night:hover { filter: brightness(1.1); }
+.qa-time .btn.qa-night:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
