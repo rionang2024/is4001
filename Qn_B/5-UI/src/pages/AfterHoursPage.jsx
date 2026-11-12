@@ -136,7 +136,7 @@ export default function AfterHoursPage() {
                      playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} busy={snap.loading}
                      rules={rules} ruleId={ruleId} onRule={setRulePick} onJump={goTo} />
 
-        <BuildingExplorer holidays={holidays} rows={snap.data?.rows ?? null} when={when.replace('T', ' ')} error={snap.error} loading={snap.loading} />
+        <BuildingExplorer holidays={holidays} playing={playing} onPlaying={setPlaying} rows={snap.data?.rows ?? null} when={when.replace('T', ' ')} error={snap.error} loading={snap.loading} />
 
         <LoadProfileChart meta={meta.data} date={date} minute={minute} focus={focus} rule={ruleId} />
 

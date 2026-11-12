@@ -202,6 +202,14 @@
   background: var(--panel);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
 }
+.qa-ex .qa-stamp-play {
+  align-self: center; display: inline-flex; align-items: center; gap: 6px; min-width: 88px; justify-content: center;
+  padding: 6px 12px; border-radius: 8px; border: 1px solid var(--rule); background: var(--ink); color: var(--panel);
+  font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.qa-ex .qa-stamp-play:hover { filter: brightness(1.12); }
+.qa-ex .qa-stamp-play:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.qa-ex .qa-stamp-play[aria-pressed="true"] { background: transparent; color: var(--ink); border-color: var(--ink); }
 .qa-ex .qa-stamp-date { font-weight: 600; }
 .qa-ex .qa-stamp-time { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
 .qa-ex .qa-stamp-tz { color: var(--muted); font-size: 0.8rem; }

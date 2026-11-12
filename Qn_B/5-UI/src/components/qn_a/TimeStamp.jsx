@@ -7,7 +7,7 @@ import { isAfterHours } from './afterHours.js'
 const NO_HOLIDAYS = new Set()
 const weekend = (date) => [0, 6].includes(parseDate(date).getDay())
 
-export default function TimeStamp({ when, holidays = NO_HOLIDAYS }) {
+export default function TimeStamp({ when, holidays = NO_HOLIDAYS, playing = false, onPlaying }) {
   const [date, time] = when.split(' ')
   const [top, setTop] = useState(72)
 
@@ -27,9 +27,15 @@ export default function TimeStamp({ when, holidays = NO_HOLIDAYS }) {
   const after = isAfterHours(date, h * 60 + m, holidays)
   const nice = parseDate(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
   return (
-    <div className="qa-stamp" style={{ top }} role="status" aria-label={`Showing ${dow(date)} ${nice} at ${time}, Bangkok time`}>
+    <div className="qa-stamp" style={{ top }}>
+      {onPlaying && (
+        <button type="button" className="qa-stamp-play" aria-pressed={playing} aria-label={playing ? 'Pause replay' : 'Play replay'}
+                title={playing ? 'Pause the replay' : 'Play the replay'} onClick={() => onPlaying(!playing)}>
+          <span aria-hidden="true">{playing ? '⏸' : '▶'}</span> {playing ? 'Pause' : 'Play'}
+        </button>
+      )}
       <span className="qa-stamp-date">{dow(date)} {nice}</span>
-      <span className="qa-stamp-time">{time}</span>
+      <span className="qa-stamp-time" role="status" aria-label={`Showing ${dow(date)} ${nice} at ${time}, Bangkok time`}>{time}</span>
       <span className="qa-stamp-tz">Bangkok time</span>
       <span className={`qa-stamp-tag ${after ? 'after' : 'day'}`}>
         {after ? (weekend(date) ? 'After-hours · weekend' : 'After-hours') : 'Daytime'}
