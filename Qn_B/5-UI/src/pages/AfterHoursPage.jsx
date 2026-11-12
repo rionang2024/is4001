@@ -147,23 +147,6 @@ export default function AfterHoursPage() {
         <section className="panel assumptions qa-notes">
           <div className="panel-head"><h2>How to read this page</h2></div>
           <StatusKey ruleInfo={ruleInfo} />
-          <ul>
-            <li><b>Red means investigate</b>, not a confirmed fault, waste or savings. Say "above threshold", not "waste".</li>
-            <li><b>No data (violet) is not "normal".</b> It means a reading is missing, has too little history for a threshold, or was excluded.</li>
-            {ruleId === 'sd' ? (
-              <li>Thresholds are each zone and end use's own median plus 3 standard deviations for the matching weekday and hour, frozen from the
-                preceding 56 days, and never less than 0.5 kW above the median, so a near-constant load cannot alert on a trivial change.
-                Amber is {ruleInfo?.red_min ? `1 to ${ruleInfo.red_min - 1}` : 'a few'} minutes above, red is {ruleInfo?.red_min ?? 15} or more.
-                July and August 2018 are warm-up months. Switch to "Original (P99)" above to compare.</li>
-            ) : (
-              <li>Thresholds are each zone and end use's own P99 for the matching weekday and hour, frozen from the preceding 56 days.
-                July and August 2018 are warm-up months. There is no minimum increase, so a tiny threshold can give a trivial alert.</li>
-            )}
-            <li>Times are Bangkok local time. Gaps in a chart are missing minutes, never zero.</li>
-            <li>Floor 1 has no sensor, Floors 1–2 use the four-zone plan and Floors 3–7 the five-zone plan, and Zone 3 on Floors 3–7 is a staircase with no AC.
-              Floor 6's record ends in October 2019: the missing tail is unavailable, not zero.</li>
-            <li>Without occupancy or schedule data, high after-hours load is a lead to check, not a finding.</li>
-          </ul>
         </section>
       </div>
       <aside className="side-col">
