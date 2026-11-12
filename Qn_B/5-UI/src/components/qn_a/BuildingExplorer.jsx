@@ -1,7 +1,7 @@
 // Building explorer: an isometric building with a kW label per floor; click a floor for its 3D plan.
 // Ported from the Question A prototype and driven by a minute snapshot from the API.
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { LOAD_NAME, LOADS, kw } from '../../qnaApi.js'
+import { LOADS, kw } from '../../qnaApi.js'
 import { BuildingSVG, G, floorMidY } from './BuildingArt.jsx'
 import FloorPlan from './FloorPlan.jsx'
 import LoadSwitches from './LoadSwitches.jsx'
@@ -198,10 +198,6 @@ export default function BuildingExplorer({ rows, when, error, loading, holidays,
       <div className="ex-controls">
         <LoadSwitches on={on} onToggle={toggle} justOn={justOn} />
       </div>
-      <p className="ex-sub">
-        Sum of the switched-on loads ({LOADS.filter((l) => on[l]).map((l) => LOAD_NAME[l]).join(', ') || 'none'}), kW, at {when} (Bangkok time).
-        Window brightness shows each floor's load. The dot beside a floor is the worst status among its loads; violet (no data) means not confirmed normal.
-      </p>
       <p className="ex-hint" role="status">
         {error ?? (none ? 'Turn on at least one load type to see values.' : loading && !rows ? 'Loading…' : '')}
       </p>
