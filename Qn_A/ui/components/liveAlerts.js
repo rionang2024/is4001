@@ -133,7 +133,8 @@ const pad = (n) => String(n).padStart(2, '0')
 
 // Fetches a short series for each load that is amber or red at `now` and not covered by an active alert.
 // `extra` adds one more load (the one clicked on the building), whatever its colour; `onlyExtra` follows that load alone.
-export function useWatching(snapshotRows, now, rule, coveredKeys, extra, paused, onlyExtra = false) {
+// `alertRule` ('sd' or 'p99') is the rule the minutes are read under, so the progress matches the building.
+export function useWatching(snapshotRows, now, rule, coveredKeys, extra, paused, onlyExtra = false, alertRule = undefined) {
   const [state, setState] = useState({ at: null, items: [] })
   const candidates = (onlyExtra ? [] : snapshotRows ?? [])
     .filter((r) => LOADS.includes(r.end_use) && (r.status === 'amber' || r.status === 'red') && !coveredKeys.has(keyOf(r)))
@@ -143,7 +144,7 @@ export function useWatching(snapshotRows, now, rule, coveredKeys, extra, paused,
     const row = (snapshotRows ?? []).find((r) => keyOf(r) === keyOf(extra))
     candidates.push(row ?? { floor: extra.floor, zone: extra.zone, end_use: extra.end_use, status: null })
   }
-  const sig = `${now}|${candidates.map(keyOf).join(',')}|${paused ? 'p' : ''}`
+  const sig = `${now}|${candidates.map(keyOf).join(',')}|${paused ? 'p' : ''}|${alertRule ?? ''}`
 
   useEffect(() => {
     if (paused || !rule) return undefined
@@ -156,6 +157,7 @@ export function useWatching(snapshotRows, now, rule, coveredKeys, extra, paused,
         apiGet('series', {
           floor: r.floor, zone: r.zone, end_use: r.end_use, date: now.slice(0, 10),
           start: `${pad(Math.floor(from / 60))}:${pad(from % 60)}`, end: now.slice(11, 16),
+          ...(alertRule ? { rule: alertRule } : {}),
         }, ctrl.signal)
           .then((s) => ({ ...r, key: keyOf(r), progress: progressOf(s.rows ?? [], now, rule) }))
           .catch((e) => (e.name === 'AbortError' ? null : { ...r, key: keyOf(r), progress: null, error: true }))))

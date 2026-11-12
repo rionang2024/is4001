@@ -1,5 +1,6 @@
 // Sidebar for Question A: after-hours problems (one per floor, zone and load), live status and mock work tickets.
-// Data comes from public/data/qa_alerts.json, built by Qn_A/scripts/build_alerts.py from the minute data.
+// Data comes from public/data/qa_alerts_sd.json or qa_alerts.json (one per alert rule, picked by the page's Alert rule
+// switch through alertRule.js), built by Qn_A/scripts/build_alerts.py from the minute data.
 // It follows the page's replay clock (`now`): it only knows what had happened by then, like a live dashboard.
 //   Active now  alerts running at `now`
 //   Watching    loads amber or red at `now` that have not become an alert yet, with how close they are
@@ -11,6 +12,7 @@ import { LOAD_NAME } from '../qnaApi.js'
 import { QA_BUILDING } from '../qaBuilding.js'
 import { keyOf, knownAt, problemsAt, useWatching } from './liveAlerts.js'
 import { checkFix, FIX_VERDICT, SEG_TEXT, WeekChart } from './fixCheck.jsx'
+import { alertFile, useAlertRule } from './alertRule.js'
 
 const GROUPS = [
   { id: 'Recurring', priority: 'High' },
@@ -61,30 +63,30 @@ function saveTickets(list) {
 }
 
 // What still stops a watched load from being an alert, in words.
-function needsText(pr, rule) {
+function needsText(pr, rule, ar) {
   const out = []
-  if (pr.needs.red) out.push('a red run (5+ min in a row)')
-  if (pr.needs.minutes) out.push(`${rule.min_minutes_above - pr.minutes} more min above P99`)
-  if (pr.needs.kw) out.push(`${rule.min_kw_above}+ kW above P99 on average`)
+  if (pr.needs.red) out.push(`a red run (${ar.red_min}+ min in a row)`)
+  if (pr.needs.minutes) out.push(`${rule.min_minutes_above - pr.minutes} more min above ${ar.threshold}`)
+  if (pr.needs.kw) out.push(`${rule.min_kw_above}+ kW above ${ar.threshold} on average`)
   return out
 }
 
-function WatchRow({ w, rule, now }) {
+function WatchRow({ w, rule, now, ar }) {
   const pr = w.progress
   if (!pr) {
     return (
       <span className="meta">{w.error ? 'Could not load its recent minutes.' : w.status
-        ? `${w.status === 'green' ? 'At or below' : 'Not checked against'} its P99 limit at this minute, so there is nothing building up.`
+        ? `${w.status === 'green' ? 'At or below' : 'Not checked against'} its limit at this minute, so there is nothing building up.`
         : 'No reading at this minute.'}</span>
     )
   }
-  const needs = needsText(pr, rule)
+  const needs = needsText(pr, rule, ar)
   const pct = Math.min(100, Math.round((pr.minutes / rule.min_minutes_above) * 100))
   return (
     <>
       <span className="meta">
         {pr.cut ? 'Since before ' : 'Since '}{sinceText(pr.since, now)} · <span className="num">{pr.minutes}</span>
-        {pr.minutes < rule.min_minutes_above ? ` of ${rule.min_minutes_above}` : ''} min above P99 ·
+        {pr.minutes < rule.min_minutes_above ? ` of ${rule.min_minutes_above}` : ''} min above {ar.threshold} ·
         avg <span className="num">{pr.avgOver >= 0 ? '+' : ''}{pr.avgOver.toFixed(1)}</span> kW above it
       </span>
       <span className="qa-progress" aria-hidden="true"><span style={{ width: `${pct}%` }} /></span>
@@ -109,18 +111,26 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   const [picked, setPicked] = useState(null) // { floor, zone, end_use } clicked on the building
   const [flash, setFlash] = useState(0) // bumps each time something is picked, to replay the highlight and scroll
 
+  const alertRule = useAlertRule() // 'sd' or 'p99', from the page's Alert rule switch
   useEffect(() => {
-    loadJSON('qa_alerts.json').then(setData).catch(() =>
-      setError('No alert file yet. From the repo root run: python Qn_A/scripts/build_alerts.py'))
-  }, [])
+    let on = true
+    setData(null)
+    setError(null)
+    loadJSON(alertFile(alertRule)).then((d) => { if (on) setData(d) }).catch(() => {
+      if (on) setError(`No alert file for this rule yet (${alertFile(alertRule)}). From the repo root run: python Qn_A/scripts/build_alerts.py`)
+    })
+    return () => { on = false }
+  }, [alertRule])
   useEffect(() => { loadJSON('qa_energy.json').then(setEnergy).catch(() => {}) }, [])
   useEffect(() => QA_BUILDING.onLoadSelect((load) => { setPicked({ floor: load.floor, zone: load.zone, end_use: load.end_use }); setFlash((n) => n + 1) }), [])
   useEffect(() => { if (returnTo && now >= returnTo) setReturnTo(null) }, [now, returnTo])
 
   const live = data ? problemsAt(data, now) : null
   const covered = new Set((live?.active ?? []).map(keyOf))
-  // Only the load clicked on the building is followed: the building's own lists already show every load above P99.
-  const watching = useWatching(rows, now, data?.meta.rule, covered, picked, playing, true)
+  // Only the load clicked on the building is followed: the building's own lists already show every load above its limit.
+  const watching = useWatching(rows, now, data?.meta.rule, covered, picked, playing, true, alertRule)
+  // the rule's threshold name and red length, for the wording (older files without it are P99)
+  const ar = data?.meta.alert_rule ?? { id: 'p99', threshold: 'P99', red_min: 5 }
 
   // A load picked on the building: open its problem card if it has one by now.
   const pickedKey = picked ? keyOf(picked) : null
@@ -157,7 +167,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   const open = problems.filter((p) => !ticketed.has(p.id))
   const filtered = open.filter((p) => (floor === 'All' || p.floor === Number(floor)) && (use === 'All' || p.end_use === use))
   const counts = filtered.reduce((m, p) => ({ ...m, [p.recurrence]: (m[p.recurrence] ?? 0) + 1 }), {})
-  // problems with an alert running now go first, then the usual order (energy above P99)
+  // problems with an alert running now go first, then the usual order (energy above the limit)
   const list = filtered.filter((p) => p.recurrence === tab).sort((x, y) => (y.active > 0) - (x.active > 0))
   const openAlerts = open.reduce((n, p) => n + p.alerts, 0)
   const pickedWatch = (watching ?? []).find((w) => w.key === pickedKey)
@@ -218,9 +228,9 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
               It is a {pickedProblem.priority.toLowerCase()} priority problem with {pickedProblem.alerts} alert{pickedProblem.alerts === 1 ? '' : 's'} so far, opened below.
             </span>
           ) : (
-            <span className="meta">No alert for this load by {time(now)}. The building shows every minute above P99; an alert needs all three filters.</span>
+            <span className="meta">No alert for this load by {time(now)}. The building shows every minute above {ar.threshold}; an alert needs all three filters.</span>
           )}
-          {!covered.has(pickedKey) && pickedWatch && <WatchRow w={pickedWatch} rule={r} now={now} />}
+          {!covered.has(pickedKey) && pickedWatch && <WatchRow w={pickedWatch} rule={r} now={now} ar={ar} />}
           {!covered.has(pickedKey) && !pickedWatch && watching === null && <span className="meta muted">Checking its recent minutes…</span>}
         </div>
       )}
@@ -324,7 +334,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
                       {p.active > 0 && <span className="meta qa-running"><span className="qa-dot red" aria-hidden="true" />Alert running now</span>}
                       {p.usual_pattern && <span className="meta">{usual(p)} <span className="muted">({p.usual_count} of {p.alerts})</span></span>}
                       <span className="meta">Alerts in {p.months_with_alerts} of {p.months_assessed} month{p.months_assessed === 1 ? '' : 's'} so far · {monthYear(p.first)}{p.first.slice(0, 7) === p.last.slice(0, 7) ? '' : ` to ${monthYear(p.last)}`}</span>
-                      {p.kw_above != null && <span className="meta">Average <span className="num">+{p.kw_above}</span> kW above P99 · peak <span className="num">{p.peak_kw}</span> kW</span>}
+                      {p.kw_above != null && <span className="meta">Average <span className="num">+{p.kw_above}</span> kW above {ar.threshold} · peak <span className="num">{p.peak_kw}</span> kW</span>}
                     </button>
                     {p.next_action && (
                       <div className="qa-nba">
@@ -336,7 +346,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
                     )}
                     <div className="qa-alert-foot">
                       <span className={`chip qa-pri ${p.priority.toLowerCase()}`}>{p.priority}</span>
-                      <span className="muted small num">{p.kwh_above > 0 ? `${kwh(p.kwh_above)} kWh above P99` : 'kWh known when the alert ends'}</span>
+                      <span className="muted small num">{p.kwh_above > 0 ? `${kwh(p.kwh_above)} kWh above ${ar.threshold}` : 'kWh known when the alert ends'}</span>
                     </div>
                     <div className="qa-alert-foot">
                       <button type="button" className="btn small" aria-expanded={isOpen} onClick={() => toggle(p)}>
@@ -470,11 +480,15 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         <h3>What an alert means</h3>
         <p>
           Each zone's AC, lighting and plug load has its own <b>normal upper limit</b> for every hour of the week, worked out from the
-          last 8 weeks of readings. It is the level that zone stays under 99% of the time at that hour and weekday (shown as "P99").
+          last 8 weeks of readings at that hour and weekday.{' '}
+          {ar.id === 'sd'
+            ? <>The limit is the usual level plus 3 times its usual spread, and always at least 0.5 kW above the usual level (shown as "median + 3 SD").</>
+            : <>It is the level that zone stays under 99% of the time (shown as "P99").</>}
+          {' '}The <b>Alert rule</b> switch in the replay panel changes which limit is used; this panel follows it.
           Something becomes an alert as soon as, outside office hours, it has been:
         </p>
         <ul>
-          <li>above the limit for at least 5 minutes in a row at some point,</li>
+          <li>above the limit for at least {ar.red_min} minutes in a row at some point (red on the building),</li>
           <li>above it for at least {r.min_minutes_above} minutes in total, and</li>
           <li>on average at least {r.min_kw_above} kW above it, so tiny loads are left out.</li>
         </ul>
@@ -487,7 +501,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         <p>
           Each card is one <b>problem</b>: every alert so far for one floor, zone and load, such as "F1 Z2 · AC". You fix a problem once,
           so tickets are made per problem. The card shows when it usually happens, how many months it appeared in, and how much
-          energy went above the normal limit (kWh above P99) in alerts that have ended. Click the card to open its floor on the
+          energy went above the normal limit (kWh above {ar.threshold}) in alerts that have ended. Click the card to open its floor on the
           building with the zone highlighted; the time moves to its latest alert if that has ended. Or click <b>Show alerts</b>
           and pick one to see it on the chart.
         </p>

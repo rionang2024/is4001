@@ -11,6 +11,7 @@ import TimeStamp from './TimeStamp.jsx'
 import { floorAnomaly, toStamp, useAlerts } from './anomaly.js'
 import { QA_BUILDING } from '../qaBuilding.js'
 import { problemsAt } from './liveAlerts.js'
+import { alertFile, useAlertRule } from './alertRule.js'
 import { loadJSON } from '../data.js'
 import { FLOORS, floorStats, indexSnapshot } from './explorerModel.js'
 import './explorer.css'
@@ -81,7 +82,8 @@ export default function BuildingExplorer({ rows, when, error, loading, holidays,
   lastRef.current = lastFloor
 
   // Recurring problems known by this minute, per floor (same rules as the alerts sidebar).
-  useEffect(() => { loadJSON('qa_alerts.json').then(setAlertData).catch(() => {}) }, [])
+  const rule = useAlertRule()
+  useEffect(() => { setAlertData(null); loadJSON(alertFile(rule)).then(setAlertData).catch(() => {}) }, [rule])
   const recurring = {}
   if (alertData?.meta) {
     for (const p of problemsAt(alertData, toStamp(when)).problems) {
