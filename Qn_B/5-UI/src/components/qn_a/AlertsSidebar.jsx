@@ -457,9 +457,9 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         </p>
         <p>
           A card marked <b>Alert running now</b> has an alert happening at this minute and is listed first in its tab.
-          The building shows every load above its limit at this minute, with a tag saying whether it is an alert yet, and a
-          "recurring" badge on floors with high priority problems so far.
-          Many never become alerts because they are too short or too small.
+          The building shows every load above its limit at this minute, tagged <b>Alert</b> or <b>Not an alert yet</b>:
+          many never become alerts because they are too short or too small. Floors with high priority problems so far
+          carry a "recurring" badge.
         </p>
         <p>
           Click a load in a floor's problem list on the building to find it here: its problem card is highlighted, or the panel says
@@ -487,8 +487,9 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         <p>
           Each card is one <b>problem</b>: every alert so far for one floor, zone and load, such as "F1 Z2 · AC". You fix a problem once,
           so tickets are made per problem. The card shows when it usually happens, how many months it appeared in, and how much
-          energy went above the normal limit (kWh above P99) in alerts that have ended. Click the card to see its latest alert on the
-          building (its floor opens with the zone highlighted), or <b>Show alerts</b> and click one to see it on the chart.
+          energy went above the normal limit (kWh above P99) in alerts that have ended. Click the card to open its floor on the
+          building with the zone highlighted; the time moves to its latest alert if that has ended. Or click <b>Show alerts</b>
+          and pick one to see it on the chart.
         </p>
 
         <h3>Which tab to start with</h3>
@@ -536,6 +537,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
             counts as working. Move the time forward to see the weeks after. If the fix went in later, enter that date instead.</li>
           <li>It uses power, not alert counts, because the alert limit is reset from the last 8 weeks: a load that stays high
             stops raising alerts on its own. Season and holidays still affect power, so treat it as a first check, not proof.</li>
+          <li><b>Close ticket</b> if it worked, or <b>Reopen</b> to send it back to Open and check again. Tickets are kept in this browser.</li>
         </ol>
       </details>
 
