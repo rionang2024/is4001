@@ -28,9 +28,6 @@ const ACTIONS = {
 // -> Closed, or back to Open. The check itself is in fixCheck.jsx.
 const PATTERN = { Weeknight: 'weeknights', Weekend: 'weekends', 'Early morning': 'early mornings' }
 const SHOW_ALERTS = 8 // alerts listed inside an opened problem before "show all"
-// A weekday evening that shows the whole story at once: 7 recurring problems, F1 Z2 AC alert running,
-// and red loads on Floors 1, 3, 4 and 5, some alerts and some not yet. Picked from the full data.
-const DEMO_AT = '2019-06-26T22:14'
 
 const day = (ts) => ts.slice(0, 10)
 const time = (ts) => ts.slice(11, 16)
@@ -207,9 +204,6 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
       <div className="qa-asof">
         <span>As of <b>{stampText(now)}</b></span>
         <span className="muted small">Only what was known by this minute. Move the time to see more.</span>
-        {now !== DEMO_AT && !returnTo && (
-          <button type="button" className="btn small" onClick={() => onSetTime(DEMO_AT)}>Jump to demo moment ({stampText(DEMO_AT)})</button>
-        )}
         {returnTo && (
           <button type="button" className="btn small" onClick={() => { onSetTime(returnTo); setReturnTo(null) }}>
             Back to {stampText(returnTo)}
