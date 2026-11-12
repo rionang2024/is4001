@@ -10,7 +10,7 @@ import { bindQaBuilding, emitEventSelect } from '../qaBuilding.js'
 import { isAfterHours, nextAfterHours, prevAfterHours } from '../components/qn_a/afterHours.js'
 
 // Replay speed, in ms per step: the 1-minute step shows one data minute every 2 seconds, so each change can be followed by eye.
-const TICK_MS = { 1: 2000, 5: 1500, 15: 1500 }
+const TICK_MS = { 1: 2000, 5: 1500, 15: 6000 }
 
 // Question A: where and when does the building use energy after hours?
 // Minute-level data comes from Qn_A/api (Parquet in dashboard_data/, never sent to the browser whole).
