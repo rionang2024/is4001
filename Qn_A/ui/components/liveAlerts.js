@@ -5,7 +5,7 @@
 // - "Watching" = loads that are amber or red right now but have not become an alert yet, with how close they are.
 // Times are 'YYYY-MM-DDTHH:MM' strings (Bangkok local time), so plain string comparison orders them.
 import { useEffect, useState } from 'react'
-import { apiGet, LOADS } from '../../qnaApi.js'
+import { apiGet, LOADS } from '../qnaApi.js'
 
 export const keyOf = (x) => `F${x.floor}-Z${x.zone}-${x.end_use ?? x.e}`
 const RANK = { High: 0, Medium: 1, Low: 2 }

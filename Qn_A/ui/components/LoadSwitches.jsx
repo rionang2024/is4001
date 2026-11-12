@@ -1,4 +1,4 @@
-import { LOADS, LOAD_NAME } from '../../qnaApi.js'
+import { LOADS, LOAD_NAME } from '../qnaApi.js'
 
 const ART = {
   AC: (

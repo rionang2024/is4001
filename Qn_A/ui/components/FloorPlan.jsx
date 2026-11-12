@@ -1,6 +1,6 @@
 // One floor as a CSS-3D model: a block per zone, height = kW of the switched-on loads, with an upright card per zone.
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { GROUP_LABEL, LOADS, LOAD_NAME, kw, reasonText, statusGroup } from '../../qnaApi.js'
+import { GROUP_LABEL, LOADS, LOAD_NAME, kw, reasonText, statusGroup } from '../qnaApi.js'
 import { FLOORS, indexSnapshot, maxZoneTotal, num, planOf, zoneState } from './explorerModel.js'
 import { BreachList } from './AnomalyNow.jsx'
 import { breachText, floorAnomaly, useAlerts } from './anomaly.js'

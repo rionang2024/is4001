@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import ForecastPage from './pages/ForecastPage.jsx'
-import AfterHoursPage from './pages/AfterHoursPage.jsx'
+// Question A's page lives in Qn_A/ui (see vite.config.js for how the build reaches it)
+import AfterHoursPage from '../../../Qn_A/ui/AfterHoursPage.jsx'
 import LiveForecastPage from './pages/LiveForecastPage.jsx'
 
 // Add a page here to give it a tab. Hash routing keeps it working as a static site.

@@ -6,9 +6,9 @@
 //   Tabs        problems known by `now`, by how often they come back
 // Leads to investigate, not confirmed faults. Tickets are kept in this browser (localStorage).
 import { useEffect, useState } from 'react'
-import { dayMonth, dow, loadJSON } from '../../data.js'
-import { LOAD_NAME } from '../../qnaApi.js'
-import { QA_BUILDING } from '../../qaBuilding.js'
+import { dayMonth, dow, loadJSON } from '../data.js'
+import { LOAD_NAME } from '../qnaApi.js'
+import { QA_BUILDING } from '../qaBuilding.js'
 import { keyOf, knownAt, problemsAt, useWatching } from './liveAlerts.js'
 import { checkFix, FIX_VERDICT, SEG_TEXT, WeekChart } from './fixCheck.jsx'
 

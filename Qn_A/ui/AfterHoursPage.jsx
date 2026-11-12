@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { API_DOWN, clock, minuteOf, stamp, useApi } from '../qnaApi.js'
-import { addDays } from '../data.js'
-import BuildingExplorer from '../components/qn_a/BuildingExplorer.jsx'
-import LoadProfileChart from '../components/qn_a/LoadProfileChart.jsx'
-import StatusKey from '../components/qn_a/StatusKey.jsx'
-import TimeControl, { INCIDENT } from '../components/qn_a/TimeControl.jsx'
-import AlertsSidebar from '../components/qn_a/AlertsSidebar.jsx'
-import { bindQaBuilding, emitEventSelect } from '../qaBuilding.js'
-import { isAfterHours, nextAfterHours, prevAfterHours } from '../components/qn_a/afterHours.js'
+import { API_DOWN, clock, minuteOf, stamp, useApi } from './qnaApi.js'
+import { addDays } from './data.js'
+import BuildingExplorer from './components/BuildingExplorer.jsx'
+import LoadProfileChart from './components/LoadProfileChart.jsx'
+import StatusKey from './components/StatusKey.jsx'
+import TimeControl, { INCIDENT } from './components/TimeControl.jsx'
+import AlertsSidebar from './components/AlertsSidebar.jsx'
+import { bindQaBuilding, emitEventSelect } from './qaBuilding.js'
+import { isAfterHours, nextAfterHours, prevAfterHours } from './components/afterHours.js'
 
 // Replay speed, in ms per step: the 1-minute step shows one data minute every 2 seconds, so each change can be followed by eye.
 const TICK_MS = { 1: 2000, 5: 1500, 15: 3000 }

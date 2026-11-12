@@ -1,7 +1,7 @@
 // Load profile for one zone and end use (or floor totals for several floors) over a window of one date.
 import { useEffect, useMemo, useState } from 'react'
 import { CartesianGrid, ComposedChart, Line, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { GROUP_LABEL, LOAD_NAME, STATUS, clock, kw, minuteOf, reasonText, statusGroup, useApi } from '../../qnaApi.js'
+import { GROUP_LABEL, LOAD_NAME, STATUS, clock, kw, minuteOf, reasonText, statusGroup, useApi } from '../qnaApi.js'
 import StatusKey from './StatusKey.jsx'
 
 const FLOOR_COLORS = ['#4c8fd6', '#3aa07f', '#d08a3a', '#9b7fd1', '#d9694f', '#7fb24a', '#8f98a3']

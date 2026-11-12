@@ -1,4 +1,4 @@
-import { STATUS } from '../../qnaApi.js'
+import { STATUS } from '../qnaApi.js'
 
 const ROWS = [
   ['green', STATUS.green.meaning],

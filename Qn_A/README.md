@@ -11,7 +11,7 @@
 | Path | What it is |
 |---|---|
 | [`api/`](api/) | Read-only Python API (FastAPI) over the minute-level Parquet. Reads `dashboard_data/`, filters in the scan, caps response size. Tests use a tiny generated fixture. |
-| `../Qn_B/5-UI/` → **After-hours energy** tab | The website page for this question: replay control, building explorer (3D floors, zone cards, AC / lighting / plug switches) and a load-profile chart. React, same stack as the Question B tab. |
+| [`ui/`](ui/) | The website page for this question (the **After-hours energy** tab; the site that shows it is `../Qn_B/5-UI/`): replay control, building explorer (3D floors, zone cards, AC / lighting / plug switches) and a load-profile chart. React, same stack as the Question B tab. |
 | `../docs/qa/` | Context, data contract and task list used while building the page, and the original standalone prototype (reference only). |
 
 ## The data
@@ -77,6 +77,10 @@ The stored data is not changed. The API restates each minute under `sd` from two
 
 The numbers (3 SD, 0.5 kW, 15 minutes) are constants at the top of the build script. The alerts sidebar is still built from the original P99 status (`build_alerts.py`), so it does not change with the switch.
 
+## Where the page code lives
+
+The Question A page is in `Qn_A/ui/`: `AfterHoursPage.jsx`, `qnaApi.js`, `qaBuilding.js` and `components/` (building, floor plan, chart, replay controls, alerts sidebar). The website is still one React app, built from `Qn_B/5-UI`. It loads this folder through one import in `Qn_B/5-UI/src/App.jsx`, and `Qn_B/5-UI/vite.config.js` lets the build read outside its own folder and use its own copies of React and Recharts. `Qn_A/ui/data.js` is the only link back into the app's shared helpers (`Qn_B/5-UI/src/data.js`). The alerts file the sidebar reads stays in `Qn_B/5-UI/public/data/`.
+
 ## Anomaly glow, red zones and the page hooks
 
 At the minute chosen in the replay control, the page points at what is wrong:
@@ -85,7 +89,7 @@ At the minute chosen in the replay control, the page points at what is wrong:
 - **"At 20:35" list** above the building: each problem floor with its numbers; click one to open its plan.
 - **Floor plan.** The same minute. The breached zone's block turns red and only the breaching load is red, with its numbers in red: "AC 85.2 kW vs 51.2 kW threshold · 5 min above P99 · Above P99 for 5+ minutes". Other zones and loads keep their colours.
 
-How it is worked out (`Qn_B/5-UI/src/components/qn_a/anomaly.js`), from the minute snapshot the page already loads, with no extra endpoint:
+How it is worked out (`Qn_A/ui/components/anomaly.js`), from the minute snapshot the page already loads, with no extra endpoint:
 
 - A load is a problem when its `status` is `amber` or `red`, for the loads that are switched on.
 - `exceedance_duration_minutes` is the run of consecutive minutes above P99 up to that minute, so *above P99 since* = minute − (duration − 1) and *red since* = minute − (duration − 5). For 2018-10-03 20:35 (duration 5): amber from 20:31, red from 20:35.
@@ -111,7 +115,7 @@ An event is one entry of `alerts` in `qa_alerts.json` (built by `scripts/build_a
 
 ### Hooks for other parts of the app
 
-`src/qaBuilding.js` sets `window.QA_BUILDING` while the Question A tab is open (before that, calls do nothing):
+`Qn_A/ui/qaBuilding.js` sets `window.QA_BUILDING` while the Question A tab is open (before that, calls do nothing):
 
 ```js
 QA_BUILDING.setTime('2018-10-03T20:35')   // building, floor plan and chart jump to that minute; returns false if it is not a valid minute in the data

@@ -64,7 +64,7 @@ Thresholds (error band, deviation rule, start-up hour) are constants at the top 
 
 - **Error band** currently uses test-period residuals. Swap to validation residuals once P2/P3 export validation predictions.
 - **Stagger / pre-cool thresholds** (`StartupPlan.jsx`) are placeholders for the group to agree.
-- **Qn A tab**: see `src/pages/AfterHoursPage.jsx` for where its data and charts go.
+- **Qn A tab**: its page code lives in `Qn_A/ui/` (entry: `AfterHoursPage.jsx`); `src/App.jsx` imports it from there.
 
 ## Framing that must survive into the UI
 

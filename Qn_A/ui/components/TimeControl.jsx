@@ -1,6 +1,6 @@
 // Replay control for the floor plan: pick a date, then scrub or play through the day minute by minute.
-import { addDays, dow } from '../../data.js'
-import { clock } from '../../qnaApi.js'
+import { addDays, dow } from '../data.js'
+import { clock } from '../qnaApi.js'
 import { daytimeBand } from './afterHours.js'
 
 export const INCIDENT = { date: '2018-10-03', minute: 20 * 60 + 35 }

@@ -1,6 +1,6 @@
 // The after-hours schedule from the data README: Mon-Fri 17:01 to 07:59 and all weekend, public holidays excluded.
 // Dates are 'YYYY-MM-DD', minutes are minutes since midnight (Bangkok local time).
-import { addDays } from '../../data.js'
+import { addDays } from '../data.js'
 
 export const AH_FIRST_EVENING = 17 * 60 + 1  // 17:01
 export const AH_LAST_MORNING = 7 * 60 + 59   // 07:59

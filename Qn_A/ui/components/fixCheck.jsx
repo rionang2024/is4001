@@ -3,7 +3,7 @@
 // without any fix, and a fixed load can raise new small ones. Alerts are shown too, but only as extra information.
 // Data: public/data/qa_energy.json (Qn_A/scripts/build_alerts.py): daily average kW per zone load for each part of the
 // after-hours schedule, holidays left out. Only days before the replay clock are used.
-import { addDays, dayMonth } from '../../data.js'
+import { addDays, dayMonth } from '../data.js'
 
 export const WINDOW_DAYS = 28  // baseline: the 4 weeks before; result: 4 weeks after
 export const SETTLE_DAYS = 7   // the week from the visit is skipped while the change settles in

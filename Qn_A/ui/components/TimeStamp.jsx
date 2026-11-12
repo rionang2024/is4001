@@ -1,7 +1,7 @@
 // A date and time stamp that stays at the top of the screen while the building explorer is in view,
 // so a screenshot of the building always says which minute it shows.
 import { useEffect, useState } from 'react'
-import { dow, parseDate } from '../../data.js'
+import { dow, parseDate } from '../data.js'
 import { isAfterHours } from './afterHours.js'
 
 const NO_HOLIDAYS = new Set()

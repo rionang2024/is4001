@@ -1,6 +1,6 @@
 // Text versions of what the glow and the red zone show, so nothing depends on colour alone and phones get a readable list.
 import { alertText, breachText, placeText, sinceText } from './anomaly.js'
-import { emitLoadSelect } from '../../qaBuilding.js'
+import { emitLoadSelect } from '../qaBuilding.js'
 
 export const STATE_ICON = { red: '▲', amber: '◆', grey: '', neutral: '' }
 const STATE_WORD = { red: 'Red', amber: 'Amber', grey: 'No data', neutral: 'Neutral' }

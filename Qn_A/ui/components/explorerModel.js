@@ -1,5 +1,5 @@
 // Pure helpers for the building explorer: floor plans and what a minute snapshot says about a floor or zone.
-import { GROUP_RANK, LOADS, statusGroup } from '../../qnaApi.js'
+import { GROUP_RANK, LOADS, statusGroup } from '../qnaApi.js'
 
 export const FLOORS = [1, 2, 3, 4, 5, 6, 7]
 

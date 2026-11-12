@@ -2,8 +2,8 @@
 // Pure helpers plus one hook. Nothing here fetches minute data: it reads the same snapshot rows the explorer already has.
 // Alert details (start, end, peak) are borrowed from public/data/qa_alerts.json, the file behind the alerts sidebar.
 import { useEffect, useState } from 'react'
-import { loadJSON } from '../../data.js'
-import { LOADS, LOAD_NAME, kw, reasonText } from '../../qnaApi.js'
+import { loadJSON } from '../data.js'
+import { LOADS, LOAD_NAME, kw, reasonText } from '../qnaApi.js'
 import { num, planOf } from './explorerModel.js'
 
 const pad = (n) => String(n).padStart(2, '0')
