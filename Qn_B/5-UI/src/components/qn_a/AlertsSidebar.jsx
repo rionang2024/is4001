@@ -6,10 +6,11 @@
 //   Tabs        problems known by `now`, by how often they come back
 // Leads to investigate, not confirmed faults. Tickets are kept in this browser (localStorage).
 import { useEffect, useState } from 'react'
-import { addDays, dayMonth, dow, loadJSON } from '../../data.js'
+import { dayMonth, dow, loadJSON } from '../../data.js'
 import { LOAD_NAME } from '../../qnaApi.js'
 import { QA_BUILDING } from '../../qaBuilding.js'
 import { keyOf, knownAt, problemsAt, useWatching } from './liveAlerts.js'
+import { checkFix, FIX_VERDICT, SEG_TEXT, WeekChart } from './fixCheck.jsx'
 
 const GROUPS = [
   { id: 'Recurring', priority: 'High' },
@@ -21,8 +22,8 @@ const ACTIONS = {
   Lighting: ['Verify meter mapping on site', 'Confirm no security or 24/7 lighting', 'Check lighting schedule or occupancy sensor'],
   Plug: ['Verify meter mapping on site', 'Inspect after-hours plug loads'],
 }
-// Ticket flow: Open -> Verified on site -> Change made (verify before vs after) -> Closed, or back to Open.
-const VERIFY_DAYS = 28 // compare this many days before and after the change
+// Ticket flow: Open -> Visited (checked on site; "Did it work?" compares from that day) -> optional change date
+// -> Closed, or back to Open. The check itself is in fixCheck.jsx.
 const PATTERN = { Weeknight: 'weeknights', Weekend: 'weekends', 'Early morning': 'early mornings' }
 const SHOW_ALERTS = 8 // alerts listed inside an opened problem before "show all"
 // A weekday evening that shows the whole story at once: 7 recurring problems, F1 Z2 AC alert running,
@@ -44,32 +45,6 @@ const usual = (p) => `Usually ${PATTERN[p.usual_pattern] ?? p.usual_pattern}, ${
 // Replaying a finished alert moves the clock to its peak, or to the minute it became an alert if that came later,
 // so the alert is still on the list at the minute you land on.
 const replayAt = (a) => ((a.qualified_at ?? a.start) > a.peak_at ? a.qualified_at : a.peak_at)
-
-// Before vs after a change: this problem's alerts in VERIFY_DAYS before the change day and VERIFY_DAYS from it.
-// If the data (or the replay clock) ends sooner, both windows shrink to the days available after the change.
-function verify(issueAlerts, changeDay, dataStart, dataEnd) {
-  const span = (x, y) => Math.round((new Date(y) - new Date(x)) / 864e5)
-  const days = Math.max(0, Math.min(VERIFY_DAYS, span(changeDay, day(dataEnd)) + 1, span(day(dataStart), changeDay)))
-  const from = addDays(changeDay, -days), to = addDays(changeDay, days)
-  const sum = (xs) => Math.round(xs.reduce((n, a) => n + a.kwh_above, 0))
-  const before = issueAlerts.filter((a) => day(a.start) >= from && day(a.start) < changeDay)
-  const after = issueAlerts.filter((a) => day(a.start) >= changeDay && day(a.start) < to)
-  let verdict = 'still'
-  if (days === 0) verdict = 'nodata'
-  else if (before.length === 0 && after.length === 0) verdict = 'empty'
-  else if (before.length === 0) verdict = 'new'
-  else if (after.length === 0) verdict = 'stopped'
-  else if (sum(after) < sum(before) * 0.5) verdict = 'fewer'
-  return { before: before.length, beforeKwh: sum(before), after: after.length, afterKwh: sum(after), daysAfter: days, verdict }
-}
-const VERDICT = {
-  stopped: { cls: 'good', text: 'No alerts since the change. The fix looks like it worked.' },
-  fewer: { cls: 'good', text: 'Less than half the kWh above P99 since the change, but still some alerts. Keep watching.' },
-  still: { cls: 'bad', text: 'Still happening, without a clear drop (less than half). Reopen and check again.' },
-  nodata: { cls: 'plain', text: 'No data after this date yet. Move the time forward to check.' },
-  empty: { cls: 'plain', text: 'No alerts either side of this date, so there is nothing to compare. Pick a change date close to this problem\'s alerts.' },
-  new: { cls: 'bad', text: 'Alerts appear after the change but none before it. Check whether the change caused them.' },
-}
 
 // Tickets are saved in this browser only (localStorage), so they survive a refresh on the demo laptop.
 // Storage can be blocked (private windows, some previews), so every read and write is guarded and the page works without it.
@@ -120,6 +95,7 @@ function WatchRow({ w, rule, now }) {
 
 export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime, playing }) {
   const [data, setData] = useState(null)
+  const [energy, setEnergy] = useState(null) // daily after-hours power, for "Did it work?"
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('Recurring')
   const [floor, setFloor] = useState('All')
@@ -137,6 +113,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
     loadJSON('qa_alerts.json').then(setData).catch(() =>
       setError('No alert file yet. From the repo root run: python Qn_A/scripts/build_alerts.py'))
   }, [])
+  useEffect(() => { loadJSON('qa_energy.json').then(setEnergy).catch(() => {}) }, [])
   useEffect(() => QA_BUILDING.onLoadSelect((load) => { setPicked({ floor: load.floor, zone: load.zone, end_use: load.end_use }); setFlash((n) => n + 1) }), [])
   useEffect(() => { if (returnTo && now >= returnTo) setReturnTo(null) }, [now, returnTo])
 
@@ -414,36 +391,47 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
                   {covered.has(t.issue.id) && <span className="meta qa-running"><span className="qa-dot red" aria-hidden="true" />Alert running now</span>}
                 </div>
                 {t.status === 'Open' && (
-                  <div className="qa-alert-foot"><button type="button" className="btn small" onClick={() => update(t.id, { status: 'Verified on site' })}>Mark verified</button></div>
-                )}
-                {t.status === 'Verified on site' && (
-                  <div className="qa-alert-foot qa-change">
-                    <label className="field">
-                      <span className="qa-label">Change made on</span>
-                      <input type="date" value={t.changeDay ?? date} min={day(meta.period[0])} max={date}
-                             onChange={(e) => e.target.value && update(t.id, { changeDay: e.target.value })} />
-                    </label>
-                    <button type="button" className="btn small qa-primary" onClick={() => update(t.id, { status: 'Change made', changeDay: t.changeDay ?? date })}>Mark change made</button>
+                  <div className="qa-alert-foot">
+                    <button type="button" className="btn small qa-primary" onClick={() => update(t.id, { status: 'Visited', visitDay: date })}>Mark visited (checked on site)</button>
                   </div>
                 )}
-                {(t.status === 'Change made' || t.status === 'Closed') && (() => {
-                  const v = verify(alertsOf(t.issue), t.changeDay, meta.period[0], now)
+                {t.status !== 'Open' && (() => {
+                  // The comparison point: the day a change went in if one was recorded, else the visit day.
+                  const visit = t.visitDay ?? t.changeDay ?? (t.created ? day(t.created) : date)
+                  const anchor = t.changeDay ?? visit
+                  const label = t.changeDay ? 'Change' : 'Visit'
+                  const c = checkFix(energy, t.issue, anchor, now, alertsOf(t.issue))
+                  const v = FIX_VERDICT[c.verdict]
                   return (
                     <div className="qa-verify">
-                      <div className="qa-nba-head"><span className="qa-label">Did it work?</span><span className="muted small">change on {dayMonth(t.changeDay)} {t.changeDay.slice(0, 4)}</span></div>
-                      {t.issue.first && <span className="muted small">This problem's alerts run from {dayMonth(day(t.issue.first))} {t.issue.first.slice(0, 4)} to {dayMonth(day(t.issue.last))} {t.issue.last.slice(0, 4)}.</span>}
+                      <div className="qa-nba-head"><span className="qa-label">Did it work?</span>
+                        <span className="muted small">visited {dayMonth(visit)} {visit.slice(0, 4)}{t.changeDay ? ` · change ${dayMonth(t.changeDay)}` : ''}</span></div>
+                      <span className="muted small">Average after-hours power on {SEG_TEXT[c.seg]}, this problem's usual time, holidays left out.</span>
+                      {energy ? <WeekChart check={c} anchorLabel={label} /> : <span className="muted small">Loading power data…</span>}
                       <div className="qa-verify-grid">
-                        <div><span className="muted small">{v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} before</span><b className="num">{v.before} alerts</b><span className="muted small num">{v.beforeKwh} kWh above P99</span></div>
-                        <div><span className="muted small">{v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} after</span><b className="num">{v.after} alerts</b><span className="muted small num">{v.afterKwh} kWh above P99</span></div>
+                        <div><span className="muted small">4 weeks before</span><b className="num">{c.base != null ? `${c.base.toFixed(1)} kW` : '–'}</b>
+                          <span className="muted small num">{c.alertsBefore} alert{c.alertsBefore === 1 ? '' : 's'}</span></div>
+                        <div><span className="muted small">After{c.nAfter ? ` (${c.nAfter} day${c.nAfter === 1 ? '' : 's'} so far)` : ''}</span><b className="num">{c.after != null && c.nAfter ? `${c.after.toFixed(1)} kW` : '–'}</b>
+                          <span className="muted small num">{c.nAfter ? `${c.alertsAfter} alert${c.alertsAfter === 1 ? '' : 's'}` : 'from ' + dayMonth(c.aFrom ?? anchor)}</span></div>
                       </div>
-                      {v.daysAfter > 0 && v.daysAfter < VERIFY_DAYS && <span className="muted small">Shortened to {v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} each side: only days up to {dayMonth(date)} are known. Move the time forward to see more.</span>}
-                      <div className={`chip ${VERDICT[v.verdict].cls}`} style={{ whiteSpace: 'normal' }}>{VERDICT[v.verdict].text}</div>
-                      {t.status === 'Change made' && (
-                        <div className="row">
-                          <button type="button" className="btn small qa-primary" onClick={() => update(t.id, { status: 'Closed' })}>Close ticket</button>
-                          <button type="button" className="btn small" onClick={() => update(t.id, { status: 'Open', changeDay: undefined })}>Reopen</button>
+                      <div className={`chip ${v.cls}`} style={{ whiteSpace: 'normal' }}>{v.text(c.change)}</div>
+                      <span className="muted small">Alert counts are extra information only: the alert limit is reset from the last 8 weeks, so alerts can fade without a fix.</span>
+                      {t.status === 'Visited' && (
+                        <div className="qa-alert-foot qa-change" style={{ padding: 0 }}>
+                          <label className="field">
+                            <span className="qa-label">Change made later? (optional)</span>
+                            <input type="date" value={t.changeDraft ?? visit} min={visit} max={date}
+                                   onChange={(e) => e.target.value && update(t.id, { changeDraft: e.target.value })} />
+                          </label>
+                          <button type="button" className="btn small" onClick={() => update(t.id, { changeDay: t.changeDraft ?? visit, status: 'Change made' })}>Compare from this date</button>
                         </div>
                       )}
+                      {t.status !== 'Closed' ? (
+                        <div className="row">
+                          <button type="button" className="btn small qa-primary" onClick={() => update(t.id, { status: 'Closed' })}>Close ticket</button>
+                          <button type="button" className="btn small" onClick={() => update(t.id, { status: 'Open', visitDay: undefined, changeDay: undefined, changeDraft: undefined })}>Reopen</button>
+                        </div>
+                      ) : <span className="muted small">Closed.</span>}
                     </div>
                   )
                 })()}
@@ -542,10 +530,12 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         <h3>Tickets</h3>
         <ol>
           <li><b>Create ticket</b> on a problem, choose or type the action, and add a note for whoever goes on site.</li>
-          <li><b>Mark verified</b> once the on-site check is done.</li>
-          <li><b>Mark change made</b> and enter the date the fix went in.</li>
-          <li><b>Did it work?</b> compares the problem's alerts in the {VERIFY_DAYS} days before and after that date, using only days
-            up to the time on show. Move the time forward to see the days after. Close the ticket if the alerts stop, or reopen it if they continue.</li>
+          <li><b>Mark visited</b> when someone has checked on site. The date on show is saved as the visit.</li>
+          <li><b>Did it work?</b> compares the zone's average after-hours power at its usual time (for example weeknights) in the
+            4 weeks before the visit with the weeks after, skipping the first week while the change settles. A drop of 20% or more
+            counts as working. Move the time forward to see the weeks after. If the fix went in later, enter that date instead.</li>
+          <li>It uses power, not alert counts, because the alert limit is reset from the last 8 weeks: a load that stays high
+            stops raising alerts on its own. Season and holidays still affect power, so treat it as a first check, not proof.</li>
         </ol>
       </details>
 

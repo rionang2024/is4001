@@ -49,6 +49,13 @@ PRIORITY = {"Recurring": "High", "Intermittent": "Medium", "Occasional": "Low"}
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = Path(os.environ.get("QA_DATA_DIR", REPO_ROOT / "dashboard_data" / "minute"))
 OUT = REPO_ROOT / "Qn_B" / "5-UI" / "public" / "data" / "qa_alerts.json"
+ENERGY_OUT = OUT.with_name("qa_energy.json")
+# Daily after-hours power per problem zone and load, for the ticket's "Did it work?" check. Energy, not alert
+# counts: P99 is re-set from the last 56 days, so a load that stays high stops raising alerts without any fix.
+# Three parts of the after-hours schedule, so a ticket compares like with like (its problem's usual pattern):
+SEGMENTS = {"Weeknight": "ev", "Early morning": "em", "Weekend": "we"}
+SEGMENT_MINUTES = {"ev": 7 * 60, "em": 8 * 60, "we": 24 * 60}  # weekday 17:00-24:00, weekday 00:00-08:00, Sat/Sun
+MIN_COVERAGE = 0.7  # a day counts only with 70% of that part's minutes present
 COLUMNS = ["timestamp", "floor", "zone", "end_use", "power_kw", "reference_median_kw", "upper_threshold_kw", "status"]
 KEY = ["floor", "zone", "end_use"]
 
@@ -204,6 +211,48 @@ def issues(ev: pd.DataFrame, stamp) -> list[dict]:
     return sorted(out, key=lambda i: (rank[i["priority"]], -i["kwh_above"]))
 
 
+def daily_energy(keys: set[tuple[int, int, str]]) -> dict:
+    """Average kW per day for each part of the after-hours schedule, per floor, zone and end use in `keys`."""
+    dataset = ds.dataset(DATA_DIR, format="parquet", partitioning="hive")
+    keep = ds.field("alert_scope") & (ds.field("end_use") != "All") & ds.field("power_kw").is_valid()
+    parts = []
+    for frag in dataset.get_fragments(filter=keep):
+        t = frag.to_table(columns=["timestamp", "floor", "zone", "end_use", "power_kw"], filter=keep).to_pandas()
+        if not len(t):
+            continue
+        t["end_use"] = t["end_use"].astype(str)
+        t["floor"] = t["floor"].astype(int)
+        t["zone"] = t["zone"].astype(int)
+        t = t[[k in keys for k in zip(t["floor"], t["zone"], t["end_use"])]]
+        if not len(t):
+            continue
+        ts = pd.to_datetime(t["timestamp"])
+        weekend = ts.dt.weekday >= 5
+        t = t.assign(day=ts.dt.strftime("%Y-%m-%d"),
+                     seg=["we" if w else ("em" if h < 8 else "ev") for w, h in zip(weekend, ts.dt.hour)])
+        parts.append(t.groupby(KEY + ["day", "seg"])["power_kw"].agg(["mean", "size"]).reset_index())
+    if not parts:
+        return {}
+    d = pd.concat(parts, ignore_index=True)
+    d = d.groupby(KEY + ["day", "seg"]).apply(
+        lambda g: pd.Series({"mean": (g["mean"] * g["size"]).sum() / g["size"].sum(), "size": g["size"].sum()}),
+        include_groups=False).reset_index()
+    d = d[d["size"] >= d["seg"].map(SEGMENT_MINUTES) * MIN_COVERAGE]
+    first = d["day"].min()
+    days = pd.date_range(first, d["day"].max(), freq="D").strftime("%Y-%m-%d").tolist()
+    pos = {x: i for i, x in enumerate(days)}
+    out = {}
+    for (floor, zone, end_use), g in d.groupby(KEY):
+        rec = {}
+        for seg in SEGMENT_MINUTES:
+            vals = [None] * len(days)
+            for day, kw in zip(g.loc[g["seg"] == seg, "day"], g.loc[g["seg"] == seg, "mean"]):
+                vals[pos[day]] = round(float(kw), 2)
+            rec[seg] = vals
+        out[f"F{floor}-Z{zone}-{end_use}"] = rec
+    return {"start": first, "days": len(days), "segments": SEGMENTS, "min_coverage": MIN_COVERAGE, "channels": out}
+
+
 def main() -> None:
     if not DATA_DIR.exists():
         raise SystemExit(f"Minute data not found at {DATA_DIR}. See Qn_A/README.md, or set QA_DATA_DIR.")
@@ -243,7 +292,10 @@ def main() -> None:
     meta["issues"] = len(problems)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({"meta": meta, "issues": problems, "alerts": alerts}, indent=1))
+    energy = daily_energy({(p["floor"], p["zone"], p["end_use"]) for p in problems})
+    ENERGY_OUT.write_text(json.dumps(energy, separators=(",", ":")))
     print(f"{len(problems)} problems, {len(alerts)} alerts (from {joined} joined events) written to {OUT.relative_to(REPO_ROOT)}")
+    print(f"daily after-hours kW for {len(energy.get('channels', {}))} zone loads written to {ENERGY_OUT.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":
