@@ -50,8 +50,9 @@ export function problemsOnFloor(idx, floor, on, when) {
 }
 
 // The sidebar alert (if any) that covers this problem's minute.
+// An alert counts from the minute it qualified (passed all three sidebar filters), so the replay never shows it early.
 export const findAlert = (alerts, p) =>
-  alerts.find((a) => a.floor === p.floor && a.zone === p.zone && a.end_use === p.e && a.start <= p.at && p.at <= a.end) ?? null
+  alerts.find((a) => a.floor === p.floor && a.zone === p.zone && a.end_use === p.e && (a.qualified_at ?? a.start) <= p.at && p.at <= a.end) ?? null
 
 // ---------- wording (red means investigate, not a confirmed fault)
 export const placeText = (p) => `Floor ${p.floor} · Zone ${p.zone} · ${LOAD_NAME[p.e]}`
@@ -61,8 +62,10 @@ export const sinceText = (p) => {
 }
 export const metricText = (p) => `${LOAD_NAME[p.e]} ${kw(p.power)} kW vs ${kw(p.threshold)} kW threshold`
 export const breachText = (p) => [metricText(p), p.dur ? `${p.dur} min above P99` : null, reasonText(p.reason)].filter(Boolean).join(' · ')
-export const alertText = (a) => {
+// `at` = the minute on show. While the alert is still running, its end and peak are later minutes, so they are left out.
+export const alertText = (a, at) => {
   if (!a) return ''
+  if (at && at < a.end) return `Part of an alert running since ${clockOf(a.start, at)}, an alert from ${clockOf(a.qualified_at ?? a.start, at)}`
   const next = a.start.slice(0, 10) === a.end.slice(0, 10) ? '' : ' next day'
   return `Part of a longer alert, ${a.start.slice(11, 16)} to ${a.end.slice(11, 16)}${next}, peak ${kw(a.peak_kw)} kW at ${a.peak_at.slice(11, 16)}`
 }
@@ -100,7 +103,7 @@ export function floorAnomaly(idx, floor, on, when, alerts = []) {
     summary = [
       `${placeText(top)} · ${sinceText(top)}`,
       breachText(top),
-      alertText(top.alert),
+      alertText(top.alert, top.at),
       problems.length > 1 ? `+ ${problems.length - 1} more on Floor ${floor}` : '',
     ].filter(Boolean).join('\n')
   } else if (state === 'grey') {
