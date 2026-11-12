@@ -29,7 +29,7 @@ export default function TimeControl({ meta, date, minute, onDate, onMinute, play
           <span className="muted small">{dow(date)} {date}, Bangkok local time{busy ? ' · loading…' : ''}</span>
         </div>
         <div className="qa-range">
-          {band && <span className="qa-daytime" style={{ left: `${band[0] * 100}%`, width: `${(band[1] - band[0]) * 100}%` }} title="Daytime: not after-hours" aria-hidden="true" />}
+          {band && <span className="qa-daytime" style={{ left: `${band[0] * 100}%`, width: `${(band[1] - band[0]) * 100}%` }} title="Office hours: not after-hours" aria-hidden="true">Office hours</span>}
           <input type="range" min="0" max="1439" step="1" value={minute} aria-label="Minute of the day"
                  aria-valuetext={clock(minute)} onChange={(e) => onMinute(Number(e.target.value))} />
         </div>
