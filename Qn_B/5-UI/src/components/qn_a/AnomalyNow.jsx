@@ -12,6 +12,9 @@ function Problem({ p }) {
         <span className="qa-ico" aria-hidden="true">{STATE_ICON[p.status]}</span>
         <span className="visually-hidden">{STATE_WORD[p.status]}: </span>
         {placeText(p)} · {sinceText(p)}
+        {p.alert
+          ? <span className="qa-alert-tag on">Alert</span>
+          : <span className="qa-alert-tag">Not an alert yet</span>}
       </span>
       <span className={`qa-breach ${p.status}`}>{breachText(p)}</span>
       {p.alert && <span className="qa-now-alert">{alertText(p.alert, p.at)}</span>}

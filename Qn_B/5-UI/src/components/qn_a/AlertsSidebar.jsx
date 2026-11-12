@@ -128,17 +128,19 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   const [draft, setDraft] = useState(null) // { issue, action, custom, note }
   const [returnTo, setReturnTo] = useState(null) // the minute to go back to after replaying an older alert
   const [picked, setPicked] = useState(null) // { floor, zone, end_use } clicked on the building
+  const [flash, setFlash] = useState(0) // bumps each time something is picked, to replay the highlight and scroll
 
   useEffect(() => {
     loadJSON('qa_alerts.json').then(setData).catch(() =>
       setError('No alert file yet. From the repo root run: python Qn_A/scripts/build_alerts.py'))
   }, [])
-  useEffect(() => QA_BUILDING.onLoadSelect((load) => setPicked({ floor: load.floor, zone: load.zone, end_use: load.end_use })), [])
+  useEffect(() => QA_BUILDING.onLoadSelect((load) => { setPicked({ floor: load.floor, zone: load.zone, end_use: load.end_use }); setFlash((n) => n + 1) }), [])
   useEffect(() => { if (returnTo && now >= returnTo) setReturnTo(null) }, [now, returnTo])
 
   const live = data ? problemsAt(data, now) : null
   const covered = new Set((live?.active ?? []).map(keyOf))
-  const watching = useWatching(rows, now, data?.meta.rule, covered, picked, playing)
+  // Only the load clicked on the building is followed: the building's own lists already show every load above P99.
+  const watching = useWatching(rows, now, data?.meta.rule, covered, picked, playing, true)
 
   // A load picked on the building: open its problem card if it has one by now.
   const pickedKey = picked ? keyOf(picked) : null
@@ -148,9 +150,16 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
     setTab(tickets.some((t) => t.issue.id === pickedProblem.id) ? 'tickets' : pickedProblem.recurrence)
     setOpenId(pickedProblem.id)
     setFloor('All'); setUse('All')
-    requestAnimationFrame(() => document.getElementById(`qa-p-${pickedProblem.id}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }))
+    setFlash((n) => n + 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickedKey, pickedProblem?.id])
+  // after the card has rendered: bring it to the middle of the screen
+  useEffect(() => {
+    if (!flash) return
+    const id = pickedProblem ? `qa-p-${pickedProblem.id}` : 'qa-picked'
+    requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'center', behavior: 'smooth' }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flash])
 
   if (error) return <section className="panel"><div className="panel-head"><h2>Alerts</h2></div><div className="note">{error}</div></section>
   if (!data) return <section className="panel"><div className="panel-head"><h2>Alerts</h2></div><div className="muted small">Loading alerts…</div></section>
@@ -168,9 +177,9 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   const open = problems.filter((p) => !ticketed.has(p.id))
   const filtered = open.filter((p) => (floor === 'All' || p.floor === Number(floor)) && (use === 'All' || p.end_use === use))
   const counts = filtered.reduce((m, p) => ({ ...m, [p.recurrence]: (m[p.recurrence] ?? 0) + 1 }), {})
-  const list = filtered.filter((p) => p.recurrence === tab)
+  // problems with an alert running now go first, then the usual order (energy above P99)
+  const list = filtered.filter((p) => p.recurrence === tab).sort((x, y) => (y.active > 0) - (x.active > 0))
   const openAlerts = open.reduce((n, p) => n + p.alerts, 0)
-  const watchList = (watching ?? []).filter((w) => w.key !== pickedKey || w.progress)
   const pickedWatch = (watching ?? []).find((w) => w.key === pickedKey)
 
   const pickTab = (t) => { setTab(t); setOpenId(null) }
@@ -178,6 +187,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   // Point the building and chart at an alert. A finished one is replayed (the clock moves back to it);
   // a running one is shown at the current minute.
   const show = (a) => {
+    requestAnimationFrame(() => document.querySelector('.qa-chart')?.scrollIntoView({ block: 'center', behavior: 'smooth' }))
     if (a.end < now) {
       const at = replayAt(a)
       if (at < now) setReturnTo(returnTo ?? now)
@@ -213,7 +223,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
       </div>
 
       {picked && (
-        <div className="qa-picked" role="status">
+        <div id="qa-picked" key={`picked-${flash}`} className="qa-picked qa-flash" role="status">
           <div className="qa-alert-top"><b>Selected on the building: {where(picked)}</b>
             <button type="button" className="btn small" onClick={() => setPicked(null)} aria-label="Clear the selected load">Clear</button></div>
           {pickedProblem ? (
@@ -228,40 +238,6 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
           {!covered.has(pickedKey) && !pickedWatch && watching === null && <span className="meta muted">Checking its recent minutes…</span>}
         </div>
       )}
-
-      <div className="qa-live">
-        <h3 className="qa-live-head"><span className="qa-dot red" aria-hidden="true" />Active now <span className="muted">· {active.length}</span></h3>
-        {active.length === 0 ? <p className="muted small">No alert is running at {time(now)}.</p> : (
-          <ul className="qa-live-list">
-            {active.map((a) => {
-              const p = byKey.get(keyOf(a))
-              return (
-                <li key={a.id}>
-                  <button type="button" className={`qa-event active${a.id === selectedId ? ' sel' : ''}`} onClick={() => { show(a); if (p) { setTab(ticketed.has(p.id) ? 'tickets' : p.recurrence); setOpenId(p.id) } }}
-                          title="Show this load on the building and chart">
-                    <span><b>{where(a)}</b>{p && <span className={`chip qa-pri ${p.priority.toLowerCase()}`} style={{ marginLeft: 6 }}>{p.priority}</span>}</span>
-                    <span className="num">Above P99 since {sinceText(a.start, now)} · an alert since {sinceText(knownAt(a), now)}</span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-
-        <h3 className="qa-live-head"><span className="qa-dot amber" aria-hidden="true" />Watching <span className="muted">· {watching === null ? '…' : watchList.length}</span></h3>
-        {playing ? <p className="muted small">Paused while the replay plays.</p>
-          : watching === null ? <p className="muted small">Checking loads above P99 at {time(now)}…</p>
-          : watchList.length === 0 ? <p className="muted small">No other load is above P99 at {time(now)}.</p> : (
-            <ul className="qa-live-list">
-              {watchList.map((w) => (
-                <li key={w.key} className={`qa-watch${w.key === pickedKey ? ' sel' : ''}`}>
-                  <span className="qa-alert-top"><span>{where(w)}</span><span className={`small qa-st ${w.status}`}>{w.status ?? ''}</span></span>
-                  <WatchRow w={w} rule={r} now={now} />
-                </li>
-              ))}
-            </ul>
-          )}
-      </div>
 
       <div className="qa-tabs" role="tablist" aria-label="Alert groups">
         {GROUPS.map((g) => (
@@ -346,8 +322,11 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
                 const shown = showAll ? inside : inside.slice(0, SHOW_ALERTS)
                 const latest = alertsOf(p)[0]
                 const holdsSel = (selectedId && selectedId.startsWith(p.id + '-')) || p.id === pickedKey
+                const isPicked = p.id === pickedKey
                 return (
-                  <div key={p.id} id={`qa-p-${p.id}`} className={`qa-alert ${p.priority.toLowerCase()}${holdsSel ? ' sel' : ''}`}>
+                  <div key={isPicked ? `${p.id}-${flash}` : p.id} id={`qa-p-${p.id}`}
+                       className={`qa-alert ${p.priority.toLowerCase()}${holdsSel ? ' sel' : ''}${isPicked ? ' picked qa-flash' : ''}`}>
+                    {isPicked && <span className="qa-picked-tag">Selected on the building</span>}
                     <button type="button" className="qa-alert-main" onClick={() => latest && show(latest)}
                             title={p.active ? 'Show the running alert on the building and chart' : 'Replay this problem\'s latest alert'}>
                       <span className="qa-alert-top"><span>{where(p)}</span><span className="num">{p.alerts} alert{p.alerts === 1 ? '' : 's'}</span></span>
@@ -474,16 +453,15 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
           It only shows what was known by then: an alert appears from the minute it qualified, and problems, priorities and
           totals are counted from the alerts so far. Move the time forward, or press play, to see more.
         </p>
-        <dl>
-          <dt><span className="qa-dot red" aria-hidden="true" /> Active now</dt>
-          <dd>Alerts running at this minute. Click one to show it on the building and chart.</dd>
-          <dt><span className="qa-dot amber" aria-hidden="true" /> Watching</dt>
-          <dd>Loads above their limit at this minute (amber or red on the building) that are not an alert yet, with how close
-            they are and what is still missing. Many never become alerts because they are too short or too small.</dd>
-        </dl>
         <p>
-          Click a load in a floor's problem list on the building to find it here: its problem card opens, or the panel says
-          why it is not an alert. Clicking an older alert replays it: the time moves back to it, and <b>Back to</b> returns you.
+          A card marked <b>Alert running now</b> has an alert happening at this minute and is listed first in its tab.
+          The building shows every load above its limit at this minute, with a tag saying whether it is an alert yet.
+          Many never become alerts because they are too short or too small.
+        </p>
+        <p>
+          Click a load in a floor's problem list on the building to find it here: its problem card is highlighted, or the panel says
+          why it is not an alert yet and what it still needs. Clicking an alert here shows it on the chart. Clicking an older alert
+          replays it: the time moves back to it, and <b>Back to</b> returns you.
         </p>
 
         <h3>What an alert means</h3>

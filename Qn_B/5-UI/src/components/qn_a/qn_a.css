@@ -206,3 +206,15 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
 .qa-picked { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; margin-bottom: 12px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent-soft); }
 .qa-running { display: inline-flex; align-items: center; gap: 6px; color: var(--st-red) !important; font-weight: 600; }
 .qa-guide dt .qa-dot { margin-right: 2px; }
+
+/* the card for a load clicked on the building: thick outline, a label and a short flash */
+.qa-alert.picked { box-shadow: 0 0 0 3px var(--accent); position: relative; }
+.qa-picked-tag { display: block; padding: 4px 11px; border-radius: 6px 6px 0 0; background: var(--accent); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.qa-flash { animation: qa-flash 1.6s ease-out 1; }
+@keyframes qa-flash {
+  0%, 30% { box-shadow: 0 0 0 6px var(--accent), 0 0 24px 6px var(--accent); }
+  100% { box-shadow: 0 0 0 3px var(--accent); }
+}
+.qa-picked.qa-flash { animation-name: qa-flash-box; }
+@keyframes qa-flash-box { 0%, 30% { box-shadow: 0 0 0 4px var(--accent); } 100% { box-shadow: none; } }
+@media (prefers-reduced-motion: reduce) { .qa-flash { animation: none; } }

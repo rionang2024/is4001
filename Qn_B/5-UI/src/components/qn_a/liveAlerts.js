@@ -132,10 +132,10 @@ const WATCH_MAX = 12     // loads followed at once, red first
 const pad = (n) => String(n).padStart(2, '0')
 
 // Fetches a short series for each load that is amber or red at `now` and not covered by an active alert.
-// `extra` adds one more load (the one clicked on the building), whatever its colour.
-export function useWatching(snapshotRows, now, rule, coveredKeys, extra, paused) {
+// `extra` adds one more load (the one clicked on the building), whatever its colour; `onlyExtra` follows that load alone.
+export function useWatching(snapshotRows, now, rule, coveredKeys, extra, paused, onlyExtra = false) {
   const [state, setState] = useState({ at: null, items: [] })
-  const candidates = (snapshotRows ?? [])
+  const candidates = (onlyExtra ? [] : snapshotRows ?? [])
     .filter((r) => LOADS.includes(r.end_use) && (r.status === 'amber' || r.status === 'red') && !coveredKeys.has(keyOf(r)))
     .sort((a, b) => (a.status === b.status ? 0 : a.status === 'red' ? -1 : 1))
     .slice(0, WATCH_MAX)
