@@ -7,9 +7,10 @@ How an alert is built (the P99 status comes from the data processing, see docs/q
   1. Take every minute that is amber or red, per floor, zone and end use (end_use "All" is skipped so nothing counts twice).
   2. Join runs of the same floor, zone and end use when the gap between them is GAP_MINUTES or less,
      so one unit switching on and off all evening is one alert, not dozens.
-  3. Keep an event only if it has at least one red minute, at least MIN_MINUTES_ABOVE minutes above P99 in total,
-     and an average of at least MIN_KW_ABOVE kW above P99. These cut alert fatigue: the README rule alone gives
-     188 red runs for Floor 1 in October 2018.
+  3. Keep an event once it has at least one red minute, at least MIN_MINUTES_ABOVE minutes above P99 so far,
+     and an average of at least MIN_KW_ABOVE kW above P99 so far. The minute this first happens is saved as
+     qualified_at, so the live sidebar never shows an alert before it could have been known.
+     These cut alert fatigue: the README rule alone gives 188 red runs for Floor 1 in October 2018.
   4. Group alerts into one problem per floor, zone and end use, with its usual pattern
      (weeknight, weekend or early morning) and typical time window.
   5. Give each problem a priority by how often its floor, zone and end use comes back:
@@ -85,7 +86,8 @@ def assessed_months() -> pd.DataFrame:
     out["end_use"] = out["end_use"].astype(str)
     out["floor"] = out["floor"].astype(int)
     out["zone"] = out["zone"].astype(int)
-    return out.drop_duplicates().groupby(KEY).size().rename("months_assessed").reset_index()
+    months = out.drop_duplicates().sort_values("month").groupby(KEY)["month"].agg(list).rename("months_checked").reset_index()
+    return months.assign(months_assessed=months["months_checked"].map(len))
 
 
 def recurrence(ev: pd.DataFrame) -> pd.DataFrame:
@@ -107,15 +109,23 @@ def events(df: pd.DataFrame) -> pd.DataFrame:
     df = df.assign(event=(gap.isna() | (gap > GAP_MINUTES + 1)).cumsum(),
                    over=df["power_kw"] - df["upper_threshold_kw"],
                    is_red=df["status"] == "red")
+    # The minute each event first meets all three filters, counting only the minutes up to then, so a live view
+    # can show an alert from that minute on and never earlier. An event that qualifies at any minute is an alert.
+    ge = df.groupby("event")
+    n_so_far = ge.cumcount() + 1
+    qualified = ((n_so_far >= MIN_MINUTES_ABOVE) & ge["is_red"].cummax().astype(bool)
+                 & (ge["over"].cumsum() / n_so_far >= MIN_KW_ABOVE))
+    first_q = df.loc[qualified].groupby("event")["timestamp"].min().rename("qualified_at")
     g = df.groupby(KEY + ["event"])
     out = g.agg(start=("timestamp", "min"), end=("timestamp", "max"), minutes_above=("status", "size"),
                 red_minutes=("is_red", "sum"), avg_kw=("power_kw", "mean"), p99_kw=("upper_threshold_kw", "mean"),
                 median_kw=("reference_median_kw", "mean"), kw_above=("over", "mean"), kwh_above=("over", "sum")).reset_index()
     peak = df.loc[g["power_kw"].idxmax(), KEY + ["event", "timestamp", "power_kw"]]
     out = out.merge(peak.rename(columns={"timestamp": "peak_at", "power_kw": "peak_kw"}), on=KEY + ["event"])
+    out = out.merge(first_q, left_on="event", right_index=True, how="left")
     out["kwh_above"] = out["kwh_above"] / 60
     out["span_minutes"] = ((out["end"] - out["start"]).dt.total_seconds() / 60 + 1).astype(int)
-    keep = (out["red_minutes"] > 0) & (out["minutes_above"] >= MIN_MINUTES_ABOVE) & (out["kw_above"] >= MIN_KW_ABOVE)
+    keep = out["qualified_at"].notna()
     return out[keep].sort_values("kwh_above", ascending=False, ignore_index=True), len(out)
 
 
@@ -178,6 +188,7 @@ def issues(ev: pd.DataFrame, stamp) -> list[dict]:
             "id": f"F{floor}-Z{zone}-{end_use}", "floor": int(floor), "zone": int(zone), "end_use": end_use,
             "priority": first.priority, "recurrence": first.recurrence,
             "months_with_alerts": int(first.months_with_alerts), "months_assessed": int(first.months_assessed),
+            "months_checked": list(first.months_checked),
             "alerts": int(len(g)), "usual_pattern": usual, "usual_count": int(len(u)),
             "usual_start": clock(start_min.median()), "usual_end": clock(end_min.median()),
             "usual_end_next_day": bool(end_min.median() >= 1440),
@@ -204,7 +215,7 @@ def main() -> None:
     alerts = [{
         "id": f"F{r.floor}-Z{r.zone}-{r.end_use}-{stamp(r.start)}",
         "floor": int(r.floor), "zone": int(r.zone), "end_use": r.end_use,
-        "start": stamp(r.start), "end": stamp(r.end), "peak_at": stamp(r.peak_at),
+        "start": stamp(r.start), "end": stamp(r.end), "peak_at": stamp(r.peak_at), "qualified_at": stamp(r.qualified_at),
         "span_minutes": int(r.span_minutes), "minutes_above": int(r.minutes_above), "red_minutes": int(r.red_minutes),
         "peak_kw": round(float(r.peak_kw), 1), "avg_kw": round(float(r.avg_kw), 1), "p99_kw": round(float(r.p99_kw), 1),
         "median_kw": None if pd.isna(r.median_kw) else round(float(r.median_kw), 1),
@@ -221,6 +232,12 @@ def main() -> None:
                  "min_kw_above": MIN_KW_ABOVE, "recurring_share": RECURRING_SHARE,
                  "recurring_min_months": RECURRING_MIN_MONTHS, "priority": PRIORITY},
         "events_before_filter": int(joined), "events": len(alerts),
+        "actions": {
+            "first_check": FIRST_CHECK,
+            "rules": [{"end_use": e, "pattern": pt, "lever": lv, "text": tx} for (e, pt), (lv, tx) in ACTION_RULES.items()],
+            "occasional": {"lever": OCCASIONAL_ACTION[0], "text": OCCASIONAL_ACTION[1]},
+            "fallback": {"lever": FALLBACK_ACTION[0], "text": FALLBACK_ACTION[1]},
+        },
     }
     problems = issues(ev, stamp) if len(ev) else []
     meta["issues"] = len(problems)

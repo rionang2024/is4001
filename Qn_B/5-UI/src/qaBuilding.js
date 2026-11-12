@@ -5,9 +5,12 @@
 //   window.QA_BUILDING.selectEvent(alert)            same as clicking that alert in the sidebar
 //   window.QA_BUILDING.onEventSelect(fn)             fn(alert) runs whenever an alert is picked; returns an unsubscribe function
 //   window.QA_BUILDING.getTime()                     'YYYY-MM-DDTHH:MM', the minute on show
+//   window.QA_BUILDING.selectLoad({floor, zone, end_use})   same as clicking that load in a floor's problem list
+//   window.QA_BUILDING.onLoadSelect(fn)              fn({floor, zone, end_use, at}) runs when a load is picked on the building
 //
 // An "event" is an entry of public/data/qa_alerts.json (see Qn_A/README.md for its fields).
 const listeners = new Set()
+const loadListeners = new Set()
 let impl = null
 
 export const QA_BUILDING = {
@@ -16,9 +19,13 @@ export const QA_BUILDING = {
   selectEvent: (event) => { if (impl && event) impl.selectEvent(event) },
   getTime: () => (impl ? impl.getTime() : null),
   onEventSelect: (fn) => { listeners.add(fn); return () => listeners.delete(fn) },
+  selectLoad: (load) => { if (load) emitLoadSelect({ ...load, at: impl ? impl.getTime() : null }) },
+  onLoadSelect: (fn) => { loadListeners.add(fn); return () => loadListeners.delete(fn) },
 }
 
 export const emitEventSelect = (event) => listeners.forEach((fn) => { try { fn(event) } catch (e) { console.error(e) } })
+
+export const emitLoadSelect = (load) => loadListeners.forEach((fn) => { try { fn(load) } catch (e) { console.error(e) } })
 
 export function bindQaBuilding(api) {
   impl = api

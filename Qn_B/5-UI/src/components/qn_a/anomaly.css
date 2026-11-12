@@ -146,3 +146,9 @@
   .qa-ex .ex-svg .floor.anom-amber .ag { opacity: 0.2; }
   .qa-ex .ex-svg .floor.anom-red .lit { opacity: 0.95; }
 }
+
+/* a breached load in the floor plan can be clicked to show it in the alerts sidebar */
+.qa-ex .qa-breaches li:has(.qa-breach-pick) { padding: 0; }
+.qa-ex .qa-breach-pick { display: grid; gap: 2px; width: 100%; padding: 7px 10px; border: 0; background: none; text-align: left; font: inherit; color: inherit; cursor: pointer; border-radius: 6px; }
+.qa-ex .qa-breach-pick:hover { background: var(--line-2); }
+.qa-ex .qa-breach-pick:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

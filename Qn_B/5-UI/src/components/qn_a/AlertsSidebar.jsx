@@ -1,10 +1,15 @@
-// Sidebar for Question A: after-hours problems (one per floor, zone and load) and mock work tickets.
+// Sidebar for Question A: after-hours problems (one per floor, zone and load), live status and mock work tickets.
 // Data comes from public/data/qa_alerts.json, built by Qn_A/scripts/build_alerts.py from the minute data.
-// Each problem groups its alert events; open one to see them. Leads to investigate, not confirmed faults.
-// Tickets are kept in this browser (localStorage) and can be cleared from the Tickets tab.
+// It follows the page's replay clock (`now`): it only knows what had happened by then, like a live dashboard.
+//   Active now  alerts running at `now`
+//   Watching    loads amber or red at `now` that have not become an alert yet, with how close they are
+//   Tabs        problems known by `now`, by how often they come back
+// Leads to investigate, not confirmed faults. Tickets are kept in this browser (localStorage).
 import { useEffect, useState } from 'react'
 import { addDays, dayMonth, dow, loadJSON } from '../../data.js'
 import { LOAD_NAME } from '../../qnaApi.js'
+import { QA_BUILDING } from '../../qaBuilding.js'
+import { keyOf, knownAt, problemsAt, useWatching } from './liveAlerts.js'
 
 const GROUPS = [
   { id: 'Recurring', priority: 'High' },
@@ -25,28 +30,20 @@ const day = (ts) => ts.slice(0, 10)
 const time = (ts) => ts.slice(11, 16)
 const kwh = (v) => Math.round(v).toLocaleString('en-US')
 const where = (a) => `F${a.floor} Z${a.zone} · ${LOAD_NAME[a.end_use] ?? a.end_use}`
+const stampText = (ts) => `${dow(day(ts))} ${dayMonth(day(ts))} ${ts.slice(0, 4)}, ${time(ts)}`
+const sinceText = (ts, now) => (day(ts) === day(now) ? time(ts) : `${time(ts)} on ${dayMonth(day(ts))}`)
 const when = (a) => `${dow(day(a.start))} ${dayMonth(day(a.start))}, ${time(a.start)} to ${time(a.end)}${day(a.start) === day(a.end) ? '' : ' next day'}`
 const monthYear = (ts) => new Date(day(ts) + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
 // The ticket's action list: the problem's next best action and first check, then the general checks for its load.
 const OTHER = 'Other (type your own)'
 const actionsFor = (p) => [...new Set([p.next_action?.text, p.next_action?.first_check, ...(ACTIONS[p.end_use] ?? ACTIONS.Plug)].filter(Boolean))]
-const usual = (p) => `Usually ${PATTERN[p.usual_pattern] ?? p.usual_pattern}, ${p.usual_start} to ${p.usual_end}${p.usual_end_next_day ? ' next day' : ''}`
-
-// Older alert files have no problem list: build a plain one so the page still works until the script is re-run.
-function fallbackIssues(alerts) {
-  const byKey = new Map()
-  for (const a of alerts) {
-    const id = `F${a.floor}-Z${a.zone}-${a.end_use}`
-    if (!byKey.has(id)) byKey.set(id, { id, floor: a.floor, zone: a.zone, end_use: a.end_use, priority: a.priority, recurrence: a.recurrence, alerts: 0, kwh_above: 0, biggest_alert: a.id })
-    const p = byKey.get(id)
-    p.alerts += 1
-    p.kwh_above += a.kwh_above
-  }
-  return [...byKey.values()]
-}
+const usual = (p) => `Usually ${PATTERN[p.usual_pattern] ?? p.usual_pattern}, ${p.usual_end ? `${p.usual_start} to ${p.usual_end}${p.usual_end_next_day ? ' next day' : ''}` : `from ${p.usual_start}`}`
+// Replaying a finished alert moves the clock to its peak, or to the minute it became an alert if that came later,
+// so the alert is still on the list at the minute you land on.
+const replayAt = (a) => ((a.qualified_at ?? a.start) > a.peak_at ? a.qualified_at : a.peak_at)
 
 // Before vs after a change: this problem's alerts in VERIFY_DAYS before the change day and VERIFY_DAYS from it.
-// If the data ends sooner, both windows shrink to the days available after the change, so the two sides stay comparable.
+// If the data (or the replay clock) ends sooner, both windows shrink to the days available after the change.
 function verify(issueAlerts, changeDay, dataStart, dataEnd) {
   const span = (x, y) => Math.round((new Date(y) - new Date(x)) / 864e5)
   const days = Math.max(0, Math.min(VERIFY_DAYS, span(changeDay, day(dataEnd)) + 1, span(day(dataStart), changeDay)))
@@ -54,20 +51,19 @@ function verify(issueAlerts, changeDay, dataStart, dataEnd) {
   const sum = (xs) => Math.round(xs.reduce((n, a) => n + a.kwh_above, 0))
   const before = issueAlerts.filter((a) => day(a.start) >= from && day(a.start) < changeDay)
   const after = issueAlerts.filter((a) => day(a.start) >= changeDay && day(a.start) < to)
-  const daysAfter = days
   let verdict = 'still'
   if (days === 0) verdict = 'nodata'
   else if (before.length === 0 && after.length === 0) verdict = 'empty'
   else if (before.length === 0) verdict = 'new'
-  else if (after.length === 0 && before.length > 0) verdict = 'stopped'
+  else if (after.length === 0) verdict = 'stopped'
   else if (sum(after) < sum(before) * 0.5) verdict = 'fewer'
-  return { before: before.length, beforeKwh: sum(before), after: after.length, afterKwh: sum(after), daysAfter, verdict }
+  return { before: before.length, beforeKwh: sum(before), after: after.length, afterKwh: sum(after), daysAfter: days, verdict }
 }
 const VERDICT = {
   stopped: { cls: 'good', text: 'No alerts since the change. The fix looks like it worked.' },
   fewer: { cls: 'good', text: 'Less than half the kWh above P99 since the change, but still some alerts. Keep watching.' },
   still: { cls: 'bad', text: 'Still happening, without a clear drop (less than half). Reopen and check again.' },
-  nodata: { cls: 'plain', text: 'No data after this date to check against.' },
+  nodata: { cls: 'plain', text: 'No data after this date yet. Move the time forward to check.' },
   empty: { cls: 'plain', text: 'No alerts either side of this date, so there is nothing to compare. Pick a change date close to this problem\'s alerts.' },
   new: { cls: 'bad', text: 'Alerts appear after the change but none before it. Check whether the change caused them.' },
 }
@@ -86,7 +82,40 @@ function saveTickets(list) {
   try { window.localStorage.setItem(TICKETS_KEY, JSON.stringify(list)) } catch { /* storage unavailable: keep in memory only */ }
 }
 
-export default function AlertsSidebar({ selectedId, onPick, date }) {
+// What still stops a watched load from being an alert, in words.
+function needsText(pr, rule) {
+  const out = []
+  if (pr.needs.red) out.push('a red run (5+ min in a row)')
+  if (pr.needs.minutes) out.push(`${rule.min_minutes_above - pr.minutes} more min above P99`)
+  if (pr.needs.kw) out.push(`${rule.min_kw_above}+ kW above P99 on average`)
+  return out
+}
+
+function WatchRow({ w, rule, now }) {
+  const pr = w.progress
+  if (!pr) {
+    return (
+      <span className="meta">{w.error ? 'Could not load its recent minutes.' : w.status
+        ? `${w.status === 'green' ? 'At or below' : 'Not checked against'} its P99 limit at this minute, so there is nothing building up.`
+        : 'No reading at this minute.'}</span>
+    )
+  }
+  const needs = needsText(pr, rule)
+  const pct = Math.min(100, Math.round((pr.minutes / rule.min_minutes_above) * 100))
+  return (
+    <>
+      <span className="meta">
+        {pr.cut ? 'Since before ' : 'Since '}{sinceText(pr.since, now)} · <span className="num">{pr.minutes}</span>
+        {pr.minutes < rule.min_minutes_above ? ` of ${rule.min_minutes_above}` : ''} min above P99 ·
+        avg <span className="num">{pr.avgOver >= 0 ? '+' : ''}{pr.avgOver.toFixed(1)}</span> kW above it
+      </span>
+      <span className="qa-progress" aria-hidden="true"><span style={{ width: `${pct}%` }} /></span>
+      <span className="meta">{needs.length ? `Not an alert yet. Needs ${needs.join(', ')}.` : 'Meets all three filters: it becomes an alert on its next counted minute.'}</span>
+    </>
+  )
+}
+
+export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime, playing }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('Recurring')
@@ -97,37 +126,70 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
   const [tickets, setTicketsState] = useState(loadTickets)
   const setTickets = (list) => { setTicketsState(list); saveTickets(list) }
   const [draft, setDraft] = useState(null) // { issue, action, custom, note }
+  const [returnTo, setReturnTo] = useState(null) // the minute to go back to after replaying an older alert
+  const [picked, setPicked] = useState(null) // { floor, zone, end_use } clicked on the building
 
   useEffect(() => {
     loadJSON('qa_alerts.json').then(setData).catch(() =>
       setError('No alert file yet. From the repo root run: python Qn_A/scripts/build_alerts.py'))
   }, [])
+  useEffect(() => QA_BUILDING.onLoadSelect((load) => setPicked({ floor: load.floor, zone: load.zone, end_use: load.end_use })), [])
+  useEffect(() => { if (returnTo && now >= returnTo) setReturnTo(null) }, [now, returnTo])
+
+  const live = data ? problemsAt(data, now) : null
+  const covered = new Set((live?.active ?? []).map(keyOf))
+  const watching = useWatching(rows, now, data?.meta.rule, covered, picked, playing)
+
+  // A load picked on the building: open its problem card if it has one by now.
+  const pickedKey = picked ? keyOf(picked) : null
+  const pickedProblem = live && pickedKey ? live.problems.find((p) => p.id === pickedKey) : null
+  useEffect(() => {
+    if (!pickedProblem) return
+    setTab(tickets.some((t) => t.issue.id === pickedProblem.id) ? 'tickets' : pickedProblem.recurrence)
+    setOpenId(pickedProblem.id)
+    setFloor('All'); setUse('All')
+    requestAnimationFrame(() => document.getElementById(`qa-p-${pickedProblem.id}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pickedKey, pickedProblem?.id])
 
   if (error) return <section className="panel"><div className="panel-head"><h2>Alerts</h2></div><div className="note">{error}</div></section>
   if (!data) return <section className="panel"><div className="panel-head"><h2>Alerts</h2></div><div className="muted small">Loading alerts…</div></section>
 
-  const { meta, alerts } = data
-  const issues = data.issues ?? fallbackIssues(alerts)
-  const byId = new Map(alerts.map((a) => [a.id, a]))
-  const alertsOf = (p) => alerts.filter((a) => a.floor === p.floor && a.zone === p.zone && a.end_use === p.end_use)
-    .sort((x, y) => (x.start < y.start ? 1 : -1))
-  const groupOf = (p) => p.recurrence ?? GROUPS.find((g) => g.priority === p.priority)?.id ?? 'Occasional'
-
-  const ticketed = new Set(tickets.map((t) => t.issue.id))
-  const open = issues.filter((p) => !ticketed.has(p.id))
-  const filtered = open.filter((p) => (floor === 'All' || p.floor === Number(floor)) && (use === 'All' || p.end_use === use))
-  const counts = filtered.reduce((m, p) => ({ ...m, [groupOf(p)]: (m[groupOf(p)] ?? 0) + 1 }), {})
-  const list = filtered.filter((p) => groupOf(p) === tab)
-  const openAlerts = open.reduce((n, p) => n + p.alerts, 0)
+  const { meta } = data
+  const { problems, visible, active } = live
   const r = meta.rule
   const partial = meta.floors_in_data.length < 7
+  const live_ok = Boolean(visible.length === 0 || visible[0].qualified_at)
+  const alertsOf = (p) => visible.filter((a) => keyOf(a) === keyOf(p)).sort((x, y) => (x.start < y.start ? 1 : -1))
+  const byKey = new Map(problems.map((p) => [p.id, p]))
+  const date = day(now)
+
+  const ticketed = new Set(tickets.map((t) => t.issue.id))
+  const open = problems.filter((p) => !ticketed.has(p.id))
+  const filtered = open.filter((p) => (floor === 'All' || p.floor === Number(floor)) && (use === 'All' || p.end_use === use))
+  const counts = filtered.reduce((m, p) => ({ ...m, [p.recurrence]: (m[p.recurrence] ?? 0) + 1 }), {})
+  const list = filtered.filter((p) => p.recurrence === tab)
+  const openAlerts = open.reduce((n, p) => n + p.alerts, 0)
+  const watchList = (watching ?? []).filter((w) => w.key !== pickedKey || w.progress)
+  const pickedWatch = (watching ?? []).find((w) => w.key === pickedKey)
 
   const pickTab = (t) => { setTab(t); setOpenId(null) }
   const toggle = (p) => { setOpenId(openId === p.id ? null : p.id); setShowAll(false) }
+  // Point the building and chart at an alert. A finished one is replayed (the clock moves back to it);
+  // a running one is shown at the current minute.
+  const show = (a) => {
+    if (a.end < now) {
+      const at = replayAt(a)
+      if (at < now) setReturnTo(returnTo ?? now)
+      onPick({ ...a, peak_at: at })
+    } else {
+      onPick({ ...a, peak_at: now })
+    }
+  }
   const createTicket = () => {
     const id = `T-${String(tickets.length + 1).padStart(3, '0')}`
     const action = draft.action === OTHER ? draft.custom.trim() : draft.action
-    setTickets([...tickets, { id, issue: draft.issue, action, note: draft.note.trim(), status: 'Open' }])
+    setTickets([...tickets, { id, issue: draft.issue, action, note: draft.note.trim(), status: 'Open', created: now }])
     setDraft(null)
     setOpenId(null)
   }
@@ -139,6 +201,68 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
         <h2 id="qa-alerts-title">Alerts</h2>
         <span className="sub">{open.length} problems · {openAlerts} alerts</span>
       </div>
+      <div className="qa-asof">
+        <span>As of <b>{stampText(now)}</b></span>
+        <span className="muted small">Only what was known by this minute. Move the time to see more.</span>
+        {returnTo && (
+          <button type="button" className="btn small" onClick={() => { onSetTime(returnTo); setReturnTo(null) }}>
+            Back to {stampText(returnTo)}
+          </button>
+        )}
+        {!live_ok && <span className="muted small">This alert file is from an older script: re-run it to hide alerts until they qualify.</span>}
+      </div>
+
+      {picked && (
+        <div className="qa-picked" role="status">
+          <div className="qa-alert-top"><b>Selected on the building: {where(picked)}</b>
+            <button type="button" className="btn small" onClick={() => setPicked(null)} aria-label="Clear the selected load">Clear</button></div>
+          {pickedProblem ? (
+            <span className="meta">
+              {covered.has(pickedKey) ? 'An alert is running now. ' : ''}
+              It is a {pickedProblem.priority.toLowerCase()} priority problem with {pickedProblem.alerts} alert{pickedProblem.alerts === 1 ? '' : 's'} so far, opened below.
+            </span>
+          ) : (
+            <span className="meta">No alert for this load by {time(now)}. The building shows every minute above P99; an alert needs all three filters.</span>
+          )}
+          {!covered.has(pickedKey) && pickedWatch && <WatchRow w={pickedWatch} rule={r} now={now} />}
+          {!covered.has(pickedKey) && !pickedWatch && watching === null && <span className="meta muted">Checking its recent minutes…</span>}
+        </div>
+      )}
+
+      <div className="qa-live">
+        <h3 className="qa-live-head"><span className="qa-dot red" aria-hidden="true" />Active now <span className="muted">· {active.length}</span></h3>
+        {active.length === 0 ? <p className="muted small">No alert is running at {time(now)}.</p> : (
+          <ul className="qa-live-list">
+            {active.map((a) => {
+              const p = byKey.get(keyOf(a))
+              return (
+                <li key={a.id}>
+                  <button type="button" className={`qa-event active${a.id === selectedId ? ' sel' : ''}`} onClick={() => { show(a); if (p) { setTab(ticketed.has(p.id) ? 'tickets' : p.recurrence); setOpenId(p.id) } }}
+                          title="Show this load on the building and chart">
+                    <span><b>{where(a)}</b>{p && <span className={`chip qa-pri ${p.priority.toLowerCase()}`} style={{ marginLeft: 6 }}>{p.priority}</span>}</span>
+                    <span className="num">Above P99 since {sinceText(a.start, now)} · an alert since {sinceText(knownAt(a), now)}</span>
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+
+        <h3 className="qa-live-head"><span className="qa-dot amber" aria-hidden="true" />Watching <span className="muted">· {watching === null ? '…' : watchList.length}</span></h3>
+        {playing ? <p className="muted small">Paused while the replay plays.</p>
+          : watching === null ? <p className="muted small">Checking loads above P99 at {time(now)}…</p>
+          : watchList.length === 0 ? <p className="muted small">No other load is above P99 at {time(now)}.</p> : (
+            <ul className="qa-live-list">
+              {watchList.map((w) => (
+                <li key={w.key} className={`qa-watch${w.key === pickedKey ? ' sel' : ''}`}>
+                  <span className="qa-alert-top"><span>{where(w)}</span><span className={`small qa-st ${w.status}`}>{w.status ?? ''}</span></span>
+                  <WatchRow w={w} rule={r} now={now} />
+                </li>
+              ))}
+            </ul>
+          )}
+      </div>
+
       <div className="qa-tabs" role="tablist" aria-label="Alert groups">
         {GROUPS.map((g) => (
           <button key={g.id} type="button" role="tab" aria-selected={tab === g.id}
@@ -205,23 +329,31 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
             </div>
           </div>
 
-          {list.length === 0 ? <div className="note">No {tab.toLowerCase()} problems match these filters.</div> : (
+          {list.length === 0 ? (
+            <div className="note">
+              {floor !== 'All' || use !== 'All'
+                ? `No ${tab.toLowerCase()} problems match these filters by ${time(now)}.`
+                : `No ${tab.toLowerCase()} problems yet by ${stampText(now)}.`}
+              {GROUPS.filter((g) => g.id !== tab && counts[g.id]).length > 0 && (
+                <> See {GROUPS.filter((g) => g.id !== tab && counts[g.id]).map((g) => `${g.id} (${counts[g.id]})`).join(' or ')}{tab === 'Recurring' ? ', or move the time forward: a problem becomes recurring once it comes back in 3 or more months' : ''}.</>
+              )}
+            </div>
+          ) : (
             <div className="alert-list">
               {list.map((p) => {
                 const isOpen = openId === p.id
                 const inside = isOpen ? alertsOf(p) : []
                 const shown = showAll ? inside : inside.slice(0, SHOW_ALERTS)
-                const biggest = byId.get(p.biggest_alert)
-                const holdsSel = selectedId && selectedId.startsWith(p.id + '-')
+                const latest = alertsOf(p)[0]
+                const holdsSel = (selectedId && selectedId.startsWith(p.id + '-')) || p.id === pickedKey
                 return (
-                  <div key={p.id} className={`qa-alert ${p.priority.toLowerCase()}${holdsSel ? ' sel' : ''}`}>
-                    <button type="button" className="qa-alert-main" onClick={() => biggest && onPick(biggest)}
-                            title="Show this problem's biggest alert on the page">
+                  <div key={p.id} id={`qa-p-${p.id}`} className={`qa-alert ${p.priority.toLowerCase()}${holdsSel ? ' sel' : ''}`}>
+                    <button type="button" className="qa-alert-main" onClick={() => latest && show(latest)}
+                            title={p.active ? 'Show the running alert on the building and chart' : 'Replay this problem\'s latest alert'}>
                       <span className="qa-alert-top"><span>{where(p)}</span><span className="num">{p.alerts} alert{p.alerts === 1 ? '' : 's'}</span></span>
+                      {p.active > 0 && <span className="meta qa-running"><span className="qa-dot red" aria-hidden="true" />Alert running now</span>}
                       {p.usual_pattern && <span className="meta">{usual(p)} <span className="muted">({p.usual_count} of {p.alerts})</span></span>}
-                      {p.months_with_alerts != null && (
-                        <span className="meta">Alerts in {p.months_with_alerts} of {p.months_assessed} months · {monthYear(p.first)} to {monthYear(p.last)}</span>
-                      )}
+                      <span className="meta">Alerts in {p.months_with_alerts} of {p.months_assessed} month{p.months_assessed === 1 ? '' : 's'} so far · {monthYear(p.first)}{p.first.slice(0, 7) === p.last.slice(0, 7) ? '' : ` to ${monthYear(p.last)}`}</span>
                       {p.kw_above != null && <span className="meta">Average <span className="num">+{p.kw_above}</span> kW above P99 · peak <span className="num">{p.peak_kw}</span> kW</span>}
                     </button>
                     {p.next_action && (
@@ -234,7 +366,7 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                     )}
                     <div className="qa-alert-foot">
                       <span className={`chip qa-pri ${p.priority.toLowerCase()}`}>{p.priority}</span>
-                      <span className="muted small num">{kwh(p.kwh_above)} kWh above P99</span>
+                      <span className="muted small num">{p.kwh_above > 0 ? `${kwh(p.kwh_above)} kWh above P99` : 'kWh known when the alert ends'}</span>
                     </div>
                     <div className="qa-alert-foot">
                       <button type="button" className="btn small" aria-expanded={isOpen} onClick={() => toggle(p)}>
@@ -244,15 +376,19 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                     </div>
                     {isOpen && (
                       <ul className="qa-events">
-                        {shown.map((a) => (
-                          <li key={a.id}>
-                            <button type="button" className={`qa-event${a.id === selectedId ? ' sel' : ''}`} onClick={() => onPick(a)}
-                                    aria-pressed={a.id === selectedId} title="Show this alert on the page">
-                              <span>{when(a)}</span>
-                              <span className="num">+{a.kw_above} kW · {a.minutes_above} min</span>
-                            </button>
-                          </li>
-                        ))}
+                        {shown.map((a) => {
+                          const running = a.end >= now
+                          return (
+                            <li key={a.id}>
+                              <button type="button" className={`qa-event${running ? ' active' : ''}${a.id === selectedId ? ' sel' : ''}`} onClick={() => show(a)}
+                                      aria-pressed={a.id === selectedId} title={running ? 'Show this running alert' : 'Replay this alert: the time moves back to it'}>
+                                {running
+                                  ? <><span>Running now, since {sinceText(a.start, now)}</span><span className="num">an alert since {sinceText(knownAt(a), now)}</span></>
+                                  : <><span>{when(a)}</span><span className="num">+{a.kw_above} kW · {a.minutes_above} min</span></>}
+                              </button>
+                            </li>
+                          )
+                        })}
                         {inside.length > SHOW_ALERTS && (
                           <li><button type="button" className="btn small" onClick={() => setShowAll(!showAll)}>
                             {showAll ? 'Show fewer' : `Show all ${inside.length}`}
@@ -276,12 +412,13 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
               <button type="button" className="btn small" onClick={() => setTickets([])}>Clear tickets</button>
             </div>
             {tickets.map((t) => (
-              <div key={t.id} className="qa-alert ticket">
+              <div key={t.id} id={`qa-p-${t.issue.id}`} className={`qa-alert ticket${t.issue.id === pickedKey ? ' sel' : ''}`}>
                 <div className="qa-alert-main static">
                   <span className="qa-alert-top"><span>{t.id} · {where(t.issue)}</span><span className="small">{t.status}</span></span>
                   <span className="meta">{t.action}</span>
                   {t.note && <span className="meta qa-note">Note: {t.note}</span>}
                   <span className="meta">{t.issue.alerts} alert{t.issue.alerts === 1 ? '' : 's'}{t.issue.usual_pattern ? ` · ${usual(t.issue).toLowerCase()}` : ''}</span>
+                  {covered.has(t.issue.id) && <span className="meta qa-running"><span className="qa-dot red" aria-hidden="true" />Alert running now</span>}
                 </div>
                 {t.status === 'Open' && (
                   <div className="qa-alert-foot"><button type="button" className="btn small" onClick={() => update(t.id, { status: 'Verified on site' })}>Mark verified</button></div>
@@ -290,14 +427,14 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                   <div className="qa-alert-foot qa-change">
                     <label className="field">
                       <span className="qa-label">Change made on</span>
-                      <input type="date" value={t.changeDay ?? date} min={day(meta.period[0])} max={day(meta.period[1])}
+                      <input type="date" value={t.changeDay ?? date} min={day(meta.period[0])} max={date}
                              onChange={(e) => e.target.value && update(t.id, { changeDay: e.target.value })} />
                     </label>
                     <button type="button" className="btn small qa-primary" onClick={() => update(t.id, { status: 'Change made', changeDay: t.changeDay ?? date })}>Mark change made</button>
                   </div>
                 )}
                 {(t.status === 'Change made' || t.status === 'Closed') && (() => {
-                  const v = verify(alertsOf(t.issue), t.changeDay, meta.period[0], meta.period[1])
+                  const v = verify(alertsOf(t.issue), t.changeDay, meta.period[0], now)
                   return (
                     <div className="qa-verify">
                       <div className="qa-nba-head"><span className="qa-label">Did it work?</span><span className="muted small">change on {dayMonth(t.changeDay)} {t.changeDay.slice(0, 4)}</span></div>
@@ -306,7 +443,7 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
                         <div><span className="muted small">{v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} before</span><b className="num">{v.before} alerts</b><span className="muted small num">{v.beforeKwh} kWh above P99</span></div>
                         <div><span className="muted small">{v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} after</span><b className="num">{v.after} alerts</b><span className="muted small num">{v.afterKwh} kWh above P99</span></div>
                       </div>
-                      {v.daysAfter > 0 && v.daysAfter < VERIFY_DAYS && <span className="muted small">Shortened to {v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} each side, because the data runs out.</span>}
+                      {v.daysAfter > 0 && v.daysAfter < VERIFY_DAYS && <span className="muted small">Shortened to {v.daysAfter} day{v.daysAfter === 1 ? '' : 's'} each side: only days up to {dayMonth(date)} are known. Move the time forward to see more.</span>}
                       <div className={`chip ${VERDICT[v.verdict].cls}`} style={{ whiteSpace: 'normal' }}>{VERDICT[v.verdict].text}</div>
                       {t.status === 'Change made' && (
                         <div className="row">
@@ -331,11 +468,29 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
       <details className="qa-guide">
         <summary>How to use this panel</summary>
 
+        <h3>A live view of the building</h3>
+        <p>
+          The panel follows the date and time at the top of the page, as if you were watching the building at that minute.
+          It only shows what was known by then: an alert appears from the minute it qualified, and problems, priorities and
+          totals are counted from the alerts so far. Move the time forward, or press play, to see more.
+        </p>
+        <dl>
+          <dt><span className="qa-dot red" aria-hidden="true" /> Active now</dt>
+          <dd>Alerts running at this minute. Click one to show it on the building and chart.</dd>
+          <dt><span className="qa-dot amber" aria-hidden="true" /> Watching</dt>
+          <dd>Loads above their limit at this minute (amber or red on the building) that are not an alert yet, with how close
+            they are and what is still missing. Many never become alerts because they are too short or too small.</dd>
+        </dl>
+        <p>
+          Click a load in a floor's problem list on the building to find it here: its problem card opens, or the panel says
+          why it is not an alert. Clicking an older alert replays it: the time moves back to it, and <b>Back to</b> returns you.
+        </p>
+
         <h3>What an alert means</h3>
         <p>
           Each zone's AC, lighting and plug load has its own <b>normal upper limit</b> for every hour of the week, worked out from the
           last 8 weeks of readings. It is the level that zone stays under 99% of the time at that hour and weekday (shown as "P99").
-          An alert means the load went well above that limit outside office hours:
+          Something becomes an alert as soon as, outside office hours, it has been:
         </p>
         <ul>
           <li>above the limit for at least 5 minutes in a row at some point,</li>
@@ -349,23 +504,24 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
 
         <h3>Problems, not single alerts</h3>
         <p>
-          Each card is one <b>problem</b>: every alert for one floor, zone and load, such as "F1 Z2 · AC". You fix a problem once,
+          Each card is one <b>problem</b>: every alert so far for one floor, zone and load, such as "F1 Z2 · AC". You fix a problem once,
           so tickets are made per problem. The card shows when it usually happens, how many months it appeared in, and how much
-          energy went above the normal limit (kWh above P99). Click the card to see its biggest alert on the building and chart,
-          or <b>Show alerts</b> to pick a specific one.
+          energy went above the normal limit (kWh above P99) in alerts that have ended. Click the card to see its latest alert on the
+          building and chart, or <b>Show alerts</b> to pick a specific one.
         </p>
 
         <h3>Which tab to start with</h3>
         <dl>
           <dt><span className="chip qa-pri high">High</span> Recurring</dt>
-          <dd>Comes back in at least half of the months, and in 3 or more. Most likely a setting or habit, and usually where the
+          <dd>Has come back in at least half of the months so far, and in 3 or more. Most likely a setting or habit, and usually where the
             biggest savings are. Start here.</dd>
           <dt><span className="chip qa-pri medium">Medium</span> Intermittent</dt>
-          <dd>Comes back in 2 or more months, but not most of them. Look for what triggers it, such as certain days or events.</dd>
+          <dd>Has come back in 2 or more months, but not most of them. Look for what triggers it, such as certain days or events.</dd>
           <dt><span className="chip qa-pri low">Low</span> Occasional</dt>
-          <dd>Seen in one month only. Often a one-off, such as an event or late work. Check before acting.</dd>
+          <dd>Seen in one month so far. Often a one-off, such as an event or late work. Check before acting.</dd>
         </dl>
-        <p>Within each tab, problems are ranked by energy above the normal limit, biggest first. Use the floor and load filters to narrow the list.</p>
+        <p>Priorities can rise as time passes: a problem seen again next month moves up. Within each tab, problems are ranked by energy
+          above the normal limit, biggest first. Use the floor and load filters to narrow the list.</p>
 
         <h3>Next best action</h3>
         <p>
@@ -395,8 +551,8 @@ export default function AlertsSidebar({ selectedId, onPick, date }) {
           <li><b>Create ticket</b> on a problem, choose or type the action, and add a note for whoever goes on site.</li>
           <li><b>Mark verified</b> once the on-site check is done.</li>
           <li><b>Mark change made</b> and enter the date the fix went in.</li>
-          <li><b>Did it work?</b> compares the problem's alerts in the {VERIFY_DAYS} days before and after that date.
-            Close the ticket if the alerts stop, or reopen it if they continue.</li>
+          <li><b>Did it work?</b> compares the problem's alerts in the {VERIFY_DAYS} days before and after that date, using only days
+            up to the time on show. Move the time forward to see the days after. Close the ticket if the alerts stop, or reopen it if they continue.</li>
         </ol>
       </details>
 

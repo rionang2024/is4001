@@ -116,7 +116,9 @@ export default function AfterHoursPage() {
         </section>
       </div>
       <aside className="side-col">
-        <AlertsSidebar selectedId={alertId} onPick={pickAlert} date={date} />
+        {/* The sidebar follows the replay clock: it only shows alerts known by `when`. */}
+        <AlertsSidebar selectedId={alertId} onPick={pickAlert} now={when} rows={snap.data?.rows ?? null} playing={playing}
+                       onSetTime={(ts) => { setPlaying(false); setDate(ts.slice(0, 10)); setMinute(minuteOf(ts.slice(11, 16))) }} />
       </aside>
       </div>
     </main>
