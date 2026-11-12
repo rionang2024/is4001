@@ -42,6 +42,7 @@ function Tip({ active, payload, multi }) {
       <div><i className={`sdot-h ${g}`} />{p.status ? `${GROUP_LABEL[g]}${STATUS[p.status] && g === 'grey' ? ` (${p.status.replace(/_/g, ' ')})` : ''}` : '–'}</div>
       {p.reason && <div className="muted">{reasonText(p.reason)}</div>}
       {p.median != null && <div className="muted">median {kw(p.median, 2)} kW · threshold {kw(p.p99, 2)} kW</div>}
+      {p.p99o != null && <div className="muted">original P99 {kw(p.p99o, 2)} kW</div>}
       {p.run > 0 && <div className="muted">{p.run} min above threshold</div>}
     </div>
   )
@@ -81,6 +82,9 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
   const valid = minuteOf(end) >= minuteOf(start)
   const win = { date, start, end }
   const one = useApi('series', { floor, zone, end_use: endUse, ...win, rule }, { enabled: mode === 'zone' && valid, debounce: 120 })
+  // With the new rule on, also fetch the original P99 for the same window, to draw it as a comparison line.
+  const showOrig = rule === 'sd'
+  const orig = useApi('series', { floor, zone, end_use: endUse, ...win, rule: 'p99' }, { enabled: mode === 'zone' && valid && showOrig, debounce: 120 })
   const many = useApi('compare', { floors: [...floors].sort().join(','), end_use: cmpUse, ...win }, { enabled: mode === 'compare' && valid && floors.length > 0, debounce: 120 })
   const res = mode === 'zone' ? one : many
 
@@ -93,8 +97,9 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
         m: toMinute(r.timestamp), power: r.power_kw, median: r.reference_median_kw, p99: r.upper_threshold_kw,
         status: r.status, reason: r.status_reason, run: r.exceedance_duration_minutes,
       }]))
+      if (showOrig && orig.data) for (const r of orig.data.rows) { const x = by.get(toMinute(r.timestamp)); if (x) x.p99o = r.upper_threshold_kw }
       const rows = fill(s, e, by)
-      const vals = rows.flatMap((r) => [r.power, r.median, r.p99]).filter((v) => v != null)
+      const vals = rows.flatMap((r) => [r.power, r.median, r.p99, r.p99o]).filter((v) => v != null)
       return { data: rows, hasRed: rows.some((r) => r.status === 'red'), dense: rows.length > 120, scale: yScale(vals), multi: false }
     }
     if (!many.data) return { data: [] }
@@ -109,7 +114,7 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
     const rows = fill(s, e, by)
     const vals = rows.flatMap((r) => Object.entries(r).filter(([k, v]) => k !== 'm' && v != null).map(([, v]) => v))
     return { data: rows, hasRed: false, dense: rows.length > 120, scale: yScale(vals), multi: true }
-  }, [mode, one.data, many.data, start, end, valid])
+  }, [mode, one.data, orig.data, showOrig, many.data, start, end, valid])
 
   const present = (key) => data.some((r) => r[key] != null)
   const title = mode === 'zone'
@@ -193,6 +198,9 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
               {mode === 'zone' && present('p99') && (
                 <Line name="Alert threshold" dataKey="p99" stroke="var(--baseline)" strokeWidth={1.8} strokeDasharray="7 5" dot={false} activeDot={false} isAnimationActive={false} connectNulls={false} />
               )}
+              {mode === 'zone' && showOrig && present('p99o') && (
+                <Line name="Original P99" dataKey="p99o" stroke="var(--baseline)" strokeOpacity={0.55} strokeWidth={1.3} strokeDasharray="10 4 2 4" dot={false} activeDot={false} isAnimationActive={false} connectNulls={false} />
+              )}
               {mode === 'zone' && present('median') && (
                 <Line name="Historical median" dataKey="median" stroke="var(--ink-3)" strokeWidth={1.8} strokeDasharray="2 4" dot={false} activeDot={false} isAnimationActive={false} connectNulls={false} />
               )}
@@ -224,6 +232,7 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
             <span><i className="line" style={{ color: 'var(--actual)' }} />Recorded power</span>
             {present('median') && <span><i className="dot" style={{ color: 'var(--ink-3)' }} />Historical median</span>}
             {present('p99') && <span><i className="dash" style={{ color: 'var(--baseline)' }} />{rule === 'sd' ? 'Alert threshold (median + 3 SD)' : 'Frozen P99 threshold'}</span>}
+            {showOrig && present('p99o') && <span><i className="dash" style={{ color: 'var(--baseline)', opacity: 0.55 }} />Original P99 (for comparison)</span>}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}><StatusKey compact /></div>
           {endUse === 'All' && (
