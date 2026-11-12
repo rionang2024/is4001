@@ -62,7 +62,6 @@ export default function TimeControl({ meta, date, minute, onDate, onMinute, play
         </div>
       </div>
 
-      {afterOnly && <p className="muted small qa-ah-note">After-hours = Mon–Fri 17:01–07:59 and all weekends, public holidays excluded. The slider and replay skip everything else (the shaded band is daytime).</p>}
 
       {rules?.sd && (
         <div className="field qa-rule">
@@ -72,7 +71,6 @@ export default function TimeControl({ meta, date, minute, onDate, onMinute, play
               <button type="button" className={ruleId === 'sd' ? 'on' : ''} aria-pressed={ruleId === 'sd'} onClick={() => onRule('sd')}>Median + 3 SD</button>
               <button type="button" className={ruleId === 'p99' ? 'on' : ''} aria-pressed={ruleId === 'p99'} onClick={() => onRule('p99')}>Original (P99)</button>
             </div>
-            <span className="muted small">{rules[ruleId]?.label}</span>
           </div>
         </div>
       )}

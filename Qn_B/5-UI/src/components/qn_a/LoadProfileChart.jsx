@@ -71,6 +71,10 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
     setMode('zone'); setFloor(focus.floor); setZone(focus.zone); setEndUse(focus.endUse); setStart(focus.start); setEnd(focus.end)
   }, [focus])
 
+  // The chart shows one date. On a weekend or public holiday all of it is after-hours; on a weekday the after-hours part is
+  // the evening (17:01 to 23:59) and the early morning (00:00 to 07:59).
+  const allDayAfter = [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay()) || (meta.holidays ?? []).includes(date)
+
   const zonesOf = meta.zones[floor] ?? {}
   const zoneIds = Object.keys(zonesOf)
   const uses = zonesOf[zone] ?? []
@@ -129,7 +133,6 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
     <section className="panel qa-chart" aria-label="Load profile">
       <div className="panel-head">
         <h2>Load profile</h2>
-        <span className="sub">Power (kW), recorded Bangkok local time. Date follows the replay control above.</span>
       </div>
 
       <div className="controls">
@@ -176,7 +179,12 @@ export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
             <span className="muted">to</span>
             <input type="time" aria-label="Window end" value={end} onChange={(e) => e.target.value && setEnd(e.target.value)} />
             <button type="button" className="btn" onClick={() => { setStart('00:00'); setEnd('23:59') }}>Whole day</button>
-            <button type="button" className="btn" onClick={() => { setStart('20:25'); setEnd('20:48') }}>Example window</button>
+            <button type="button" className="btn" title={allDayAfter ? 'A weekend or public holiday: the whole day is after-hours' : 'Weekday evening after-hours: 17:01 to 23:59'}
+                    onClick={() => { setStart(allDayAfter ? '00:00' : '17:01'); setEnd('23:59') }}>After-hours</button>
+            {!allDayAfter && (
+              <button type="button" className="btn" title="Weekday early morning after-hours: 00:00 to 07:59"
+                      onClick={() => { setStart('00:00'); setEnd('07:59') }}>Early morning</button>
+            )}
           </div>
         </div>
       </div>
