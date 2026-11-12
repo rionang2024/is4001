@@ -189,8 +189,11 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   const toggle = (p) => { setOpenId(openId === p.id ? null : p.id); setShowAll(false) }
   // Point the building and chart at an alert. A finished one is replayed (the clock moves back to it);
   // a running one is shown at the current minute.
-  const show = (a) => {
-    requestAnimationFrame(() => document.querySelector('.qa-chart')?.scrollIntoView({ block: 'center', behavior: 'smooth' }))
+  // `to`: where the page scrolls afterwards. An alert in a list goes to the chart (when it happened);
+  // a problem card goes to the building, with its floor open and zone highlighted (where it is).
+  const show = (a, to = 'chart') => {
+    if (to === 'building') QA_BUILDING.openFloor({ floor: a.floor, zone: a.zone })
+    else requestAnimationFrame(() => document.querySelector('.qa-chart')?.scrollIntoView({ block: 'center', behavior: 'smooth' }))
     if (a.end < now) {
       const at = replayAt(a)
       if (at < now) setReturnTo(returnTo ?? now)
@@ -338,8 +341,8 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
                         <button type="button" onClick={() => setPicked(null)} aria-label="Clear the selected load">Clear</button>
                       </span>
                     )}
-                    <button type="button" className="qa-alert-main" onClick={() => latest && show(latest)}
-                            title={p.active ? 'Show the running alert on the building and chart' : 'Replay this problem\'s latest alert'}>
+                    <button type="button" className="qa-alert-main" onClick={() => latest && show(latest, 'building')}
+                            title={p.active ? 'Open this zone on the building' : 'Open this zone on the building and replay its latest alert'}>
                       <span className="qa-alert-top"><span>{where(p)}</span><span className="num">{p.alerts} alert{p.alerts === 1 ? '' : 's'}</span></span>
                       {p.active > 0 && <span className="meta qa-running"><span className="qa-dot red" aria-hidden="true" />Alert running now</span>}
                       {p.usual_pattern && <span className="meta">{usual(p)} <span className="muted">({p.usual_count} of {p.alerts})</span></span>}
@@ -466,7 +469,8 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         </p>
         <p>
           A card marked <b>Alert running now</b> has an alert happening at this minute and is listed first in its tab.
-          The building shows every load above its limit at this minute, with a tag saying whether it is an alert yet.
+          The building shows every load above its limit at this minute, with a tag saying whether it is an alert yet, and a
+          "recurring" badge on floors with high priority problems so far.
           Many never become alerts because they are too short or too small.
         </p>
         <p>
@@ -496,7 +500,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
           Each card is one <b>problem</b>: every alert so far for one floor, zone and load, such as "F1 Z2 · AC". You fix a problem once,
           so tickets are made per problem. The card shows when it usually happens, how many months it appeared in, and how much
           energy went above the normal limit (kWh above P99) in alerts that have ended. Click the card to see its latest alert on the
-          building and chart, or <b>Show alerts</b> to pick a specific one.
+          building (its floor opens with the zone highlighted), or <b>Show alerts</b> and click one to see it on the chart.
         </p>
 
         <h3>Which tab to start with</h3>

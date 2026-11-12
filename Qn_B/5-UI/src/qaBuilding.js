@@ -7,10 +7,12 @@
 //   window.QA_BUILDING.getTime()                     'YYYY-MM-DDTHH:MM', the minute on show
 //   window.QA_BUILDING.selectLoad({floor, zone, end_use})   same as clicking that load in a floor's problem list
 //   window.QA_BUILDING.onLoadSelect(fn)              fn({floor, zone, end_use, at}) runs when a load is picked on the building
+//   window.QA_BUILDING.openFloor({floor, zone})      open that floor's plan on the building and highlight the zone
 //
 // An "event" is an entry of public/data/qa_alerts.json (see Qn_A/README.md for its fields).
 const listeners = new Set()
 const loadListeners = new Set()
+const floorListeners = new Set()
 let impl = null
 
 export const QA_BUILDING = {
@@ -21,6 +23,8 @@ export const QA_BUILDING = {
   onEventSelect: (fn) => { listeners.add(fn); return () => listeners.delete(fn) },
   selectLoad: (load) => { if (load) emitLoadSelect({ ...load, at: impl ? impl.getTime() : null }) },
   onLoadSelect: (fn) => { loadListeners.add(fn); return () => loadListeners.delete(fn) },
+  openFloor: (target) => { if (target) floorListeners.forEach((fn) => { try { fn(target) } catch (e) { console.error(e) } }) },
+  onOpenFloor: (fn) => { floorListeners.add(fn); return () => floorListeners.delete(fn) },
 }
 
 export const emitEventSelect = (event) => listeners.forEach((fn) => { try { fn(event) } catch (e) { console.error(e) } })
