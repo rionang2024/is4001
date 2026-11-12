@@ -145,7 +145,7 @@ export default function AfterHoursPage() {
         <LoadProfileChart meta={meta.data} date={date} minute={minute} focus={focus} rule={ruleId} />
 
         <section className="panel assumptions qa-notes">
-          <div className="panel-head"><h2>How to read this page</h2></div>
+          <div className="panel-head"><h2>Legend</h2></div>
           <StatusKey ruleInfo={ruleInfo} />
         </section>
       </div>
