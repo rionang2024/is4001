@@ -6,9 +6,12 @@ import { BuildingSVG, G, floorMidY } from './BuildingArt.jsx'
 import FloorPlan from './FloorPlan.jsx'
 import LoadSwitches from './LoadSwitches.jsx'
 import StatusKey from './StatusKey.jsx'
+import { AnomalyNow, STATE_ICON } from './AnomalyNow.jsx'
+import { floorAnomaly, useAlerts } from './anomaly.js'
 import { FLOORS, floorStats, indexSnapshot } from './explorerModel.js'
 import './explorer.css'
 import './qn_a.css'
+import './anomaly.css'
 
 const ALL_ON = { AC: true, Lighting: true, Plug: true }
 const reduce = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
@@ -70,8 +73,9 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
   lastRef.current = lastFloor
 
   const idx = indexSnapshot(rows)
-  const stats = {}
-  FLOORS.forEach((f) => { stats[f] = floorStats(idx, f, on) })
+  const alerts = useAlerts()
+  const stats = {}, anom = {}
+  FLOORS.forEach((f) => { stats[f] = floorStats(idx, f, on); anom[f] = floorAnomaly(idx, f, on, when, alerts) })
   // brightness and bars use a scale fixed with all loads counted, so switching a load off visibly dims the floors
   const max = Math.max(1, ...FLOORS.map((f) => floorStats(idx, f, ALL_ON).kw))
   const none = LOADS.every((l) => !on[l])
@@ -172,11 +176,13 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
         {error ?? (none ? 'Turn on at least one load type to see values.' : loading && !rows ? 'Loading…' : '')}
       </p>
 
+      <AnomalyNow anom={anom} floors={FLOORS} when={when} onOpen={(f) => openFloor(f, stageRef.current.querySelector(`.floor[data-floor="${f}"]`))} />
+
       <div ref={stageRef} className={`ex-stage${isPlan ? ' is-plan' : ''}`}
            style={{ '--ox': origin.x, '--oy': origin.y, ...(stageH != null ? { height: stageH } : {}) }}>
         <div className="ex-building" ref={buildingRef} inert={isPlan ? '' : undefined}>
           <div className="ex-canvas">
-            <BuildingSVG glow={glow} beacon={beacon} hover={hover} selected={floor} narrow={narrow}
+            <BuildingSVG glow={glow} beacon={beacon} anom={anom} hover={hover} selected={floor} narrow={narrow}
                          onHover={setHover} onOpen={openFloor} />
             <div className="ex-labels">
               {[...FLOORS].reverse().map((j, i) => {
@@ -184,16 +190,16 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
                 const worst = s.worst ?? 'none'
                 return (
                   <button key={j} type="button" ref={(el) => { labelRefs.current[j] = el }}
-                          className={`fl${s.counts.red ? ' flagged' : ''}${!s.has ? ' empty' : ''}${hover === j ? ' hl' : ''}`}
+                          className={`fl anom-${anom[j].state}${s.counts.red ? ' flagged' : ''}${!s.has ? ' empty' : ''}${hover === j ? ' hl' : ''}`}
                           style={{ '--t': `${((floorMidY(j) / G.VH) * 100).toFixed(2)}%`, '--i': i }}
-                          aria-label={`Floor ${j}, open floor plan`}
-                          title={!s.has ? 'No reading for the selected loads' : `${kw(s.kw)} kW at ${when}. ${s.counts.red} red, ${s.counts.amber} amber, ${s.counts.grey} grey, ${s.counts.neutral} neutral, ${s.counts.green} green.`}
+                          aria-label={`${anom[j].summary ? anom[j].summary.replace(/\n/g, '. ') : `Floor ${j}`}, open floor plan`}
+                          title={!s.has ? 'No reading for the selected loads' : `${anom[j].summary ? `${anom[j].summary}\n\n` : ''}${kw(s.kw)} kW at ${when}. ${s.counts.red} red, ${s.counts.amber} amber, ${s.counts.grey} grey, ${s.counts.neutral} neutral, ${s.counts.green} green.`}
                           onMouseEnter={() => setHover(j)} onMouseLeave={() => setHover(null)}
                           onFocus={() => setHover(j)} onBlur={() => setHover(null)}
                           onClick={(e) => openFloor(j, e.currentTarget.closest('.ex-canvas').querySelector(`.floor[data-floor="${j}"]`))}>
                     <span className="fl-n">Floor {j}</span>
                     <span className="fl-v"><b>{s.has && !none ? <AnimatedNumber value={s.kw} /> : '–'}</b> <small>kW</small></span>
-                    <span className="fl-r">{none ? '' : labelText(s)}</span>
+                    <span className="fl-r">{none ? '' : <>{STATE_ICON[anom[j].state] && <span className="qa-ico" aria-hidden="true">{STATE_ICON[anom[j].state]} </span>}{labelText(s)}</>}</span>
                     <span className="fl-bar"><i style={{ '--w': s.has ? (s.kw / max).toFixed(3) : 0 }} /></span>
                     <span className={`fl-flag ${none ? 'none' : worst}`} />
                   </button>

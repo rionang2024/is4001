@@ -1,9 +1,7 @@
 hours,model,vs,DM,p_value
-all hours,LGBM final,B1 seasonal naive,-3.0498117720912523,0.0022898482809065165
-all hours,LGBM final,B2 average profile,-7.433742778325376,1.0556716166870619e-13
-all hours,LGBM final,B3 calendar + AC lags,-13.204479363476706,8.266930676225543e-40
-all hours,LGBM final,LGBM full,-6.660057109398973,2.7372120282123875e-11
-operating hours,LGBM final,B1 seasonal naive,-1.7481271623152692,0.08044201052949822
-operating hours,LGBM final,B2 average profile,-6.931765706075,4.156199131671851e-12
-operating hours,LGBM final,B3 calendar + AC lags,-4.622687481029149,3.788001909184492e-06
-operating hours,LGBM final,LGBM full,-0.6611288355207724,0.5085296943635975
+all hours,LGBM final,B1 seasonal naive,-3.017081705513269,0.0025522100989644335
+all hours,LGBM final,B2 average profile,-6.790313414945796,1.1189020143969117e-11
+all hours,LGBM final,B3 calendar + AC lags,-13.747116371956967,5.3000224313551855e-43
+operating hours,LGBM final,B1 seasonal naive,-1.8271999031239894,0.06766971844098556
+operating hours,LGBM final,B2 average profile,-6.3518183904302505,2.1278445068013557e-10
+operating hours,LGBM final,B3 calendar + AC lags,-5.082776998293473,3.7195630315456534e-07

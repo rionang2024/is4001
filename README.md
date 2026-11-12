@@ -52,7 +52,7 @@ Known structural gaps, which drive most of the scoping decisions in both questio
     └── 5-UI/              Website: Question B dashboard and the Question A tab
 ```
 
-The 860 MB minute-level data for Question A lives in `dashboard_data/` and is not in git. See [`Qn_A/README.md`](Qn_A/README.md).
+The 860 MB minute-level data for Question A lives in `dashboard_data/` (committed). The Question A tab also needs the API running. See [`Qn_A/README.md`](Qn_A/README.md).
 
 Each folder has its own README with the detail for that stage.
 

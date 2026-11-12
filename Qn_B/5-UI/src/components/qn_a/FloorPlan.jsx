@@ -2,6 +2,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { GROUP_LABEL, LOADS, LOAD_NAME, kw, reasonText, statusGroup } from '../../qnaApi.js'
 import { FLOORS, indexSnapshot, maxZoneTotal, num, planOf, zoneState } from './explorerModel.js'
+import { BreachList } from './AnomalyNow.jsx'
+import { breachText, floorAnomaly, useAlerts } from './anomaly.js'
 
 const PW = 580, PH = 380                // plan size in px
 const NOM = 100                         // nominal wall height; each zone is scaled in Z to its real height
@@ -45,6 +47,12 @@ function Card({ zone, zs, maxLoad }) {
     <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h}>
       <rect className="bgc" x="0" y="0" width={w} height={h} rx="8" />
       <text className="znm" x={ox} y={oy + 12}>Zone {zone}</text>
+      {(zs.worst === 'red' || zs.worst === 'amber') && (
+        <g className={`pill ${zs.worst}`}>
+          <rect x={w - ox - 62} y={oy - 1} width="62" height="17" rx="8.5" />
+          <text x={w - ox - 31} y={oy + 11.5} textAnchor="middle">{zs.worst === 'red' ? '▲ CHECK' : '◆ WATCH'}</text>
+        </g>
+      )}
       {zs.rows.map((row, i) => {
         const y = oy + 20 + i * P
         const icon = <use href={ICON[row.e]} x={ox} y={y} width="14" height="14" style={{ color: COLOR[row.e] }} />
@@ -65,7 +73,7 @@ function Card({ zone, zs, maxLoad }) {
             <rect className="trk" x={ox + 18} y={y + 3.5} width="28" height="7" rx="3.5" />
             <rect className="bar" x={ox + 18} y={y + 3.5} width={bw} height="7" rx="3.5" fill={fill} />
             <StatusDot status={row.r.status} cx={ox + 56} cy={y + 7} />
-            <text className="rv" x={w - ox} y={y + 11} textAnchor="end">{kw(row.r.power_kw)} <tspan className="rk">kW</tspan></text>
+            <text className={`rv${g === 'red' ? ' br' : g === 'amber' ? ' ba' : ''}`} x={w - ox} y={y + 11} textAnchor="end">{kw(row.r.power_kw)} <tspan className="rk">kW</tspan></text>
           </g>
         )
       })}
@@ -84,6 +92,8 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
   const plan = planOf(floor)
   const idx = indexSnapshot(rows)
   const hasData = (rows ?? []).some((r) => r.floor === floor)
+  const alerts = useAlerts()
+  const an = floorAnomaly(idx, floor, on, when, alerts)
   // one scale for every floor, fixed with all loads counted, so switching a load off visibly shrinks the blocks
   const maxTot = maxZoneTotal(idx, ALL_ON)
   const maxLoad = Math.max(10, ...(rows ?? []).filter((r) => r.end_use !== 'All' && num(r.power_kw)).map((r) => r.power_kw))
@@ -175,6 +185,8 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
         <div><dt>Grey or neutral</dt><dd>{stat.grey + stat.neutral}</dd></div>
       </dl>
 
+      <BreachList an={an} floor={floor} when={when} />
+
       <div className="viewbar">
         <div className="seg" role="group" aria-label="View">
           <button type="button" className={!flat ? 'on' : ''} aria-pressed={!flat} onClick={() => setFlat(false)}>3D</button>
@@ -205,6 +217,17 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
                 {pts.map((p, i) => <Wall key={i} a={p} b={pts[(i + 1) % pts.length]} />)}
                 <svg className="tface" viewBox={`0 0 ${PW} ${PH}`}>
                   <path className="tp" d={dPath(pts)}><title>Zone {z}</title></path>
+                  {(zs.worst === 'red' || zs.worst === 'amber') && (
+                    <>
+                      <defs>
+                        <pattern id={`qa-hatch-${z}`} width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                          <rect width="16" height="16" className={`hatch-a ${zs.worst}`} />
+                          <rect width="8" height="16" className={`hatch-b ${zs.worst}`} />
+                        </pattern>
+                      </defs>
+                      <path className={`tp-alert ${zs.worst}`} d={dPath(pts)} fill={`url(#qa-hatch-${z})`} />
+                    </>
+                  )}
                   {floor !== 1 && def.sensor && <circle className="sensor" cx={def.sensor[0]} cy={def.sensor[1]} r="6"><title>Multi-sensor, approximate location</title></circle>}
                 </svg>
               </div>
@@ -281,6 +304,10 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
                         <td key={row.e} className={`st-${g}`} title={rowTip(z, row.e, row.r)}>
                           {row.state === 'nodata' ? <span className="none">no data</span> : kw(row.r.power_kw)}
                           <small className="st-line"><i className={`sdot-h ${g}`} />{GROUP_LABEL[g]}: {reasonText(row.r.status_reason)}</small>
+                          {(() => {
+                            const p = an.problems.find((q) => q.zone === Number(z) && q.e === row.e)
+                            return p && <small className={`qa-breach ${g}`}>{breachText(p)}</small>
+                          })()}
                         </td>
                       )
                     })}
