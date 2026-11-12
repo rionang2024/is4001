@@ -5,7 +5,7 @@
   --st-green: #178a62;
   --st-amber: #d68a00;
   --st-red: #c8312c;
-  --st-grey: #8a919c;
+  --st-grey: #7a5fc0; /* the "no data" colour (internal name stays grey) */
   --st-neutral: #8fb4d6;
 }
 @media (prefers-color-scheme: dark) {
@@ -13,7 +13,7 @@
     --st-green: #3fb98a;
     --st-amber: #e6a227;
     --st-red: #e2735f;
-    --st-grey: #9aa2ad;
+    --st-grey: #a68df0;
     --st-neutral: #6f9cc4;
   }
 }
@@ -69,6 +69,11 @@ dl.status-key dd { margin: 0; color: var(--ink-2); }
 .qa-time .clock { font-family: var(--mono); font-size: 22px; letter-spacing: -0.02em; }
 .qa-time .ticks { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); font-family: var(--mono); }
 .qa-time .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.qa-time .qa-rule, .qa-time .qa-ah-note { flex: 1 1 100%; }
+.qa-time .qa-ah-note { margin: 0; }
+.qa-range { position: relative; }
+.qa-range .qa-daytime { position: absolute; top: 50%; height: 14px; transform: translateY(-50%); border-radius: 7px; pointer-events: none;
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ink-3) 35%, transparent) 0 4px, transparent 4px 8px); border: 1px dashed var(--ink-3); }
 .qa-time input[type=time] { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 5px 8px; }
 
 /* ---------- chart */

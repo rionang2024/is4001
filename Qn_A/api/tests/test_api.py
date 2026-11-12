@@ -73,3 +73,4 @@ def test_meta(client):
     assert body["floors"] == [1, 2]
     assert body["zones"]["1"]["2"] == ["AC", "Lighting"]
     assert body["date_min"] == "2018-10-03" and body["date_max"] == "2018-10-03"
+    assert body["holidays"] == []  # public-holiday dates for the page's after-hours filter (the fixture has none)

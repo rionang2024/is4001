@@ -57,6 +57,26 @@ API tests: `cd Qn_A/api && ../../.venv/bin/python -m pytest`. To read data from 
 
 The API is for local use. A static host such as GitHub Pages cannot run it, so the Question A tab needs the API running somewhere reachable (set `VITE_QA_API` to its address when building).
 
+## Alert rule: median + 3 SD (new) or P99 (original)
+
+The minute data carries the original rule: above the zone and load's frozen P99 for 1-4 minutes is amber, 5+ is red. It flags small loads a lot (a 0.1 kW plug load can go red), so the page now defaults to a second rule, **`sd`**:
+
+- threshold = **median + max(3 x SD, 0.5 kW)**, from the same frozen 56-day, same weekday and hour reference;
+- amber = above threshold for 1-14 consecutive minutes, red = 15 or more;
+- scope, validity, gaps and the month-boundary reset follow the data README.
+
+Across Sep 2018 to Dec 2019 this takes red from 2.94% to about 0.6% of after-hours minutes, and from about 25 to about 7 zone-load alert-days a day, keeping about half of the kWh above the median (the part lost is mostly short blips).
+
+The stored data is not changed. The API restates each minute under `sd` from two small files in `Qn_A/api/rules/` (reference median and SD, and every run of 15+ minutes above threshold), built by `Qn_A/scripts/build_rules_sd.py` (about 3 minutes; run it from the repo root with the venv).
+
+**Going back to the original rule**, any of these:
+
+- on the page: the **Alert rule** switch in the replay panel (Median + 3 SD / Original (P99));
+- API call: add `?rule=p99` to `/api/series` or `/api/snapshot`;
+- for the whole API: start it with `QA_DEFAULT_RULE=p99`, or delete `Qn_A/api/rules/`.
+
+The numbers (3 SD, 0.5 kW, 15 minutes) are constants at the top of the build script. The alerts sidebar is still built from the original P99 status (`build_alerts.py`), so it does not change with the switch.
+
 ## Anomaly glow, red zones and the page hooks
 
 At the minute chosen in the replay control, the page points at what is wrong:

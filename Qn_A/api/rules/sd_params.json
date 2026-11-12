@@ -1,0 +1,7 @@
+{
+  "k": 3.0,
+  "min_kw": 0.5,
+  "red_min": 15,
+  "window_days": 56,
+  "label": "Median + 3 SD, at least 0.5 kW above the median, red after 15 min"
+}

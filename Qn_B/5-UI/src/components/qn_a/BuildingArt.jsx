@@ -10,7 +10,7 @@ const shortQ = (y0, y1, z0, z1, x = G.L) => [[x, y0, z0], [x, y1, z0], [x, y1, z
 const topQ = (x0, x1, y0, y1, z) => [[x0, y0, z], [x1, y0, z], [x1, y1, z], [x0, y1, z]]
 export const floorMidY = (j) => G.OY + G.W * G.s - ((j - 1) * G.H + G.H / 2)
 
-const SHOWN = new Set(['red', 'amber', 'grey', 'neutral'])
+const SHOWN = new Set(['red', 'amber', 'grey'])
 const Poly = ({ q, cls }) => <polygon className={cls} points={pts(q)} />
 
 function Windows({ z0, z1 }) {
@@ -104,7 +104,7 @@ function FloorGlow({ j }) {
 }
 
 // glow: floor -> 0..1 window brightness; flagged: floor -> status group of its worst reading (the beacon shows for red)
-// anom: floor -> { state, summary } from anomaly.js; red and amber glow, grey and neutral are muted, anything else draws nothing extra
+// anom: floor -> { state, summary } from anomaly.js; red and amber glow, grey is muted, anything else draws nothing extra
 export function BuildingSVG({ glow, beacon, anom = {}, hover, selected, narrow, onHover, onOpen }) {
   const m = 26
   const ax = G.OX + G.W * G.c + 4
@@ -131,8 +131,8 @@ export function BuildingSVG({ glow, beacon, anom = {}, hover, selected, narrow, 
         const y = floorMidY(j)
         return (
           <g key={j} className="lead" data-floor={j}>
-            <line className={`leader${hover === j ? ' hl' : ''}`} x1={ax} y1={y} x2={G.VW * 0.562 - 6} y2={y} />
-            <circle className="anchor" cx={ax} cy={y} r="3.5" />
+            <line className={`leader st-${anom[j]?.state ?? 'none'}${hover === j ? ' hl' : ''}`} x1={ax} y1={y} x2={G.VW * 0.562 - 6} y2={y} />
+            <circle className={`anchor st-${anom[j]?.state ?? 'none'}`} cx={ax} cy={y} r="3.5" />
             {beacon[j] && (
               <g>
                 <circle className="beacon-ring" cx={ax} cy={y} r="5" />

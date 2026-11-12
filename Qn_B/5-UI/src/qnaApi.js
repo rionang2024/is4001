@@ -53,21 +53,25 @@ export const STATUS = {
   green: { group: 'green', label: 'Green', meaning: 'Valid reading at or below its threshold' },
   amber: { group: 'amber', label: 'Amber', meaning: 'Above threshold for 1–4 consecutive minutes' },
   red: { group: 'red', label: 'Red', meaning: 'Above threshold for at least 5 consecutive minutes: investigate' },
-  missing: { group: 'grey', label: 'Grey', meaning: 'Missing data' },
-  insufficient_reference: { group: 'grey', label: 'Grey', meaning: 'Insufficient history to set a threshold' },
-  not_assessed: { group: 'grey', label: 'Grey', meaning: 'Reading excluded from assessment' },
+  missing: { group: 'grey', label: 'No data', meaning: 'Missing data' },
+  insufficient_reference: { group: 'grey', label: 'No data', meaning: 'Insufficient history to set a threshold' },
+  not_assessed: { group: 'grey', label: 'No data', meaning: 'Reading excluded from assessment' },
   neutral: { group: 'neutral', label: 'Neutral', meaning: 'Outside the after-hours alert schedule. Not a passed check' },
 }
 export const statusGroup = (s) => STATUS[s]?.group ?? 'grey'
 // Worst first. Grey and neutral rank above green because they are not confirmed normal.
 export const GROUP_RANK = { red: 4, amber: 3, grey: 2, neutral: 1, green: 0 }
-export const GROUP_LABEL = { green: 'green', amber: 'amber', red: 'red', grey: 'grey', neutral: 'neutral' }
+export const GROUP_LABEL = { green: 'green', amber: 'amber', red: 'red', grey: 'no data', neutral: 'neutral' }
 
 const REASONS = {
   at_or_below_p99: 'At or below the P99 threshold',
   all_components_at_or_below_p99: 'All loads at or below their P99 thresholds',
   above_p99_1to4_minutes: 'Above P99 for 1–4 minutes',
   above_p99_5plus_minutes: 'Above P99 for 5+ minutes',
+  at_or_below_threshold: 'At or below the alert threshold',
+  all_components_at_or_below_threshold: 'All loads at or below their alert thresholds',
+  above_threshold_amber: 'Above the alert threshold, not yet long enough for red',
+  above_threshold_red: 'Above the alert threshold for the full red time',
   highest_component_amber: 'Highest load is amber',
   highest_component_red: 'Highest load is red',
   outside_alert_scope: 'Outside the after-hours alert schedule',

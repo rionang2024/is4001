@@ -23,7 +23,7 @@ const clockOf = (stamp, ref) => (stamp.slice(0, 10) === ref.slice(0, 10) ? stamp
 
 // ---------- one zone and load that is amber or red at the selected minute
 // The data's exceedance_duration_minutes is the run of consecutive minutes above P99 up to this one, so:
-//   above P99 since = T - (duration - 1),  red since = T - (duration - 5)   (red starts at the 5th minute)
+//   above threshold since = T - (duration - 1),  red since = T - (duration - redMin)   (red starts at the redMin-th minute: 5 for P99, 15 for the sd rule)
 export function problemsOnFloor(idx, floor, on, when) {
   const T = toStamp(when)
   const out = []
@@ -39,7 +39,7 @@ export function problemsOnFloor(idx, floor, on, when) {
         over: num(r.power_kw) && num(r.upper_threshold_kw) ? r.power_kw - r.upper_threshold_kw : null,
         dur,
         aboveSince: dur ? minusMinutes(T, dur - 1) : null,
-        redSince: r.status === 'red' && dur ? minusMinutes(T, dur - 5) : null,
+        redSince: r.status === 'red' && dur ? minusMinutes(T, dur - (r.red_min ?? 5)) : null,
         at: T,
         alert: null,
       })
@@ -61,7 +61,7 @@ export const sinceText = (p) => {
   return p.aboveSince ? `amber since ${clockOf(p.aboveSince, p.at)}` : 'amber'
 }
 export const metricText = (p) => `${LOAD_NAME[p.e]} ${kw(p.power)} kW vs ${kw(p.threshold)} kW threshold`
-export const breachText = (p) => [metricText(p), p.dur ? `${p.dur} min above P99` : null, reasonText(p.reason)].filter(Boolean).join(' · ')
+export const breachText = (p) => [metricText(p), p.dur ? `${p.dur} min above threshold` : null, reasonText(p.reason)].filter(Boolean).join(' · ')
 // `at` = the minute on show. While the alert is still running, its end and peak are later minutes, so they are left out.
 export const alertText = (a, at) => {
   if (!a) return ''
@@ -111,7 +111,7 @@ export function floorAnomaly(idx, floor, on, when, alerts = []) {
   } else if (state === 'neutral') {
     summary = `Floor ${floor} · outside the after-hours alert schedule, so it was not checked. This is not a pass.`
   } else if (state === 'ok') {
-    summary = `Floor ${floor} · no reading above its P99 threshold${n.grey + n.neutral ? `; ${n.grey + n.neutral} not assessed (grey or neutral)` : ''}`
+    summary = `Floor ${floor} · no reading above its alert threshold${n.grey + n.neutral ? `; ${n.grey + n.neutral} not assessed (no data)` : ''}`
   } else {
     summary = ''
   }

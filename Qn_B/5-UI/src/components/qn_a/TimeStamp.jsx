@@ -2,9 +2,12 @@
 // so a screenshot of the building always says which minute it shows.
 import { useEffect, useState } from 'react'
 import { dow, parseDate } from '../../data.js'
-import { isAfterHours, isWeekend } from './afterHours.js'
+import { isAfterHours } from './afterHours.js'
 
-export default function TimeStamp({ when }) {
+const NO_HOLIDAYS = new Set()
+const weekend = (date) => [0, 6].includes(parseDate(date).getDay())
+
+export default function TimeStamp({ when, holidays = NO_HOLIDAYS }) {
   const [date, time] = when.split(' ')
   const [top, setTop] = useState(72)
 
@@ -21,7 +24,7 @@ export default function TimeStamp({ when }) {
   }, [])
 
   const [h, m] = time.split(':').map(Number)
-  const after = isAfterHours(date, h * 60 + m)
+  const after = isAfterHours(date, h * 60 + m, holidays)
   const nice = parseDate(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
   return (
     <div className="qa-stamp" style={{ top }} role="status" aria-label={`Showing ${dow(date)} ${nice} at ${time}, Bangkok time`}>
@@ -29,7 +32,7 @@ export default function TimeStamp({ when }) {
       <span className="qa-stamp-time">{time}</span>
       <span className="qa-stamp-tz">Bangkok time</span>
       <span className={`qa-stamp-tag ${after ? 'after' : 'day'}`}>
-        {after ? (isWeekend(date) ? 'After-hours · weekend' : 'After-hours') : 'Daytime'}
+        {after ? (weekend(date) ? 'After-hours · weekend' : 'After-hours') : 'Daytime'}
       </span>
     </div>
   )

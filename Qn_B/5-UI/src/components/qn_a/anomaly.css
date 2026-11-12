@@ -49,11 +49,10 @@
 .qa-ex .ex-svg .floor.anom-amber .lit { fill: var(--st-amber); opacity: 0.85; }
 @keyframes qa-glow-amber { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.26; } }
 
-/* grey and neutral: muted, never a glow and never green. Grey is a solid cool tint, neutral a dashed outline. */
+/* grey: muted, never a glow and never green */
 .qa-ex .ex-svg .floor.anom-grey .ag { fill: var(--st-grey); stroke: var(--st-grey); stroke-width: 1; opacity: 0.3; }
 .qa-ex .ex-svg .floor.anom-grey .lit { fill: var(--st-grey); opacity: 0.35; }
-.qa-ex .ex-svg .floor.anom-neutral .ag { fill: var(--st-neutral); stroke: var(--st-neutral); stroke-width: 1.5; stroke-dasharray: 5 4; opacity: 0.28; }
-.qa-ex .ex-svg .floor.anom-neutral .lit { opacity: calc(var(--glow, 0) * 0.45); }
+
 
 /* ------------------------------------------------ floor labels */
 .qa-ex .fl .qa-ico { font-size: 0.72rem; }
@@ -66,7 +65,6 @@
 .qa-ex .fl.anom-red { border-color: var(--st-red); box-shadow: 0 0 0 1px var(--st-red), 0 0 10px color-mix(in srgb, var(--st-red) 45%, transparent); }
 .qa-ex .fl.anom-amber { border-color: var(--st-amber); }
 .qa-ex .fl.anom-grey { border-style: solid; border-color: var(--st-grey); }
-.qa-ex .fl.anom-neutral { border-style: dashed; border-color: var(--st-neutral); }
 
 /* ------------------------------------------------ problems now (text version of the glow) */
 .qa-ex .qa-now { margin: 0 0 12px; padding: 10px 14px; border: 1px solid var(--rule); border-radius: 8px; font-size: 0.88rem; background: var(--panel); }
@@ -135,6 +133,56 @@
 .qa-ex .cam .rv.br { fill: #b3261e; }
 .qa-ex .cam .rv.ba { fill: #8a5a00; }
 
+
+/* ------------------------------------------------ status, tied to the floor
+   Every floor label now carries its status as a coloured pill, a coloured left edge, and a coloured leader line back to the floor. */
+.qa-ex .fl { border-left-width: 4px; }
+.qa-ex .fl.anom-ok { border-left-color: var(--st-green); }
+.qa-ex .fl.anom-grey { border-left-color: var(--st-grey); }
+.qa-ex .fl.anom-red { border-left-color: var(--st-red); }
+.qa-ex .fl.anom-amber { border-left-color: var(--st-amber); }
+.qa-ex .fl-r.st-green, .qa-ex .fl-r.st-grey {
+  font-size: 0.78rem; font-weight: 800; text-align: center; padding: 2px 4px; border-radius: 999px; line-height: 1.2;
+}
+.qa-ex .fl-r.st-green { background: var(--st-green); color: #fff; }
+.qa-ex .fl-r.st-grey { background: var(--st-grey); color: #fff; }
+@media (prefers-color-scheme: dark) { .qa-ex .fl-r.st-green { color: #06281c; } .qa-ex .fl-r.st-grey { color: #1a1030; } }
+.qa-ex .ex-svg .leader.st-green { stroke: var(--st-green); opacity: 0.85; }
+.qa-ex .ex-svg .leader.st-grey { stroke: var(--st-grey); opacity: 0.85; }
+.qa-ex .ex-svg .leader.st-amber { stroke: var(--st-amber); opacity: 1; stroke-width: 1.6; stroke-dasharray: none; }
+.qa-ex .ex-svg .leader.st-red { stroke: var(--st-red); opacity: 1; stroke-width: 2; stroke-dasharray: none; }
+.qa-ex .ex-svg .anchor.st-green { fill: var(--st-green); stroke: var(--st-green); }
+.qa-ex .ex-svg .anchor.st-grey { fill: var(--st-grey); stroke: var(--st-grey); }
+.qa-ex .ex-svg .anchor.st-amber { fill: var(--st-amber); stroke: var(--st-amber); }
+.qa-ex .ex-svg .anchor.st-red { fill: var(--st-red); stroke: var(--st-red); }
+
+/* the status key under the building: filled colour chips instead of tiny dots */
+.qa-ex .ex-legend .status-key span, .qa-chart .status-key.compact span {
+  gap: 0; padding: 2px 10px 2px 8px; border-radius: 999px; font-weight: 700; font-size: 0.8rem; color: var(--ink);
+  border: 1.5px solid var(--st-grey);
+}
+.qa-ex .ex-legend .status-key span:has(.green), .qa-chart .status-key.compact span:has(.green) { border-color: var(--st-green); background: color-mix(in srgb, var(--st-green) 18%, transparent); }
+.qa-ex .ex-legend .status-key span:has(.amber), .qa-chart .status-key.compact span:has(.amber) { border-color: var(--st-amber); background: color-mix(in srgb, var(--st-amber) 20%, transparent); }
+.qa-ex .ex-legend .status-key span:has(.red), .qa-chart .status-key.compact span:has(.red) { border-color: var(--st-red); background: color-mix(in srgb, var(--st-red) 18%, transparent); }
+.qa-ex .ex-legend .status-key span:has(.grey), .qa-chart .status-key.compact span:has(.grey) { background: color-mix(in srgb, var(--st-grey) 18%, transparent); }
+
+/* ------------------------------------------------ "to look at" panel: a fixed left column, so nothing moves as it fills and empties
+   The column has a fixed width and takes its height from the building beside it; the list scrolls inside it. */
+.qa-ex .ex-split { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 12px; align-items: stretch; }
+.qa-ex .ex-split { transition: grid-template-columns 0.5s ease, column-gap 0.5s ease; }
+/* an open floor plan needs the full width (its table is wide), and lists its own breaches, so the column folds away */
+.qa-ex .ex-split.is-plan { grid-template-columns: 0 minmax(0, 1fr); column-gap: 0; }
+.qa-ex .ex-split.is-plan .ex-side { visibility: hidden; overflow: hidden; min-height: 0; }
+.qa-ex .ex-side { position: relative; min-height: 220px; }
+.qa-ex .ex-side-in { position: absolute; inset: 0; overflow-y: auto; }
+.qa-ex .ex-side .qa-now { margin: 0; min-height: 100%; }
+@media (max-width: 1100px) {
+  .qa-ex .ex-split { grid-template-columns: 1fr; }
+  .qa-ex .ex-side { min-height: 0; height: 260px; }
+  .qa-ex .ex-split.is-plan { grid-template-columns: 1fr; }
+  .qa-ex .ex-split.is-plan .ex-side { display: none; }
+}
+
 @media (max-width: 760px) {
   .qa-ex .qa-now { padding: 10px; }
 }
@@ -145,21 +193,6 @@
   .qa-ex .ex-svg .floor.anom-red .ag { opacity: 0.4; }
   .qa-ex .ex-svg .floor.anom-amber .ag { opacity: 0.2; }
   .qa-ex .ex-svg .floor.anom-red .lit { opacity: 0.95; }
-}
-
-/* ------------------------------------------------ problems list beside the building
-   On a wide panel the list sits in a left column next to the building and labels. It stacks on top on a narrow panel,
-   and hides while a floor plan is open (the plan has its own banner). */
-.qa-ex { container-type: inline-size; container-name: qa-ex; }
-.qa-ex .ex-split { display: grid; grid-template-columns: minmax(250px, 320px) minmax(0, 1fr); gap: 14px; align-items: start; }
-.qa-ex .ex-split .qa-now { margin: 0; max-height: 640px; overflow: auto; }
-.qa-ex .ex-split .qa-now-head { font-size: 0.92rem; }
-.qa-ex .ex-split .qa-breach { font-size: 0.86rem; }
-.qa-ex .ex-split.is-plan { grid-template-columns: minmax(0, 1fr); }
-.qa-ex .ex-split.is-plan .qa-now { display: none; }
-@container qa-ex (max-width: 900px) {
-  .qa-ex .ex-split { grid-template-columns: minmax(0, 1fr); }
-  .qa-ex .ex-split .qa-now { margin-bottom: 12px; max-height: none; }
 }
 
 /* ------------------------------------------------ date and time stamp that follows the top of the screen */

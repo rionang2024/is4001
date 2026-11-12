@@ -55,10 +55,12 @@ const RATIO_TEXT = { red: (c) => `${c.red} red`, amber: (c) => `${c.amber} amber
 const labelText = (s) => {
   if (!s.has) return s.worst ? 'no data' : ''
   if (s.partial) return 'partial'
+  if (s.worst === 'neutral') return ''
+  if (s.worst === 'grey') return 'no data'
   return (RATIO_TEXT[s.worst]?.(s.counts)) ?? s.worst
 }
 
-export default function BuildingExplorer({ rows, when, error, loading }) {
+export default function BuildingExplorer({ rows, when, error, loading, holidays }) {
   const [on, setOn] = useState({ AC: true, Lighting: true, Plug: true })
   const [justOn, setJustOn] = useState(null)
   const [floor, setFloor] = useState(null)         // the open floor, or null for the building view
@@ -184,7 +186,7 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
         </defs>
       </svg>
 
-      <TimeStamp when={when} />
+      <TimeStamp when={when} holidays={holidays} />
 
       <header className="ex-head">
         <div>
@@ -198,14 +200,18 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
       </div>
       <p className="ex-sub">
         Sum of the switched-on loads ({LOADS.filter((l) => on[l]).map((l) => LOAD_NAME[l]).join(', ') || 'none'}), kW, at {when} (Bangkok time).
-        Window brightness shows each floor's load. The dot beside a floor is the worst status among its loads; grey and neutral mean not confirmed normal.
+        Window brightness shows each floor's load. The dot beside a floor is the worst status among its loads; violet (no data) means not confirmed normal.
       </p>
       <p className="ex-hint" role="status">
         {error ?? (none ? 'Turn on at least one load type to see values.' : loading && !rows ? 'Loading…' : '')}
       </p>
 
       <div className={`ex-split${isPlan ? ' is-plan' : ''}`}>
-        <AnomalyNow anom={anom} floors={FLOORS} when={when} onOpen={(f) => openFloor(f, stageRef.current.querySelector(`.floor[data-floor="${f}"]`))} />
+      <aside className="ex-side" aria-label="Floors to look at" inert={isPlan ? '' : undefined}>
+        <div className="ex-side-in">
+          <AnomalyNow anom={anom} floors={FLOORS} when={when} onOpen={(f) => openFloor(f, stageRef.current.querySelector(`.floor[data-floor="${f}"]`))} />
+        </div>
+      </aside>
 
       <div ref={stageRef} className={`ex-stage${isPlan ? ' is-plan' : ''}`}
            style={{ '--ox': origin.x, '--oy': origin.y, ...(stageH != null ? { height: stageH } : {}) }}>
@@ -222,7 +228,7 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
                           className={`fl anom-${anom[j].state}${s.counts.red ? ' flagged' : ''}${!s.has ? ' empty' : ''}${hover === j ? ' hl' : ''}`}
                           style={{ '--t': `${((floorMidY(j) / G.VH) * 100).toFixed(2)}%`, '--i': i }}
                           aria-label={`${anom[j].summary ? anom[j].summary.replace(/\n/g, '. ') : `Floor ${j}`}${recurring[j] ? `, ${recurring[j]} recurring problem${recurring[j] > 1 ? 's' : ''}` : ''}, open floor plan`}
-                          title={!s.has ? 'No reading for the selected loads' : `${anom[j].summary ? `${anom[j].summary}\n\n` : ''}${kw(s.kw)} kW at ${when}. ${s.counts.red} red, ${s.counts.amber} amber, ${s.counts.grey} grey, ${s.counts.neutral} neutral, ${s.counts.green} green.`}
+                          title={!s.has ? 'No reading for the selected loads' : `${anom[j].summary ? `${anom[j].summary}\n\n` : ''}${kw(s.kw)} kW at ${when}. ${s.counts.red} red, ${s.counts.amber} amber, ${s.counts.grey} no data, ${s.counts.green} green.`}
                           onMouseEnter={() => setHover(j)} onMouseLeave={() => setHover(null)}
                           onFocus={() => setHover(j)} onBlur={() => setHover(null)}
                           onClick={(e) => openFloor(j, e.currentTarget.closest('.ex-canvas').querySelector(`.floor[data-floor="${j}"]`))}>
@@ -233,7 +239,7 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
                       </span>
                     )}
                     <span className="fl-v"><b>{s.has && !none ? <AnimatedNumber value={s.kw} /> : '–'}</b> <small>kW</small></span>
-                    <span className="fl-r">{none ? '' : <>{STATE_ICON[anom[j].state] && <span className="qa-ico" aria-hidden="true">{STATE_ICON[anom[j].state]} </span>}{labelText(s)}</>}</span>
+                    <span className={`fl-r st-${none ? 'none' : worst}`}>{none ? '' : <>{STATE_ICON[anom[j].state] && <span className="qa-ico" aria-hidden="true">{STATE_ICON[anom[j].state]} </span>}{labelText(s)}</>}</span>
                     <span className="fl-bar"><i style={{ '--w': s.has ? (s.kw / max).toFixed(3) : 0 }} /></span>
                     <span className={`fl-flag ${none ? 'none' : worst}`} />
                   </button>

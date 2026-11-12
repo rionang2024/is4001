@@ -8,6 +8,8 @@ Rules from the data README that this file enforces:
 - nulls stay null: a missing reading is never turned into 0;
 - timestamps are Bangkok local time and are never converted;
 - responses are capped at MAX_ROWS rows per series and say so.
+
+Alert rule: ?rule=p99 returns the stored status as it is; ?rule=sd restates it (see rules.py). Default: QA_DEFAULT_RULE (sd when its files exist).
 """
 from __future__ import annotations
 
@@ -22,6 +24,8 @@ import pyarrow.compute as pc
 import pyarrow.dataset as ds
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+
+import rules
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = Path(os.environ.get("QA_DATA_DIR", REPO_ROOT / "dashboard_data" / "minute"))
@@ -102,6 +106,17 @@ def records(df: pd.DataFrame) -> list[dict]:
     return out.to_dict("records")
 
 
+def pick_rule(rule: str | None) -> str:
+    """'p99' (stored) or 'sd' (restated). Leaving it out means the API default; asking for sd without its files is an error."""
+    if rule is None or rule == "":
+        return rules.default_rule()
+    if rule not in ("p99", "sd"):
+        raise HTTPException(422, "rule must be p99 or sd")
+    if rule == "sd" and rules.sd_rule() is None:
+        raise HTTPException(503, f"The sd rule files are missing from {rules.RULES_DIR}. Run Qn_A/scripts/build_rules_sd.py, or use rule=p99.")
+    return rule
+
+
 def scan(filter_, columns: list[str]) -> pd.DataFrame:
     return dataset().to_table(filter=filter_, columns=columns).to_pandas()
 
@@ -119,6 +134,11 @@ def meta():
         months = sorted(pc.unique(table["month"]).to_pylist())
         stamps = ds_.to_table(columns=["timestamp"])["timestamp"]
         lo, hi = pc.min_max(stamps).values()
+        # public holidays are outside the after-hours scope (data README), so the page skips them
+        holidays: list[str] = []
+        if "is_public_holiday" in ds_.schema.names:
+            hol = ds_.to_table(columns=["timestamp"], filter=ds.field("is_public_holiday") == True)["timestamp"]  # noqa: E712
+            holidays = sorted({t.strftime("%Y-%m-%d") for t in pc.unique(pc.floor_temporal(hol, unit="day")).to_pylist()})
         zones: dict[str, dict[str, list[str]]] = {}
         for r in combos.itertuples():
             zones.setdefault(str(r.floor), {}).setdefault(str(r.zone), []).append(str(r.end_use))
@@ -130,12 +150,17 @@ def meta():
             "months": months,
             "date_min": lo.as_py().strftime("%Y-%m-%d"),
             "date_max": hi.as_py().strftime("%Y-%m-%d"),
+            "holidays": holidays,
             "zones": zones,
             "end_uses": list(END_USES),
             "max_rows": MAX_ROWS,
             "timezone_note": "Bangkok local time, not converted",
         }
-    return _meta_cache[DATA_DIR]
+    sd = rules.sd_rule()
+    return {
+        **_meta_cache[DATA_DIR],
+        "rules": {"default": rules.default_rule(), "p99": rules.P99_RULE, **({"sd": sd.info()} if sd else {})},
+    }
 
 
 @app.get("/api/series")
@@ -146,35 +171,59 @@ def series(
     date: str = Query(...),
     start: str | None = None,
     end: str | None = None,
+    rule: str | None = None,
 ):
-    """One zone and end use for one date, sorted by time. Gaps are not filled."""
+    """One zone and end use for one date, sorted by time. Gaps are not filled. rule: p99 (stored) or sd (see rules.py)."""
     check_end_use(end_use)
+    which = pick_rule(rule)
     lo, hi = window(date, start, end)
     f = (
         (ds.field("floor") == floor) & (ds.field("month") == month_of(lo)) & (ds.field("zone") == zone)
         & (ds.field("end_use") == end_use) & (ds.field("timestamp") >= lo) & (ds.field("timestamp") <= hi)
     )
-    df = scan(f, SERIES_COLS).sort_values("timestamp")
+    if which == "sd":
+        sd = rules.sd_rule()
+        # runs are counted from a little before the window; an All row needs its components, so read the whole zone
+        f = ((ds.field("floor") == floor) & (ds.field("month") == month_of(lo)) & (ds.field("zone") == zone)
+             & (ds.field("timestamp") >= lo - pd.Timedelta(minutes=sd.lookback)) & (ds.field("timestamp") <= hi))
+        raw = scan(f, ["floor", "zone", "end_use"] + SERIES_COLS)
+        df = sd.restate(raw)
+        df = df[(df["end_use"] == end_use) & (df["timestamp"] >= lo)][SERIES_COLS].sort_values("timestamp")
+    else:
+        df = scan(f, SERIES_COLS).sort_values("timestamp")
     truncated = len(df) > MAX_ROWS
     return {
         "floor": floor, "zone": zone, "end_use": end_use,
         "rows": records(df.head(MAX_ROWS)), "count": min(len(df), MAX_ROWS),
-        "truncated": truncated, "max_rows": MAX_ROWS,
+        "truncated": truncated, "max_rows": MAX_ROWS, "rule": which,
     }
 
 
 @app.get("/api/snapshot")
-def snapshot(timestamp: str = Query(...), floor: int | None = Query(None, ge=1, le=7)):
-    """Every zone and end use at one minute. Leave floor out to get the whole building."""
+def snapshot(timestamp: str = Query(...), floor: int | None = Query(None, ge=1, le=7), rule: str | None = None):
+    """Every zone and end use at one minute. Leave floor out to get the whole building. rule: p99 (stored) or sd."""
+    which = pick_rule(rule)
     try:
         ts = pd.Timestamp(datetime.strptime(timestamp, TS_FMT))
     except ValueError:
         raise HTTPException(422, "timestamp must look like 2018-10-03T20:35")
     f = (ds.field("month") == month_of(ts)) & (ds.field("timestamp") == ts)
+    if which == "sd":
+        f = (ds.field("month") == month_of(ts)) & (ds.field("timestamp") <= ts) \
+            & (ds.field("timestamp") >= ts - pd.Timedelta(minutes=rules.sd_rule().lookback))
     if floor is not None:
         f = f & (ds.field("floor") == floor)
-    df = scan(f, SNAPSHOT_COLS).sort_values(["floor", "zone", "end_use"])
-    return {"timestamp": ts.strftime(TS_FMT), "rows": records(df), "count": len(df)}
+    if which == "sd":
+        raw = scan(f, ["timestamp", "floor", "zone", "end_use"] + SNAPSHOT_COLS[3:])
+        df = rules.sd_rule().restate(raw)
+        df = df[df["timestamp"] == ts][SNAPSHOT_COLS].copy()
+        df["end_use"] = df["end_use"].astype(str)
+    else:
+        df = scan(f, SNAPSHOT_COLS)
+    df = df.sort_values(["floor", "zone", "end_use"])
+    # how many consecutive minutes make a red under this rule, so the page can work out "red since" from the duration
+    df["red_min"] = rules.sd_rule().red_min if which == "sd" else rules.P99_RULE["red_min"]
+    return {"timestamp": ts.strftime(TS_FMT), "rows": records(df), "count": len(df), "rule": which}
 
 
 @app.get("/api/compare")

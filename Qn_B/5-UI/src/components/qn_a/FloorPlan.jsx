@@ -182,7 +182,7 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
         <div><dt>Selected loads</dt><dd>{stat.has ? <>{kw(stat.kw)} <small>kW</small></> : '–'}</dd></div>
         <div><dt>Red</dt><dd>{stat.red}</dd></div>
         <div><dt>Amber</dt><dd>{stat.amber}</dd></div>
-        <div><dt>Grey or neutral</dt><dd>{stat.grey + stat.neutral}</dd></div>
+        <div><dt>No data</dt><dd>{stat.grey}</dd></div>
       </dl>
 
       <BreachList an={an} floor={floor} when={when} />

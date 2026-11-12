@@ -41,7 +41,7 @@ function Tip({ active, payload, multi }) {
       <b>{clock(p.m)}</b> {p.power == null ? <span className="muted">no data</span> : <span className="num">{kw(p.power, 2)} kW</span>}
       <div><i className={`sdot-h ${g}`} />{p.status ? `${GROUP_LABEL[g]}${STATUS[p.status] && g === 'grey' ? ` (${p.status.replace(/_/g, ' ')})` : ''}` : '–'}</div>
       {p.reason && <div className="muted">{reasonText(p.reason)}</div>}
-      {p.median != null && <div className="muted">median {kw(p.median, 2)} kW · P99 {kw(p.p99, 2)} kW</div>}
+      {p.median != null && <div className="muted">median {kw(p.median, 2)} kW · threshold {kw(p.p99, 2)} kW</div>}
       {p.run > 0 && <div className="muted">{p.run} min above threshold</div>}
     </div>
   )
@@ -54,7 +54,7 @@ const Select = ({ label, value, onChange, children, id }) => (
   </div>
 )
 
-export default function LoadProfileChart({ meta, date, minute, focus }) {
+export default function LoadProfileChart({ meta, date, minute, focus, rule }) {
   const [mode, setMode] = useState('zone')
   const [floor, setFloor] = useState(1)
   const [zone, setZone] = useState(2)
@@ -80,7 +80,7 @@ export default function LoadProfileChart({ meta, date, minute, focus }) {
 
   const valid = minuteOf(end) >= minuteOf(start)
   const win = { date, start, end }
-  const one = useApi('series', { floor, zone, end_use: endUse, ...win }, { enabled: mode === 'zone' && valid, debounce: 120 })
+  const one = useApi('series', { floor, zone, end_use: endUse, ...win, rule }, { enabled: mode === 'zone' && valid, debounce: 120 })
   const many = useApi('compare', { floors: [...floors].sort().join(','), end_use: cmpUse, ...win }, { enabled: mode === 'compare' && valid && floors.length > 0, debounce: 120 })
   const res = mode === 'zone' ? one : many
 
@@ -191,7 +191,7 @@ export default function LoadProfileChart({ meta, date, minute, focus }) {
                      label={{ value: 'Power (kW)', angle: -90, position: 'insideLeft', offset: 14, style: { fill: 'var(--ink-3)', fontSize: 12 } }} />
               <Tooltip content={<Tip multi={multi} />} isAnimationActive={false} />
               {mode === 'zone' && present('p99') && (
-                <Line name="Frozen P99" dataKey="p99" stroke="var(--baseline)" strokeWidth={1.8} strokeDasharray="7 5" dot={false} activeDot={false} isAnimationActive={false} connectNulls={false} />
+                <Line name="Alert threshold" dataKey="p99" stroke="var(--baseline)" strokeWidth={1.8} strokeDasharray="7 5" dot={false} activeDot={false} isAnimationActive={false} connectNulls={false} />
               )}
               {mode === 'zone' && present('median') && (
                 <Line name="Historical median" dataKey="median" stroke="var(--ink-3)" strokeWidth={1.8} strokeDasharray="2 4" dot={false} activeDot={false} isAnimationActive={false} connectNulls={false} />
@@ -223,7 +223,7 @@ export default function LoadProfileChart({ meta, date, minute, focus }) {
           <div className="legend" style={{ marginTop: 8 }}>
             <span><i className="line" style={{ color: 'var(--actual)' }} />Recorded power</span>
             {present('median') && <span><i className="dot" style={{ color: 'var(--ink-3)' }} />Historical median</span>}
-            {present('p99') && <span><i className="dash" style={{ color: 'var(--baseline)' }} />Frozen P99 threshold</span>}
+            {present('p99') && <span><i className="dash" style={{ color: 'var(--baseline)' }} />{rule === 'sd' ? 'Alert threshold (median + 3 SD)' : 'Frozen P99 threshold'}</span>}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}><StatusKey compact /></div>
           {endUse === 'All' && (
@@ -237,9 +237,6 @@ export default function LoadProfileChart({ meta, date, minute, focus }) {
         </p>
       )}
       {truncated && <p className="note qa-note">Showing the first {shown.max_rows} minutes of this window. Narrow the window to see the rest.</p>}
-      <p className="muted small" style={{ margin: '8px 0 0' }}>
-        Red means investigate, not a confirmed fault. Gaps in the line are minutes with no reading, not zero.
-      </p>
     </section>
   )
 }

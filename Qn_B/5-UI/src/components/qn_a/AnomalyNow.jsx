@@ -2,8 +2,8 @@
 import { alertText, breachText, placeText, sinceText } from './anomaly.js'
 import { emitLoadSelect } from '../../qaBuilding.js'
 
-export const STATE_ICON = { red: '▲', amber: '◆', grey: '?', neutral: '○' }
-const STATE_WORD = { red: 'Red', amber: 'Amber', grey: 'Grey', neutral: 'Neutral' }
+export const STATE_ICON = { red: '▲', amber: '◆', grey: '', neutral: '' }
+const STATE_WORD = { red: 'Red', amber: 'Amber', grey: 'No data', neutral: 'Neutral' }
 
 function Problem({ p }) {
   return (
@@ -26,14 +26,14 @@ function Problem({ p }) {
 export function AnomalyNow({ anom, floors, when, onOpen }) {
   const flagged = floors.filter((f) => anom[f].problems.length)
     .sort((a, b) => (anom[a].state === anom[b].state ? a - b : anom[a].state === 'red' ? -1 : 1))
-  const unchecked = floors.filter((f) => anom[f].state === 'grey' || anom[f].state === 'neutral')
+  const unchecked = floors.filter((f) => anom[f].state === 'grey')
   if (!flagged.length) {
     const any = floors.some((f) => anom[f].state !== 'none')
     return (
       <div className="qa-now none" role="status">
         <b>{any ? `No amber or red readings at ${when}.` : `Nothing to show at ${when}.`}</b>
         {unchecked.length > 0 && (
-          <span> Floor{unchecked.length > 1 ? 's' : ''} {unchecked.join(', ')} could not be checked (grey or neutral), which is not the same as normal.</span>
+          <span> Floor{unchecked.length > 1 ? 's' : ''} {unchecked.join(', ')} could not be checked (no data), which is not the same as normal.</span>
         )}
       </div>
     )
