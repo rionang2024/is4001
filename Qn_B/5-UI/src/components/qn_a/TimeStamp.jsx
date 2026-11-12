@@ -7,7 +7,7 @@ import { isAfterHours } from './afterHours.js'
 const NO_HOLIDAYS = new Set()
 const weekend = (date) => [0, 6].includes(parseDate(date).getDay())
 
-export default function TimeStamp({ when, holidays = NO_HOLIDAYS, playing = false, onPlaying }) {
+export default function TimeStamp({ when, holidays = NO_HOLIDAYS, playing = false, onPlaying, step = 1, onStep, onNext }) {
   const [date, time] = when.split(' ')
   const [top, setTop] = useState(72)
 
@@ -33,6 +33,18 @@ export default function TimeStamp({ when, holidays = NO_HOLIDAYS, playing = fals
                 title={playing ? 'Pause the replay' : 'Play the replay'} onClick={() => onPlaying(!playing)}>
           <span aria-hidden="true">{playing ? '⏸' : '▶'}</span> {playing ? 'Pause' : 'Play'}
         </button>
+      )}
+      {onNext && (
+        <button type="button" className="qa-stamp-next" title={`Go forward ${step} minute${step > 1 ? 's' : ''} and pause`} onClick={onNext}>
+          Next +{step} min <span aria-hidden="true">›</span>
+        </button>
+      )}
+      {onStep && (
+        <div className="seg qa-stamp-seg" role="group" aria-label="Minutes per step">
+          {[1, 5, 15].map((n) => (
+            <button key={n} type="button" className={step === n ? 'on' : ''} aria-pressed={step === n} onClick={() => onStep(n)}>{n} min</button>
+          ))}
+        </div>
       )}
       <span className="qa-stamp-date">{dow(date)} {nice}</span>
       <span className="qa-stamp-time" role="status" aria-label={`Showing ${dow(date)} ${nice} at ${time}, Bangkok time`}>{time}</span>

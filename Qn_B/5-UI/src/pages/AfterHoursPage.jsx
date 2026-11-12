@@ -82,22 +82,26 @@ export default function AfterHoursPage() {
   // Replay: one step every TICK_MS, slow enough to talk through. At 23:59 it carries on into 00:00 of the next day
   // (after-hours runs overnight), and only stops at the last day of data.
   const pos = useRef({})
-  pos.current = { date, minute, hi: meta.data?.date_max, afterOnly, holidays }
+  pos.current = { date, minute, hi: meta.data?.date_max, afterOnly, holidays, step }
+  // One step forward by the chosen interval. Used by the replay timer and by the "Next" button on the time bar.
+  const advance = () => {
+    const { date: d, minute: m, hi, afterOnly: only, holidays: hol, step: n } = pos.current
+    let nd = d, nm = m + n
+    if (nm > 1439) { nd = addDays(d, 1); nm -= 1440 }
+    if (only) {
+      // daytime and public holidays are skipped: jump straight to the next after-hours minute (23:59 flows into 00:00)
+      const t = nextAfterHours(nd, nm, hol, hi)
+      if (!t) { setPlaying(false); return }
+      nd = t.date; nm = t.minute
+    } else if (hi && nd > hi) { setPlaying(false); setMinute(1439); return }
+    setDate(nd)
+    setMinute(nm)
+  }
+  const advanceRef = useRef(advance)
+  advanceRef.current = advance
   useEffect(() => {
     if (!playing) return undefined
-    const id = setInterval(() => {
-      const { date: d, minute: m, hi, afterOnly: only, holidays: hol } = pos.current
-      let nd = d, nm = m + step
-      if (nm > 1439) { nd = addDays(d, 1); nm -= 1440 }
-      if (only) {
-        // daytime and public holidays are skipped: jump straight to the next after-hours minute (23:59 flows into 00:00)
-        const t = nextAfterHours(nd, nm, hol, hi)
-        if (!t) { setPlaying(false); return }
-        nd = t.date; nm = t.minute
-      } else if (hi && nd > hi) { setPlaying(false); setMinute(1439); return }
-      setDate(nd)
-      setMinute(nm)
-    }, TICK_MS[step] ?? 1500)
+    const id = setInterval(() => advanceRef.current(), TICK_MS[step] ?? 1500)
     return () => clearInterval(id)
   }, [playing, step])
 
@@ -136,7 +140,7 @@ export default function AfterHoursPage() {
                      playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} busy={snap.loading}
                      rules={rules} ruleId={ruleId} onRule={setRulePick} onJump={goTo} />
 
-        <BuildingExplorer holidays={holidays} playing={playing} onPlaying={setPlaying} rows={snap.data?.rows ?? null} when={when.replace('T', ' ')} error={snap.error} loading={snap.loading} />
+        <BuildingExplorer holidays={holidays} playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} onNext={() => { setPlaying(false); advance() }} rows={snap.data?.rows ?? null} when={when.replace('T', ' ')} error={snap.error} loading={snap.loading} />
 
         <LoadProfileChart meta={meta.data} date={date} minute={minute} focus={focus} rule={ruleId} />
 

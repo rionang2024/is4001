@@ -60,7 +60,7 @@ const labelText = (s) => {
   return (RATIO_TEXT[s.worst]?.(s.counts)) ?? s.worst
 }
 
-export default function BuildingExplorer({ rows, when, error, loading, holidays, playing, onPlaying }) {
+export default function BuildingExplorer({ rows, when, error, loading, holidays, playing, onPlaying, step, onStep, onNext }) {
   const [on, setOn] = useState({ AC: true, Lighting: true, Plug: true })
   const [justOn, setJustOn] = useState(null)
   const [floor, setFloor] = useState(null)         // the open floor, or null for the building view
@@ -186,7 +186,7 @@ export default function BuildingExplorer({ rows, when, error, loading, holidays,
         </defs>
       </svg>
 
-      <TimeStamp when={when} holidays={holidays} playing={playing} onPlaying={onPlaying} />
+      <TimeStamp when={when} holidays={holidays} playing={playing} onPlaying={onPlaying} step={step} onStep={onStep} onNext={onNext} />
 
       <header className="ex-head">
         <div>

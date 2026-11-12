@@ -210,6 +210,14 @@
 .qa-ex .qa-stamp-play:hover { filter: brightness(1.12); }
 .qa-ex .qa-stamp-play:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .qa-ex .qa-stamp-play[aria-pressed="true"] { background: transparent; color: var(--ink); border-color: var(--ink); }
+.qa-ex .qa-stamp-next {
+  align-self: center; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px;
+  border: 1px solid var(--ink); background: transparent; color: var(--ink); font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.qa-ex .qa-stamp-next:hover { background: var(--line-2); }
+.qa-ex .qa-stamp-next:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.qa-ex .qa-stamp-seg { align-self: center; }
+.qa-ex .qa-stamp-seg button { padding: 5px 10px; font-size: 0.8rem; }
 .qa-ex .qa-stamp-date { font-weight: 600; }
 .qa-ex .qa-stamp-time { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
 .qa-ex .qa-stamp-tz { color: var(--muted); font-size: 0.8rem; }
