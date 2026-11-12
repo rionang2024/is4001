@@ -55,9 +55,9 @@ export default function TimeControl({ meta, date, minute, onDate, onMinute, play
               <button key={n} type="button" className={step === n ? 'on' : ''} aria-pressed={step === n} onClick={() => onStep(n)}>{n} min</button>
             ))}
           </div>
-          <button type="button" className="btn qa-night" title="Jump to the start of this night: Friday 17:00 to Saturday 09:00"
+          <button type="button" className="btn qa-night" title="Jump to the start of an example night: Fri 13 Sep 2019, 17:01 to Sat 09:00"
                   onClick={() => { onPlaying(false); onJump(NIGHT.date, NIGHT.minute) }}>
-            Fri 13 Sep 2019 night <small>Fri 17:00 to Sat 09:00</small>
+            Example simulation
           </button>
         </div>
       </div>
