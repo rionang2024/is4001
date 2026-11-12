@@ -6,6 +6,10 @@ import StatusKey from '../components/qn_a/StatusKey.jsx'
 import TimeControl, { INCIDENT } from '../components/qn_a/TimeControl.jsx'
 import AlertsSidebar from '../components/qn_a/AlertsSidebar.jsx'
 import { bindQaBuilding, emitEventSelect } from '../qaBuilding.js'
+import { isAfterHours, snapAfterHours, stepAfterHours } from '../components/qn_a/afterHours.js'
+
+// Replay speed, in ms per tick: the 1-minute step shows one data minute every 2 seconds, so each change can be followed by eye.
+const TICK_MS = { 1: 2000, 5: 400, 15: 400 }
 
 // Question A: where and when does the building use energy after hours?
 // Minute-level data comes from Qn_A/api (Parquet in dashboard_data/, never sent to the browser whole).
@@ -15,6 +19,7 @@ export default function AfterHoursPage() {
   const [minute, setMinute] = useState(INCIDENT.minute)
   const [playing, setPlaying] = useState(false)
   const [step, setStep] = useState(1)
+  const [afterHours, setAfterHours] = useState(false) // only show weekdays 17:01 to 07:59 (and weekends) while on
   const [alertId, setAlertId] = useState(null)
   const [focus, setFocus] = useState(null)
 
@@ -27,6 +32,7 @@ export default function AfterHoursPage() {
     setPlaying(false)
     emitEventSelect(a)
     setAlertId(a.id)
+    if (!isAfterHours(day, minuteOf(a.peak_at.slice(11, 16)))) setAfterHours(false) // e.g. a peak at exactly 17:00
     setDate(day)
     setMinute(minuteOf(a.peak_at.slice(11, 16)))
     setFocus({ floor: a.floor, zone: a.zone, endUse: a.end_use, start: clock(Math.max(0, from - 30)), end: clock(Math.min(1439, to + 30)) })
@@ -45,6 +51,7 @@ export default function AfterHoursPage() {
       const lo = live.current.meta?.date_min, hi = live.current.meta?.date_max
       if (!m || +m[2] > 23 || +m[3] > 59 || (lo && m[1] < lo) || (hi && m[1] > hi)) return false
       setPlaying(false)
+      if (!isAfterHours(m[1], +m[2] * 60 + +m[3])) setAfterHours(false)
       setDate(m[1])
       setMinute(+m[2] * 60 + +m[3])
       return true
@@ -57,11 +64,16 @@ export default function AfterHoursPage() {
     const id = setInterval(() => {
       setMinute((m) => {
         if (m + step > 1439) { setPlaying(false); return 1439 }
-        return m + step
+        return afterHours ? stepAfterHours(date, m, step) : m + step
       })
-    }, 400)
+    }, TICK_MS[step] ?? 400)
     return () => clearInterval(id)
-  }, [playing, step])
+  }, [playing, step, afterHours, date])
+
+  // Turning the filter on, or changing to a day where the minute falls in daytime, moves to the nearest after-hours minute.
+  useEffect(() => {
+    if (afterHours && !isAfterHours(date, minute)) setMinute(snapAfterHours(date, minute))
+  }, [afterHours, date, minute])
 
   const head = (
     <div className="page-head">
@@ -93,7 +105,8 @@ export default function AfterHoursPage() {
       <div className="layout">
       <div className="main-col">
         <TimeControl meta={meta.data} date={date} minute={minute} onDate={setDate} onMinute={setMinute}
-                     playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} busy={snap.loading} />
+                     playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} busy={snap.loading}
+                     afterHours={afterHours} onAfterHours={setAfterHours} />
 
         <BuildingExplorer rows={snap.data?.rows ?? null} when={when.replace('T', ' ')} error={snap.error} loading={snap.loading} />
 

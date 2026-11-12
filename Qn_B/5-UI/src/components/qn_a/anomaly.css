@@ -146,3 +146,32 @@
   .qa-ex .ex-svg .floor.anom-amber .ag { opacity: 0.2; }
   .qa-ex .ex-svg .floor.anom-red .lit { opacity: 0.95; }
 }
+
+/* ------------------------------------------------ problems list beside the building
+   On a wide panel the list sits in a left column next to the building and labels. It stacks on top on a narrow panel,
+   and hides while a floor plan is open (the plan has its own banner). */
+.qa-ex { container-type: inline-size; container-name: qa-ex; }
+.qa-ex .ex-split { display: grid; grid-template-columns: minmax(250px, 320px) minmax(0, 1fr); gap: 14px; align-items: start; }
+.qa-ex .ex-split .qa-now { margin: 0; max-height: 640px; overflow: auto; }
+.qa-ex .ex-split .qa-now-head { font-size: 0.92rem; }
+.qa-ex .ex-split .qa-breach { font-size: 0.86rem; }
+.qa-ex .ex-split.is-plan { grid-template-columns: minmax(0, 1fr); }
+.qa-ex .ex-split.is-plan .qa-now { display: none; }
+@container qa-ex (max-width: 900px) {
+  .qa-ex .ex-split { grid-template-columns: minmax(0, 1fr); }
+  .qa-ex .ex-split .qa-now { margin-bottom: 12px; max-height: none; }
+}
+
+/* ------------------------------------------------ date and time stamp that follows the top of the screen */
+.qa-ex .qa-stamp {
+  position: sticky; z-index: 5; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px;
+  margin: -4px 0 12px; padding: 8px 14px; border: 1px solid var(--rule); border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+.qa-ex .qa-stamp-date { font-weight: 600; }
+.qa-ex .qa-stamp-time { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+.qa-ex .qa-stamp-tz { color: var(--muted); font-size: 0.8rem; }
+.qa-ex .qa-stamp-tag { margin-left: auto; font-size: 0.75rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--rule); }
+.qa-ex .qa-stamp-tag.after { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.qa-ex .qa-stamp-tag.day { color: var(--muted); }

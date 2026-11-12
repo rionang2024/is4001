@@ -7,6 +7,7 @@ import FloorPlan from './FloorPlan.jsx'
 import LoadSwitches from './LoadSwitches.jsx'
 import StatusKey from './StatusKey.jsx'
 import { AnomalyNow, STATE_ICON } from './AnomalyNow.jsx'
+import TimeStamp from './TimeStamp.jsx'
 import { floorAnomaly, useAlerts } from './anomaly.js'
 import { FLOORS, floorStats, indexSnapshot } from './explorerModel.js'
 import './explorer.css'
@@ -158,6 +159,8 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
         </defs>
       </svg>
 
+      <TimeStamp when={when} />
+
       <header className="ex-head">
         <div>
           <h2 id="ex-title">Building explorer</h2>
@@ -176,7 +179,8 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
         {error ?? (none ? 'Turn on at least one load type to see values.' : loading && !rows ? 'Loading…' : '')}
       </p>
 
-      <AnomalyNow anom={anom} floors={FLOORS} when={when} onOpen={(f) => openFloor(f, stageRef.current.querySelector(`.floor[data-floor="${f}"]`))} />
+      <div className={`ex-split${isPlan ? ' is-plan' : ''}`}>
+        <AnomalyNow anom={anom} floors={FLOORS} when={when} onOpen={(f) => openFloor(f, stageRef.current.querySelector(`.floor[data-floor="${f}"]`))} />
 
       <div ref={stageRef} className={`ex-stage${isPlan ? ' is-plan' : ''}`}
            style={{ '--ox': origin.x, '--oy': origin.y, ...(stageH != null ? { height: stageH } : {}) }}>
@@ -219,6 +223,7 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
                        backRef={backRef} onBack={closePlan} onFloor={(f) => { setFloor(f); setLastFloor(f) }} />
           )}
         </div>
+      </div>
       </div>
     </section>
   )
