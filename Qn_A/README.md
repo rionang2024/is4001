@@ -49,7 +49,9 @@ Open the **After-hours energy** tab (`#/qn-a`). It opens on 2018-10-03 20:35: Fl
 **Alerts sidebar.** The sidebar reads `Qn_B/5-UI/public/data/qa_alerts.json`, a short list of alert events built from the minute data by `Qn_A/scripts/build_alerts.py`.
 Re-run it after the minute data changes: `.venv/bin/python Qn_A/scripts/build_alerts.py` (Windows: `.venv\Scripts\python Qn_A\scripts\build_alerts.py`).
 The joining and filter rules (10-min gaps, 30+ min and 5+ kW above P99, priority by how often a zone and load recurs: recurring = high, intermittent = medium, occasional = low) are at the top of the script and are the team's choice on top of the data README.
-The committed file was built from Floor 1, October 2018 only.
+The committed file is built from all 7 floors.
+
+**Live view.** The sidebar follows the replay clock: it shows an alert only from its `qualified_at` minute, rebuilds problems, priorities and totals from the alerts known by then, lists **Active now** (alerts running at that minute) and **Watching** (loads amber or red at that minute that are not an alert yet, with what they still need, from `/api/series`). Clicking a load in a floor's problem list on the building opens it in the sidebar (`QA_BUILDING.selectLoad` / `onLoadSelect` in `src/qaBuilding.js`). An event becomes an alert at the first minute it passes all three filters, so a few alerts whose average later drops below 5 kW still count.
 
 API tests: `cd Qn_A/api && ../../.venv/bin/python -m pytest`. To read data from another folder, set `QA_DATA_DIR` to the `minute/` folder.
 
@@ -79,6 +81,7 @@ An event is one entry of `alerts` in `qa_alerts.json` (built by `scripts/build_a
   id: 'F1-Z2-AC-2018-10-03T18:50',
   floor: 1, zone: 2, end_use: 'AC',          // end_use: 'AC' | 'Lighting' | 'Plug'
   start: '2018-10-03T18:50', end: '2018-10-04T00:45',   // Bangkok local time, no timezone
+  qualified_at: '2018-10-03T19:19',          // the minute it first passed all three filters: a live view shows it from here
   peak_at: '2018-10-03T19:08', peak_kw: 98.2,
   span_minutes, minutes_above, red_minutes,  // minutes above P99 in total, and how many of them were red
   avg_kw, p99_kw, median_kw, kw_above, kwh_above,   // kw_above = mean kW above P99

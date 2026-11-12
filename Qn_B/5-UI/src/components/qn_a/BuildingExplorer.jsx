@@ -8,7 +8,10 @@ import LoadSwitches from './LoadSwitches.jsx'
 import StatusKey from './StatusKey.jsx'
 import { AnomalyNow, STATE_ICON } from './AnomalyNow.jsx'
 import TimeStamp from './TimeStamp.jsx'
-import { floorAnomaly, useAlerts } from './anomaly.js'
+import { floorAnomaly, toStamp, useAlerts } from './anomaly.js'
+import { QA_BUILDING } from '../../qaBuilding.js'
+import { problemsAt } from './liveAlerts.js'
+import { loadJSON } from '../../data.js'
 import { FLOORS, floorStats, indexSnapshot } from './explorerModel.js'
 import './explorer.css'
 import './qn_a.css'
@@ -64,6 +67,8 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
   const [introTick, setIntroTick] = useState(0)
   const [origin, setOrigin] = useState({ x: '50%', y: '50%' })
   const [stageH, setStageH] = useState(null)
+  const [focusZone, setFocusZone] = useState(null) // a zone the alerts sidebar asked to point at
+  const [alertData, setAlertData] = useState(null)  // the sidebar's alert file, for the recurring badges
   const narrow = useNarrow()
 
   const stageRef = useRef(null), buildingRef = useRef(null), planRef = useRef(null), backRef = useRef(null)
@@ -72,6 +77,15 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
   const wasPlan = useRef(false)
   const lastRef = useRef(null)
   lastRef.current = lastFloor
+
+  // Recurring problems known by this minute, per floor (same rules as the alerts sidebar).
+  useEffect(() => { loadJSON('qa_alerts.json').then(setAlertData).catch(() => {}) }, [])
+  const recurring = {}
+  if (alertData?.meta) {
+    for (const p of problemsAt(alertData, toStamp(when)).problems) {
+      if (p.recurrence === 'Recurring') recurring[p.floor] = (recurring[p.floor] ?? 0) + 1
+    }
+  }
 
   const idx = indexSnapshot(rows)
   const alerts = useAlerts()
@@ -99,7 +113,18 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
     setFloor(f)
     setLastFloor(f)
   }
+  // The alerts sidebar can open a floor and point at a zone (QA_BUILDING.openFloor).
+  const openRef = useRef(null)
+  openRef.current = openFloor
+  useEffect(() => QA_BUILDING.onOpenFloor(({ floor: f, zone }) => {
+    openRef.current(f, stageRef.current?.querySelector(`.floor[data-floor="${f}"]`))
+    setFocusZone(zone ?? null)
+    // wait for the plan to open (its intro takes about 600 ms), then bring it into view
+    setTimeout(() => planRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' }), reduce ? 50 : 650)
+  }), [])
+
   const closePlan = () => {
+    setFocusZone(null)
     if (!isPlan) return
     setStageH(planRef.current.offsetHeight)
     setFloor(null)
@@ -196,12 +221,17 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
                   <button key={j} type="button" ref={(el) => { labelRefs.current[j] = el }}
                           className={`fl anom-${anom[j].state}${s.counts.red ? ' flagged' : ''}${!s.has ? ' empty' : ''}${hover === j ? ' hl' : ''}`}
                           style={{ '--t': `${((floorMidY(j) / G.VH) * 100).toFixed(2)}%`, '--i': i }}
-                          aria-label={`${anom[j].summary ? anom[j].summary.replace(/\n/g, '. ') : `Floor ${j}`}, open floor plan`}
+                          aria-label={`${anom[j].summary ? anom[j].summary.replace(/\n/g, '. ') : `Floor ${j}`}${recurring[j] ? `, ${recurring[j]} recurring problem${recurring[j] > 1 ? 's' : ''}` : ''}, open floor plan`}
                           title={!s.has ? 'No reading for the selected loads' : `${anom[j].summary ? `${anom[j].summary}\n\n` : ''}${kw(s.kw)} kW at ${when}. ${s.counts.red} red, ${s.counts.amber} amber, ${s.counts.grey} grey, ${s.counts.neutral} neutral, ${s.counts.green} green.`}
                           onMouseEnter={() => setHover(j)} onMouseLeave={() => setHover(null)}
                           onFocus={() => setHover(j)} onBlur={() => setHover(null)}
                           onClick={(e) => openFloor(j, e.currentTarget.closest('.ex-canvas').querySelector(`.floor[data-floor="${j}"]`))}>
                     <span className="fl-n">Floor {j}</span>
+                    {recurring[j] > 0 && (
+                      <span className="fl-rec" title={`${recurring[j]} recurring (high priority) problem${recurring[j] > 1 ? 's' : ''} on Floor ${j} by this minute. See the alerts sidebar.`}>
+                        {recurring[j]} recurring
+                      </span>
+                    )}
                     <span className="fl-v"><b>{s.has && !none ? <AnimatedNumber value={s.kw} /> : '–'}</b> <small>kW</small></span>
                     <span className="fl-r">{none ? '' : <>{STATE_ICON[anom[j].state] && <span className="qa-ico" aria-hidden="true">{STATE_ICON[anom[j].state]} </span>}{labelText(s)}</>}</span>
                     <span className="fl-bar"><i style={{ '--w': s.has ? (s.kw / max).toFixed(3) : 0 }} /></span>
@@ -219,8 +249,8 @@ export default function BuildingExplorer({ rows, when, error, loading }) {
         </div>
         <div className="ex-plan" ref={planRef} inert={isPlan ? undefined : ''}>
           {lastFloor !== null && (
-            <FloorPlan floor={lastFloor} when={when} rows={rows} on={on} introTick={introTick} active={isPlan}
-                       backRef={backRef} onBack={closePlan} onFloor={(f) => { setFloor(f); setLastFloor(f) }} />
+            <FloorPlan floor={lastFloor} when={when} rows={rows} on={on} introTick={introTick} active={isPlan} focusZone={focusZone}
+                       backRef={backRef} onBack={closePlan} onFloor={(f) => { setFloor(f); setLastFloor(f); setFocusZone(null) }} />
           )}
         </div>
       </div>

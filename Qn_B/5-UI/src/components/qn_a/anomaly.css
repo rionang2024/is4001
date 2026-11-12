@@ -175,3 +175,25 @@
 .qa-ex .qa-stamp-tag { margin-left: auto; font-size: 0.75rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--rule); }
 .qa-ex .qa-stamp-tag.after { background: var(--ink); color: var(--panel); border-color: var(--ink); }
 .qa-ex .qa-stamp-tag.day { color: var(--muted); }
+
+/* a breached load in the floor plan can be clicked to show it in the alerts sidebar */
+.qa-ex .qa-breaches li:has(.qa-breach-pick) { padding: 0; }
+.qa-ex .qa-breach-pick { display: grid; gap: 2px; width: 100%; padding: 7px 10px; border: 0; background: none; text-align: left; font: inherit; color: inherit; cursor: pointer; border-radius: 6px; }
+.qa-ex .qa-breach-pick:hover { background: var(--line-2); }
+.qa-ex .qa-breach-pick:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* whether a load above threshold is an alert in the sidebar yet */
+.qa-ex .qa-alert-tag { display: inline-block; margin-left: 8px; padding: 1px 7px; border: 1px solid var(--rule); border-radius: 999px; font-size: 0.72rem; font-weight: 600; color: var(--muted); vertical-align: 2px; }
+.qa-ex .qa-alert-tag.on { border-color: currentColor; color: inherit; }
+
+/* recurring (high priority) problems known by this minute, on each floor label */
+.qa-ex .fl { overflow: visible; }
+.qa-ex .fl-rec { position: absolute; top: -9px; left: 8px; padding: 0 6px; border-radius: 999px; background: var(--ink); color: var(--panel); font-size: 0.66rem; font-weight: 700; line-height: 16px; white-space: nowrap; pointer-events: none; }
+/* a zone the alerts sidebar pointed at */
+.qa-ex .cam .bill.focus svg .bgc { stroke: var(--accent); stroke-width: 3; }
+.qa-ex .cam .bill.focus { animation: qa-zone-pulse 1.4s ease-out 2; }
+@keyframes qa-zone-pulse { 0%, 40% { filter: drop-shadow(0 0 10px var(--accent)); } 100% { filter: none; } }
+.qa-ex .plan-table tr.focus th, .qa-ex .plan-table tr.focus td { background: var(--accent-soft); }
+.qa-ex .plan-table tr.focus th { box-shadow: inset 4px 0 0 var(--accent); }
+@media (prefers-reduced-motion: reduce) { .qa-ex .cam .bill.focus { animation: none; } }
+.qa-ex .ex-plan { scroll-margin-top: 80px; }

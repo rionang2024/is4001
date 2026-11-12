@@ -88,7 +88,7 @@ function Card({ zone, zs, maxLoad }) {
   )
 }
 
-export default function FloorPlan({ floor, when, rows, on, introTick, active, onBack, onFloor, backRef }) {
+export default function FloorPlan({ floor, when, rows, on, introTick, active, onBack, onFloor, backRef, focusZone = null }) {
   const plan = planOf(floor)
   const idx = indexSnapshot(rows)
   const hasData = (rows ?? []).some((r) => r.floor === floor)
@@ -262,7 +262,7 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
             const w = 140, n = zs.rows.length
             const h = 7 + 22 + n * 19 + (n > 1 ? 19 : 0) + 8
             return (
-              <div key={z} className={`bill${zs.worst === 'red' ? ' flagged' : zs.worst === 'amber' ? ' warn' : ''}`}
+              <div key={z} className={`bill${zs.worst === 'red' ? ' flagged' : zs.worst === 'amber' ? ' warn' : ''}${Number(z) === focusZone ? ' focus' : ''}`}
                    style={{ '--bx': `${def.at[0] + 56}px`, '--by': `${def.at[1] + 52}px`, '--bz': `${raised ? hpx + 3 : 6}px`,
                             width: w, height: h, marginLeft: -w / 2, marginTop: -h }}>
                 {eus.length ? <Card zone={z} zs={zs} maxLoad={maxLoad} /> : null}
@@ -295,7 +295,7 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
               {Object.keys(plan.zones).map((z) => {
                 const zs = zoneState(idx, floor, Number(z), on)
                 return (
-                  <tr key={z}>
+                  <tr key={z} className={Number(z) === focusZone ? 'focus' : undefined}>
                     <th scope="row" style={{ textAlign: 'left', fontWeight: 600, color: 'var(--ink)' }}>Zone {z}</th>
                     {zs.rows.map((row) => {
                       if (row.state === 'none') return <td key={row.e} className="none">no meter</td>

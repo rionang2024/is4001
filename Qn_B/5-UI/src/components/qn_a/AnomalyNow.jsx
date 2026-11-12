@@ -1,5 +1,6 @@
 // Text versions of what the glow and the red zone show, so nothing depends on colour alone and phones get a readable list.
 import { alertText, breachText, placeText, sinceText } from './anomaly.js'
+import { emitLoadSelect } from '../../qaBuilding.js'
 
 export const STATE_ICON = { red: '▲', amber: '◆', grey: '?', neutral: '○' }
 const STATE_WORD = { red: 'Red', amber: 'Amber', grey: 'Grey', neutral: 'Neutral' }
@@ -11,9 +12,12 @@ function Problem({ p }) {
         <span className="qa-ico" aria-hidden="true">{STATE_ICON[p.status]}</span>
         <span className="visually-hidden">{STATE_WORD[p.status]}: </span>
         {placeText(p)} · {sinceText(p)}
+        {p.alert
+          ? <span className="qa-alert-tag on">Alert</span>
+          : <span className="qa-alert-tag">Not an alert yet</span>}
       </span>
       <span className={`qa-breach ${p.status}`}>{breachText(p)}</span>
-      {p.alert && <span className="qa-now-alert">{alertText(p.alert)}</span>}
+      {p.alert && <span className="qa-now-alert">{alertText(p.alert, p.at)}</span>}
     </>
   )
 }
@@ -68,7 +72,10 @@ export function BreachList({ an, floor, when }) {
       <ul className="qa-breaches" aria-label={`Problems on Floor ${floor} at ${when}`}>
         {an.problems.map((p) => (
           <li key={`${p.zone}|${p.e}`} className={p.status}>
-            <Problem p={p} />
+            <button type="button" className="qa-breach-pick" title="Show this load in the alerts sidebar"
+                    onClick={() => emitLoadSelect({ floor: p.floor, zone: p.zone, end_use: p.e, at: p.at })}>
+              <Problem p={p} />
+            </button>
           </li>
         ))}
       </ul>
