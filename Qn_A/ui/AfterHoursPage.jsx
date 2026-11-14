@@ -37,11 +37,10 @@ export default function AfterHoursPage() {
     setDate(t.date)
     setMinute(t.minute)
   }
-  // Which alert rule the minute data is read under. null = whatever the API defaults to (see Qn_A/api/rules.py).
-  // The switch in the replay panel flips it between the new rule (sd) and the original stored P99 rule.
-  const [rulePick, setRulePick] = useState(null)
+  // The page always reads the minute data under the median + 3 SD rule (see Qn_A/api/rules.py). If the rule files are missing,
+  // the API falls back to the original P99 rule on its own, and the page follows whatever the API says its default is.
   const rules = meta.data?.rules
-  const ruleId = rulePick ?? rules?.default ?? 'p99'
+  const ruleId = rules?.sd ? 'sd' : (rules?.default ?? 'p99')
   const ruleInfo = rules?.[ruleId]
 
   // Clicking an alert moves the replay to the alert's peak minute and points the chart at its zone and load.
@@ -140,7 +139,7 @@ export default function AfterHoursPage() {
                      afterOnly={afterOnly} onAfterOnly={(v) => { setAfterOnly(v); if (v) goTo(date, minute, 1, true) }}
                      onDate={(d, dir) => goTo(d, minute, dir)} onMinute={(m) => goTo(date, m, m >= minute ? 1 : -1)}
                      playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} busy={snap.loading}
-                     rules={rules} ruleId={ruleId} onRule={setRulePick} onJump={goTo} />
+                     onJump={goTo} />
 
         <BuildingExplorer holidays={holidays} playing={playing} onPlaying={setPlaying} step={step} onStep={setStep} onNext={() => { setPlaying(false); advance() }} rows={snap.data?.rows ?? null} when={when.replace('T', ' ')} error={snap.error} loading={snap.loading} />
 

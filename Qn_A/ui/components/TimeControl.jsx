@@ -7,7 +7,7 @@ export const INCIDENT = { date: '2018-10-03', minute: 20 * 60 + 35 }
 // The night the button below jumps to: Fri 13 Sep 2019, from 17:01 (the start of the after-hours window)
 const NIGHT = { date: '2019-09-13', minute: 17 * 60 + 1 }
 
-export default function TimeControl({ meta, date, minute, onDate, onMinute, playing, onPlaying, step, onStep, busy, rules, ruleId, onRule, holidays, afterOnly, onAfterOnly, onJump }) {
+export default function TimeControl({ meta, date, minute, onDate, onMinute, playing, onPlaying, step, onStep, busy, holidays, afterOnly, onAfterOnly, onJump }) {
   const { date_min: lo, date_max: hi } = meta
   const band = afterOnly ? daytimeBand(date, holidays) : null
   // with the filter on, the previous/next day buttons skip public holidays
@@ -62,18 +62,6 @@ export default function TimeControl({ meta, date, minute, onDate, onMinute, play
         </div>
       </div>
 
-
-      {rules?.sd && (
-        <div className="field qa-rule">
-          <label>Alert rule</label>
-          <div className="row">
-            <div className="seg" role="group" aria-label="Alert rule">
-              <button type="button" className={ruleId === 'sd' ? 'on' : ''} aria-pressed={ruleId === 'sd'} onClick={() => onRule('sd')}>Median + 3 SD</button>
-              <button type="button" className={ruleId === 'p99' ? 'on' : ''} aria-pressed={ruleId === 'p99'} onClick={() => onRule('p99')}>Original (P99)</button>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   )
 }
