@@ -1,0 +1,3 @@
+scenario,n_operating_hours,MAE,RMSE,CV(RMSE)%,NMBE%,WAPE%,MAE change,RMSE change,CV(RMSE)% change,NMBE% change,WAPE% change
+Clean weather,12602,1.708,2.779,20.326,0.514,12.489,,,,,
+Noisy weather,12602,1.818,2.9,21.207,-0.323,13.295,0.11,0.12,0.881,-0.837,0.806
