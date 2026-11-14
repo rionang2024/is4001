@@ -9,8 +9,9 @@ import { fmt, hh, hhmm, dow, dayMonth } from '../data.js'
 const READY_MIN = 30      // every zone starts this long before its forecast start hour
 const HOT_EXTRA_MIN = 15  // extra pre-cooling lead on hot days
 
+// Only zones with a start-up: start hour 0 means the zone is forecast to run around the clock
 function buildPlan(rows, hotDay) {
-  return rows.filter((r) => r.start_hour != null).map((r) => ({
+  return rows.filter((r) => r.start_hour > 0).map((r) => ({
     ...r, slot: r.start_hour, suggested: r.start_hour * 60 - READY_MIN - (hotDay ? HOT_EXTRA_MIN : 0),
   }))
 }
@@ -119,7 +120,11 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
 
   const rows = daily.filter((d) => d.date === date)
   const hotDay = rows[0]?.temp_avg >= hotThreshold
-  const plan = buildPlan(rows, hotDay)
+  // Closed days (weekend, holiday, marked closed): nothing to pre-cool, but flag zones forecast to run anyway
+  const closed = !!rows[0] && (rows[0].is_holiday || rows[0].is_weekend)
+  const plan = closed ? [] : buildPlan(rows, hotDay)
+  const runningAnyway = closed ? rows.filter((r) => r.start_hour != null) : []
+  const allDay = closed ? [] : rows.filter((r) => r.start_hour === 0)
 
   const profile = building.t.map((t, i) => ({ t, h: +t.slice(11, 13), forecast: building.forecast[i] }))
     .filter((r) => r.t.startsWith(date))
@@ -135,16 +140,27 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
           <span><i className="box tt-key-lead" />Pre-cooling</span>
           <span><i className="box tt-key-on" />Office hours</span>
           <span><i className="tt-key-open" />Opening</span>
-          {hotDay && <span className="chip warn">Hot day · +{HOT_EXTRA_MIN} min</span>}
+          {hotDay && !closed && <span className="chip warn">Hot day · +{HOT_EXTRA_MIN} min</span>}
         </div>
       </div>
       {toolbar && <div className="plan-toolbar">{toolbar}</div>}
 
-      {plan.length === 0 ? (
-        <div className="note">No AC forecast on this day (weekend, holiday or AC off).</div>
+      {closed ? (
+        <div className="note">
+          <b>Office closed ({rows[0].is_holiday ? 'holiday' : 'weekend'}): no pre-cooling scheduled.</b>
+          {runningAnyway.length > 0 && <> {runningAnyway.length} zone{runningAnyway.length > 1 ? 's are' : ' is'} still forecast to draw AC
+            (up to {fmt(Math.max(...runningAnyway.map((r) => r.forecast_peak)))} kW). Worth checking nothing is left on.</>}
+        </div>
+      ) : plan.length === 0 ? (
+        <div className="note">No AC forecast on this day.</div>
       ) : (
         <>
           <Timetable plan={plan} onPick={onPickZone} />
+          {allDay.length > 0 && (
+            <p className="muted small" style={{ margin: '6px 0 0' }}>
+              Not shown: {allDay.map((r) => r.zone.replace('_', ' ')).join(', ')} run around the clock (no start-up).
+            </p>
+          )}
 
           <h3 className="plan-h" style={{ marginTop: 18 }}>Building load forecast</h3>
           <div style={{ height: 150 }}>

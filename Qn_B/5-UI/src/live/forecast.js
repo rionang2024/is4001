@@ -84,6 +84,25 @@ export function parseReadings(text, zoneIds) {
   return { byZone: out, rows }
 }
 
+// Readings before `start` are the model's inputs; readings from `start` on are actuals, only drawn for
+// comparison (never given to the model, so the forecast stays a genuine day-ahead forecast).
+export function splitReadings(readings, start) {
+  if (!readings) return { lags: null, actual: {} }
+  const byZone = {}, actual = {}
+  let rows = 0
+  for (const [z, days] of Object.entries(readings.byZone)) {
+    for (const [d, v] of Object.entries(days)) {
+      if (d < start) {
+        (byZone[z] ??= {})[d] = v
+        rows += v.ac.filter((x) => x != null).length
+      } else {
+        v.ac.forEach((x, h) => { if (x != null) (actual[z] ??= {})[`${d}T${String(h).padStart(2, '0')}:00`] = x })
+      }
+    }
+  }
+  return { lags: rows ? { byZone, rows } : null, actual }
+}
+
 // Typical-week values for the 7 days before `start`, in the upload format
 export function templateCsv(inputs, start, overrides) {
   const lines = ['zone_id,timestamp,ac_load_kw,indoor_temp_c']

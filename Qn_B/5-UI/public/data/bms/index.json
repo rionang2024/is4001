@@ -1,0 +1,56 @@
+{
+ "generated_at": "2026-11-09T12:57:03+00:00",
+ "first": "2025-12-01",
+ "last": "2026-11-08",
+ "months": [
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05",
+  "2026-06",
+  "2026-07",
+  "2026-08",
+  "2026-09",
+  "2026-10",
+  "2026-11"
+ ],
+ "sensor_gap": {
+  "zones": [
+   "F2_Z4",
+   "F7_Z5"
+  ],
+  "days": [
+   "2026-09-19",
+   "2026-09-20"
+  ]
+ },
+ "note": "MOCK BMS data: each day copies the closest 2018\u201319 day for this building (same weekday or holiday, nearest temperature and rain), \u00b13% noise. Weather is real (Open-Meteo archive).",
+ "presets": [
+  {
+   "id": "cool",
+   "start": "2026-01-05",
+   "label": "Cool snap \u00b7 Jan 2026",
+   "edge": "Coolest days of the year (8\u201311 Jan, daily mean ~24 \u00b0C, lows 18 \u00b0C). The inputs include the New Year holidays."
+  },
+  {
+   "id": "hot",
+   "start": "2026-04-07",
+   "label": "Hot spell \u00b7 Apr 2026",
+   "edge": "Hottest days of the year (up to 38 \u00b0C): hot-day rule and earlier starts. Chakri Day (6 Apr) is in the inputs."
+  },
+  {
+   "id": "songkran",
+   "start": "2026-04-13",
+   "label": "Songkran \u00b7 Apr 2026",
+   "edge": "Three public holidays (13\u201315 Apr), office closed. Back to work on Thu 16 Apr with holiday inputs."
+  },
+  {
+   "id": "flood",
+   "start": "2026-09-21",
+   "label": "Storm & flooding \u00b7 Sep 2026",
+   "edge": "124 mm of rain on Fri 25 Sep and heavy rain to the 28th, about 3x the wettest training day. Two zones' meters were offline on 19\u201320 Sep, so they fall back to the typical week."
+  }
+ ]
+}

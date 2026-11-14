@@ -34,6 +34,29 @@ npm run check:live   # confirm the browser evaluators reproduce the Python predi
 
 Re-run both whenever `../3-LightGBM/outputs/ac_forecaster/` or `../4-XGBoost/outputs/final_models/accuracy_first/` changes.
 
+### Mock BMS feed (2026)
+
+The project has no access to a real BMS, so `public/data/bms/` holds a **mock meter history** from 1 Dec 2025 to yesterday: hourly AC load and indoor temperature for all 23 zones, as monthly CSV exports in the upload format. The upcoming tab reads the last 7 days from it by default, so the forecast for the coming week runs as if the meters were connected.
+
+- **Weather is real:** observed hourly weather from the Open-Meteo archive (the training weather's source).
+- **Readings are mock:** each day copies how this building ran on its closest 2018–19 day (same weekday or holiday, nearest temperature and rain), with ±3% noise. So the history reacts to the cool season, heat, holidays and the September storm the way the building did.
+- **A planted fault:** two zones' meters (F2 Z4, F7 Z5) are blank on 19–20 Sep, to show the missing-data fallback.
+
+The **Meter data** menu can also **replay a past week**. The forecast is made "as of" that day from the history before it, with that week's observed weather, and the history after it is drawn as "Actual (mock BMS)". The actuals are never given to the model.
+
+| Replay | As of | Edge case |
+|---|---|---|
+| Cool snap | Mon 5 Jan 2026 | Coolest days of the year (~24 °C daily mean); New Year holidays in the inputs |
+| Hot spell | Tue 7 Apr 2026 | Up to 38 °C: hot-day rule, earlier forecast start (06:00) |
+| Songkran | Mon 13 Apr 2026 | 3 holidays (office closed); back to work with holiday inputs |
+| Storm & flooding | Mon 21 Sep 2026 | 124 mm/day, 3× the wettest training day; 2 meters offline beforehand |
+
+```bash
+npm run data:mock    # extend the history to yesterday (needs internet for the weather); re-run before a demo
+```
+
+The mock comes from the same 2018–19 behaviour the models learned, so a close match in a replay shows the pipeline works end to end. It does not prove the models are accurate in 2026.
+
 ## How data gets in
 
 `scripts/build_data.py` reads the model outputs and writes small JSON files to `public/data/`. The UI only reads those JSON files, so **re-run `npm run data` whenever a model's outputs change**.
