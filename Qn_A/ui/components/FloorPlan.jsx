@@ -98,7 +98,6 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
   const maxTot = maxZoneTotal(idx, ALL_ON)
   const maxLoad = Math.max(10, ...(rows ?? []).filter((r) => r.end_use !== 'All' && num(r.power_kw)).map((r) => r.power_kw))
 
-  const [flat, setFlat] = useState(false)
   const [cam, setCam] = useState(DEF)
   const [intro, setIntro] = useState(introTick > 0)
   const [raised, setRaised] = useState(false)
@@ -133,8 +132,8 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
 
   const small = sceneW < 520
   const sceneH = Math.round(Math.min(660, Math.max(small ? 320 : 390, sceneW * (small ? 0.9 : 0.62))))
-  const sc = Math.max(0.36, Math.min(1.55, sceneW / (flat ? 620 : small ? 660 : 790))) * (intro ? 0.55 : 1)
-  const target = intro ? ISO : flat ? { rx: 0, rz: 0 } : cam
+  const sc = Math.max(0.36, Math.min(1.55, sceneW / (small ? 660 : 790))) * (intro ? 0.55 : 1)
+  const target = intro ? ISO : cam
 
   const dragRef = useRef(null)
   const onDown = (e) => {
@@ -147,11 +146,10 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
     if (!d) return
     const dx = e.clientX - d.x, dy = e.clientY - d.y
     d.x = e.clientX; d.y = e.clientY
-    if (flat) { setFlat(false); setCam({ rx: DEF.rx, rz: cam.rz }) }
     setCam((c) => ({ rz: c.rz + dx * 0.4, rx: d.touch ? c.rx : Math.max(32, Math.min(72, c.rx - dy * 0.3)) }))
   }
   const onUp = () => { dragRef.current = null; setDrag(false) }
-  const turn = (deg) => { setFlat(false); setCam((c) => ({ ...c, rz: c.rz + deg })) }
+  const turn = (deg) => setCam((c) => ({ ...c, rz: c.rz + deg }))
 
   // totals for the header
   const stat = { kw: 0, has: false, red: 0, amber: 0, grey: 0, neutral: 0 }
@@ -188,14 +186,10 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
       <BreachList an={an} floor={floor} when={when} />
 
       <div className="viewbar">
-        <div className="seg" role="group" aria-label="View">
-          <button type="button" className={!flat ? 'on' : ''} aria-pressed={!flat} onClick={() => setFlat(false)}>3D</button>
-          <button type="button" className={flat ? 'on' : ''} aria-pressed={flat} onClick={() => setFlat(true)}>Flat plan</button>
-        </div>
         <div className="vb-turn" role="group" aria-label="Rotate the floor">
           <button type="button" className="btn" aria-label="Rotate left" onClick={() => turn(30)}>⟲</button>
           <button type="button" className="btn" aria-label="Rotate right" onClick={() => turn(-30)}>⟳</button>
-          <button type="button" className="btn" onClick={() => { setFlat(false); setCam(DEF) }}>Reset view</button>
+          <button type="button" className="btn" onClick={() => setCam(DEF)}>Reset view</button>
         </div>
         <span className="vb-hint">Drag the floor to rotate it</span>
       </div>
@@ -203,14 +197,14 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
       <div className="plan-scene" ref={sceneRef} style={{ height: sceneH }} role="group"
            aria-label="3D model of the floor, one block per zone"
            onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
-        <div className={`cam${flat && !intro ? ' flat' : ''}${drag ? ' drag' : ''}`}
-             style={{ '--rx': `${target.rx}deg`, '--rz': `${target.rz}deg`, '--sc': sc.toFixed(3), '--cs': flat ? 1 : 0.8 }}>
+        <div className={`cam${drag ? ' drag' : ''}`}
+             style={{ '--rx': `${target.rx}deg`, '--rz': `${target.rz}deg`, '--sc': sc.toFixed(3), '--cs': 0.8 }}>
           <div className="slab" />
           {[[0, 0], [PW, 0], [PW, PH], [0, PH]].map((p, i, a) => <Wall key={i} a={p} b={a[(i + 1) % 4]} cls="w sw" />)}
           {Object.entries(plan.zones).map(([z, def], zi) => {
             const zs = zoneState(idx, floor, Number(z), on)
             const pts = shrink(def.pts)
-            const hpx = flat ? 2 : 6 + 132 * Math.sqrt(Math.min(1, zs.tot / maxTot))
+            const hpx = 6 + 132 * Math.sqrt(Math.min(1, zs.tot / maxTot))
             return (
               <div key={z} className={`zp${zs.worst === 'red' ? ' flagged' : zs.worst === 'amber' ? ' warn' : ''}`}
                    style={{ '--zc': ZONE_FILL[z], '--zi': zi, '--k': raised ? (hpx / NOM).toFixed(3) : 0.03 }}>
@@ -258,7 +252,7 @@ export default function FloorPlan({ floor, when, rows, on, introTick, active, on
           </div>
           {Object.entries(plan.zones).map(([z, def]) => {
             const zs = zoneState(idx, floor, Number(z), on)
-            const hpx = flat ? 2 : 6 + 132 * Math.sqrt(Math.min(1, zs.tot / maxTot))
+            const hpx = 6 + 132 * Math.sqrt(Math.min(1, zs.tot / maxTot))
             const w = 140, n = zs.rows.length
             const h = 7 + 22 + n * 19 + (n > 1 ? 19 : 0) + 8
             return (

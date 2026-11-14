@@ -117,8 +117,6 @@
 .qa-ex .cam .bill .pill.amber rect { fill: var(--st-amber); }
 .qa-ex .cam .bill .pill.amber text { fill: #2b1d00; }
 .qa-ex .cam .bill.flagged .bgc { stroke-width: 2.5; }
-/* the flat plan draws cards without a background; a zone that needs a check keeps a solid one so its numbers read over the stripes */
-.qa-ex .cam.flat .bill.flagged .bgc, .qa-ex .cam.flat .bill.warn .bgc { fill: rgba(255, 255, 255, 0.95); }
 
 /* the plan's own colours clash with the status colours: Zone 5 was red and the sensor dots were red, so both change */
 .qa-ex { --z5: #b7c4d3; }
