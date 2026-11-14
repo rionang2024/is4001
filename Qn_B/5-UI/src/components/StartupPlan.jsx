@@ -16,18 +16,24 @@ function buildPlan(rows, hotDay) {
   }))
 }
 
-// Floors, each split into lanes of zones that share a start time
+// Floors, each split into lanes of zones that share a start time. Floors with the earliest start come first.
 function floorsOf(plan) {
-  const floors = [...new Set(plan.map((p) => p.zone.slice(0, 2)))].sort()
-  return floors.map((f) => {
+  const floors = [...new Set(plan.map((p) => p.zone.slice(0, 2)))].map((f) => {
     const zones = plan.filter((p) => p.zone.startsWith(f)).sort((a, b) => a.zone.localeCompare(b.zone))
     const lanes = [...new Set(zones.map((p) => p.suggested))].sort((a, b) => a - b)
       .map((t) => ({ t, slot: zones.find((p) => p.suggested === t).slot, zones: zones.filter((p) => p.suggested === t) }))
     return { f, label: `Floor ${f.slice(1)}`, zones, lanes }
   })
+  return floors.sort((a, b) => a.lanes[0].t - b.lanes[0].t || a.f.localeCompare(b.f))
 }
 
 const zLabel = (p) => `Z${p.zone.slice(4)}`
+
+const Snowflake = () => (
+  <svg className="tt-flake" viewBox="0 0 12 12" aria-hidden="true">
+    <path d="M6 1v10M1.7 3.5l8.6 5M1.7 8.5l8.6-5M4.6 1.8 6 3l1.4-1.2M4.6 10.2 6 9l1.4 1.2" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+  </svg>
+)
 
 function Timetable({ plan, onPick }) {
   const box = useRef(null)
@@ -38,26 +44,35 @@ function Timetable({ plan, onPick }) {
   const first = Math.min(...plan.map((p) => p.suggested)), lastOn = Math.max(...plan.map((p) => p.slot * 60))
   const t0 = Math.floor((first - 30) / 60) * 60
   const t1 = Math.max(t0 + 180, Math.ceil((lastOn + 60) / 60) * 60)
-  const x = (m) => `${((m - t0) / (t1 - t0)) * 100}%`
+  const pos = (m) => (m - t0) / (t1 - t0)
+  const x = (m) => `${pos(m) * 100}%`
   const ticks = []
   for (let m = t0; m <= t1; m += 30) ticks.push(m)
-  const openings = [...new Set(plan.map((p) => p.slot))]
-  const grid = { backgroundImage: 'linear-gradient(to right, var(--line-2) 1px, transparent 1px)', backgroundSize: `${(30 / (t1 - t0)) * 100}% 100%` }
+  const openings = [...new Set(plan.map((p) => p.slot))].sort((a, b) => a - b)
+  const inTrack = (m) => `calc(var(--tt-label) + (100% - var(--tt-label)) * ${pos(m)})`
 
   const hover = (lane, title) => (e) => {
     const r = box.current.getBoundingClientRect()
-    setTip({ lane, title, left: Math.min(e.clientX - r.left + 14, r.width - 310), top: e.clientY - r.top + 14 })
+    setTip({ lane, title, left: Math.min(e.clientX - r.left + 14, r.width - 290), top: e.clientY - r.top + 14 })
   }
 
   const Lane = ({ lane, title, text }) => (
     <div className="tt-lane" onMouseMove={hover(lane, title)}>
-      <div className="tt-lead" style={{ left: x(lane.t), width: `calc(${x(lane.slot * 60)} - ${x(lane.t)})` }} />
-      <div className="tt-on" style={{ left: x(lane.slot * 60) }}>{text && <span>{text}</span>}</div>
+      <div className="tt-lead" style={{ left: x(lane.t), width: `calc(${x(lane.slot * 60)} - ${x(lane.t)})` }}>
+        <Snowflake /><span className="num">{hhmm(lane.t)}</span>
+      </div>
+      <div className="tt-on" style={{ left: x(lane.slot * 60) }}>
+        <span>{text ? `${text} · ` : ''}open {hh(lane.slot)}</span>
+      </div>
     </div>
   )
 
+  const tz = tip?.lane.zones
   return (
     <div className="tt" ref={box} onMouseLeave={() => setTip(null)}>
+      <div className="tt-openings">
+        {openings.map((h) => <span key={h} style={{ left: inTrack(h * 60) }}>Open {hh(h)}</span>)}
+      </div>
       <div className="tt-row tt-axis">
         <span />
         <div className="tt-track">
@@ -66,20 +81,22 @@ function Timetable({ plan, onPick }) {
       </div>
 
       <div className="tt-body">
-        {openings.map((h) => <div key={h} className="tt-open" style={{ left: `calc(72px + (100% - 72px) * ${(h * 60 - t0) / (t1 - t0)})` }} />)}
+        {openings.map((h) => <div key={h} className="tt-open" style={{ left: inTrack(h * 60) }} />)}
         {floors.map((fl) => (
           <Fragment key={fl.f}>
-            <div className="tt-row tt-floor" style={{ height: 8 + 18 * fl.lanes.length }} onClick={() => setOpen(open === fl.f ? null : fl.f)}>
+            <div className="tt-row tt-floor" style={{ height: 12 + 30 * fl.lanes.length }} onClick={() => setOpen(open === fl.f ? null : fl.f)}
+                 title="Show this floor's zones">
               <button className="tt-zone"><span className="tt-caret">{open === fl.f ? '▾' : '▸'}</span>{fl.label}</button>
-              <div className="tt-track" style={grid}>
-                {fl.lanes.map((ln) => <Lane key={ln.t} lane={ln} title={fl.label} text={ln.zones.map(zLabel).join(' ')} />)}
+              <div className="tt-track">
+                {fl.lanes.map((ln) => <Lane key={ln.t} lane={ln} title={`${fl.label} · ${ln.zones.map(zLabel).join(' ')}`}
+                                            text={ln.zones.map(zLabel).join(' ')} />)}
               </div>
             </div>
             {open === fl.f && fl.zones.map((p) => (
               <div key={p.zone} className="tt-row tt-sub" title="Show this zone's detail below" onClick={() => onPick(p.zone)}>
                 <button className="tt-zone">{zLabel(p)}</button>
-                <div className="tt-track" style={grid}>
-                  <Lane lane={{ t: p.suggested, slot: p.slot, zones: [p] }} title={`${fl.label} ${zLabel(p)}`} />
+                <div className="tt-track">
+                  <Lane lane={{ t: p.suggested, slot: p.slot, zones: [p] }} title={`${fl.label} · ${zLabel(p)}`} />
                 </div>
               </div>
             ))}
@@ -89,20 +106,31 @@ function Timetable({ plan, onPick }) {
 
       {tip && (
         <div className="panel tt-tip" style={{ left: Math.max(0, tip.left), top: tip.top }}>
-          <b>{tip.title}</b>
-          <div className="small">Start cooling <b className="num">{hhmm(tip.lane.t)}</b> · open <b className="num">{hh(tip.lane.slot)}</b></div>
-          <table style={{ marginTop: 6 }}>
-            <thead><tr><th>Zone</th><th className="r">Highest load<br />(and when)</th><th className="r">AC energy,<br />whole day</th></tr></thead>
-            <tbody>
-              {tip.lane.zones.map((p) => (
-                <tr key={p.zone}>
-                  <td>{zLabel(p)}</td>
-                  <td className="r num">{fmt(p.forecast_peak)} kW at {hh(p.forecast_peak_hour)}</td>
-                  <td className="r num">{p.forecast_kwh != null ? `${fmt(p.forecast_kwh, 0)} kWh` : '–'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="tt-tip-head"><b>{tip.title}</b><span className="tt-chip">Pre-cooling</span></div>
+          <dl className="tt-kv">
+            <dt>Start cooling</dt><dd className="num">{hhmm(tip.lane.t)}</dd>
+            <dt>Open</dt><dd className="num">{hh(tip.lane.slot)}</dd>
+            <dt>Lead time</dt><dd className="num">{tip.lane.slot * 60 - tip.lane.t} min</dd>
+          </dl>
+          {tz.length === 1 ? (
+            <dl className="tt-kv muted-kv">
+              <dt>Peak load</dt><dd className="num">{fmt(tz[0].forecast_peak)} kW at {hh(tz[0].forecast_peak_hour)}</dd>
+              <dt>AC energy, whole day</dt><dd className="num">{tz[0].forecast_kwh != null ? `${fmt(tz[0].forecast_kwh, 0)} kWh` : '–'}</dd>
+            </dl>
+          ) : (
+            <table className="tt-zones">
+              <thead><tr><th>Zone</th><th className="r">Peak load</th><th className="r">AC energy, day</th></tr></thead>
+              <tbody>
+                {tz.map((p) => (
+                  <tr key={p.zone}>
+                    <td>{zLabel(p)}</td>
+                    <td className="r num">{fmt(p.forecast_peak)} kW at {hh(p.forecast_peak_hour)}</td>
+                    <td className="r num">{p.forecast_kwh != null ? `${fmt(p.forecast_kwh, 0)} kWh` : '–'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
     </div>
@@ -131,17 +159,16 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
   const peak = profile.reduce((a, b) => (b.forecast > (a?.forecast ?? -1) ? b : a), null)
   const firstStart = plan.length ? Math.min(...plan.map((p) => p.suggested)) : 0
   const lastSlot = plan.length ? Math.max(...plan.map((p) => p.slot)) : 0
+  const firstOpen = plan.length ? Math.min(...plan.map((p) => p.slot)) : 0
+  const lead = READY_MIN + (hotDay ? HOT_EXTRA_MIN : 0)
+  const floorIds = [...new Set(plan.map((p) => p.zone.slice(0, 2)))]
+  const earlyFloors = floorIds.filter((f) => plan.some((p) => p.zone.startsWith(f) && p.suggested < firstOpen * 60)).length
 
   return (
     <section className="panel plan">
       <div className="panel-head">
         <h2>Start-up &amp; pre-cooling plan · {dow(date)} {dayMonth(date)}</h2>
-        <div className="legend">
-          <span><i className="box tt-key-lead" />Pre-cooling</span>
-          <span><i className="box tt-key-on" />Office hours</span>
-          <span><i className="tt-key-open" />Opening</span>
-          {hotDay && !closed && <span className="chip warn">Hot day · +{HOT_EXTRA_MIN} min</span>}
-        </div>
+        {hotDay && !closed && <span className="chip warn">Hot day · +{HOT_EXTRA_MIN} min</span>}
       </div>
       {toolbar && <div className="plan-toolbar">{toolbar}</div>}
 
@@ -155,6 +182,17 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
         <div className="note">No AC forecast on this day.</div>
       ) : (
         <>
+          <div className="plan-kpis">
+            <div className="plan-kpi"><div className="label">Earliest pre-cool start</div><div className="value num">{hhmm(firstStart)}</div></div>
+            <div className="plan-kpi"><div className="label">Floors starting before {hh(firstOpen)}</div>
+              <div className="value num">{earlyFloors} of {floorIds.length}</div></div>
+            <div className="plan-kpi"><div className="label">Lead time before open</div><div className="value num">{lead} min</div></div>
+          </div>
+          <div className="legend plan-legend">
+            <span><i className="tt-key-lead" />Pre-cooling (starts {lead} min before open)</span>
+            <span><i className="tt-key-on" />Open, with zones</span>
+            <span className="muted">Click a floor to list its zones</span>
+          </div>
           <Timetable plan={plan} onPick={onPickZone} />
           {allDay.length > 0 && (
             <p className="muted small" style={{ margin: '6px 0 0' }}>
@@ -166,7 +204,7 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
           <div style={{ height: 150 }}>
             <ResponsiveContainer>
               <BarChart data={profile} margin={{ top: 4, right: 4, bottom: 0, left: -12 }}>
-                <ReferenceArea x1={Math.floor(firstStart / 60)} x2={lastSlot} fill="var(--warn)" fillOpacity={0.12} />
+                <ReferenceArea x1={Math.floor(firstStart / 60)} x2={lastSlot} fill="var(--precool)" fillOpacity={0.15} />
                 <XAxis dataKey="h" tick={{ fontSize: 10, fill: 'var(--ink-3)' }} tickLine={false} axisLine={{ stroke: 'var(--line)' }} interval={1}
                        tickFormatter={(h) => String(h).padStart(2, '0')} />
                 <YAxis tick={{ fontSize: 10, fill: 'var(--ink-3)' }} tickLine={false} axisLine={false} unit=" kW" width={58} />
@@ -185,6 +223,8 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
         Lowest energy: every zone starts {READY_MIN} min before its forecast start hour ({rule}), {HOT_EXTRA_MIN} min earlier on hot days
         (daily mean ≥ {fmt(hotThreshold)} °C, {hotDayNote}). Indoor temperature fell ~4 °C within the first AC hour in 2019, so {READY_MIN} min is enough.
         Starting zones at different times would lower the start-up peak but add runtime (≈ +200 kWh/day for floor batches), so all zones start together.
+        Zones are kept at floor level because they really do open at different times: on 2018–19 working days about 31% of zone-days
+        switched AC on at 07:00 and 68% at 08:00 (F3 Z5, F6 Z2, F6 Z5 and F7 Z2 usually at 07:00, the rest at 08:00).
       </details>
     </section>
   )

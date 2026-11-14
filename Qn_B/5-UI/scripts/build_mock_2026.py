@@ -9,7 +9,7 @@ Weather is REAL: observed hourly weather for the building's grid point from the 
 (the same source as the training weather), topped up with Open-Meteo's recent past for the last days
 the archive has not published yet.
 
-AC load and indoor temperature are MOCK. Each day copies how the building actually ran on its closest
+AC load, indoor temperature and indoor humidity are MOCK. Each day copies how the building actually ran on its closest
 2018-19 "analogue" day (same weekday, or a holiday; nearest daily mean temperature and rainfall), with
 +-3% noise, so the history reacts to weather and holidays the way this building did. Two zones' meters
 are blanked for two days before the September storm, to exercise the missing-data fallback.
@@ -68,8 +68,10 @@ def get(url: str, params: dict) -> pd.DataFrame:
 
 def fetch_weather(first: date, last: date) -> pd.DataFrame:
     """Archive for as far as it is published, recent past from the forecast API for the rest."""
+    # The archive refuses an end date past yesterday; the forecast API's recent past covers the rest
+    arch_last = min(last, datetime.now(timezone.utc).date() - timedelta(days=1))
     arch = get("https://archive-api.open-meteo.com/v1/archive",
-               {**LOCATION, "hourly": HOURLY, "start_date": str(first), "end_date": str(last)})
+               {**LOCATION, "hourly": HOURLY, "start_date": str(first), "end_date": str(arch_last)})
     recent = get("https://api.open-meteo.com/v1/forecast",
                  {**LOCATION, "hourly": HOURLY, "past_days": 14, "forecast_days": 2})
     return pd.concat([arch, recent[recent.index > arch.index.max()]])
@@ -93,15 +95,16 @@ WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
 
 def load_history() -> tuple[dict, pd.DataFrame, list[str]]:
-    """2018-19 hourly AC + indoor temperature per zone-day, and one row per date with weather + kind."""
+    """2018-19 hourly AC + indoor temperature + humidity per zone-day, and one row per date with weather + kind."""
     data = pd.read_parquet(QB / "cleaned_data" / "question_b_model_data.parquet",
                            columns=["zone_id", "timestamp", "hour", "ac_load_kw", "is_holiday",
-                                    "indoor_temp_c_yesterday", "outdoor_temp_daily_avg_c",
-                                    "rainfall_daily_total_mm"])
-    # Same-hour indoor temperature = the next day's "yesterday" lag (see build_live.py)
-    tin = data[["zone_id", "timestamp", "indoor_temp_c_yesterday"]].copy()
-    tin["timestamp"] -= pd.Timedelta(days=1)
-    data = data.merge(tin.rename(columns={"indoor_temp_c_yesterday": "tin"}), on=["zone_id", "timestamp"], how="left")
+                                    "indoor_temp_c_yesterday", "indoor_humidity_pct_yesterday",
+                                    "outdoor_temp_daily_avg_c", "rainfall_daily_total_mm"])
+    # Same-hour indoor temperature and humidity = the next day's "yesterday" lags (see build_live.py)
+    same = data[["zone_id", "timestamp", "indoor_temp_c_yesterday", "indoor_humidity_pct_yesterday"]].copy()
+    same["timestamp"] -= pd.Timedelta(days=1)
+    data = data.merge(same.rename(columns={"indoor_temp_c_yesterday": "tin", "indoor_humidity_pct_yesterday": "rh"}),
+                      on=["zone_id", "timestamp"], how="left")
     data["date"] = data.timestamp.dt.date
 
     days = data.groupby("date").agg(t=("outdoor_temp_daily_avg_c", "first"), rain=("rainfall_daily_total_mm", "first"),
@@ -121,16 +124,17 @@ def analogue_ranking(days: pd.DataFrame, kind: str, t: float, rain: float) -> li
 
 
 def mock_day(hist: dict, ranking: list, zone: str, rng: np.random.Generator):
-    """24 h of AC + indoor temperature for one zone, from the first analogue day with full data.
+    """24 h of AC + indoor temperature + humidity for one zone, from the first analogue day with full data.
     A random pick among the 3 nearest keeps runs of similar days from being identical."""
     order = ranking[:3]
     rng.shuffle(order)
     for d in order + ranking[3:]:
         g = hist.get((zone, d))
         if g is not None and g.ac_load_kw.notna().sum() >= 22 and g.tin.notna().sum() >= 20:
-            g = g[["ac_load_kw", "tin"]].interpolate(limit_direction="both")   # fills a missing hour or two
+            g = g[["ac_load_kw", "tin", "rh"]].interpolate(limit_direction="both")   # fills a missing hour or two
             return (np.clip(g.ac_load_kw.to_numpy() * rng.normal(1, NOISE, 24), 0, None),
-                    g.tin.to_numpy() + rng.normal(0, 0.1, 24))
+                    g.tin.to_numpy() + rng.normal(0, 0.1, 24),
+                    np.clip(g.rh.to_numpy() + rng.normal(0, 0.5, 24), 0, 100))   # NaN if that day has no humidity
     raise ValueError(f"no analogue day with data for {zone}")
 
 
@@ -154,11 +158,12 @@ def main() -> None:
         ranking = analogue_ranking(days, kind, wd["temp_avg"], wd["rain_total"])
         rows = months.setdefault(d.strftime("%Y-%m"), [])
         for z in zones:
-            ac, tin = mock_day(hist, ranking, z, rng)
+            ac, tin, rh = mock_day(hist, ranking, z, rng)
             offline = z in SENSOR_GAP["zones"] and str(d) in SENSOR_GAP["days"]
             for h in range(24):
-                a, t = ("", "") if offline else (f"{ac[h]:.3f}", f"{tin[h]:.2f}")
-                rows.append(f"{z},{d} {h:02d}:00,{a},{t}")
+                a, t, u = ("", "", "") if offline else (f"{ac[h]:.3f}", f"{tin[h]:.2f}",
+                                                        "" if np.isnan(rh[h]) else f"{rh[h]:.1f}")
+                rows.append(f"{z},{d} {h:02d}:00,{a},{t},{u}")
         d += timedelta(days=1)
     last = d - timedelta(days=1)
 
@@ -166,7 +171,7 @@ def main() -> None:
     shutil.rmtree(OUT.parent / "demo", ignore_errors=True)    # superseded scenario files
     OUT.mkdir(parents=True)
     for m, rows in months.items():
-        (OUT / f"{m}.csv").write_text("zone_id,timestamp,ac_load_kw,indoor_temp_c\n" + "\n".join(rows) + "\n")
+        (OUT / f"{m}.csv").write_text("zone_id,timestamp,ac_load_kw,indoor_temp_c,indoor_humidity_pct\n" + "\n".join(rows) + "\n")
     (OUT / "weather.json").write_text(json.dumps(weather, separators=(",", ":")))
 
     # Replays need weather for the whole window shown and history for the 7 days before

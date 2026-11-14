@@ -23,9 +23,9 @@ The **AC forecast · upcoming** tab runs a trained model in the browser on real 
 
 - **Weather**: live Open-Meteo forecast for the building (same source and grid as the training weather). Used by LightGBM only.
 - **Calendar**: weekday/weekend plus Thai public holidays; office closures can be marked per day.
-- **Last 7 days of AC load and indoor temperature**: the models need these, and the CU-BEMS record ends in Dec 2019. Until real readings are uploaded (CSV, template on the page), they are filled with a **typical 2019 week** (median per zone, day type and hour).
+- **Last 7 days of AC load, indoor temperature and indoor humidity**: the models need these, and the CU-BEMS record ends in Dec 2019. Until real readings are uploaded (CSV, template on the page), they are filled with a **typical 2019 week** (median per zone, day type and hour).
 
-Backtest on the Jul–Sep 2018 test period, operating-hours WAPE (real readings / typical-week stand-in): LightGBM **12.5 % / 18.2 %**, XGBoost **10.8 % / 19.3 %**; B2 average-profile baseline 19.5 %. LightGBM is the default because readings are not connected yet.
+Backtest on the Jul–Sep 2018 test period, operating-hours WAPE (real readings / typical-week stand-in): LightGBM **12.4 % / 18.4 %**, XGBoost **10.8 % / 19.3 %**; B2 average-profile baseline 19.5 %. LightGBM is the default because readings are not connected yet.
 
 ```bash
 npm run data:live    # export models + typical week + backtest to public/data/live/ (needs lightgbm, xgboost, holidays)
@@ -36,7 +36,7 @@ Re-run both whenever `../3-LightGBM/outputs/ac_forecaster/` or `../4-XGBoost/out
 
 ### Mock BMS feed (2026)
 
-The project has no access to a real BMS, so `public/data/bms/` holds a **mock meter history** from 1 Dec 2025 to yesterday: hourly AC load and indoor temperature for all 23 zones, as monthly CSV exports in the upload format. The upcoming tab reads the last 7 days from it by default, so the forecast for the coming week runs as if the meters were connected.
+The project has no access to a real BMS, so `public/data/bms/` holds a **mock meter history** from 1 Dec 2025 to yesterday: hourly AC load, indoor temperature and indoor humidity for all 23 zones, as monthly CSV exports in the upload format. The upcoming tab reads the last 7 days from it by default, so the forecast for the coming week runs as if the meters were connected.
 
 - **Weather is real:** observed hourly weather from the Open-Meteo archive (the training weather's source).
 - **Readings are mock:** each day copies how this building ran on its closest 2018–19 day (same weekday or holiday, nearest temperature and rain), with ±3% noise. So the history reacts to the cool season, heat, holidays and the September storm the way the building did.

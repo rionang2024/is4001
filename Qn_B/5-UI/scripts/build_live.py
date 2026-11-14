@@ -12,7 +12,8 @@ Between them they need, for every zone-hour they forecast:
     calendar            -> known for any date
     outdoor weather     -> fetched live from the Open-Meteo forecast API by the browser
     AC load + indoor    -> the building's own readings 1, 2 and 7 days earlier
-    temperature lags
+    temperature and
+    humidity lags
 
 The CU-BEMS record ends in Dec 2019, so there are no recent readings. Until the building
 supplies them (CSV upload in the UI), the lags are filled with a *typical week*: the median
@@ -182,20 +183,24 @@ def main() -> None:
     # ---------------------------------------------------------------- typical week (2019 = model's training data)
     train = data[data.split.isin(["train", "validation"])].copy()
     train["dtype"] = day_type(train.date, hol)
-    # The model data has no same-hour indoor temperature column (it would leak), but the
-    # next day's "yesterday" lag is exactly that reading, so shift it back by a day.
-    tin = data[["zone_id", "timestamp", "indoor_temp_c_yesterday"]].copy()
-    tin["timestamp"] = tin.timestamp - pd.Timedelta(days=1)
-    tin = tin.rename(columns={"indoor_temp_c_yesterday": "indoor_temp_c"})
-    train = train.merge(tin, on=["zone_id", "timestamp"], how="left")
+    # The model data has no same-hour indoor temperature or humidity column (it would leak), but
+    # the next day's "yesterday" lag is exactly that reading, so shift it back by a day.
+    same = data[["zone_id", "timestamp", "indoor_temp_c_yesterday", "indoor_humidity_pct_yesterday"]].copy()
+    same["timestamp"] = same.timestamp - pd.Timedelta(days=1)
+    same = same.rename(columns={"indoor_temp_c_yesterday": "indoor_temp_c",
+                                "indoor_humidity_pct_yesterday": "indoor_humidity_pct"})
+    train = train.merge(same, on=["zone_id", "timestamp"], how="left")
 
-    prof_ac = train.groupby(["zone_id", "dtype", "hour"]).ac_load_kw.median()
-    prof_tin = train.groupby(["zone_id", "dtype", "hour"]).indoor_temp_c.median()
-    day_avg = (train.groupby(["zone_id", "date", "dtype"]).indoor_temp_c
-               .agg(["mean", "count"]).reset_index())
-    prof_tin_avg = day_avg[day_avg["count"] >= 22].groupby(["zone_id", "dtype"])["mean"].median()
+    def hourly(col):
+        return train.groupby(["zone_id", "dtype", "hour"])[col].median()
+
+    def daily(col):
+        day_avg = train.groupby(["zone_id", "date", "dtype"])[col].agg(["mean", "count"]).reset_index()
+        return day_avg[day_avg["count"] >= 22].groupby(["zone_id", "dtype"])["mean"].median()
+
     # Round once, so the backtest below uses exactly the values the browser gets
-    prof_ac, prof_tin, prof_tin_avg = (p.round(3) for p in (prof_ac, prof_tin, prof_tin_avg))
+    prof_ac, prof_tin, prof_rh = (hourly(c).round(3) for c in ("ac_load_kw", "indoor_temp_c", "indoor_humidity_pct"))
+    prof_tin_avg, prof_rh_avg = (daily(c).round(3) for c in ("indoor_temp_c", "indoor_humidity_pct"))
 
     zones = sorted(meta["zone_map"], key=lambda z: (int(z[1]), int(z[4])))
     typical = {}
@@ -204,6 +209,8 @@ def main() -> None:
             "ac": [[r(prof_ac.get((z, t, h)), 3) for h in range(24)] for t in range(8)],
             "tin": [[r(prof_tin.get((z, t, h)), 3) for h in range(24)] for t in range(8)],
             "tin_avg": [r(prof_tin_avg.get((z, t)), 3) for t in range(8)],
+            "rh": [[r(prof_rh.get((z, t, h)), 3) for h in range(24)] for t in range(8)],
+            "rh_avg": [r(prof_rh_avg.get((z, t)), 3) for t in range(8)],
         }
 
     # ---------------------------------------------------------------- backtest: typical-week lags on the test period
@@ -219,11 +226,11 @@ def main() -> None:
         typ[f"ac_load_kw_{name}"] = [prof_ac.get((z, t, h), np.nan)
                                      for z, t, h in zip(typ.zone_id, dt, typ.hour)]
         if name in ("yesterday", "last_week"):
-            typ[f"indoor_temp_c_{name}"] = [prof_tin.get((z, t, h), np.nan)
-                                            for z, t, h in zip(typ.zone_id, dt, typ.hour)]
+            for col, prof in (("indoor_temp_c", prof_tin), ("indoor_humidity_pct", prof_rh)):
+                typ[f"{col}_{name}"] = [prof.get((z, t, h), np.nan) for z, t, h in zip(typ.zone_id, dt, typ.hour)]
         if name == "yesterday":
-            typ["indoor_temp_c_yesterday_avg"] = [prof_tin_avg.get((z, t), np.nan)
-                                                  for z, t in zip(typ.zone_id, dt)]
+            for col, prof in (("indoor_temp_c", prof_tin_avg), ("indoor_humidity_pct", prof_rh_avg)):
+                typ[f"{col}_yesterday_avg"] = [prof.get((z, t), np.nan) for z, t in zip(typ.zone_id, dt)]
     model_info = []
     for m in models:
         rd, ty = f"{m['id']} readings", f"{m['id']} typical week"
@@ -284,7 +291,9 @@ def main() -> None:
     weather = {d: {"temp": g.outdoor_temp_hourly_c.tolist(), "rh": g.outdoor_humidity_hourly_pct.tolist(),
                    "rain": g.rainfall_hourly_mm.tolist(), "solar": g.solar_radiation_hourly_wm2.tolist(),
                    "temp_avg": float(g.outdoor_temp_daily_avg_c.iloc[0]),
-                   "rain_total": float(g.rainfall_daily_total_mm.iloc[0])} for d, g in wx.groupby("d")}
+                   "rain_total": float(g.rainfall_daily_total_mm.iloc[0]),
+                   "rh_avg": float(g.outdoor_humidity_daily_avg_pct.iloc[0]),
+                   "solar_total": float(g.solar_radiation_daily_total_mjm2.iloc[0])} for d, g in wx.groupby("d")}
     e2e = test[test.date.dt.strftime("%Y-%m-%d").isin(days)]
     CHECK.write_text(json.dumps({"models": [{
         "id": m["id"], "file": f"model_{m['id']}.json",

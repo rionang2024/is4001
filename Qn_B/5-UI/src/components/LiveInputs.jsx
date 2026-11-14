@@ -32,7 +32,7 @@ export default function LiveInputs({ weather, dates, readings, feed, covered, zo
             ? `${feed ?? 'Uploaded'}: ${readings.rows.toLocaleString()} readings · ${covered} of ${zoneCount} zones covered` + (covered < zoneCount ? '; the rest use the typical week' : '')
             : 'Typical 2019 week: median reading for the zone, day type and hour'}
         </td></tr>
-        <tr><td><Status ok={hasReadings && covered === zoneCount} label={hasReadings && mock ? 'mock BMS' : undefined} />Indoor temperature, last 7 days</td></tr>
+        <tr><td><Status ok={hasReadings && covered === zoneCount} label={hasReadings && mock ? 'mock BMS' : undefined} />Indoor temperature &amp; humidity, last 7 days</td></tr>
         <tr><td className="small muted" style={{ paddingTop: 0, borderBottom: 0 }}>
           {hasReadings ? 'From the upload where given, otherwise the typical week' : 'Typical 2019 week, as above'}
         </td></tr>
@@ -50,7 +50,7 @@ export default function LiveInputs({ weather, dates, readings, feed, covered, zo
       <div className="note" style={{ marginTop: 12 }}>
         <b>Why this matters.</b> The model forecasts each hour from the same hour 1, 2 and 7 days earlier.
         The CU-BEMS record ends in Dec 2019, so until the building's meters feed this page those readings are stood in by a typical week.
-        The template has the columns <span className="num">zone_id, timestamp, ac_load_kw, indoor_temp_c</span> for the 7 days before today.
+        The template has the columns <span className="num">zone_id, timestamp, ac_load_kw, indoor_temp_c, indoor_humidity_pct</span> for the 7 days before today.
       </div>
     </section>
   )

@@ -48,23 +48,33 @@ export async function fetchWeather(location, start, days) {
     const rain = w.precipitation.slice(at + 1, at + 25)
     const solar = w.shortwave_radiation.slice(at + 1, at + 25)
     if ([temp, rh, rain, solar].some((a) => a.length < 24 || a.some((v) => v == null))) continue
-    byDay[d] = {
-      temp, rh, rain, solar,
-      temp_avg: temp.reduce((a, b) => a + b, 0) / 24,
-      rain_total: rain.reduce((a, b) => a + b, 0),
-    }
+    byDay[d] = { temp, rh, rain, solar, ...dailyWeather({ temp, rh, rain, solar }) }
   }
   return { byDay, fetchedAt: new Date() }
 }
 
+// Daily weather features as the training data defines them: humidity is the mean rounded to a whole
+// percent, solar the day's total in MJ/m² (W/m² × 3600 s / 10⁶ per hour)
+const sum = (a) => a.reduce((x, y) => x + y, 0)
+export function dailyWeather({ temp, rh, rain, solar }) {
+  return {
+    temp_avg: sum(temp) / 24,
+    rain_total: sum(rain),
+    rh_avg: Math.round(sum(rh) / 24),
+    solar_total: Math.round(sum(solar) * 0.36) / 100,
+  }
+}
+
 // ----------------------------------------------------------------------------- readings upload
-// CSV columns: zone_id, timestamp (YYYY-MM-DD HH:MM, Bangkok time), ac_load_kw, indoor_temp_c
+// CSV columns: zone_id, timestamp (YYYY-MM-DD HH:MM, Bangkok time), ac_load_kw, indoor_temp_c, indoor_humidity_pct
 export function parseReadings(text, zoneIds) {
   const lines = text.trim().split(/\r?\n/)
   const head = lines.shift().split(',').map((s) => s.trim().toLowerCase())
   const col = (n) => head.indexOf(n)
-  const [iz, it, ia, ii] = ['zone_id', 'timestamp', 'ac_load_kw', 'indoor_temp_c'].map(col)
-  if (iz < 0 || it < 0 || ia < 0) throw new Error('CSV needs the columns zone_id, timestamp, ac_load_kw (and optionally indoor_temp_c)')
+  const [iz, it, ia, ii, iu] = ['zone_id', 'timestamp', 'ac_load_kw', 'indoor_temp_c', 'indoor_humidity_pct'].map(col)
+  if (iz < 0 || it < 0 || ia < 0) {
+    throw new Error('CSV needs the columns zone_id, timestamp, ac_load_kw (and optionally indoor_temp_c, indoor_humidity_pct)')
+  }
 
   const known = new Set(zoneIds)
   const out = {}
@@ -75,9 +85,10 @@ export function parseReadings(text, zoneIds) {
     if (!known.has(z) || ts.length < 13) continue
     const d = ts.slice(0, 10), h = +ts.slice(11, 13)
     const num = (i) => (i < 0 || c[i] === '' || c[i] == null ? null : Number(c[i]))
-    const day = ((out[z] ??= {})[d] ??= { ac: Array(24).fill(null), tin: Array(24).fill(null) })
+    const day = ((out[z] ??= {})[d] ??= { ac: Array(24).fill(null), tin: Array(24).fill(null), rh: Array(24).fill(null) })
     day.ac[h] = num(ia)
     day.tin[h] = num(ii)
+    day.rh[h] = num(iu)
     rows++
   }
   if (!rows) throw new Error('No rows matched a known zone (e.g. F2_Z2) and timestamp')
@@ -105,13 +116,13 @@ export function splitReadings(readings, start) {
 
 // Typical-week values for the 7 days before `start`, in the upload format
 export function templateCsv(inputs, start, overrides) {
-  const lines = ['zone_id,timestamp,ac_load_kw,indoor_temp_c']
+  const lines = ['zone_id,timestamp,ac_load_kw,indoor_temp_c,indoor_humidity_pct']
   for (const z of inputs.zones) {
     for (let k = 7; k >= 1; k--) {
       const d = addDays(start, -k), t = dayType(d, inputs, overrides)
       for (let h = 0; h < 24; h++) {
         const typ = inputs.typical[z.id]
-        lines.push(`${z.id},${d} ${String(h).padStart(2, '0')}:00,${typ.ac[t][h] ?? ''},${typ.tin[t][h] ?? ''}`)
+        lines.push(`${z.id},${d} ${String(h).padStart(2, '0')}:00,${typ.ac[t][h] ?? ''},${typ.tin[t][h] ?? ''},${typ.rh[t][h] ?? ''}`)
       }
     }
   }
@@ -136,12 +147,14 @@ export function runForecast({ model, bands, inputs, weather, start, days, readin
     if (readings && pred[z]?.[d]) return pred[z][d][h]
     return inputs.typical[z].ac[dayType(d, inputs, overrides)][h]
   }
-  const tin = (z, d, h) => readings?.byZone[z]?.[d]?.tin[h] ?? inputs.typical[z].tin[dayType(d, inputs, overrides)][h]
-  const tinAvg = (z, d) => {
-    const vals = readings?.byZone[z]?.[d]?.tin.filter((v) => v != null) ?? []
+  // Indoor temperature (key 'tin') and humidity ('rh'): readings if given, otherwise the typical week
+  const indoor = (key) => (z, d, h) => readings?.byZone[z]?.[d]?.[key]?.[h] ?? inputs.typical[z][key][dayType(d, inputs, overrides)][h]
+  const indoorAvg = (key) => (z, d) => {
+    const vals = readings?.byZone[z]?.[d]?.[key]?.filter((v) => v != null) ?? []
     return vals.length >= 22 ? vals.reduce((a, b) => a + b, 0) / vals.length
-      : inputs.typical[z].tin_avg[dayType(d, inputs, overrides)]
+      : inputs.typical[z][`${key}_avg`][dayType(d, inputs, overrides)]
   }
+  const [tin, rhIn, tinAvg, rhInAvg] = [indoor('tin'), indoor('rh'), indoorAvg('tin'), indoorAvg('rh')]
 
   // Every feature either model was trained on, by name. c = one zone-hour's context.
   const FEATURES = {
@@ -158,12 +171,17 @@ export function runForecast({ model, bands, inputs, weather, start, days, readin
     indoor_temp_c_yesterday: (c) => tin(c.z.id, c.d1, c.h),
     indoor_temp_c_last_week: (c) => tin(c.z.id, c.d7, c.h),
     indoor_temp_c_yesterday_avg: (c) => tinAvg(c.z.id, c.d1),
+    indoor_humidity_pct_yesterday: (c) => rhIn(c.z.id, c.d1, c.h),
+    indoor_humidity_pct_last_week: (c) => rhIn(c.z.id, c.d7, c.h),
+    indoor_humidity_pct_yesterday_avg: (c) => rhInAvg(c.z.id, c.d1),
     outdoor_temp_hourly_c: (c) => c.w.temp[c.h],
     outdoor_temp_daily_avg_c: (c) => c.w.temp_avg,
     outdoor_humidity_hourly_pct: (c) => c.w.rh[c.h],
+    outdoor_humidity_daily_avg_pct: (c) => c.w.rh_avg,
     rainfall_hourly_mm: (c) => c.w.rain[c.h],
     rainfall_daily_total_mm: (c) => c.w.rain_total,
     solar_radiation_hourly_wm2: (c) => c.w.solar[c.h],
+    solar_radiation_daily_total_mjm2: (c) => c.w.solar_total,
   }
   const getters = model.features.map((n) => {
     if (!FEATURES[n]) throw new Error(`The browser cannot build the model input "${n}"`)
@@ -173,7 +191,7 @@ export function runForecast({ model, bands, inputs, weather, start, days, readin
   const dates = Array.from({ length: days }, (_, i) => addDays(start, i)).filter((d) => weather.byDay[d])
 
   for (const d of dates) {
-    const w = weather.byDay[d]
+    const w = { ...dailyWeather(weather.byDay[d]), ...weather.byDay[d] }   // daily values given win (training fixture)
     const wd = weekday(d), weekend = wd >= 5 ? 1 : 0, hol = isHoliday(d, inputs, overrides) ? 1 : 0
     const [d1, d2, d7] = [1, 2, 7].map((k) => addDays(d, -k))
     const total = Array(24).fill(0)
