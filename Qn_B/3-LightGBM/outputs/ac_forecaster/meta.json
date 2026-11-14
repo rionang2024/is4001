@@ -10,10 +10,17 @@
     "indoor_temp_c_yesterday",
     "indoor_temp_c_last_week",
     "indoor_temp_c_yesterday_avg",
+    "indoor_humidity_pct_yesterday",
+    "indoor_humidity_pct_last_week",
+    "indoor_humidity_pct_yesterday_avg",
+    "outdoor_temp_hourly_c",
     "outdoor_temp_daily_avg_c",
     "outdoor_humidity_hourly_pct",
+    "outdoor_humidity_daily_avg_pct",
+    "rainfall_hourly_mm",
     "rainfall_daily_total_mm",
-    "solar_radiation_hourly_wm2"
+    "solar_radiation_hourly_wm2",
+    "solar_radiation_daily_total_mjm2"
   ],
   "zone_categories": [
     0,
@@ -70,12 +77,10 @@
     "trained_on": "2019 (train + validation)",
     "params": {
       "objective": "regression_l1",
-      "num_leaves": 63,
+      "num_leaves": 31,
       "min_child_samples": 100
     },
-    "data": "question_b_model_data_screened.parquet (Stage 1 screened)",
-    "feature_selection": "Stage 1 excluded 3, Stage 2 dropped 7, 14 kept",
-    "test_WAPE_op%": 12.49,
-    "test_CVRMSE_op%": 20.33
+    "test_WAPE_op%": 12.43,
+    "test_CVRMSE_op%": 20.34
   }
 }

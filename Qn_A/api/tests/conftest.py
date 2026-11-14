@@ -56,7 +56,31 @@ def client(tmp_path_factory):
     import app as qa_app
     from fastapi.testclient import TestClient
 
+    import rules
+
     root = tmp_path_factory.mktemp("minute")
     make_dataset(root)
     qa_app.DATA_DIR = root
+    rules.RULES_DIR = tmp_path_factory.mktemp("no_rules")  # empty: the API default is then the stored p99 rule
     return TestClient(qa_app.app)
+
+
+@pytest.fixture
+def sd_client(client, tmp_path):
+    """The same API with a tiny `sd` rule: Floor 1 Zone 2 AC on Wednesdays, median 40 kW and SD 3 kW (threshold 49 kW), red after 5 min."""
+    import json
+
+    import rules
+
+    (tmp_path / "sd_params.json").write_text(json.dumps({"k": 3.0, "min_kw": 0.5, "red_min": 5, "window_days": 56, "label": "test rule"}))
+    hours = range(24)
+    ref = pd.DataFrame({"floor": np.int8(1), "zone": np.int16(2), "end_use": "AC", "month": "2018-10",
+                        "dow": np.int8(2), "hour": np.array(list(hours), dtype=np.int8), "med": 40.0, "sd": 3.0})
+    ref.to_parquet(tmp_path / "reference_sd.parquet", index=False)
+    pd.DataFrame({"floor": np.int8([1]), "zone": np.int16([2]), "end_use": ["AC"],
+                  "start": [pd.Timestamp("2018-10-03 20:31")], "end": [pd.Timestamp("2018-10-03 20:43")],
+                  "length": np.int32([13])}).to_parquet(tmp_path / "episodes_sd.parquet", index=False)
+    old = rules.RULES_DIR
+    rules.RULES_DIR = tmp_path
+    yield client
+    rules.RULES_DIR = old

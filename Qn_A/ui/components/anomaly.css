@@ -1,0 +1,251 @@
+/* Anomaly glow on the building, the "problems now" list and the red breach text in the floor plan.
+   Colours are the --st-* tokens from qn_a.css, so light and dark mode follow the site.
+   Added on top of explorer.css / qn_a.css; nothing there is overridden except the plan's red zone fill. */
+
+:root { --st-red-ink: #b3261e; --st-amber-ink: #8a5a00; }
+@media (prefers-color-scheme: dark) { :root { --st-red-ink: #ff9a88; --st-amber-ink: #f0b84d; } }
+
+/* ------------------------------------------------ facade
+   The original brick-red facade hid a red glow, so the building is a pale cream stone instead: red and amber stand out,
+   and the yellow lit windows still read. Same tokens as explorer.css, loaded after it. */
+.qa-ex {
+  --bld-wall: #f1e8cf;
+  --bld-wall-dark: #d9ceaa;
+  --bld-slab: #faf6ea;
+  --bld-slab-dark: #e3dac3;
+  --bld-base: #b9aa7e;
+  --bld-base-dark: #9d8f66;
+}
+@media (prefers-color-scheme: dark) {
+  .qa-ex {
+    --bld-wall: #d8cfae;
+    --bld-wall-dark: #bcb18c;
+    --bld-slab: #e9e2cc;
+    --bld-slab-dark: #cfc6a9;
+    --bld-base: #968a63;
+    --bld-base-dark: #7d724f;
+  }
+}
+
+/* ------------------------------------------------ glow on the building */
+.qa-ex .ex-svg .ag { fill: none; stroke: none; opacity: 0; pointer-events: none; }
+
+/* red: the floor glows and pulses; its windows turn red */
+.qa-ex .ex-svg .floor.anom-red .ag {
+  fill: var(--st-red); stroke: var(--st-red); stroke-width: 2;
+  filter: drop-shadow(0 0 12px var(--st-red));
+  animation: qa-glow-red 1.6s ease-in-out infinite;
+}
+.qa-ex .ex-svg .floor.anom-red .lit { fill: var(--st-red); opacity: 1; animation: qa-glow-win 1.6s ease-in-out infinite; }
+@keyframes qa-glow-red { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.68; } }
+@keyframes qa-glow-win { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+/* amber: the same, less intense and slower */
+.qa-ex .ex-svg .floor.anom-amber .ag {
+  fill: var(--st-amber); stroke: var(--st-amber); stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px var(--st-amber));
+  animation: qa-glow-amber 2.6s ease-in-out infinite;
+}
+.qa-ex .ex-svg .floor.anom-amber .lit { fill: var(--st-amber); opacity: 0.85; }
+@keyframes qa-glow-amber { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.26; } }
+
+/* grey: muted, never a glow and never green */
+.qa-ex .ex-svg .floor.anom-grey .ag { fill: var(--st-grey); stroke: var(--st-grey); stroke-width: 1; opacity: 0.3; }
+.qa-ex .ex-svg .floor.anom-grey .lit { fill: var(--st-grey); opacity: 0.35; }
+
+
+/* ------------------------------------------------ floor labels */
+.qa-ex .fl .qa-ico { font-size: 0.72rem; }
+/* the status word on a glowing floor is a solid pill, so it reads at a glance */
+.qa-ex .fl.anom-red .fl-r, .qa-ex .fl.anom-amber .fl-r {
+  font-size: 0.82rem; font-weight: 800; letter-spacing: 0.01em; text-align: center; padding: 2px 4px; border-radius: 999px; line-height: 1.2;
+}
+.qa-ex .fl.anom-red .fl-r { background: var(--st-red); color: #fff; }
+.qa-ex .fl.anom-amber .fl-r { background: var(--st-amber); color: #2b1d00; }
+.qa-ex .fl.anom-red { border-color: var(--st-red); box-shadow: 0 0 0 1px var(--st-red), 0 0 10px color-mix(in srgb, var(--st-red) 45%, transparent); }
+.qa-ex .fl.anom-amber { border-color: var(--st-amber); }
+.qa-ex .fl.anom-grey { border-style: solid; border-color: var(--st-grey); }
+
+/* ------------------------------------------------ problems now (text version of the glow) */
+.qa-ex .qa-now { margin: 0 0 12px; padding: 10px 14px; border: 1px solid var(--rule); border-radius: 8px; font-size: 0.88rem; background: var(--panel); }
+.qa-ex .qa-now.none { color: var(--muted); }
+.qa-ex .qa-now-note { color: var(--muted); font-size: 0.8rem; }
+.qa-ex .qa-now ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.qa-ex .qa-now-item {
+  display: grid; gap: 2px; width: 100%; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+  background: transparent; border: 1px solid var(--rule); border-left-width: 4px; border-radius: 6px; padding: 7px 10px;
+}
+.qa-ex .qa-now-item:hover { border-color: var(--ink); }
+.qa-ex .qa-now-item:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.qa-ex .qa-now-item:has(.red) { border-left-color: var(--st-red); }
+.qa-ex .qa-now-item:has(.amber) { border-left-color: var(--st-amber); }
+.qa-ex .qa-now-head { font-weight: 800; font-size: 1rem; }
+.qa-ex .qa-now-head.red, .qa-ex .qa-breach.red { color: var(--st-red-ink); }
+.qa-ex .qa-now-head.amber, .qa-ex .qa-breach.amber { color: var(--st-amber-ink); }
+.qa-ex .qa-now-alert, .qa-ex .qa-now-more { color: var(--muted); font-size: 0.8rem; }
+.qa-ex .qa-ico { display: inline-block; width: 1.1em; }
+.qa-ex .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ------------------------------------------------ floor plan */
+.qa-ex .qa-breach { font-weight: 700; font-size: 0.95rem; }
+.qa-ex .qa-breaches { list-style: none; margin: 10px 0 4px; padding: 0; display: grid; gap: 6px; }
+.qa-ex .qa-breaches li { display: grid; gap: 2px; padding: 7px 10px; border: 1px solid var(--rule); border-left-width: 4px; border-radius: 6px; font-size: 0.88rem; }
+.qa-ex .qa-breaches li.red { border-left-color: var(--st-red); }
+.qa-ex .qa-breaches li.amber { border-left-color: var(--st-amber); }
+.qa-ex .qa-breach-none { margin: 10px 0 4px; font-size: 0.86rem; color: var(--muted); }
+.qa-ex .plan-table .qa-breach { display: block; font-size: 0.72rem; line-height: 1.25; margin-top: 2px; max-width: 24ch; margin-left: auto; white-space: normal; }
+.qa-ex .plan-table td:first-child .qa-breach { margin-left: 0; }
+
+/* a banner above the plan, a CHECK pill on the zone's card, and a hatched, pulsing top face, so a zone that needs a look cannot be missed */
+.qa-ex .qa-breach-box { margin: 10px 0 4px; border: 2px solid var(--st-red); border-radius: 8px; overflow: hidden; }
+.qa-ex .qa-breach-box:has(.qa-breach-head.amber) { border-color: var(--st-amber); }
+.qa-ex .qa-breach-box .qa-breaches { margin: 0; padding: 8px; }
+.qa-ex .qa-breach-head { margin: 0; padding: 8px 12px; font-size: 1rem; font-weight: 800; color: #fff; background: var(--st-red); }
+.qa-ex .qa-breach-head.amber { background: var(--st-amber); color: #2b1d00; border-color: var(--st-amber); }
+.qa-ex .qa-breach-head small { font-weight: 500; font-size: 0.8rem; opacity: 0.92; }
+.qa-ex .qa-breaches li { font-size: 0.95rem; }
+.qa-ex .cam .tp-alert { pointer-events: none; stroke-linejoin: round; stroke-width: 6; }
+.qa-ex .cam .tp-alert.red { stroke: var(--st-red); animation: qa-zone-pulse 1.4s ease-in-out infinite; }
+.qa-ex .cam .tp-alert.amber { stroke: var(--st-amber); }
+.qa-ex .cam .hatch-a.red { fill: var(--st-red); opacity: 0.9; }
+.qa-ex .cam .hatch-b.red { fill: #7a1511; opacity: 0.5; }
+.qa-ex .cam .hatch-a.amber { fill: var(--st-amber); opacity: 0.55; }
+.qa-ex .cam .hatch-b.amber { fill: #6b4400; opacity: 0.3; }
+@keyframes qa-zone-pulse { 0%, 100% { stroke-opacity: 0.45; } 50% { stroke-opacity: 1; } }
+.qa-ex .cam .bill .pill rect { fill: var(--st-red); }
+.qa-ex .cam .bill .pill text { fill: #fff; font-size: 10px; font-weight: 800; letter-spacing: 0.03em; font-style: normal; }
+.qa-ex .cam .bill .pill.amber rect { fill: var(--st-amber); }
+.qa-ex .cam .bill .pill.amber text { fill: #2b1d00; }
+.qa-ex .cam .bill.flagged .bgc { stroke-width: 2.5; }
+
+/* the plan's own colours clash with the status colours: Zone 5 was red and the sensor dots were red, so both change */
+.qa-ex { --z5: #b7c4d3; }
+@media (prefers-color-scheme: dark) { .qa-ex { --z5: #8fa0b3; } }
+.qa-ex .cam .sensor { fill: #33425b; }
+.qa-ex .plan-note .sd { background: #33425b; }
+
+/* the breached zone's block turns red (amber for 1-4 minutes); the other zones keep their colours */
+.qa-ex .cam .zp.flagged .tp { fill: color-mix(in srgb, var(--st-red) 78%, var(--zc)); }
+.qa-ex .cam .zp.warn .tp { fill: color-mix(in srgb, var(--st-amber) 45%, var(--zc)); }
+/* the card's own text sits on a light card in both themes, so it uses the dark red */
+.qa-ex .cam .rv.br { fill: #b3261e; }
+.qa-ex .cam .rv.ba { fill: #8a5a00; }
+
+
+/* ------------------------------------------------ status, tied to the floor
+   Every floor label now carries its status as a coloured pill, a coloured left edge, and a coloured leader line back to the floor. */
+.qa-ex .fl { border-left-width: 4px; }
+.qa-ex .fl.anom-ok { border-left-color: var(--st-green); }
+.qa-ex .fl.anom-grey { border-left-color: var(--st-grey); }
+.qa-ex .fl.anom-red { border-left-color: var(--st-red); }
+.qa-ex .fl.anom-amber { border-left-color: var(--st-amber); }
+.qa-ex .fl-r.st-green, .qa-ex .fl-r.st-grey {
+  font-size: 0.78rem; font-weight: 800; text-align: center; padding: 2px 4px; border-radius: 999px; line-height: 1.2;
+}
+.qa-ex .fl-r.st-green { background: var(--st-green); color: #fff; }
+.qa-ex .fl-r.st-grey { background: var(--st-grey); color: #fff; }
+@media (prefers-color-scheme: dark) { .qa-ex .fl-r.st-green { color: #06281c; } .qa-ex .fl-r.st-grey { color: #1a1030; } }
+.qa-ex .ex-svg .leader.st-green { stroke: var(--st-green); opacity: 0.85; }
+.qa-ex .ex-svg .leader.st-grey { stroke: var(--st-grey); opacity: 0.85; }
+.qa-ex .ex-svg .leader.st-amber { stroke: var(--st-amber); opacity: 1; stroke-width: 1.6; stroke-dasharray: none; }
+.qa-ex .ex-svg .leader.st-red { stroke: var(--st-red); opacity: 1; stroke-width: 2; stroke-dasharray: none; }
+.qa-ex .ex-svg .anchor.st-green { fill: var(--st-green); stroke: var(--st-green); }
+.qa-ex .ex-svg .anchor.st-grey { fill: var(--st-grey); stroke: var(--st-grey); }
+.qa-ex .ex-svg .anchor.st-amber { fill: var(--st-amber); stroke: var(--st-amber); }
+.qa-ex .ex-svg .anchor.st-red { fill: var(--st-red); stroke: var(--st-red); }
+
+/* the status key under the building: filled colour chips instead of tiny dots */
+.qa-ex .ex-legend .status-key span, .qa-chart .status-key.compact span {
+  gap: 0; padding: 2px 10px 2px 8px; border-radius: 999px; font-weight: 700; font-size: 0.8rem; color: var(--ink);
+  border: 1.5px solid var(--st-grey);
+}
+.qa-ex .ex-legend .status-key span:has(.green), .qa-chart .status-key.compact span:has(.green) { border-color: var(--st-green); background: color-mix(in srgb, var(--st-green) 18%, transparent); }
+.qa-ex .ex-legend .status-key span:has(.amber), .qa-chart .status-key.compact span:has(.amber) { border-color: var(--st-amber); background: color-mix(in srgb, var(--st-amber) 20%, transparent); }
+.qa-ex .ex-legend .status-key span:has(.red), .qa-chart .status-key.compact span:has(.red) { border-color: var(--st-red); background: color-mix(in srgb, var(--st-red) 18%, transparent); }
+.qa-ex .ex-legend .status-key span:has(.grey), .qa-chart .status-key.compact span:has(.grey) { background: color-mix(in srgb, var(--st-grey) 18%, transparent); }
+
+/* ------------------------------------------------ "to look at" panel: a fixed left column, so nothing moves as it fills and empties
+   The column has a fixed width and takes its height from the building beside it; the list scrolls inside it. */
+.qa-ex .ex-split { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 12px; align-items: stretch; }
+.qa-ex .ex-split { transition: grid-template-columns 0.5s ease, column-gap 0.5s ease; }
+/* an open floor plan needs the full width (its table is wide), and lists its own breaches, so the column folds away */
+.qa-ex .ex-split.is-plan { grid-template-columns: 0 minmax(0, 1fr); column-gap: 0; }
+.qa-ex .ex-split.is-plan .ex-side { visibility: hidden; overflow: hidden; min-height: 0; }
+.qa-ex .ex-side { position: relative; min-height: 220px; }
+.qa-ex .ex-side-in { position: absolute; inset: 0; overflow-y: auto; }
+.qa-ex .ex-side .qa-now { margin: 0; min-height: 100%; }
+@media (max-width: 1100px) {
+  .qa-ex .ex-split { grid-template-columns: 1fr; }
+  .qa-ex .ex-side { min-height: 0; height: 260px; }
+  .qa-ex .ex-split.is-plan { grid-template-columns: 1fr; }
+  .qa-ex .ex-split.is-plan .ex-side { display: none; }
+}
+
+@media (max-width: 760px) {
+  .qa-ex .qa-now { padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* a static glow instead of a pulse */
+  .qa-ex .ex-svg .floor.anom-red .ag, .qa-ex .ex-svg .floor.anom-amber .ag, .qa-ex .ex-svg .floor.anom-red .lit, .qa-ex .cam .tp-alert.red { animation: none !important; }
+  .qa-ex .ex-svg .floor.anom-red .ag { opacity: 0.4; }
+  .qa-ex .ex-svg .floor.anom-amber .ag { opacity: 0.2; }
+  .qa-ex .ex-svg .floor.anom-red .lit { opacity: 0.95; }
+}
+
+/* ------------------------------------------------ date and time stamp that follows the top of the screen */
+.qa-ex .qa-stamp {
+  position: sticky; z-index: 5; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px;
+  margin: -4px 0 12px; padding: 8px 14px; border: 1px solid var(--rule); border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+.qa-ex .qa-stamp-play {
+  align-self: center; display: inline-flex; align-items: center; gap: 6px; min-width: 88px; justify-content: center;
+  padding: 6px 12px; border-radius: 8px; border: 1px solid var(--rule); background: var(--ink); color: var(--panel);
+  font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.qa-ex .qa-stamp-play:hover { filter: brightness(1.12); }
+.qa-ex .qa-stamp-play:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.qa-ex .qa-stamp-play[aria-pressed="true"] { background: transparent; color: var(--ink); border-color: var(--ink); }
+.qa-ex .qa-stamp-next {
+  align-self: center; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px;
+  border: 1px solid var(--ink); background: transparent; color: var(--ink); font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.qa-ex .qa-stamp-next:hover { background: var(--line-2); }
+.qa-ex .qa-stamp-next:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.qa-ex .qa-stamp-seg { align-self: center; }
+.qa-ex .qa-stamp-seg button { padding: 5px 10px; font-size: 0.8rem; }
+.qa-ex .qa-stamp-date { font-weight: 600; }
+.qa-ex .qa-stamp-time { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+.qa-ex .qa-stamp-tz { color: var(--muted); font-size: 0.8rem; }
+.qa-ex .qa-stamp-tag { margin-left: auto; font-size: 0.75rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--rule); }
+.qa-ex .qa-stamp-tag.after { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.qa-ex .qa-stamp-tag.day { color: var(--muted); }
+
+/* a breached load in the floor plan can be clicked to show it in the alerts sidebar */
+.qa-ex .qa-breaches li:has(.qa-breach-pick) { padding: 0; }
+.qa-ex .qa-breach-pick { display: grid; gap: 2px; width: 100%; padding: 7px 10px; border: 0; background: none; text-align: left; font: inherit; color: inherit; cursor: pointer; border-radius: 6px; }
+.qa-ex .qa-breach-pick:hover { background: var(--line-2); }
+.qa-ex .qa-breach-pick:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* whether a load above threshold is an alert in the sidebar yet */
+.qa-ex .qa-alert-tag { display: inline-block; margin-left: 8px; padding: 1px 7px; border: 1px solid var(--rule); border-radius: 999px; font-size: 0.72rem; font-weight: 600; color: var(--muted); vertical-align: 2px; }
+.qa-ex .qa-alert-tag.on { border-color: currentColor; color: inherit; }
+
+/* recurring (high priority) problems known by this minute, on each floor label */
+.qa-ex .fl { overflow: visible; }
+.qa-ex .fl-rec { position: absolute; top: -9px; left: 8px; padding: 0 6px; border-radius: 999px; background: var(--ink); color: var(--panel); font-size: 0.66rem; font-weight: 700; line-height: 16px; white-space: nowrap; pointer-events: none; }
+/* a zone the alerts sidebar pointed at */
+.qa-ex .cam .bill.focus svg .bgc { stroke: var(--accent); stroke-width: 3; }
+.qa-ex .cam .bill.focus { animation: qa-zone-pulse 1.4s ease-out 2; }
+@keyframes qa-zone-pulse { 0%, 40% { filter: drop-shadow(0 0 10px var(--accent)); } 100% { filter: none; } }
+.qa-ex .plan-table tr.focus th, .qa-ex .plan-table tr.focus td { background: var(--accent-soft); }
+.qa-ex .plan-table tr.focus th { box-shadow: inset 4px 0 0 var(--accent); }
+@media (prefers-reduced-motion: reduce) { .qa-ex .cam .bill.focus { animation: none; } }
+.qa-ex .ex-plan { scroll-margin-top: 80px; }
+
+/* the "Example simulation" button in the replay panel: filled in the brand colour so it reads differently from the grey controls */
+.qa-time .btn.qa-night { background: var(--accent); color: var(--panel); border-color: var(--accent); font-weight: 700; }
+.qa-time .btn.qa-night:hover { filter: brightness(1.1); }
+.qa-time .btn.qa-night:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

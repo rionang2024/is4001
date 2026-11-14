@@ -1,0 +1,16 @@
+feature,gain
+ac_load_kw_last_week,20642.662109375
+is_holiday,14701.5078125
+ac_load_kw_yesterday,3537.931396484375
+weekday,3172.53662109375
+solar_radiation_hourly_wm2,1138.4403076171875
+hour,548.0223999023438
+outdoor_temp_daily_avg_c,515.923095703125
+ac_load_kw_2_days_ago,343.2809143066406
+zone_code,335.8977966308594
+rainfall_daily_total_mm,320.2406005859375
+solar_radiation_daily_total_mjm2,289.39874267578125
+outdoor_humidity_daily_avg_pct,275.2887878417969
+outdoor_humidity_hourly_pct,216.7722625732422
+outdoor_temp_hourly_c,171.8603973388672
+rainfall_hourly_mm,115.10565185546875

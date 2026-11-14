@@ -1,10 +1,14 @@
 """Train conservative reduced-feature XGBoost candidates.
 
-This keeps the original M1-M4 artifacts unchanged and creates two additional
+This keeps the original M1-M4 artifacts unchanged and creates reduced-feature
 models:
   - accuracy_first: reduced M1, removing the redundant floor encoding
   - research_preserving: reduced M4, retaining representative indoor/weather
     variables while removing low-gain or redundant variables
+  - correlation_reduced: M4 after applying the supplied feature-selection
+    exclusions for highly correlated or unavailable calendar variables
+  - correlation_reduced_M1 through correlation_reduced_M4: matched ablations
+    of each original feature configuration
 """
 
 from pathlib import Path
@@ -29,14 +33,14 @@ from xgboost_forecaster import (
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT.parent / "cleaned_data"
 OUTPUT_DIR = ROOT / "outputs" / "final_models"
-MODEL_NAMES = ("accuracy_first", "research_preserving")
+CORRELATION_EXCLUSIONS = {"floor", "month", "is_weekend"}
 
 
 def build_candidates(dictionary: pd.DataFrame) -> dict[str, list[str]]:
     sets = feature_sets(dictionary)
     m1 = sets["M1"]
     m4 = sets["M4"]
-    return {
+    candidates = {
         "accuracy_first": [f for f in m1 if f != "month"],
         "research_preserving": [
             f for f in m4
@@ -46,6 +50,14 @@ def build_candidates(dictionary: pd.DataFrame) -> dict[str, list[str]]:
             }
         ],
     }
+    candidates["correlation_reduced"] = [
+        f for f in m4 if f not in CORRELATION_EXCLUSIONS
+    ]
+    for model_name, features in sets.items():
+        candidates[f"correlation_reduced_{model_name}"] = [
+            f for f in features if f not in CORRELATION_EXCLUSIONS
+        ]
+    return candidates
 
 
 def run_final_models(config: Config) -> None:
@@ -73,7 +85,20 @@ def run_final_models(config: Config) -> None:
             ],
             "reason": "conservative removal of redundant or low-gain variables while retaining indoor and weather groups",
         },
+        "correlation_reduced": {
+            "base": "M4",
+            "dropped": ["floor", "month", "is_weekend"],
+            "reason": "applies the supplied feature-selection exclusions: floor is nearly determined by zone_code, is_weekend by weekday, and validation months are absent from the training months",
+        },
     }
+    for model_name in ("M1", "M2", "M3", "M4"):
+        definitions[f"correlation_reduced_{model_name}"] = {
+            "base": model_name,
+            "dropped": sorted(
+                set(feature_sets(dictionary)[model_name]) & CORRELATION_EXCLUSIONS
+            ),
+            "reason": "matched ablation applying the supplied feature-selection exclusions to the original feature set",
+        }
     all_trials, all_metrics, prediction_frames = [], [], []
 
     for model_name, features in candidates.items():
@@ -119,6 +144,7 @@ def run_final_models(config: Config) -> None:
         ].copy()
         predictions["prediction"] = np.clip(model.predict(test[features]), 0, None)
         predictions["model"] = model_name
+        predictions.to_csv(model_dir / "predictions.csv", index=False)
         prediction_frames.append(predictions)
 
     predictions = pd.concat(prediction_frames, ignore_index=True)
