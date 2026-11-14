@@ -1,36 +1,36 @@
-column,role,meaning,unit,M1,M2,M3,M4,stage1_decision,stage1_reason
-zone_id,id,"Zone label, e.g. F2_Z2 = Floor 2, zone 2",,,,,,exclude,"not a feature: identifier, not an input"
-floor,feature,Floor number (2-7),,,,,,exclude,Check 3: fully determined by zone_code (r = 0.99)
-zone,id,"Zone number on the floor (1, 2, 4, 5)",,,,,,exclude,"not a feature: identifier, not an input"
-zone_code,feature,Zone as a number from 0 to 22 (for the models),,Yes,Yes,Yes,Yes,keep,passed all checks
-timestamp,id,Start of the hour,,,,,,exclude,"not a feature: identifier, not an input"
-split,split,"train (2019 except Apr, Aug, Dec), validation (Apr, Aug, Dec 2019), test (Jul-Sep 2018)",,,,,,exclude,"not a feature: split label, not an input"
-ac_load_kw,target,"Zone AC demand: the zone's working AC units added up, averaged over the hour (= kWh for the hour). Missing if any unit is missing",kW,,,,,exclude,not a feature: the value being predicted
-hour,feature,Hour of the day,0-23,Yes,Yes,Yes,Yes,keep,passed all checks
-weekday,feature,Day of the week,0 = Monday ... 6 = Sunday,Yes,Yes,Yes,Yes,keep,passed all checks
-month,feature,Month,1-12,,,,,exclude,"Check 2d: validation months (Apr, Aug, Dec) never appear in training"
-is_weekend,feature,1 on Saturday and Sunday,0/1,,,,,exclude,Check 3: fully determined by weekday (weekday >= 5)
-is_holiday,feature,1 on a public holiday when the office was closed or largely closed (28 days),0/1,Yes,Yes,Yes,Yes,keep,passed all checks
-day_type,baseline,"weekday / weekend / holiday (text; used by baseline B2, not a model feature)",text,,,,,exclude,not a feature: used by baseline B2 only
-is_operating_hours,filter,"1 on weekdays that are not holidays, 07:00-17:00 (when the AC runs); for reporting accuracy on working hours",0/1,,,,,exclude,not a feature: reporting filter; as an input it would give away the AC schedule
-ac_load_kw_yesterday,feature,ac_load_kw at the same hour 1 day earlier (t-24),kW,Yes,Yes,Yes,Yes,keep,passed all checks
-ac_load_kw_2_days_ago,feature,ac_load_kw at the same hour 2 days earlier (t-48),kW,Yes,Yes,Yes,Yes,keep,passed all checks
-ac_load_kw_last_week,feature,ac_load_kw at the same hour 1 week earlier (t-168),kW,Yes,Yes,Yes,Yes,keep,passed all checks
-indoor_temp_c_yesterday,feature,The zone's indoor temperature at the same hour 1 day earlier,degC,,Yes,,Yes,keep,passed all checks
-indoor_temp_c_last_week,feature,The zone's indoor temperature at the same hour 1 week earlier,degC,,Yes,,Yes,keep,passed all checks
-indoor_temp_c_yesterday_avg,feature,The zone's average indoor temperature over the previous day (needs 22 of 24 hours),degC,,Yes,,Yes,keep,passed all checks
-indoor_humidity_pct_yesterday,feature,The zone's indoor humidity at the same hour 1 day earlier,%,,Yes,,Yes,keep,passed all checks
-indoor_humidity_pct_last_week,feature,The zone's indoor humidity at the same hour 1 week earlier,%,,Yes,,Yes,keep,passed all checks
-indoor_humidity_pct_yesterday_avg,feature,The zone's average indoor humidity over the previous day (needs 22 of 24 hours),%,,Yes,,Yes,keep,passed all checks
-outdoor_temp_hourly_c,feature,"Outdoor temperature at the start of the hour (Open-Meteo, Bangkok)",degC,,,Yes,Yes,keep,passed all checks
-outdoor_temp_daily_avg_c,feature,The day's average outdoor temperature,degC,,,Yes,Yes,keep,passed all checks
-outdoor_humidity_hourly_pct,feature,Outdoor relative humidity at the start of the hour,%,,,Yes,Yes,keep,passed all checks
-outdoor_humidity_daily_avg_pct,feature,The day's average outdoor relative humidity,%,,,Yes,Yes,keep,passed all checks
-rainfall_hourly_mm,feature,Rain that fell during the hour,mm,,,Yes,Yes,keep,passed all checks
-rainfall_daily_total_mm,feature,The day's total rainfall,mm,,,Yes,Yes,keep,passed all checks
-solar_radiation_hourly_wm2,feature,Average solar radiation during the hour,W/m2,,,Yes,Yes,keep,passed all checks
-solar_radiation_daily_total_mjm2,feature,The day's total solar radiation,MJ/m2,,,Yes,Yes,keep,passed all checks
-ac_spike_flag,flag,1 if any of the zone's AC units read above 1.5 x its 99.9th percentile during the hour (values kept),0/1,,,,,exclude,"not a feature: describes the hour being predicted, so not known at forecast time"
-indoor_temp_out_of_range_flag,flag,1 if the zone's indoor temperature was outside 15-36 degC in any minute of the hour,0/1,,,,,exclude,"not a feature: describes the hour being predicted, so not known at forecast time"
-indoor_humidity_out_of_range_flag,flag,1 if the zone's indoor humidity was outside 20-100% in any minute of the hour,0/1,,,,,exclude,"not a feature: describes the hour being predicted, so not known at forecast time"
-supply_air_sensor_flag,flag,"1 for every Floor 5 zone 1 row: its temperature sensor reads AC supply air, not room air",0/1,,,,,exclude,"not a feature: describes the hour being predicted, so not known at forecast time"
+column,role,meaning,unit,M1,M2,M3,M4,stage1_decision,stage1_reason,in_screened_file
+zone_id,id,"Zone label, e.g. F2_Z2 = Floor 2, zone 2",,,,,,exclude,Check 3: fully determined by zone_code,yes
+floor,feature,Floor number (2-7),,,,,,exclude,Check 3: fully determined by zone_code,no
+zone,id,"Zone number on the floor (1, 2, 4, 5)",,,,,,exclude,Check 3: fully determined by zone_code,no
+zone_code,feature,Zone as a number from 0 to 22 (for the models),,Yes,Yes,Yes,Yes,keep,passed all three checks,yes
+timestamp,id,Start of the hour,,,,,,exclude,Check 2c: 100% of a split outside what training saw,yes
+split,split,"train (2019 except Apr, Aug, Dec), validation (Apr, Aug, Dec 2019), test (Jul-Sep 2018)",,,,,,exclude,"Check 1: does not exist for a future day; a label for this experiment, not a property of the building",yes
+ac_load_kw,target,"Zone AC demand: the zone's working AC units added up, averaged over the hour (= kWh for the hour). Missing if any unit is missing",kW,,,,,target,the value being predicted; the checks exist to protect it,yes
+hour,feature,Hour of the day,0-23,Yes,Yes,Yes,Yes,keep,passed all three checks,yes
+weekday,feature,Day of the week,0 = Monday ... 6 = Sunday,Yes,Yes,Yes,Yes,keep,passed all three checks,yes
+month,feature,Month,1-12,,,,,exclude,Check 2c: 100% of a split outside what training saw,no
+is_weekend,feature,1 on Saturday and Sunday,0/1,,,,,exclude,Check 3: fully determined by hour + weekday + is_holiday,no
+is_holiday,feature,1 on a public holiday when the office was closed or largely closed (28 days),0/1,Yes,Yes,Yes,Yes,keep,passed all three checks,yes
+day_type,baseline,"weekday / weekend / holiday (text; used by baseline B2, not a model feature)",text,,,,,exclude,Check 3: fully determined by hour + weekday + is_holiday,no
+is_operating_hours,filter,"1 on weekdays that are not holidays, 07:00-17:00 (when the AC runs); for reporting accuracy on working hours",0/1,,,,,exclude,Check 3: fully determined by hour + weekday + is_holiday,yes
+ac_load_kw_yesterday,feature,ac_load_kw at the same hour 1 day earlier (t-24),kW,Yes,Yes,Yes,Yes,keep,passed all three checks,yes
+ac_load_kw_2_days_ago,feature,ac_load_kw at the same hour 2 days earlier (t-48),kW,Yes,Yes,Yes,Yes,keep,passed all three checks,yes
+ac_load_kw_last_week,feature,ac_load_kw at the same hour 1 week earlier (t-168),kW,Yes,Yes,Yes,Yes,keep,passed all three checks,yes
+indoor_temp_c_yesterday,feature,The zone's indoor temperature at the same hour 1 day earlier,degC,,Yes,,Yes,keep,passed all three checks,yes
+indoor_temp_c_last_week,feature,The zone's indoor temperature at the same hour 1 week earlier,degC,,Yes,,Yes,keep,passed all three checks,yes
+indoor_temp_c_yesterday_avg,feature,The zone's average indoor temperature over the previous day (needs 22 of 24 hours),degC,,Yes,,Yes,keep,passed all three checks,yes
+indoor_humidity_pct_yesterday,feature,The zone's indoor humidity at the same hour 1 day earlier,%,,Yes,,Yes,keep,passed all three checks,yes
+indoor_humidity_pct_last_week,feature,The zone's indoor humidity at the same hour 1 week earlier,%,,Yes,,Yes,keep,passed all three checks,yes
+indoor_humidity_pct_yesterday_avg,feature,The zone's average indoor humidity over the previous day (needs 22 of 24 hours),%,,Yes,,Yes,keep,passed all three checks,yes
+outdoor_temp_hourly_c,feature,"Outdoor temperature at the start of the hour (Open-Meteo, Bangkok)",degC,,,Yes,Yes,keep,passed all three checks,yes
+outdoor_temp_daily_avg_c,feature,The day's average outdoor temperature,degC,,,Yes,Yes,keep,passed all three checks,yes
+outdoor_humidity_hourly_pct,feature,Outdoor relative humidity at the start of the hour,%,,,Yes,Yes,keep,passed all three checks,yes
+outdoor_humidity_daily_avg_pct,feature,The day's average outdoor relative humidity,%,,,Yes,Yes,keep,passed all three checks,yes
+rainfall_hourly_mm,feature,Rain that fell during the hour,mm,,,Yes,Yes,keep,passed all three checks,yes
+rainfall_daily_total_mm,feature,The day's total rainfall,mm,,,Yes,Yes,keep,passed all three checks,yes
+solar_radiation_hourly_wm2,feature,Average solar radiation during the hour,W/m2,,,Yes,Yes,keep,passed all three checks,yes
+solar_radiation_daily_total_mjm2,feature,The day's total solar radiation,MJ/m2,,,Yes,Yes,keep,passed all three checks,yes
+ac_spike_flag,flag,1 if any of the zone's AC units read above 1.5 x its 99.9th percentile during the hour (values kept),0/1,,,,,exclude,Check 1: computed from the target during the hour being predicted,no
+indoor_temp_out_of_range_flag,flag,1 if the zone's indoor temperature was outside 15-36 degC in any minute of the hour,0/1,,,,,exclude,"Check 1: describes this hour's indoor sensor, not known at 00:00",no
+indoor_humidity_out_of_range_flag,flag,1 if the zone's indoor humidity was outside 20-100% in any minute of the hour,0/1,,,,,exclude,"Check 1: describes this hour's indoor sensor, not known at 00:00",no
+supply_air_sensor_flag,flag,"1 for every Floor 5 zone 1 row: its temperature sensor reads AC supply air, not room air",0/1,,,,,exclude,Check 3: fully determined by zone_code,no
