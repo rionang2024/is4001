@@ -76,7 +76,7 @@ The stored data is not changed. The API restates each minute under `sd` from two
 
 The page has no switch any more: it always shows median + 3 SD.
 
-The numbers (3 SD, 0.5 kW, 15 minutes) are constants at the top of the build script. The alerts sidebar follows the page's rule. `build_alerts.py` writes one alert file per rule, `qa_alerts_sd.json` (median + 3 SD, worked out with this API's `rules.py`) and `qa_alerts.json` (P99), and the sidebar, the building's Alert / Not an alert yet tags and the recurring badges read the one for the rule on show (`Qn_A/ui/components/alertRule.js`, sd by default). The three filters are the same under both rules: a red stretch (15+ min under sd, 5+ under P99), 30+ min above the threshold, and 5+ kW above it on average.
+The numbers (3 SD, 0.5 kW, 15 minutes) are constants at the top of the build script. The alerts sidebar follows the page's rule. `build_alerts.py` writes one alert file per rule, `qa_alerts_sd.json` (median + 3 SD, worked out with this API's `rules.py`) and `qa_alerts.json` (P99), and the sidebar, the building's Alert tags and the recurring badges read the one for the rule on show (`Qn_A/ui/components/alertRule.js`, sd by default). The three filters are the same under both rules: a red stretch (15+ min under sd, 5+ under P99), 30+ min above the threshold, and 5+ kW above it on average.
 
 ## Where the page code lives
 

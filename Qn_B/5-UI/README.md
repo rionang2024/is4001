@@ -1,6 +1,6 @@
 # 5 · UI
 
-> **Status:** first working version on branch `ui-dashboard`. Qn B tab uses the real LightGBM + baseline test predictions; XGBoost slots in once exported. Qn A tab is a placeholder.
+> **Status:** both tabs work. The Qn B tabs use the real LightGBM + baseline test predictions and XGBoost where exported. The Qn A tab (**After-hours energy**) reads the minute-level data through the API in `Qn_A/api/`; to run it, see the repo root [README](../../README.md#run-the-website).
 
 The Facilities Manager–facing dashboard: one site, one tab per question.
 
