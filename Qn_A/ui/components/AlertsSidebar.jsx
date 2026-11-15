@@ -461,7 +461,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         </p>
         <p>
           A card marked <b>Alert running now</b> has an alert happening at this minute and is listed first in its tab.
-          The building shows every load above its limit at this minute, tagged <b>Alert</b> or <b>Not an alert yet</b>:
+          The building shows every load above its limit at this minute, and tags the ones that are already alerts with <b>Alert</b>:
           many never become alerts because they are too short or too small. Floors with high priority problems so far
           carry a "recurring" badge.
         </p>
