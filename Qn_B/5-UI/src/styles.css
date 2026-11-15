@@ -160,18 +160,12 @@ input[type=date], select { border: 1px solid var(--line); background: var(--pane
 
 /* timetable: one row per floor, one lane per start time */
 .tt { --tt-label: 88px; position: relative; font-size: 12px; padding: 4px 8px 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
-.tt-openings { position: relative; height: 18px; }
-.tt-openings span { position: absolute; top: 2px; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: var(--open-ink); white-space: nowrap; }
-.tt-row { display: grid; grid-template-columns: var(--tt-label) minmax(0, 1fr); align-items: stretch; height: 30px; cursor: pointer; border-radius: 4px; }
-.tt-row:not(.tt-axis):hover { background: var(--line-2); }
+.tt-row { display: grid; grid-template-columns: var(--tt-label) minmax(0, 1fr); align-items: stretch; height: 30px; border-radius: 4px; }
 .tt-axis { height: 22px; cursor: default; border-bottom: 1px solid var(--line-2); }
 .tt-body { position: relative; }
 .tt-floor { border-top: 1px solid var(--line-2); }
 .tt-floor:first-child { border-top: 0; }
-.tt-sub { height: 30px; }
-.tt-sub .tt-zone { padding-left: 24px; font-weight: 400; font-size: 12px; }
 .tt-zone { border: 0; background: none; text-align: left; padding: 8px 6px 0; align-self: start; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
-.tt-caret { display: inline-block; width: 12px; color: var(--ink-3); font-weight: 400; }
 .tt-track { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 5px 0; }
 .tt-lane { position: relative; flex: 1; min-height: 22px; max-height: 24px; }
 .tt-tick { position: absolute; top: 3px; transform: translateX(-50%); font-family: var(--mono); font-size: 11px; color: var(--ink-2); white-space: nowrap; }
@@ -180,10 +174,12 @@ input[type=date], select { border: 1px solid var(--line); background: var(--pane
 .tt-lead { gap: 4px; padding-left: 6px; background: var(--precool); color: var(--precool-ink); border-radius: 4px 0 0 4px; font-size: 11px; font-weight: 600; }
 .tt-flake { width: 11px; height: 11px; flex: none; }
 .tt-on { right: 0; background: var(--open-bar); border-radius: 0 4px 4px 0; }
-.tt-on span { padding-left: 8px; font-size: 12px; color: var(--open-ink); }
+.tt-on span { padding-left: 14px; font-size: 12px; color: var(--open-ink); }   /* clear of a meter marker a few minutes in */
 .tt-open { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--ink-3); pointer-events: none; z-index: 1; }
 
 /* hover card */
+.tt-zone .tt-sub-label { display: block; font-size: 11px; font-weight: 400; color: var(--ink-3); }
+.model-tag { font-size: 13px; line-height: 32px; white-space: nowrap; }
 .tt-tip { position: absolute; z-index: 5; width: 290px; padding: 12px 14px; font-size: 13px; pointer-events: none; box-shadow: 0 6px 20px rgb(0 0 0 / .18); }
 .tt-tip-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .tt-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 4px; background: var(--precool); color: var(--precool-ink); }
@@ -193,22 +189,15 @@ input[type=date], select { border: 1px solid var(--line); background: var(--pane
 .tt-kv.muted-kv { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 8px; }
 .tt-kv.muted-kv dt { color: var(--ink-3); }
 .tt-kv.muted-kv dd { font-weight: 400; color: var(--ink-2); }
-.tt-zones { margin-top: 8px; padding-top: 4px; border-top: 1px solid var(--line); width: 100%; font-size: 12px; }
-.tt-zones td, .tt-zones th { padding: 3px 0 3px 12px; border: 0; color: var(--ink-2); font-weight: 400; }
-.tt-zones td:first-child, .tt-zones th:first-child { padding-left: 0; }
-.tt-zones th { color: var(--ink-3); }
-.tt-tip.wide { width: 330px; }
 
-/* metered start hours: dashed = last working day the forecast saw, solid = the plan day itself (replays) */
+/* metered AC-on time of the plan day (replays, test period) */
 .plan-meters { font-size: 13px; color: var(--ink-2); margin: 0 0 12px; padding: 8px 12px; border-left: 3px solid var(--precool); background: var(--panel); border-radius: 0 6px 6px 0; }
 .plan-meters b { color: var(--ink); }
 .plan-meters a { color: var(--open-ink); font-weight: 600; white-space: nowrap; }
 .plan-kpis.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .tt-mark { position: absolute; top: -4px; bottom: -4px; width: 0; z-index: 2; pointer-events: none; }
-.tt-mark.seen { border-left: 2px dashed var(--ink); }
 .tt-mark.actual { border-left: 3px solid var(--ink); }
 .legend i.tt-key-mark { width: 0; height: 14px; border-top: 0; margin: 0 8px 0 4px; }
-.legend i.tt-key-mark.seen { border-left: 2px dashed var(--ink); }
 .legend i.tt-key-mark.actual { border-left: 3px solid var(--ink); }
 
 /* phone width: half-hour ticks and the start time inside the block don't fit; the hover card has them */
@@ -219,7 +208,6 @@ input[type=date], select { border: 1px solid var(--line); background: var(--pane
   .plan-kpi .value { font-size: 18px; }
   .tt { --tt-label: 64px; padding: 4px 4px 6px; }
   .tt-tick.minor, .tt-lead span { display: none; }
-  .tt-openings span { font-size: 11px; }
   .tt-on span { font-size: 11px; padding-left: 5px; }
 }
 

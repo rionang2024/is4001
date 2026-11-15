@@ -88,8 +88,7 @@ export default function ForecastChart({ series, date, span, model, compare, aler
         </div>
       )}
       <p className="muted small" style={{ margin: '8px 0 0' }}>
-        Dots mark deviation alerts (see sidebar).{missing > 0 && ` ${missing} hour(s) in this window have no scored reading and show as gaps.`}
-        {showBand && ` Band: ${bandRule}.`}
+        Dots: alerts.{missing > 0 && ` ${missing} hour(s) missing.`}{showBand && ` Band: ${bandRule}.`}
       </p>
     </section>
   )

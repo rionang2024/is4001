@@ -15,8 +15,8 @@ export function loadJSON(path) {
 }
 
 export const loadCore = () =>
-  Promise.all(['meta.json', 'metrics.json', 'daily.json', 'alerts.json', 'building.json'].map(loadJSON))
-    .then(([meta, metrics, daily, alerts, building]) => ({ meta, metrics, daily, alerts, building }))
+  Promise.all(['meta.json', 'metrics.json', 'daily.json', 'alerts.json', 'building.json', 'schedule.json'].map(loadJSON))
+    .then(([meta, metrics, daily, alerts, building, schedule]) => ({ meta, metrics, daily, alerts, building, schedule }))
 
 export const loadSeries = (zoneId) => loadJSON(`series/${zoneId}.json`)
 
@@ -52,8 +52,5 @@ export const modelName = (id) => ({
   'B1 seasonal naive': 'B1 · Seasonal naive',
   'B2 average profile': 'B2 · Average profile',
   'B3 calendar + AC lags': 'B3 · Calendar + lags',
-  'LGBM final': 'LightGBM (final)',
-  'LGBM full': 'LightGBM (all features)',
-  'XGB accuracy-first': 'XGBoost (accuracy-first)',
-  'XGB research-preserving': 'XGBoost (research-preserving)',
+  'LGBM final': 'LightGBM · M4',
 }[id] ?? id)

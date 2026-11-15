@@ -8,6 +8,7 @@ import StartupPlan from '../components/StartupPlan.jsx'
 import AlertsPanel from '../components/AlertsPanel.jsx'
 import AccuracyTable from '../components/AccuracyTable.jsx'
 import Assumptions from '../components/Assumptions.jsx'
+import { lastMeteredDay } from '../schedule.js'
 
 // Default day: the working day with the highest building-wide forecast peak.
 function busiestDay(building) {
@@ -21,10 +22,9 @@ function busiestDay(building) {
 export default function ForecastPage() {
   const [core, setCore] = useState(null)
   const [error, setError] = useState(null)
-  const [zoneId, setZoneId] = useState('F2_Z2')
+  const [zoneId, setZoneId] = useState('F3_Z1')
   const [date, setDate] = useState(null)
   const [view, setView] = useState('day')
-  const [model, setModel] = useState(null)
   const [compare, setCompare] = useState(null)
   const [series, setSeries] = useState(null)
 
@@ -32,7 +32,6 @@ export default function ForecastPage() {
     loadCore().then((c) => {
       setCore(c)
       setDate(busiestDay(c.building))
-      setModel(c.meta.primary_model)
       setCompare(c.meta.reference_baseline)
     }).catch((e) => setError(e.message))
   }, [])
@@ -52,9 +51,9 @@ export default function ForecastPage() {
   if (error) return <main className="page"><div className="loading">{error}</div></main>
   if (!core || !date) return <main className="page"><div className="loading">Loading forecasts…</div></main>
 
-  const { meta, metrics, daily, alerts, building } = core
+  const { meta, metrics, daily, alerts, building, schedule } = core
   const { start, end } = meta.period
-  const ml = meta.models.filter((m) => m.kind === 'model').map((m) => m.id)
+  const model = meta.primary_model           // LightGBM · M4, the team's model
   const baselines = meta.models.filter((m) => m.kind === 'baseline').map((m) => m.id)
   const span = view === 'day' ? 1 : 7
 
@@ -65,7 +64,7 @@ export default function ForecastPage() {
       <div className="page-head">
         <div>
           <h1>AC demand forecast: {zoneLabel(zoneId)}</h1>
-          <p>Day-ahead hourly forecast of zone AC load (kW). {meta.period.label}.</p>
+          <p>LightGBM (M4) day-ahead forecast vs actual, Jul–Sep 2018 test period.</p>
         </div>
       </div>
 
@@ -90,17 +89,13 @@ export default function ForecastPage() {
                 </div>
               </div>
               <div className="field">
-                <label>Forecast model</label>
-                <select value={model} onChange={(e) => setModel(e.target.value)}>
-                  {ml.map((m) => <option key={m} value={m}>{modelName(m)}</option>)}
-                  {meta.pending_models.map((m) => <option key={m} disabled>{m} (pending)</option>)}
-                </select>
+                <label>Model</label>
+                <div className="model-tag"><b>LightGBM</b> · feature set M4</div>
               </div>
               <div className="field">
                 <label>Compare with</label>
                 <select value={compare} onChange={(e) => setCompare(e.target.value)}>
                   {baselines.map((m) => <option key={m} value={m}>{modelName(m)}</option>)}
-                  {ml.filter((m) => m !== model).map((m) => <option key={m} value={m}>{modelName(m)}</option>)}
                 </select>
               </div>
             </div>
@@ -114,8 +109,8 @@ export default function ForecastPage() {
 
           <OutlookStrip days={dailyByZone[zoneId] ?? {}} date={date} onPick={setDate} />
 
-          <StartupPlan daily={daily} building={building} date={date} zones={meta.zones}
-                       rule={meta.rules.start_hour} onPickZone={(z) => goto(z)} />
+          <StartupPlan daily={daily} building={building} date={date} schedule={schedule}
+                       seenDay={lastMeteredDay(schedule, date)} showActual />
 
           <AccuracyTable metrics={metrics} zones={meta.zones} model={model} compare={compare}
                          selected={zoneId} onPick={setZoneId} />

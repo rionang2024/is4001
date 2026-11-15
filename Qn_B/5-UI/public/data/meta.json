@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-14T20:33:43+00:00",
+ "generated_at": "2026-11-15T08:42:33+00:00",
  "period": {
   "start": "2018-07-08",
   "end": "2018-09-30",
@@ -161,23 +161,13 @@
   {
    "id": "LGBM final",
    "kind": "model"
-  },
-  {
-   "id": "XGB accuracy-first",
-   "kind": "model"
-  },
-  {
-   "id": "XGB research-preserving",
-   "kind": "model"
   }
  ],
  "primary_model": "LGBM final",
  "reference_baseline": "B1 seasonal naive",
- "pending_models": [],
  "rules": {
-  "band": "10\u201390% range of LGBM final errors, per zone and hour of day (from test residuals until validation residuals are exported)",
+  "band": "10\u201390% of past errors",
   "deviation": "Operating hours: |actual \u2212 forecast| > max(2.0 kW, 3.0\u00d7 the zone's operating-hours MAE). After hours: actual > 2.0 kW while forecast < 0.5 kW.",
-  "start_hour": "First hour the forecast reaches 25% of that day's forecast peak (and \u2265 1.0 kW). Days with forecast peak < 2.0 kW count as AC off.",
   "operating_hours": "Weekdays that are not holidays, 07:00\u201317:00"
  },
  "diebold_mariano": [

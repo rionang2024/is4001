@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { loadJSON, addDays, zoneLabel, shortZone, dow, dayMonth } from '../data.js'
-import { fetchWeather, parseReadings, splitReadings, templateCsv, readingsCover, isHoliday, today, meteredStarts,
-         START_SHARE, START_MIN_KW, ACTIVE_DAY_PEAK_KW } from '../live/forecast.js'
+import { loadJSON, addDays, zoneLabel, shortZone, dow, dayMonth, fmt } from '../data.js'
+import { fetchWeather, parseReadings, splitReadings, templateCsv, readingsCover, isHoliday, today } from '../live/forecast.js'
+import { lastMeteredDay, acOnFor } from '../schedule.js'
 import ZonePicker from '../components/ZonePicker.jsx'
 import LiveKpis from '../components/LiveKpis.jsx'
 import LiveChart from '../components/LiveChart.jsx'
@@ -10,9 +10,6 @@ import OutlookStrip from '../components/OutlookStrip.jsx'
 import StartupPlan from '../components/StartupPlan.jsx'
 
 const DAYS = 8   // today + the next 7
-
-const START_RULE = `First hour the forecast reaches ${START_SHARE * 100}% of that day's forecast peak (and ≥ ${START_MIN_KW} kW). ` +
-  `Days with forecast peak < ${ACTIVE_DAY_PEAK_KW} kW count as AC off.`
 
 const dataUrl = (path) => new URL((import.meta.env.BASE_URL ?? '/') + 'data/' + path, document.baseURI).href
 const modelUrl = (file) => dataUrl('live/' + file)
@@ -37,10 +34,10 @@ export default function LiveForecastPage() {
   const [baseInputs, setInputs] = useState(null)
   const [weather, setWeather] = useState(null)
   const [error, setError] = useState(null)
-  const [zoneId, setZoneId] = useState('F2_Z2')
+  const [zoneId, setZoneId] = useState('F3_Z1')
   const [date, setDate] = useState(addDays(liveStart, 1))
   const [view, setView] = useState('day')
-  const [modelId, setModelId] = useState('lgbm')
+  const [schedule, setSchedule] = useState(null)
   const [readings, setReadings] = useState(null)
   const [uploadError, setUploadError] = useState(null)
   const [overrides, setOverrides] = useState({})
@@ -53,6 +50,7 @@ export default function LiveForecastPage() {
     loadJSON('live/inputs.json').then(setInputs).catch((e) => setError(e.message))
     loadJSON('bms/index.json').then(setBms).catch(() => setSource('none'))   // optional
     loadJSON('cubems/index.json').then(setHist).catch(() => {})              // optional
+    loadJSON('schedule.json').then(setSchedule).catch((e) => setError(e.message))
   }, [])
 
   // 2018-19 dates need that period's holidays and closures; the live list only covers recent years
@@ -117,23 +115,11 @@ export default function LiveForecastPage() {
 
   useEffect(() => {
     if (!inputs || !weather) return
-    const m = inputs.models.find((x) => x.id === modelId)
+    const m = inputs.models[0]                    // LightGBM · M4, the team's model
     setRunning(true)
     worker.current.postMessage({ id: ++runId.current, modelUrl: modelUrl(m.file), bands: m.bands, inputs, weather,
                                  start, days: DAYS, readings: lags, overrides })
-  }, [inputs, weather, lags, overrides, start, modelId])
-
-  // What the meters showed: AC start hour per zone on the last working day before the forecast was made, and on the
-  // plan day itself when the readings reach it (replays). Shown next to the plan, never given to the model.
-  const meters = useMemo(() => {
-    if (!readings || !inputs) return null
-    const has = (d) => Object.values(readings.byZone).some((days) => days[d]?.ac.some((v) => v != null))
-    const working = (d) => !isHoliday(d, inputs, overrides) && !['Sat', 'Sun'].includes(dow(d))
-    const seenDay = Array.from({ length: 7 }, (_, k) => addDays(start, -k - 1)).find((d) => working(d) && has(d))
-    if (!seenDay) return null
-    return { seenDay, seen: meteredStarts(readings.byZone, seenDay),
-             actual: date >= start && has(date) ? meteredStarts(readings.byZone, date) : null }
-  }, [readings, inputs, overrides, start, date])
+  }, [inputs, weather, lags, overrides, start])
 
   const dailyByZone = useMemo(() => {
     const m = {}
@@ -142,7 +128,7 @@ export default function LiveForecastPage() {
   }, [result])
 
   if (error) return <main className="page"><div className="loading">{error}</div></main>
-  if (!inputs) return <main className="page"><div className="loading">Loading the model…</div></main>
+  if (!inputs || !schedule) return <main className="page"><div className="loading">Loading the model…</div></main>
 
   const last = addDays(start, DAYS - 1)
   const span = view === 'day' ? 1 : 7
@@ -151,8 +137,10 @@ export default function LiveForecastPage() {
   const covered = lags ? inputs.zones.filter((z) => readingsCover(lags, z.id, start)).length : 0
   const hol = isHoliday(date, inputs, overrides)
   const holName = inputs.holidays[date]
-  const model = inputs.models.find((m) => m.id === modelId)
-  const opWape = (m, mode) => m.accuracy.overall.operating[mode].WAPE
+  const model = inputs.models[0]
+  const score = inputs.reported
+  // CU-BEMS replays plan from the last working day the forecast could see; live days use the typical times
+  const seenDay = history ? lastMeteredDay(schedule, start) : null
 
   const onUpload = (f) => f.text().then((text) => {
     setUploadError(null)
@@ -161,7 +149,7 @@ export default function LiveForecastPage() {
     setDate(addDays(liveStart, 1))
   }).catch((e) => setUploadError(e.message))
 
-  // Day and model change the whole-building plan, so they sit with it; floor/zone only change the detail below.
+  // Day and day type change the whole-building plan, so they sit with it; floor/zone only change the detail below.
   const planControls = (
     <div className="controls">
       <div className="field">
@@ -183,11 +171,7 @@ export default function LiveForecastPage() {
       </div>
       <div className="field">
         <label>Model</label>
-        <select value={modelId} onChange={(e) => setModelId(e.target.value)}>
-          {inputs.models.map((m) => (
-            <option key={m.id} value={m.id}>{m.name} · {opWape(m, mode)}% WAPE</option>
-          ))}
-        </select>
+        <div className="model-tag"><b>LightGBM</b> · feature set M4 · WAPE {score.lgbm.WAPE}%</div>
       </div>
     </div>
   )
@@ -198,11 +182,9 @@ export default function LiveForecastPage() {
         <div className="page-head">
           <div>
             <h1>Upcoming AC demand</h1>
-            <p>{history
-              ? <>Replay on real CU-BEMS data: forecast made on {dow(start)} {dayMonth(start)} {start.slice(0, 4)} from the week of meter readings before it, with that week's observed weather.</>
-              : replay
-              ? <>Replay: forecast made on {dow(start)} {dayMonth(start)} 2026 from the meter history before it, with that week's observed weather.</>
-              : <>Today and the next 7 days, from the trained {model.name} model, today's weather forecast for Bangkok and the last 7 days of meter readings.</>}</p>
+            <p>{history || replay
+              ? <>LightGBM forecast made on {dow(start)} {dayMonth(start)} {start.slice(0, 4)}, from the week of readings before it.</>
+              : <>LightGBM forecast for today and the next 7 days.</>}</p>
           </div>
           <div className="date-row">
             {running && <span className="chip plain">Running the model…</span>}
@@ -240,26 +222,23 @@ export default function LiveForecastPage() {
         </div>
         {history && (
           <div className="demo-note">
-            <span className="chip good">Real CU-BEMS readings</span> The same meters as the After-hours energy tab (hourly means of its minute data).
-            Readings from {dow(start)} {dayMonth(start)} on are only drawn as actuals, never given to the model.{' '}
+            <span className="chip good">Real CU-BEMS data</span> Same meters as Question A.{' '}
             {start <= hist.test[1]
-              ? <span className="chip plain">Test period · the model never saw these days</span>
-              : <span className="chip warn">2019 · the model was trained on this year, so the match is optimistic</span>}
-            {hist.presets.find((p) => p.start === asOf) && <> {hist.presets.find((p) => p.start === asOf).edge}</>}
-            {' '}Dates with data: Jul–Sep 2018 and Mar–Dec 2019.
+              ? <span className="chip plain">Test period: unseen by the model</span>
+              : <span className="chip warn">2019: training year, so optimistic</span>}
           </div>
         )}
         {(source === 'bms' || replay) && (
           <div className="demo-note">
-            <span className="chip warn">Mock BMS data</span> {replay ? replay.edge : 'Readings stand in for the building’s meters; weather is real.'}
+            <span className="chip warn">Mock BMS data</span> {replay ? replay.edge : 'Stand-in meter readings; real weather.'}
           </div>
         )}
 
         {result ? (
-          <StartupPlan daily={result.daily} building={result.building} date={date} rule={START_RULE}
+          <StartupPlan daily={result.daily} building={result.building} date={date} schedule={schedule}
+                       seenDay={seenDay} showActual={history} toolbar={planControls}
                        hotDayTemp={inputs.hot_day_temp} hotDayNote="hotter than three-quarters of 2019 days"
-                       onPickZone={setZoneId} toolbar={planControls} meters={meters}
-                       qaLink={history ? `#/qn-a?t=${date}T06:00` : null} />
+                       qaLink={history ? `#/qn-a?t=${date}T07:00` : null} />
         ) : (
           <section className="panel plan">{planControls}<div className="loading">Running the model…</div></section>
         )}
@@ -289,34 +268,22 @@ export default function LiveForecastPage() {
 
           {result && (
             <OutlookStrip days={dailyByZone[zoneId] ?? {}} date={date} onPick={setDate}
-                          note={history
-                            ? <>Weather is the <b>observed {start.slice(0, 4)} weather</b> the model was trained and tested with, standing in for a forecast.</>
-                            : replay
-                            ? <>Weather is <b>observed 2026 weather</b> (Open-Meteo archive), standing in for a forecast.</>
-                            : <>Weather is the <b>Open-Meteo forecast</b> issued today; the further ahead the day, the less certain it is.</>} />
+                          note={history || replay ? <>Observed weather stands in for a forecast.</>
+                            : <>Weather: today's Open-Meteo forecast.</>} />
           )}
 
           <section className="panel assumptions">
-            <div className="panel-head"><h2>How this forecast is made</h2>
-              <span className="sub">Model data exported {inputs.generated_at.slice(0, 10)}</span></div>
+            <div className="panel-head"><h2>About the model</h2></div>
             <ul>
-              <li><b>Model:</b> {model.name}, trained on {model.trained_on}, runs in your browser ({model.trees.toLocaleString()} trees). Same predictions as the Python model, checked by <span className="num">npm run check:live</span>.</li>
-              <li><b>Choosing a model:</b> operating-hours WAPE on Jul–Sep 2018, with the typical week / with real readings:{' '}
-                {inputs.models.map((m, i) => <span key={m.id}>{i > 0 && '; '}{m.name} {opWape(m, 'typical')}% / {opWape(m, 'readings')}%</span>)}.
-                LightGBM also uses the weather, which helps most while readings are not connected; XGBoost (accuracy-first) uses only the calendar and AC lags, so it ignores the weather forecast.</li>
-              <li><b>Weather:</b> {history ? 'replay: the observed 2018–19 weather from the model data, standing in for the forecast.' : replay ? 'replay: observed 2026 weather from the Open-Meteo archive, standing in for the forecast.' : 'live Open-Meteo forecast.'} Accuracy figures were measured with observed weather, so they flatter a real forecast a little, more so for days further out.</li>
-              <li><b>Last-7-days inputs:</b> {inputs.rules.typical}. Backtested on Jul–Sep 2018: operating-hours WAPE {opWape(model, 'typical')}% with the typical week vs {opWape(model, 'readings')}% with real readings.</li>
-              <li><b>Building today:</b> the model has only seen 2018–19. Changes since then (equipment, layout, occupancy, working patterns) are not in it.</li>
-              <li><b>Holidays:</b> Thai public holidays. Office closures that are not public holidays can be marked per day in the plan above.</li>
-              <li><b>Rain and solar timing:</b> {inputs.rules.weather_shift}.</li>
+              <li><b>LightGBM, feature set M4</b>: calendar, AC lags, indoor and outdoor weather. Trained on 2019.</li>
+              <li>Test (Jul–Sep 2018, operating hours): WAPE {fmt(score.lgbm.WAPE, 2)}%, CV(RMSE) {fmt(score.lgbm.CVRMSE, 2)}%, NMBE {fmt(score.lgbm.NMBE, 2)}%.
+                Beat XGBoost M4 ({fmt(score.xgb.WAPE, 2)}%, {fmt(score.xgb.CVRMSE, 2)}%, {fmt(score.xgb.NMBE, 2)}%).</li>
+              <li>Without recent readings, a typical 2019 week stands in (WAPE {model.accuracy.overall.operating.typical.WAPE}%).</li>
             </ul>
           </section>
 
           {mode === 'typical' && (
-            <div className="note">
-              <b>Recent readings are not connected.</b> The model's last-7-days inputs for this zone come from a typical 2019 week,
-              so treat this as a weather- and calendar-adjusted typical day rather than a full forecast. Upload recent readings in the sidebar to use the real ones.
-            </div>
+            <div className="note"><b>No recent readings for this zone:</b> using a typical 2019 week.</div>
           )}
         </div>
 
@@ -325,7 +292,7 @@ export default function LiveForecastPage() {
             <section className="panel">
               <div className="panel-head"><h2>{shortZone(zoneId)} · {dow(date)} {dayMonth(date)}</h2></div>
               <LiveKpis day={dailyByZone[zoneId]?.[date]} series={series} date={date}
-                        accuracy={model.accuracy.by_zone[zoneId]} mode={mode} />
+                        accuracy={model.accuracy.by_zone[zoneId]} mode={mode} acOn={acOnFor(schedule, seenDay, zoneId)} />
             </section>
           )}
           <LiveInputs weather={weather} dates={result?.dates ?? []} readings={lags} covered={covered}

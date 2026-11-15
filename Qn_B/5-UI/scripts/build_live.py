@@ -4,11 +4,8 @@ Run from anywhere:
 
     python Qn_B/5-UI/scripts/build_live.py
 
-Two trained models can run in the browser (the user picks one):
-    LightGBM (final)            Qn_B/3-LightGBM, calendar + lags + weather
-    XGBoost (accuracy-first)    Qn_B/4-XGBoost final_models, calendar + AC lags only
-
-Between them they need, for every zone-hour they forecast:
+The model is the team's choice, LightGBM with feature set M4 (Qn_B/3-LightGBM): calendar, AC lags,
+indoor and outdoor weather. It needs, for every zone-hour it forecasts:
     calendar            -> known for any date
     outdoor weather     -> fetched live from the Open-Meteo forecast API by the browser
     AC load + indoor    -> the building's own readings 1, 2 and 7 days earlier
@@ -24,7 +21,8 @@ much accuracy it costs.
 Reads
     Qn_B/3-LightGBM/outputs/ac_forecaster/{model.txt, meta.json}
     Qn_B/3-LightGBM/outputs/test_predictions.parquet
-    Qn_B/4-XGBoost/outputs/final_models/accuracy_first/model.json
+    Qn_B/3-LightGBM/outputs/m1_m4_test_metrics.csv                 (the reported test scores)
+    Qn_B/4-XGBoost/outputs/final_models/common_metrics.csv         (XGBoost M4, the runner-up)
     Qn_B/cleaned_data/question_b_model_data.parquet
 
 Writes
@@ -44,12 +42,12 @@ import holidays
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
-import xgboost as xgb
 
 ROOT = Path(__file__).resolve().parents[3]
 QB = ROOT / "Qn_B"
 MODEL_DIR = QB / "3-LightGBM" / "outputs" / "ac_forecaster"
-XGB_DIR = QB / "4-XGBoost" / "outputs" / "final_models" / "accuracy_first"
+LGBM_SCORES = QB / "3-LightGBM" / "outputs" / "m1_m4_test_metrics.csv"
+XGB_SCORES = QB / "4-XGBoost" / "outputs" / "final_models" / "common_metrics.csv"
 OUT = QB / "5-UI" / "public" / "data" / "live"
 CHECK = QB / "5-UI" / "scripts" / "live_check.json"
 
@@ -106,35 +104,25 @@ def predict(booster: lgb.Booster, meta: dict, df: pd.DataFrame) -> np.ndarray:
     return np.clip(booster.predict(X), 0, None)
 
 
-def export_xgb_trees(model: dict) -> list[dict]:
-    """XGBoost JSON trees as compact arrays. A leaf (l == -1) keeps its value in t."""
-    return [{"l": t["left_children"], "r": t["right_children"], "f": t["split_indices"],
-             "t": t["split_conditions"], "d": [int(v) for v in t["default_left"]]}
-            for t in model["learner"]["gradient_booster"]["model"]["trees"]]
-
-
 def load_models() -> list[dict]:
-    """Each model: id, display name, features, a Python predict(df), and its browser export."""
+    """The model: id, display name, features, a Python predict(df), and its browser export."""
     meta = json.loads((MODEL_DIR / "meta.json").read_text())
     text = read_model_text()
     booster = lgb.Booster(model_str=text)
-
-    xjson = json.loads((XGB_DIR / "model.json").read_text())
-    learner = xjson["learner"]
-    assert learner["gradient_booster"]["name"] == "gbtree" and learner["objective"]["name"] == "reg:squarederror"
-    xfeats = learner["feature_names"]
-    xbooster = xgb.Booster(model_file=str(XGB_DIR / "model.json"))
-    xtrees = export_xgb_trees(xjson)
-
     return [
-        {"id": "lgbm", "name": "LightGBM (final)", "features": meta["features"], "trees": booster.num_trees(),
+        {"id": "lgbm", "name": "LightGBM · M4", "features": meta["features"], "trees": booster.num_trees(),
          "predict": lambda df: predict(booster, meta, df),
          "export": {"kind": "lgbm", "features": meta["features"], "trees": export_trees(text)}},
-        {"id": "xgb", "name": "XGBoost (accuracy-first)", "features": xfeats, "trees": len(xtrees),
-         "predict": lambda df: np.clip(xbooster.predict(xgb.DMatrix(df[xfeats].astype(float))), 0, None),
-         "export": {"kind": "xgb", "features": xfeats, "base": float(learner["learner_model_param"]["base_score"].strip("[]")),
-                    "trees": xtrees}},
     ]
+
+
+def reported_scores() -> dict:
+    """The test scores on the slides (operating hours, Jul-Sep 2018): LightGBM M4 and the runner-up, XGBoost M4.
+    The XGBoost file stores NMBE as forecast - actual; flipped here to actual - forecast, as the LightGBM file."""
+    lg = pd.read_csv(LGBM_SCORES).set_index(["model", "hours"]).loc[("M4 (B)", "operating hours")]
+    xg = pd.read_csv(XGB_SCORES).set_index(["model", "slice"]).loc[("correlation_reduced_M4", "operating_hours")]
+    return {"lgbm": {"WAPE": round(lg["WAPE%"], 2), "CVRMSE": round(lg["CV(RMSE)%"], 2), "NMBE": round(lg["NMBE%"], 2)},
+            "xgb": {"WAPE": round(xg.wape * 100, 2), "CVRMSE": round(xg.cv_rmse * 100, 2), "NMBE": round(-xg.nmbe * 100, 2)}}
 
 
 # ----------------------------------------------------------------------------- calendar
@@ -266,11 +254,11 @@ def main() -> None:
         "typical": typical,
         "models": model_info,
         "hot_day_temp": round(hot, 1),
+        "reported": reported_scores(),
         "rules": {
             "typical": "Median reading for the zone, day type (Mon–Sun or holiday) and hour over 2019, "
                        "the year the model was trained on",
-            "band": f"{int(BAND_LOW_Q*100)}–{int(BAND_HIGH_Q*100)}% range of backtest errors per zone and hour, "
-                    "Jul–Sep 2018 test period, for the selected input mode",
+            "band": f"{int(BAND_LOW_Q*100)}–{int(BAND_HIGH_Q*100)}% of past errors",
             "weather_shift": "Rain and solar radiation are taken from the next Open-Meteo hour, because "
                              "Open-Meteo labels them at the end of the hour and the training data at the start",
         },
@@ -278,7 +266,8 @@ def main() -> None:
 
     for m in models:
         (OUT / f"model_{m['id']}.json").write_text(json.dumps(m["export"], separators=(",", ":")))
-    (OUT / "model.json").unlink(missing_ok=True)        # single-model file from before
+    for old in ("model.json", "model_xgb.json"):           # files from earlier versions
+        (OUT / old).unlink(missing_ok=True)
     (OUT / "inputs.json").write_text(json.dumps(inputs, separators=(",", ":")))
 
     # ---------------------------------------------------------------- JS evaluator check fixture

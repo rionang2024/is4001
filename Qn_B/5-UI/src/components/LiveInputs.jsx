@@ -47,11 +47,9 @@ export default function LiveInputs({ weather, dates, readings, feed, covered, zo
       </div>
       {uploadError && <div className="note" style={{ marginTop: 8, color: 'var(--bad)' }}>{uploadError}</div>}
 
-      <div className="note" style={{ marginTop: 12 }}>
-        <b>Why this matters.</b> The model forecasts each hour from the same hour 1, 2 and 7 days earlier.
-        The CU-BEMS record ends in Dec 2019, so until the building's meters feed this page those readings are stood in by a typical week.
-        The template has the columns <span className="num">zone_id, timestamp, ac_load_kw, indoor_temp_c, indoor_humidity_pct</span> for the 7 days before today.
-      </div>
+      <p className="muted small" style={{ margin: '10px 0 0' }}>
+        The model uses readings from 1, 2 and 7 days before. Without them, a typical 2019 week stands in.
+      </p>
     </section>
   )
 }
