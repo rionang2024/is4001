@@ -57,6 +57,15 @@ npm run data:mock    # extend the history to yesterday (needs internet for the w
 
 The mock comes from the same 2018–19 behaviour the models learned, so a close match in a replay shows the pipeline works end to end. It does not prove the models are accurate in 2026.
 
+### Replay on real CU-BEMS data (links to Question A)
+
+**Meter data → Replay · real CU-BEMS data** runs the same forecast on the building's real 2018–19 readings, from `public/data/cubems/` (built by `npm run data:history`). These are the same meters as the After-hours energy tab: the hourly AC load is the hourly mean of Question A's minute data. Pick the day the forecast is made ("Forecast made on"): the model gets the week of readings before it and that week's observed weather. Readings from that day on are only drawn as actuals.
+
+- **Seen on the meters** (above the plan): when each zone's AC came on during the last working day the forecast could see. The plan adds the pre-cooling lead before each forecast opening.
+- **Markers on the timetable**: dashed = AC on during that last working day, solid = AC on during the plan day. **Openings the meters confirmed** counts the zones whose forecast opening hour matched the meters.
+- **See this morning in After-hours energy**: opens Question A at 06:00 on the plan day (`#/qn-a?t=YYYY-MM-DDTHH:MM`), so the pre-cooling hours can be replayed minute by minute.
+- Dates: Jul–Sep 2018 is the test period (the model never saw it). Mar–Dec 2019 is the year it was trained on, so matches there are optimistic. Question A's status colours start in September 2018.
+
 ## How data gets in
 
 `scripts/build_data.py` reads the model outputs and writes small JSON files to `public/data/`. The UI only reads those JSON files, so **re-run `npm run data` whenever a model's outputs change**.

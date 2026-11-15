@@ -197,10 +197,24 @@ input[type=date], select { border: 1px solid var(--line); background: var(--pane
 .tt-zones td, .tt-zones th { padding: 3px 0 3px 12px; border: 0; color: var(--ink-2); font-weight: 400; }
 .tt-zones td:first-child, .tt-zones th:first-child { padding-left: 0; }
 .tt-zones th { color: var(--ink-3); }
+.tt-tip.wide { width: 330px; }
+
+/* metered start hours: dashed = last working day the forecast saw, solid = the plan day itself (replays) */
+.plan-meters { font-size: 13px; color: var(--ink-2); margin: 0 0 12px; padding: 8px 12px; border-left: 3px solid var(--precool); background: var(--panel); border-radius: 0 6px 6px 0; }
+.plan-meters b { color: var(--ink); }
+.plan-meters a { color: var(--open-ink); font-weight: 600; white-space: nowrap; }
+.plan-kpis.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tt-mark { position: absolute; top: -4px; bottom: -4px; width: 0; z-index: 2; pointer-events: none; }
+.tt-mark.seen { border-left: 2px dashed var(--ink); }
+.tt-mark.actual { border-left: 3px solid var(--ink); }
+.legend i.tt-key-mark { width: 0; height: 14px; border-top: 0; margin: 0 8px 0 4px; }
+.legend i.tt-key-mark.seen { border-left: 2px dashed var(--ink); }
+.legend i.tt-key-mark.actual { border-left: 3px solid var(--ink); }
 
 /* phone width: half-hour ticks and the start time inside the block don't fit; the hover card has them */
 @media (max-width: 640px) {
   .plan-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .plan-kpis.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .plan-kpi { padding: 8px 10px; }
   .plan-kpi .value { font-size: 18px; }
   .tt { --tt-label: 64px; padding: 4px 4px 6px; }

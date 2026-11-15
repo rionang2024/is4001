@@ -35,7 +35,8 @@ const Snowflake = () => (
   </svg>
 )
 
-function Timetable({ plan, onPick }) {
+// meters: optional metered start hours per zone ({ seen, actual }), drawn as markers on each lane
+function Timetable({ plan, onPick, meters }) {
   const box = useRef(null)
   const [tip, setTip] = useState(null)
   const [open, setOpen] = useState(null)
@@ -53,8 +54,11 @@ function Timetable({ plan, onPick }) {
 
   const hover = (lane, title) => (e) => {
     const r = box.current.getBoundingClientRect()
-    setTip({ lane, title, left: Math.min(e.clientX - r.left + 14, r.width - 290), top: e.clientY - r.top + 14 })
+    setTip({ lane, title, left: Math.min(e.clientX - r.left + 14, r.width - (meters ? 330 : 290)), top: e.clientY - r.top + 14 })
   }
+  // Distinct metered start hours of a lane's zones that fall on the time axis
+  const marks = (zones, key) => [...new Set(zones.map((p) => meters?.[key]?.[p.zone]).filter((h) => h != null))]
+    .filter((h) => h * 60 >= t0 && h * 60 <= t1)
 
   const Lane = ({ lane, title, text }) => (
     <div className="tt-lane" onMouseMove={hover(lane, title)}>
@@ -64,8 +68,13 @@ function Timetable({ plan, onPick }) {
       <div className="tt-on" style={{ left: x(lane.slot * 60) }}>
         <span>{text ? `${text} · ` : ''}open {hh(lane.slot)}</span>
       </div>
+      {['seen', 'actual'].map((k) => marks(lane.zones, k).map((h) => <i key={k + h} className={`tt-mark ${k}`} style={{ left: x(h * 60) }} />))}
     </div>
   )
+  const metered = (key, zone) => {
+    const v = meters?.[key]?.[zone]
+    return v === undefined ? '–' : v === null ? 'AC off' : v === 0 ? 'all night' : hh(v)
+  }
 
   const tz = tip?.lane.zones
   return (
@@ -105,14 +114,35 @@ function Timetable({ plan, onPick }) {
       </div>
 
       {tip && (
-        <div className="panel tt-tip" style={{ left: Math.max(0, tip.left), top: tip.top }}>
+        <div className={`panel tt-tip ${meters ? 'wide' : ''}`} style={{ left: Math.max(0, tip.left), top: tip.top }}>
           <div className="tt-tip-head"><b>{tip.title}</b><span className="tt-chip">Pre-cooling</span></div>
           <dl className="tt-kv">
             <dt>Start cooling</dt><dd className="num">{hhmm(tip.lane.t)}</dd>
             <dt>Open</dt><dd className="num">{hh(tip.lane.slot)}</dd>
             <dt>Lead time</dt><dd className="num">{tip.lane.slot * 60 - tip.lane.t} min</dd>
           </dl>
-          {tz.length === 1 ? (
+          {meters && tz.length === 1 && (
+            <dl className="tt-kv muted-kv">
+              <dt>Meters, {dow(meters.seenDay)} {dayMonth(meters.seenDay)}</dt><dd className="num">{metered('seen', tz[0].zone)}</dd>
+              {meters.actual && <><dt>Meters, this day</dt><dd className="num">{metered('actual', tz[0].zone)}</dd></>}
+            </dl>
+          )}
+          {meters && tz.length > 1 ? (
+            <table className="tt-zones">
+              <thead><tr><th>Zone</th><th className="r">Peak load</th><th className="r">On {dow(meters.seenDay)}</th>
+                {meters.actual && <th className="r">On this day</th>}</tr></thead>
+              <tbody>
+                {tz.map((p) => (
+                  <tr key={p.zone}>
+                    <td>{zLabel(p)}</td>
+                    <td className="r num">{fmt(p.forecast_peak)} kW at {hh(p.forecast_peak_hour)}</td>
+                    <td className="r num">{metered('seen', p.zone)}</td>
+                    {meters.actual && <td className="r num">{metered('actual', p.zone)}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : tz.length === 1 ? (
             <dl className="tt-kv muted-kv">
               <dt>Peak load</dt><dd className="num">{fmt(tz[0].forecast_peak)} kW at {hh(tz[0].forecast_peak_hour)}</dd>
               <dt>AC energy, whole day</dt><dd className="num">{tz[0].forecast_kwh != null ? `${fmt(tz[0].forecast_kwh, 0)} kWh` : '–'}</dd>
@@ -139,7 +169,10 @@ function Timetable({ plan, onPick }) {
 
 // hotDayTemp: fixed threshold (live tab, where a week is too short to take a quartile of)
 // toolbar: optional controls shown under the title (live tab: day, day type, model)
-export default function StartupPlan({ daily, building, date, onPickZone, rule, toolbar, hotDayTemp, hotDayNote = 'top quarter of the period' }) {
+// meters: optional { seenDay, seen, actual }: metered start hour per zone on the last working day the forecast could see,
+//         and on the plan day itself when the readings go that far (replays); qaLink: the same morning in Question A's tab
+export default function StartupPlan({ daily, building, date, onPickZone, rule, toolbar, hotDayTemp, hotDayNote = 'top quarter of the period',
+                                      meters, qaLink }) {
   const periodHot = useMemo(() => {
     const temps = [...new Set(daily.map((d) => `${d.date}|${d.temp_avg}`))].map((s) => +s.split('|')[1]).sort((a, b) => a - b)
     return temps[Math.floor(temps.length * 0.75)]
@@ -163,6 +196,12 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
   const lead = READY_MIN + (hotDay ? HOT_EXTRA_MIN : 0)
   const floorIds = [...new Set(plan.map((p) => p.zone.slice(0, 2)))]
   const earlyFloors = floorIds.filter((f) => plan.some((p) => p.zone.startsWith(f) && p.suggested < firstOpen * 60)).length
+  // Zones per metered start hour on the last working day, and how many forecast openings the meters confirmed on the day
+  const seenCount = {}
+  for (const h of Object.values(meters?.seen ?? {})) if (h != null) seenCount[h] = (seenCount[h] ?? 0) + 1
+  const seenHours = Object.entries(seenCount).sort(([a], [b]) => a - b)
+  const checked = meters?.actual ? plan.filter((p) => meters.actual[p.zone] !== undefined) : []
+  const matched = checked.filter((p) => meters.actual[p.zone] === p.slot).length
 
   return (
     <section className="panel plan">
@@ -182,18 +221,33 @@ export default function StartupPlan({ daily, building, date, onPickZone, rule, t
         <div className="note">No AC forecast on this day.</div>
       ) : (
         <>
-          <div className="plan-kpis">
+          {meters?.seenDay && (
+            <div className="plan-meters">
+              <b>Seen on the meters, {dow(meters.seenDay)} {dayMonth(meters.seenDay)}:</b>{' '}
+              {seenHours.length ? seenHours.map(([h, v], i) => <span key={h}>{i > 0 && ', '}{+h === 0 ? <>AC running all night</> : <>AC on at <b className="num">{hh(+h)}</b></>} in {v} zone{v > 1 ? 's' : ''}</span>)
+                : 'no AC start-ups'}.
+              {' '}The plan forecasts each zone's opening and starts cooling {lead} min before it.
+              {qaLink && <> <a href={qaLink}>See this morning in After-hours energy (Question A) →</a></>}
+            </div>
+          )}
+          <div className={`plan-kpis ${checked.length ? 'four' : ''}`}>
             <div className="plan-kpi"><div className="label">Earliest pre-cool start</div><div className="value num">{hhmm(firstStart)}</div></div>
             <div className="plan-kpi"><div className="label">Floors starting before {hh(firstOpen)}</div>
               <div className="value num">{earlyFloors} of {floorIds.length}</div></div>
             <div className="plan-kpi"><div className="label">Lead time before open</div><div className="value num">{lead} min</div></div>
+            {checked.length > 0 && (
+              <div className="plan-kpi"><div className="label">Openings the meters confirmed</div>
+                <div className="value num">{matched} of {checked.length}</div></div>
+            )}
           </div>
           <div className="legend plan-legend">
             <span><i className="tt-key-lead" />Pre-cooling (starts {lead} min before open)</span>
             <span><i className="tt-key-on" />Open, with zones</span>
+            {meters?.seenDay && <span><i className="tt-key-mark seen" />AC on, {dow(meters.seenDay)} (meters)</span>}
+            {meters?.actual && <span><i className="tt-key-mark actual" />AC on, this day (meters)</span>}
             <span className="muted">Click a floor to list its zones</span>
           </div>
-          <Timetable plan={plan} onPick={onPickZone} />
+          <Timetable plan={plan} onPick={onPickZone} meters={meters?.seenDay ? meters : null} />
           {allDay.length > 0 && (
             <p className="muted small" style={{ margin: '6px 0 0' }}>
               Not shown: {allDay.map((r) => r.zone.replace('_', ' ')).join(', ')} run around the clock (no start-up).

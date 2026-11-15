@@ -129,6 +129,27 @@ export function templateCsv(inputs, start, overrides) {
   return lines.join('\n')
 }
 
+// ----------------------------------------------------------------------------- start hours
+// Hour the AC comes on in 24 hourly values (forecast or metered): the first hour at START_SHARE of the
+// day's peak and at least START_MIN_KW. null when the day's peak is too small to count as AC on.
+export function startHourOf(values) {
+  if (values.length < 24 || values.some((v) => v == null)) return null
+  const peak = Math.max(...values)
+  if (peak < ACTIVE_DAY_PEAK_KW) return null
+  const on = values.findIndex((v) => v >= START_SHARE * peak && v >= START_MIN_KW)
+  return on < 0 ? null : on
+}
+
+// Metered start hour per zone on day d, from parsed readings (byZone[zone][date].ac)
+export function meteredStarts(byZone, d) {
+  const out = {}
+  for (const [z, days] of Object.entries(byZone ?? {})) {
+    const h = days[d] ? startHourOf(days[d].ac) : null
+    if (days[d]) out[z] = h
+  }
+  return out
+}
+
 // ----------------------------------------------------------------------------- forecast
 // Whether a zone's first forecast day has real readings behind all its lag days
 export function readingsCover(readings, zoneId, start) {
@@ -221,14 +242,9 @@ export function runForecast({ model, bands, inputs, weather, start, days, readin
       }
 
       const peak = Math.max(...f)
-      let startHour = null
-      if (peak >= ACTIVE_DAY_PEAK_KW) {
-        const on = f.findIndex((v) => v >= START_SHARE * peak && v >= START_MIN_KW)
-        startHour = on < 0 ? null : on
-      }
       daily.push({
         zone: id, date: d, forecast_peak: peak, forecast_peak_hour: f.indexOf(peak),
-        forecast_kwh: f.reduce((a, b) => a + b, 0), start_hour: startHour, hours: 24,
+        forecast_kwh: f.reduce((a, b) => a + b, 0), start_hour: startHourOf(f), hours: 24,
         temp_max: Math.max(...w.temp), temp_avg: w.temp_avg, rain_mm: w.rain_total,
         is_holiday: hol, is_weekend: weekend,
       })
