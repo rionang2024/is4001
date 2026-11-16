@@ -6,6 +6,9 @@ import { daytimeBand } from './afterHours.js'
 export const INCIDENT = { date: '2018-10-03', minute: 20 * 60 + 35 }
 // The night the button below jumps to: Fri 13 Sep 2019, from 17:01 (the start of the after-hours window)
 const NIGHT = { date: '2019-09-13', minute: 17 * 60 + 1 }
+// The alerts sidebar's example: Wed 26 Jun 2019, 22:14. F1 Z2 AC is a running, recurring alert (median + 3 SD), so the
+// sidebar shows a full card with its next best action; create a ticket here, then move to 7 Aug 2019 for "Did it work?".
+const ALERTS = { date: '2019-06-26', minute: 22 * 60 + 14 }
 
 export default function TimeControl({ meta, date, minute, onDate, onMinute, playing, onPlaying, step, onStep, busy, holidays, afterOnly, onAfterOnly, onJump }) {
   const { date_min: lo, date_max: hi } = meta
@@ -58,6 +61,10 @@ export default function TimeControl({ meta, date, minute, onDate, onMinute, play
           <button type="button" className="btn qa-night" title="Jump to the start of an example night: Fri 13 Sep 2019, 17:01 to Sat 09:00"
                   onClick={() => { onPlaying(false); onJump(NIGHT.date, NIGHT.minute) }}>
             Example simulation
+          </button>
+          <button type="button" className="btn qa-night" title="Jump to an example for the alerts sidebar: Wed 26 Jun 2019, 22:14 (Floor 1 Zone 2 AC, a recurring alert)"
+                  onClick={() => { onPlaying(false); onJump(ALERTS.date, ALERTS.minute) }}>
+            Example simulation (alerts)
           </button>
         </div>
       </div>

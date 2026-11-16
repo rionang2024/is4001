@@ -1,6 +1,6 @@
 // Sidebar for Question A: after-hours problems (one per floor, zone and load), live status and mock work tickets.
-// Data comes from public/data/qa_alerts_sd.json or qa_alerts.json (one per alert rule, picked by the page's Alert rule
-// switch through alertRule.js), built by Qn_A/scripts/build_alerts.py from the minute data.
+// Data comes from public/data/qa_alerts_sd.json or qa_alerts.json (one per alert rule, picked through
+// alertRule.js: the page always uses median + 3 SD unless the API has no sd rule files), built by Qn_A/scripts/build_alerts.py from the minute data.
 // It follows the page's replay clock (`now`): it only knows what had happened by then, like a live dashboard.
 //   Active now  alerts running at `now`
 //   Watching    loads amber or red at `now` that have not become an alert yet, with how close they are
@@ -108,7 +108,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
   const [picked, setPicked] = useState(null) // { floor, zone, end_use } clicked on the building
   const [flash, setFlash] = useState(0) // bumps each time something is picked, to replay the highlight and scroll
 
-  const alertRule = useAlertRule() // 'sd' or 'p99', from the page's Alert rule switch
+  const alertRule = useAlertRule() // 'sd' (median + 3 SD); 'p99' only if the API has no sd rule files
   useEffect(() => {
     let on = true
     setData(null)
@@ -461,7 +461,7 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
         </p>
         <p>
           A card marked <b>Alert running now</b> has an alert happening at this minute and is listed first in its tab.
-          The building shows every load above its limit at this minute, tagged <b>Alert</b> or <b>Not an alert yet</b>:
+          The building shows every load above its limit at this minute, and tags the ones that are already alerts with <b>Alert</b>:
           many never become alerts because they are too short or too small. Floors with high priority problems so far
           carry a "recurring" badge.
         </p>
@@ -478,7 +478,6 @@ export default function AlertsSidebar({ selectedId, onPick, now, rows, onSetTime
           {ar.id === 'sd'
             ? <>The limit is the usual level plus 3 times its usual spread, and always at least 0.5 kW above the usual level (shown as "median + 3 SD").</>
             : <>It is the level that zone stays under 99% of the time (shown as "P99").</>}
-          {' '}The <b>Alert rule</b> switch in the replay panel changes which limit is used; this panel follows it.
           Something becomes an alert as soon as, outside office hours, it has been:
         </p>
         <ul>

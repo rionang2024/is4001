@@ -37,22 +37,86 @@ Known structural gaps, which drive most of the scoping decisions in both questio
 
 **External.** Bangkok hourly temperature, humidity and rainfall from **Open-Meteo**'s historical archive. NOAA ISD records and Thai Meteorological Department stations were also evaluated.
 
+## Run the website
+
+The website is one React app with a tab per question. Question B works on its own. Question A also needs a small Python API that reads the minute-level data.
+
+**You need:** Node 18+, Python 3.10+, and the full repo (`git clone` or `git pull` brings the 860 MB of minute data in `dashboard_data/`, so allow some time).
+
+Open two terminals at the repo root.
+
+**Terminal 1: the data API (Question A)**
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r Qn_A/api/requirements.txt          # Windows: .venv\Scripts\pip install -r Qn_A\api\requirements.txt
+cd Qn_A/api && ../../.venv/bin/uvicorn app:app --port 8000   # Windows: ..\..\.venv\Scripts\uvicorn app:app --port 8000
+```
+
+**Terminal 2: the website**
+
+```bash
+cd Qn_B/5-UI
+npm install
+npm run dev
+```
+
+Open the link it prints (normally <http://localhost:5173>). The two tabs are **After-hours energy** (Question A, `#/qn-a`) and **AC forecast** (Question B). If the API is not running, the Question A tab loads but shows no data. Check the API with <http://127.0.0.1:8000/api/meta>.
+
+Tests for the API: `cd Qn_A/api && ../../.venv/bin/python -m pytest`.
+
+More detail: [`Qn_A/README.md`](Qn_A/README.md) (the data, the alert rule, the page hooks) and [`Qn_B/5-UI/README.md`](Qn_B/5-UI/README.md) (the forecast tab).
+
+## What the code does
+
+### Question A: after-hours energy dashboard
+
+For every minute from July 2018 to December 2019 the building has a power reading per floor, zone and end use (AC, lighting, plug). Each reading is compared with its own **normal upper limit**, which is the median plus 3 standard deviations (at least 0.5 kW above the median) of the same weekday and hour over the previous 8 weeks.
+
+- **Green:** at or below the limit.
+- **Amber:** above the limit for 1 to 14 minutes in a row.
+- **Red:** above the limit for 15 minutes or more. Red means investigate, not a confirmed fault.
+- **Alert:** outside office hours, a load that has been red at some point, above its limit for 30+ minutes in total (short dips of 10 minutes or less are joined) and on average 5+ kW above it.
+
+The **After-hours energy** tab lets the Facilities Manager replay any night and see what needed attention:
+
+- **Replay controls:** pick a date, scrub or play through the day at 1, 5 or 15 minutes a step. "After-hours only" greys out office hours (weekdays 08:00 to 17:00). **Example simulation** jumps to Friday 13 September 2019 at 17:01.
+- **Building explorer:** a 3D building with a kW label per floor. Floors glow amber or red when a load is over its limit, and the list on the left says which one and since when. Click a floor to open its 3D plan: the zone that is over its limit shows red and hatched, with its numbers. Switches turn AC, lighting and plug loads on and off to see which one drives the problem.
+- **Load profile chart:** one zone and end use over a chosen window (whole day or after-hours), with the recorded power, the historical median and the alert threshold, and the status at any minute in the tooltip. "Compare floors" puts every floor on one chart.
+- **Alerts panel:** follows the replay clock and only shows what was known by that minute. Alerts are grouped into problems per floor, zone and load, ranked by how often they recur, with a suggested next check and a ticket step.
+
+How it fits together:
+
+| Part | Where | What it does |
+|---|---|---|
+| Minute data | `dashboard_data/` | Cleaned CU-BEMS Parquet, all 7 floors, with the original P99 status per minute |
+| Data API | `Qn_A/api/` | FastAPI service that reads the Parquet and serves `/api/meta`, `/api/series`, `/api/snapshot` and `/api/compare`. It restates each minute under the median + 3 SD rule using the small files in `Qn_A/api/rules/` |
+| Build scripts | `Qn_A/scripts/` | `build_rules_sd.py` builds the rule files. `build_alerts.py` builds the alert list the panel reads (`Qn_B/5-UI/public/data/qa_alerts_sd.json`) |
+| Page | `Qn_A/ui/` | The React page: replay, building, floor plan, chart, alerts panel |
+| Site shell | `Qn_B/5-UI/` | Vite + React app that hosts both tabs and proxies `/api` to the API |
+
+### Question B: AC demand forecast
+
+Models trained on the cleaned hourly data predict each zone's AC load from past load, indoor conditions, calendar and weather. LightGBM is the main model, XGBoost the comparator, and three simple baselines show how much the models add. The **AC forecast** tabs in the website use the real test predictions and a live 7-day Open-Meteo forecast. See [`Qn_B/README.md`](Qn_B/README.md).
+
 ## Repo layout
 
 ```
 .
-├── Qn_A/                  Question A — after-hours energy analysis
-│   └── api/               Minute-data API for the website's Question A tab
-└── Qn_B/                  Question B — zone AC demand forecasting
+├── dashboard_data/        Question A minute-level data (Parquet, 860 MB)
+├── docs/qa/               Question A context, data contract and the original prototype
+├── Qn_A/                  Question A: after-hours energy
+│   ├── api/               Minute-data API, tests, and the median + 3 SD rule files
+│   ├── scripts/           Builds the rule files and the alert list
+│   └── ui/                The Question A page (React)
+└── Qn_B/                  Question B: zone AC demand forecasting
     ├── cleaned_data/      Cleaned hourly dataset (input to everything below)
     ├── 1-eda/             Exploratory analysis
     ├── 2-baselines/       Seasonal naive, average profile, feature baseline
     ├── 3-LightGBM/        Main forecasting model
     ├── 4-XGBoost/         Comparator model
-    └── 5-UI/              Website: Question B dashboard and the Question A tab
+    └── 5-UI/              The website (both tabs)
 ```
-
-The 860 MB minute-level data for Question A lives in `dashboard_data/` (committed). The Question A tab also needs the API running. See [`Qn_A/README.md`](Qn_A/README.md).
 
 Each folder has its own README with the detail for that stage.
 

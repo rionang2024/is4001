@@ -46,7 +46,7 @@ cd Qn_B/5-UI && npm install && npm run dev
 
 Open the **After-hours energy** tab (`#/qn-a`). It opens on 2018-10-03 20:35: Floor 1, Zone 2, AC is red (amber from 20:31, red from 20:35, green again at 20:44).
 
-**Alerts sidebar.** The sidebar reads `Qn_B/5-UI/public/data/qa_alerts_sd.json` or `qa_alerts.json` (by the Alert rule switch), a short list of alert events built from the minute data by `Qn_A/scripts/build_alerts.py`.
+**Alerts sidebar.** The sidebar reads `Qn_B/5-UI/public/data/qa_alerts_sd.json` or `qa_alerts.json` (P99, used only if the API has no sd rule files), a short list of alert events built from the minute data by `Qn_A/scripts/build_alerts.py`.
 Re-run it after the minute data changes: `.venv/bin/python Qn_A/scripts/build_alerts.py` (Windows: `.venv\Scripts\python Qn_A\scripts\build_alerts.py`).
 The joining and filter rules (10-min gaps, 30+ min and 5+ kW above P99, priority by how often a zone and load recurs: recurring = high, intermittent = medium, occasional = low) are at the top of the script and are the team's choice on top of the data README.
 The committed file is built from all 7 floors.
@@ -71,11 +71,12 @@ The stored data is not changed. The API restates each minute under `sd` from two
 
 **Going back to the original rule**, any of these:
 
-- on the page: the **Alert rule** switch in the replay panel (Median + 3 SD / Original (P99));
 - API call: add `?rule=p99` to `/api/series` or `/api/snapshot`;
-- for the whole API: start it with `QA_DEFAULT_RULE=p99`, or delete `Qn_A/api/rules/`.
+- for the whole API: start it with `QA_DEFAULT_RULE=p99`, or delete `Qn_A/api/rules/` (the page then falls back to P99 too).
 
-The numbers (3 SD, 0.5 kW, 15 minutes) are constants at the top of the build script. The alerts sidebar follows the switch. `build_alerts.py` writes one alert file per rule, `qa_alerts_sd.json` (median + 3 SD, worked out with this API's `rules.py`) and `qa_alerts.json` (P99), and the sidebar, the building's Alert / Not an alert yet tags and the recurring badges read the one for the rule on show (`Qn_A/ui/components/alertRule.js`). The three filters are the same under both rules: a red stretch (15+ min under sd, 5+ under P99), 30+ min above the threshold, and 5+ kW above it on average.
+The page has no switch any more: it always shows median + 3 SD.
+
+The numbers (3 SD, 0.5 kW, 15 minutes) are constants at the top of the build script. The alerts sidebar follows the page's rule. `build_alerts.py` writes one alert file per rule, `qa_alerts_sd.json` (median + 3 SD, worked out with this API's `rules.py`) and `qa_alerts.json` (P99), and the sidebar, the building's Alert tags and the recurring badges read the one for the rule on show (`Qn_A/ui/components/alertRule.js`, sd by default). The three filters are the same under both rules: a red stretch (15+ min under sd, 5+ under P99), 30+ min above the threshold, and 5+ kW above it on average.
 
 ## Where the page code lives
 
