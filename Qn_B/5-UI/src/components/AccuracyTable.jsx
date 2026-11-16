@@ -42,7 +42,7 @@ export default function AccuracyTable({ metrics, zones, model, compare, selected
       <p className="small" style={{ margin: '0 0 10px' }}>
         Building-wide WAPE <b className="num">{fmt(all[model]?.WAPE)}%</b> vs <span className="num">{fmt(all[compare]?.WAPE)}%</span>.
         Beats the comparison in <b>{beats} of {rows.length}</b> zones.
-        {scope === 'all' && <span className="muted"> All-hours % look large because nights and weekends are near 0 kW.</span>}
+        {scope === 'all' && <span className="muted"> (Nights are near 0 kW, so all-hours % run high.)</span>}
       </p>
       <div className="table-wrap" style={{ maxHeight: 360, overflowY: 'auto' }}>
         <table>
@@ -66,7 +66,7 @@ export default function AccuracyTable({ metrics, zones, model, compare, selected
           </tbody>
         </table>
       </div>
-      <p className="muted small" style={{ margin: '8px 0 0' }}>Gain = comparison WAPE − model WAPE (positive = model better). ASHRAE Guideline 14 hourly: CV(RMSE) ≤ 30% and NMBE within ±10%.</p>
+      <p className="muted small" style={{ margin: '8px 0 0' }}>Gain = comparison WAPE − model WAPE. ASHRAE 14: CV(RMSE) ≤ 30%, NMBE ±10%.</p>
     </section>
   )
 }

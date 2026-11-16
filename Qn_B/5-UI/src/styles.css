@@ -17,6 +17,10 @@
   --good: #2f7d4f;
   --violet: #6b4fa3;
   --teal: #12a3a8;          /* start-up plan highlight */
+  --precool: #f2b544;       /* pre-cooling blocks + their legend key */
+  --precool-ink: #3b2a05;
+  --open-bar: #cfe0f4;      /* zone open bars */
+  --open-ink: #1c4f8c;
   --radius: 10px;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
   --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -43,6 +47,10 @@
     --good: #66c08a;
     --violet: #a68ae0;
     --teal: #3cc8cc;
+    --precool: #f7c873;
+    --precool-ink: #2b1e04;
+    --open-bar: #0f2a50;
+    --open-ink: #7fb2ec;
     color-scheme: dark;
   }
 }
@@ -135,38 +143,73 @@ input[type=date], select { border: 1px solid var(--line); background: var(--pane
 .hero .plan .plan-toolbar { border-bottom-color: color-mix(in srgb, var(--teal) 25%, var(--line)); }
 .hero .plan .panel-head h2 { font-size: 15px; }
 .zone-bar { margin: 16px 0; }
+.demo-note { font-size: 12px; color: var(--ink-2); margin: -6px 0 12px; }
 .zone-title { margin: 0; font-size: 16px; font-weight: 600; line-height: 30px; white-space: nowrap; }
 .plan-rule { margin-top: 12px; font-size: 12px; color: var(--ink-3); }
 .plan-rule summary { cursor: pointer; color: var(--ink-2); }
 
-.tt { position: relative; font-size: 12px; }
-.tt-row { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: stretch; height: 22px; cursor: pointer; border-radius: 4px; }
-.tt-row:not(.tt-axis):hover { background: var(--line-2); }
-.tt-row.sel { background: var(--accent-soft); }
-.tt-row.sel .tt-zone { color: var(--accent); }
-.tt-axis { height: 20px; cursor: default; }
+/* summary tiles above the timetable */
+.plan-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+.plan-kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+.plan-kpi .label { font-size: 12px; color: var(--ink-2); }
+.plan-kpi .value { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-top: 2px; }
+.plan-legend { margin-bottom: 10px; font-size: 13px; }
+.legend i.tt-key-lead, .legend i.tt-key-on { width: 14px; height: 14px; border: 0; border-radius: 3px; opacity: 1; }
+.legend i.tt-key-lead { background: var(--precool); }
+.legend i.tt-key-on { background: var(--open-bar); }
+
+/* timetable: one row per floor, one lane per start time */
+.tt { --tt-label: 88px; position: relative; font-size: 12px; padding: 4px 8px 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.tt-row { display: grid; grid-template-columns: var(--tt-label) minmax(0, 1fr); align-items: stretch; height: 30px; border-radius: 4px; }
+.tt-axis { height: 22px; cursor: default; border-bottom: 1px solid var(--line-2); }
 .tt-body { position: relative; }
-.tt-floor { margin-top: 2px; }
-.tt-sub { height: 20px; }
-.tt-sub .tt-zone { padding-left: 22px; font-weight: 400; }
-.tt-zone { border: 0; background: none; text-align: left; padding: 0 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
-.tt-caret { display: inline-block; width: 12px; color: var(--ink-3); font-weight: 400; }
-.tt-track { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 3px 0; }
-.tt-lane { position: relative; flex: 1; min-height: 14px; max-height: 16px; }
-.tt-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; color: var(--ink-2); white-space: nowrap; }
-.tt-tick.minor { color: var(--ink-3); opacity: .7; }
-.tt-on, .tt-lead { position: absolute; top: 0; bottom: 0; }
-.tt-on { right: 0; background: color-mix(in srgb, var(--forecast) 35%, transparent); border-radius: 0 3px 3px 0; display: flex; align-items: center; overflow: hidden; }
-.tt-on span { padding-left: 6px; font-family: var(--mono); font-size: 10px; color: var(--ink); white-space: nowrap; }
-.tt-lead { background: repeating-linear-gradient(135deg, var(--warn) 0 4px, color-mix(in srgb, var(--warn) 55%, transparent) 4px 8px); border-radius: 3px 0 0 3px; }
-.tt-open { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px dashed var(--forecast); pointer-events: none; z-index: 1; }
-.tt-tip { position: absolute; z-index: 5; width: 300px; padding: 10px 12px; font-size: 12px; pointer-events: none; box-shadow: 0 6px 20px rgb(0 0 0 / .12); }
-.tt-tip td, .tt-tip th { padding: 3px 0 3px 14px; border: 0; vertical-align: bottom; }
-.tt-tip td:first-child, .tt-tip th:first-child { padding-left: 0; }
-.tt-tip thead th { border-bottom: 1px solid var(--line); line-height: 1.25; }
-.legend i.tt-key-lead { opacity: 1; background: repeating-linear-gradient(135deg, var(--warn) 0 3px, transparent 3px 6px); }
-.legend i.tt-key-on { background: var(--forecast); opacity: .35; }
-.legend i.tt-key-open { width: 0; height: 12px; border-top: 0; border-left: 2px dashed var(--forecast); margin-right: 6px; }
+.tt-floor { border-top: 1px solid var(--line-2); }
+.tt-floor:first-child { border-top: 0; }
+.tt-zone { border: 0; background: none; text-align: left; padding: 8px 6px 0; align-self: start; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.tt-track { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 5px 0; }
+.tt-lane { position: relative; flex: 1; min-height: 22px; max-height: 24px; }
+.tt-tick { position: absolute; top: 3px; transform: translateX(-50%); font-family: var(--mono); font-size: 11px; color: var(--ink-2); white-space: nowrap; }
+.tt-tick.minor { color: var(--ink-3); }
+.tt-on, .tt-lead { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; overflow: hidden; white-space: nowrap; }
+.tt-lead { gap: 4px; padding-left: 6px; background: var(--precool); color: var(--precool-ink); border-radius: 4px 0 0 4px; font-size: 11px; font-weight: 600; }
+.tt-flake { width: 11px; height: 11px; flex: none; }
+.tt-on { right: 0; background: var(--open-bar); border-radius: 0 4px 4px 0; }
+.tt-on span { padding-left: 14px; font-size: 12px; color: var(--open-ink); }   /* clear of a meter marker a few minutes in */
+.tt-open { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--ink-3); pointer-events: none; z-index: 1; }
+
+/* hover card */
+.tt-zone .tt-sub-label { display: block; font-size: 11px; font-weight: 400; color: var(--ink-3); }
+.model-tag { font-size: 13px; line-height: 32px; white-space: nowrap; }
+.tt-tip { position: absolute; z-index: 5; width: 290px; padding: 12px 14px; font-size: 13px; pointer-events: none; box-shadow: 0 6px 20px rgb(0 0 0 / .18); }
+.tt-tip-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.tt-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 4px; background: var(--precool); color: var(--precool-ink); }
+.tt-kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 0; }
+.tt-kv dt { color: var(--ink-2); white-space: nowrap; }
+.tt-kv dd { margin: 0; text-align: right; font-weight: 600; }
+.tt-kv.muted-kv { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 8px; }
+.tt-kv.muted-kv dt { color: var(--ink-3); }
+.tt-kv.muted-kv dd { font-weight: 400; color: var(--ink-2); }
+
+/* metered AC-on time of the plan day (replays, test period) */
+.plan-meters { font-size: 13px; color: var(--ink-2); margin: 0 0 12px; padding: 8px 12px; border-left: 3px solid var(--precool); background: var(--panel); border-radius: 0 6px 6px 0; }
+.plan-meters b { color: var(--ink); }
+.plan-meters a { color: var(--open-ink); font-weight: 600; white-space: nowrap; }
+.plan-kpis.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tt-mark { position: absolute; top: -4px; bottom: -4px; width: 0; z-index: 2; pointer-events: none; }
+.tt-mark.actual { border-left: 3px solid var(--ink); }
+.legend i.tt-key-mark { width: 0; height: 14px; border-top: 0; margin: 0 8px 0 4px; }
+.legend i.tt-key-mark.actual { border-left: 3px solid var(--ink); }
+
+/* phone width: half-hour ticks and the start time inside the block don't fit; the hover card has them */
+@media (max-width: 640px) {
+  .plan-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .plan-kpis.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plan-kpi { padding: 8px 10px; }
+  .plan-kpi .value { font-size: 18px; }
+  .tt { --tt-label: 64px; padding: 4px 4px 6px; }
+  .tt-tick.minor, .tt-lead span { display: none; }
+  .tt-on span { font-size: 11px; padding-left: 5px; }
+}
 
 /* ---------- KPI tiles */
 .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }

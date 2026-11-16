@@ -11,7 +11,8 @@ const PAGES = [
   { id: 'qn-b', label: 'AC forecast · test period', sub: 'Question B: model vs actual, Jul–Sep 2018', Component: ForecastPage },
 ]
 
-const fromHash = () => PAGES.find((p) => `#/${p.id}` === window.location.hash)?.id ?? 'qn-b'
+// A tab's hash may carry a query (e.g. #/qn-a?t=2018-08-07T06:00), which the page reads itself
+const fromHash = () => PAGES.find((p) => `#/${p.id}` === window.location.hash.split('?')[0])?.id ?? 'qn-b'
 
 export default function App() {
   const [page, setPage] = useState(fromHash)

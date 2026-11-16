@@ -7,7 +7,7 @@ import { runForecast } from '../src/live/forecast.js'
 const here = new URL('.', import.meta.url)
 const read = (p) => JSON.parse(readFileSync(new URL(p, here)))
 const inputs = read('../public/data/live/inputs.json')
-const TOL = { lgbm: 1e-6, xgb: 1e-3 }     // XGBoost sums leaves in float32
+const TOL = { lgbm: 1e-6 }
 
 let failed = false
 for (const { id, file, rows, expected, end_to_end: e2e } of read('live_check.json').models) {

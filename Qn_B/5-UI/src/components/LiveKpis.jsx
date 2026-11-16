@@ -1,15 +1,15 @@
-import { fmt, hh, dow } from '../data.js'
+import { fmt, hh, hhmm, dow } from '../data.js'
+import { ACTIVE_DAY_PEAK_KW } from '../live/forecast.js'
 
 // Headline numbers for one zone on one upcoming day, plus how far to trust them.
-export default function LiveKpis({ day, series, date, accuracy, mode }) {
+// acOn: the zone's planned AC-on minute (schedule), 'overnight', or null.
+export default function LiveKpis({ day, series, date, accuracy, mode, acOn }) {
   if (!day) return null
   const typicalKwh = series.t.reduce((s, t, i) => (t.startsWith(date) ? s + (series.typical[i] ?? 0) : s), 0)
-  const op = accuracy?.operating
-  const err = op?.[mode]?.WAPE
-  const other = mode === 'typical' ? op?.readings?.WAPE : op?.typical?.WAPE
-  const b2 = op?.B2?.WAPE
+  const err = accuracy?.operating?.[mode]?.WAPE
   const workday = !day.is_holiday && !day.is_weekend
   const dayKind = day.is_holiday ? 'holiday' : dow(date)
+  const on = !workday || day.forecast_peak < ACTIVE_DAY_PEAK_KW ? 'Off' : acOn === 'overnight' ? 'All night' : acOn == null ? '–' : hhmm(acOn)
 
   return (
     <section className="kpis compact">
@@ -21,25 +21,17 @@ export default function LiveKpis({ day, series, date, accuracy, mode }) {
       <div className="kpi">
         <div className="label">AC energy for the day</div>
         <div className="value">{fmt(day.forecast_kwh, 0)}<small>kWh</small></div>
-        <div className="foot">vs {fmt(typicalKwh, 0)} kWh on a typical {dayKind}</div>
+        <div className="foot">typical {dayKind}: {fmt(typicalKwh, 0)} kWh</div>
       </div>
       <div className="kpi">
-        <div className="label">AC expected on from</div>
-        {/* On closed days the start rule only picks up overnight base load, so no start time is shown */}
-        <div className="value">{!workday ? '–' : day.start_hour == null ? 'Off' : hh(day.start_hour)}</div>
+        <div className="label">AC on</div>
+        <div className="value">{on}</div>
         <div className="foot">{day.is_holiday ? 'Holiday' : day.is_weekend ? 'Weekend' : 'Working day'} · {fmt(day.temp_max)} °C max</div>
       </div>
       <div className="kpi">
-        <div className="label">Expected error · operating hours</div>
-        <div className="value">{fmt(err)}<small>% WAPE</small></div>
-        <div className="foot">
-          {mode === 'typical'
-            ? <>{fmt(other)}% once real readings are connected</>
-            : <>{fmt(other)}% with the typical-week stand-in</>}
-          {b2 != null && err != null && (
-            <> · <span className={`chip ${err < b2 ? 'good' : 'bad'}`}>{err < b2 ? 'beats' : 'does not beat'} typical-profile {fmt(b2)}%</span></>
-          )}
-        </div>
+        <div className="label">Expected error (WAPE)</div>
+        <div className="value">{fmt(err)}<small>%</small></div>
+        <div className="foot">{mode === 'typical' ? 'typical-week inputs' : 'with real readings'}, operating hours</div>
       </div>
     </section>
   )

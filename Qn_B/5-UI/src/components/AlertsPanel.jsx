@@ -41,10 +41,10 @@ export default function AlertsPanel({ alerts, date, span, zoneId, rule, onPick }
         </div>
       )}
 
-      <div className="note" style={{ marginTop: 12 }}>
-        <b>Treat these as leads to inspect, not confirmed faults.</b> There is no occupancy data behind them.
-        <div style={{ marginTop: 4 }}>{rule}</div>
-      </div>
+      <details className="plan-rule">
+        <summary>Leads to check, not confirmed faults</summary>
+        {rule}
+      </details>
     </section>
   )
 }

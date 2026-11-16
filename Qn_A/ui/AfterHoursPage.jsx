@@ -17,8 +17,13 @@ const TICK_MS = { 1: 2000, 5: 1500, 15: 3000 }
 // Minute-level data comes from Qn_A/api (Parquet in dashboard_data/, never sent to the browser whole).
 export default function AfterHoursPage() {
   const meta = useApi('meta', {})
-  const [date, setDate] = useState(INCIDENT.date)
-  const [minute, setMinute] = useState(INCIDENT.minute)
+  // Another tab can open the page at a given minute: #/qn-a?t=YYYY-MM-DDTHH:MM (the AC forecast links its pre-cooling mornings)
+  const [linked] = useState(() => {
+    const m = /[?&]t=(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/.exec(window.location.hash)
+    return m && { date: m[1], minute: +m[2] * 60 + +m[3] }
+  })
+  const [date, setDate] = useState(linked?.date ?? INCIDENT.date)
+  const [minute, setMinute] = useState(linked?.minute ?? INCIDENT.minute)
   const [playing, setPlaying] = useState(false)
   const [step, setStep] = useState(1)
   const [alertId, setAlertId] = useState(null)

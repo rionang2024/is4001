@@ -4,15 +4,13 @@ Run from anywhere:
 
     python Qn_B/5-UI/scripts/build_live.py
 
-Two trained models can run in the browser (the user picks one):
-    LightGBM (final)            Qn_B/3-LightGBM, calendar + lags + weather
-    XGBoost (accuracy-first)    Qn_B/4-XGBoost final_models, calendar + AC lags only
-
-Between them they need, for every zone-hour they forecast:
+The model is the team's choice, LightGBM with feature set M4 (Qn_B/3-LightGBM): calendar, AC lags,
+indoor and outdoor weather. It needs, for every zone-hour it forecasts:
     calendar            -> known for any date
     outdoor weather     -> fetched live from the Open-Meteo forecast API by the browser
     AC load + indoor    -> the building's own readings 1, 2 and 7 days earlier
-    temperature lags
+    temperature and
+    humidity lags
 
 The CU-BEMS record ends in Dec 2019, so there are no recent readings. Until the building
 supplies them (CSV upload in the UI), the lags are filled with a *typical week*: the median
@@ -23,7 +21,8 @@ much accuracy it costs.
 Reads
     Qn_B/3-LightGBM/outputs/ac_forecaster/{model.txt, meta.json}
     Qn_B/3-LightGBM/outputs/test_predictions.parquet
-    Qn_B/4-XGBoost/outputs/final_models/accuracy_first/model.json
+    Qn_B/3-LightGBM/outputs/m1_m4_test_metrics.csv                 (the reported test scores)
+    Qn_B/4-XGBoost/outputs/final_models/common_metrics.csv         (XGBoost M4, the runner-up)
     Qn_B/cleaned_data/question_b_model_data.parquet
 
 Writes
@@ -43,12 +42,12 @@ import holidays
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
-import xgboost as xgb
 
 ROOT = Path(__file__).resolve().parents[3]
 QB = ROOT / "Qn_B"
 MODEL_DIR = QB / "3-LightGBM" / "outputs" / "ac_forecaster"
-XGB_DIR = QB / "4-XGBoost" / "outputs" / "final_models" / "accuracy_first"
+LGBM_SCORES = QB / "3-LightGBM" / "outputs" / "m1_m4_test_metrics.csv"
+XGB_SCORES = QB / "4-XGBoost" / "outputs" / "final_models" / "common_metrics.csv"
 OUT = QB / "5-UI" / "public" / "data" / "live"
 CHECK = QB / "5-UI" / "scripts" / "live_check.json"
 
@@ -105,35 +104,25 @@ def predict(booster: lgb.Booster, meta: dict, df: pd.DataFrame) -> np.ndarray:
     return np.clip(booster.predict(X), 0, None)
 
 
-def export_xgb_trees(model: dict) -> list[dict]:
-    """XGBoost JSON trees as compact arrays. A leaf (l == -1) keeps its value in t."""
-    return [{"l": t["left_children"], "r": t["right_children"], "f": t["split_indices"],
-             "t": t["split_conditions"], "d": [int(v) for v in t["default_left"]]}
-            for t in model["learner"]["gradient_booster"]["model"]["trees"]]
-
-
 def load_models() -> list[dict]:
-    """Each model: id, display name, features, a Python predict(df), and its browser export."""
+    """The model: id, display name, features, a Python predict(df), and its browser export."""
     meta = json.loads((MODEL_DIR / "meta.json").read_text())
     text = read_model_text()
     booster = lgb.Booster(model_str=text)
-
-    xjson = json.loads((XGB_DIR / "model.json").read_text())
-    learner = xjson["learner"]
-    assert learner["gradient_booster"]["name"] == "gbtree" and learner["objective"]["name"] == "reg:squarederror"
-    xfeats = learner["feature_names"]
-    xbooster = xgb.Booster(model_file=str(XGB_DIR / "model.json"))
-    xtrees = export_xgb_trees(xjson)
-
     return [
-        {"id": "lgbm", "name": "LightGBM (final)", "features": meta["features"], "trees": booster.num_trees(),
+        {"id": "lgbm", "name": "LightGBM · M4", "features": meta["features"], "trees": booster.num_trees(),
          "predict": lambda df: predict(booster, meta, df),
          "export": {"kind": "lgbm", "features": meta["features"], "trees": export_trees(text)}},
-        {"id": "xgb", "name": "XGBoost (accuracy-first)", "features": xfeats, "trees": len(xtrees),
-         "predict": lambda df: np.clip(xbooster.predict(xgb.DMatrix(df[xfeats].astype(float))), 0, None),
-         "export": {"kind": "xgb", "features": xfeats, "base": float(learner["learner_model_param"]["base_score"].strip("[]")),
-                    "trees": xtrees}},
     ]
+
+
+def reported_scores() -> dict:
+    """The test scores on the slides (operating hours, Jul-Sep 2018): LightGBM M4 and the runner-up, XGBoost M4.
+    The XGBoost file stores NMBE as forecast - actual; flipped here to actual - forecast, as the LightGBM file."""
+    lg = pd.read_csv(LGBM_SCORES).set_index(["model", "hours"]).loc[("M4 (B)", "operating hours")]
+    xg = pd.read_csv(XGB_SCORES).set_index(["model", "slice"]).loc[("correlation_reduced_M4", "operating_hours")]
+    return {"lgbm": {"WAPE": round(lg["WAPE%"], 2), "CVRMSE": round(lg["CV(RMSE)%"], 2), "NMBE": round(lg["NMBE%"], 2)},
+            "xgb": {"WAPE": round(xg.wape * 100, 2), "CVRMSE": round(xg.cv_rmse * 100, 2), "NMBE": round(-xg.nmbe * 100, 2)}}
 
 
 # ----------------------------------------------------------------------------- calendar
@@ -182,20 +171,24 @@ def main() -> None:
     # ---------------------------------------------------------------- typical week (2019 = model's training data)
     train = data[data.split.isin(["train", "validation"])].copy()
     train["dtype"] = day_type(train.date, hol)
-    # The model data has no same-hour indoor temperature column (it would leak), but the
-    # next day's "yesterday" lag is exactly that reading, so shift it back by a day.
-    tin = data[["zone_id", "timestamp", "indoor_temp_c_yesterday"]].copy()
-    tin["timestamp"] = tin.timestamp - pd.Timedelta(days=1)
-    tin = tin.rename(columns={"indoor_temp_c_yesterday": "indoor_temp_c"})
-    train = train.merge(tin, on=["zone_id", "timestamp"], how="left")
+    # The model data has no same-hour indoor temperature or humidity column (it would leak), but
+    # the next day's "yesterday" lag is exactly that reading, so shift it back by a day.
+    same = data[["zone_id", "timestamp", "indoor_temp_c_yesterday", "indoor_humidity_pct_yesterday"]].copy()
+    same["timestamp"] = same.timestamp - pd.Timedelta(days=1)
+    same = same.rename(columns={"indoor_temp_c_yesterday": "indoor_temp_c",
+                                "indoor_humidity_pct_yesterday": "indoor_humidity_pct"})
+    train = train.merge(same, on=["zone_id", "timestamp"], how="left")
 
-    prof_ac = train.groupby(["zone_id", "dtype", "hour"]).ac_load_kw.median()
-    prof_tin = train.groupby(["zone_id", "dtype", "hour"]).indoor_temp_c.median()
-    day_avg = (train.groupby(["zone_id", "date", "dtype"]).indoor_temp_c
-               .agg(["mean", "count"]).reset_index())
-    prof_tin_avg = day_avg[day_avg["count"] >= 22].groupby(["zone_id", "dtype"])["mean"].median()
+    def hourly(col):
+        return train.groupby(["zone_id", "dtype", "hour"])[col].median()
+
+    def daily(col):
+        day_avg = train.groupby(["zone_id", "date", "dtype"])[col].agg(["mean", "count"]).reset_index()
+        return day_avg[day_avg["count"] >= 22].groupby(["zone_id", "dtype"])["mean"].median()
+
     # Round once, so the backtest below uses exactly the values the browser gets
-    prof_ac, prof_tin, prof_tin_avg = (p.round(3) for p in (prof_ac, prof_tin, prof_tin_avg))
+    prof_ac, prof_tin, prof_rh = (hourly(c).round(3) for c in ("ac_load_kw", "indoor_temp_c", "indoor_humidity_pct"))
+    prof_tin_avg, prof_rh_avg = (daily(c).round(3) for c in ("indoor_temp_c", "indoor_humidity_pct"))
 
     zones = sorted(meta["zone_map"], key=lambda z: (int(z[1]), int(z[4])))
     typical = {}
@@ -204,6 +197,8 @@ def main() -> None:
             "ac": [[r(prof_ac.get((z, t, h)), 3) for h in range(24)] for t in range(8)],
             "tin": [[r(prof_tin.get((z, t, h)), 3) for h in range(24)] for t in range(8)],
             "tin_avg": [r(prof_tin_avg.get((z, t)), 3) for t in range(8)],
+            "rh": [[r(prof_rh.get((z, t, h)), 3) for h in range(24)] for t in range(8)],
+            "rh_avg": [r(prof_rh_avg.get((z, t)), 3) for t in range(8)],
         }
 
     # ---------------------------------------------------------------- backtest: typical-week lags on the test period
@@ -219,11 +214,11 @@ def main() -> None:
         typ[f"ac_load_kw_{name}"] = [prof_ac.get((z, t, h), np.nan)
                                      for z, t, h in zip(typ.zone_id, dt, typ.hour)]
         if name in ("yesterday", "last_week"):
-            typ[f"indoor_temp_c_{name}"] = [prof_tin.get((z, t, h), np.nan)
-                                            for z, t, h in zip(typ.zone_id, dt, typ.hour)]
+            for col, prof in (("indoor_temp_c", prof_tin), ("indoor_humidity_pct", prof_rh)):
+                typ[f"{col}_{name}"] = [prof.get((z, t, h), np.nan) for z, t, h in zip(typ.zone_id, dt, typ.hour)]
         if name == "yesterday":
-            typ["indoor_temp_c_yesterday_avg"] = [prof_tin_avg.get((z, t), np.nan)
-                                                  for z, t in zip(typ.zone_id, dt)]
+            for col, prof in (("indoor_temp_c", prof_tin_avg), ("indoor_humidity_pct", prof_rh_avg)):
+                typ[f"{col}_yesterday_avg"] = [prof.get((z, t), np.nan) for z, t in zip(typ.zone_id, dt)]
     model_info = []
     for m in models:
         rd, ty = f"{m['id']} readings", f"{m['id']} typical week"
@@ -259,11 +254,11 @@ def main() -> None:
         "typical": typical,
         "models": model_info,
         "hot_day_temp": round(hot, 1),
+        "reported": reported_scores(),
         "rules": {
             "typical": "Median reading for the zone, day type (Mon–Sun or holiday) and hour over 2019, "
                        "the year the model was trained on",
-            "band": f"{int(BAND_LOW_Q*100)}–{int(BAND_HIGH_Q*100)}% range of backtest errors per zone and hour, "
-                    "Jul–Sep 2018 test period, for the selected input mode",
+            "band": f"{int(BAND_LOW_Q*100)}–{int(BAND_HIGH_Q*100)}% of past errors",
             "weather_shift": "Rain and solar radiation are taken from the next Open-Meteo hour, because "
                              "Open-Meteo labels them at the end of the hour and the training data at the start",
         },
@@ -271,7 +266,8 @@ def main() -> None:
 
     for m in models:
         (OUT / f"model_{m['id']}.json").write_text(json.dumps(m["export"], separators=(",", ":")))
-    (OUT / "model.json").unlink(missing_ok=True)        # single-model file from before
+    for old in ("model.json", "model_xgb.json"):           # files from earlier versions
+        (OUT / old).unlink(missing_ok=True)
     (OUT / "inputs.json").write_text(json.dumps(inputs, separators=(",", ":")))
 
     # ---------------------------------------------------------------- JS evaluator check fixture
@@ -284,7 +280,9 @@ def main() -> None:
     weather = {d: {"temp": g.outdoor_temp_hourly_c.tolist(), "rh": g.outdoor_humidity_hourly_pct.tolist(),
                    "rain": g.rainfall_hourly_mm.tolist(), "solar": g.solar_radiation_hourly_wm2.tolist(),
                    "temp_avg": float(g.outdoor_temp_daily_avg_c.iloc[0]),
-                   "rain_total": float(g.rainfall_daily_total_mm.iloc[0])} for d, g in wx.groupby("d")}
+                   "rain_total": float(g.rainfall_daily_total_mm.iloc[0]),
+                   "rh_avg": float(g.outdoor_humidity_daily_avg_pct.iloc[0]),
+                   "solar_total": float(g.solar_radiation_daily_total_mjm2.iloc[0])} for d, g in wx.groupby("d")}
     e2e = test[test.date.dt.strftime("%Y-%m-%d").isin(days)]
     CHECK.write_text(json.dumps({"models": [{
         "id": m["id"], "file": f"model_{m['id']}.json",

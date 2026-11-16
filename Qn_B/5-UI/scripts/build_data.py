@@ -5,8 +5,7 @@ Run from the repo root (or anywhere):
     python Qn_B/5-UI/scripts/build_data.py
 
 Reads
-    Qn_B/3-LightGBM/outputs/test_predictions.parquet   (baselines + LGBM, test period)
-    Qn_B/4-XGBoost/outputs/test_predictions.parquet    (optional; picked up when it exists)
+    Qn_B/3-LightGBM/outputs/test_predictions.parquet   (baselines + LightGBM M4, test period)
     Qn_B/cleaned_data/question_b_model_data.parquet    (weather + calendar for the same hours)
     Qn_B/3-LightGBM/outputs/test_diebold_mariano.csv   (optional)
     Qn_B/3-LightGBM/outputs/feature_group_importance.csv (optional)
@@ -14,12 +13,12 @@ Reads
 Writes  Qn_B/5-UI/public/data/
     meta.json            zones, models, period, rules used below
     metrics.json         accuracy per model, overall and per zone (all hours / operating hours)
-    daily.json           one row per zone per day: forecast & actual peak, start hour, weather
+    daily.json           one row per zone per day: forecast & actual peak and energy, weather
     alerts.json          deviation alerts (actual far from forecast)
     building.json        building-level hourly totals (sum of zones) for peak coincidence
     series/<zone>.json   hourly actual, every model, prediction band and weather for one zone
 
-Every rule (band, deviation threshold, start-up hour) is written into meta.json so the
+Every rule (band, deviation threshold) is written into meta.json so the
 dashboard can show it, and so it can be changed in one place here.
 """
 
@@ -37,11 +36,10 @@ QB = ROOT / "Qn_B"
 OUT = QB / "5-UI" / "public" / "data"
 
 # ----------------------------------------------------------------------------- settings
-PRIMARY_MODEL = "LGBM final"     # model the alerts, band and schedule are built on
+PRIMARY_MODEL = "LGBM final"     # the team's model, LightGBM with feature set M4
 BASE_COLS = {"zone_id", "timestamp", "period", "split", "is_operating_hours",
              "ac_load_kw", "scored", "rainfall_hourly_mm"}
 BASELINES = ["B1 seasonal naive", "B2 average profile", "B3 calendar + AC lags"]
-XGB_MODELS = {"accuracy_first": "XGB accuracy-first", "research_preserving": "XGB research-preserving"}
 REFERENCE_BASELINE = "B1 seasonal naive"   # the "must beat" baseline (best on test WAPE)
 
 BAND_LOW_Q, BAND_HIGH_Q = 0.10, 0.90       # empirical band from residual quantiles
@@ -49,24 +47,13 @@ DEV_MIN_KW = 2.0                           # deviation must be at least this man
 DEV_MAE_MULT = 3.0                         # ... and this many times the zone's op-hours MAE
 AFTER_HOURS_ACTUAL_KW = 2.0                # after-hours: actual above this ...
 AFTER_HOURS_FORECAST_KW = 0.5              # ... while forecast below this
-START_SHARE = 0.25                         # start-up hour = first hour forecast >= 25% of day peak
-START_MIN_KW = 1.0                         # ... and at least 1 kW
-ACTIVE_DAY_PEAK_KW = 2.0                   # days with forecast peak below this are "AC off"
 
 
 def load_predictions() -> tuple[pd.DataFrame, list[str]]:
     pred = pd.read_parquet(QB / "3-LightGBM" / "outputs" / "test_predictions.parquet")
-    # XGBoost final candidates: long format (one row per zone-hour per model)
-    xgb_path = QB / "4-XGBoost" / "outputs" / "final_models" / "predictions.csv"
-    if xgb_path.exists():
-        xgb = pd.read_csv(xgb_path, parse_dates=["timestamp"])
-        xgb = (xgb.pivot_table(index=["zone_id", "timestamp"], columns="model", values="prediction")
-                  .rename(columns=XGB_MODELS)[list(XGB_MODELS.values())].reset_index())
-        pred = pred.merge(xgb, on=["zone_id", "timestamp"], how="left")
     pred = pred[pred["scored"] == 1].copy()
-    models = [c for c in pred.columns if c not in BASE_COLS]
-    # baselines first, then ML models in file order
-    models = [m for m in BASELINES if m in models] + [m for m in models if m not in BASELINES]
+    # The baselines to compare with, then the model
+    models = [m for m in BASELINES if m in pred.columns] + [PRIMARY_MODEL]
     return pred, models
 
 
@@ -153,15 +140,10 @@ def main() -> None:
     # ---------------------------------------------------------------- daily summary
     def day_summary(g: pd.DataFrame) -> pd.Series:
         f = g[PRIMARY_MODEL].to_numpy()
-        peak = f.max()
-        start = None
-        if peak >= ACTIVE_DAY_PEAK_KW:
-            on = g.hour[(f >= START_SHARE * peak) & (f >= START_MIN_KW)]
-            start = int(on.iloc[0]) if len(on) else None
         return pd.Series({
-            "forecast_peak": peak, "forecast_peak_hour": int(g.hour.iloc[f.argmax()]),
+            "forecast_peak": f.max(), "forecast_peak_hour": int(g.hour.iloc[f.argmax()]),
             "actual_peak": g.ac_load_kw.max(), "forecast_kwh": f.sum(), "actual_kwh": g.ac_load_kw.sum(),
-            "start_hour": start, "hours": len(g),
+            "hours": len(g),
             "temp_max": g.outdoor_temp_hourly_c.max(), "temp_avg": g.outdoor_temp_daily_avg_c.iloc[0],
             "rain_mm": g.rainfall_daily_total_mm.iloc[0],
             "is_holiday": int(g.is_holiday.iloc[0]), "is_weekend": int(g.is_weekend.iloc[0]),
@@ -173,7 +155,6 @@ def main() -> None:
         "forecast_peak": r(row.forecast_peak), "forecast_peak_hour": int(row.forecast_peak_hour),
         "actual_peak": r(row.actual_peak), "forecast_kwh": r(row.forecast_kwh, 1),
         "actual_kwh": r(row.actual_kwh, 1),
-        "start_hour": None if pd.isna(row.start_hour) else int(row.start_hour),
         "hours": int(row.hours), "temp_max": r(row.temp_max, 1), "temp_avg": r(row.temp_avg, 1),
         "rain_mm": r(row.rain_mm, 1), "is_holiday": int(row.is_holiday),
         "is_weekend": int(row.is_weekend),
@@ -223,16 +204,11 @@ def main() -> None:
         "models": [{"id": m, "kind": "baseline" if m in BASELINES else "model"} for m in models],
         "primary_model": PRIMARY_MODEL,
         "reference_baseline": REFERENCE_BASELINE,
-        "pending_models": [] if any(m.startswith("XGB") for m in models) else ["XGBoost"],
         "rules": {
-            "band": f"{int(BAND_LOW_Q*100)}–{int(BAND_HIGH_Q*100)}% range of {PRIMARY_MODEL} errors, "
-                    "per zone and hour of day (from test residuals until validation residuals are exported)",
+            "band": f"{int(BAND_LOW_Q*100)}–{int(BAND_HIGH_Q*100)}% of past errors",
             "deviation": f"Operating hours: |actual − forecast| > max({DEV_MIN_KW} kW, "
                          f"{DEV_MAE_MULT}× the zone's operating-hours MAE). After hours: actual > "
                          f"{AFTER_HOURS_ACTUAL_KW} kW while forecast < {AFTER_HOURS_FORECAST_KW} kW.",
-            "start_hour": f"First hour the forecast reaches {int(START_SHARE*100)}% of that day's "
-                          f"forecast peak (and ≥ {START_MIN_KW} kW). Days with forecast peak < "
-                          f"{ACTIVE_DAY_PEAK_KW} kW count as AC off.",
             "operating_hours": "Weekdays that are not holidays, 07:00–17:00",
         },
         **extras,

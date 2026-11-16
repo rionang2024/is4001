@@ -1,4 +1,5 @@
 import { addDays, dow, dayMonth, fmt } from '../data.js'
+import { ACTIVE_DAY_PEAK_KW } from '../live/forecast.js'
 
 // 7-day outlook for the selected zone: weather inputs and forecast peak per day.
 export default function OutlookStrip({ days, date, onPick, note }) {
@@ -9,7 +10,7 @@ export default function OutlookStrip({ days, date, onPick, note }) {
     <section className="panel">
       <div className="panel-head">
         <h2>7-day outlook</h2>
-        <span className="sub">Forecast peak kW for this zone, with the weather the model used</span>
+        <span className="sub">Forecast peak for this zone</span>
       </div>
       <div className="outlook">
         {list.map((d, i) => {
@@ -24,8 +25,7 @@ export default function OutlookStrip({ days, date, onPick, note }) {
                   <div style={{ marginTop: 4 }}>
                     {x.is_holiday ? <span className="chip plain">Holiday</span>
                       : x.is_weekend ? <span className="chip plain">Weekend</span>
-                      : x.start_hour != null ? <span className="small muted">on ~{String(x.start_hour).padStart(2, '0')}:00</span>
-                      : <span className="small muted">AC off</span>}
+                      : x.forecast_peak < ACTIVE_DAY_PEAK_KW ? <span className="small muted">AC off</span> : null}
                   </div>
                   <div className="bar"><span style={{ width: `${(x.forecast_peak / maxPeak) * 100}%` }} /></div>
                 </>
@@ -35,7 +35,7 @@ export default function OutlookStrip({ days, date, onPick, note }) {
         })}
       </div>
       <p className="muted small" style={{ margin: '8px 0 0' }}>
-        {note ?? <>Weather here is <b>observed</b> Open-Meteo data standing in for a forecast, so real-world accuracy would be somewhat lower.</>}
+        {note ?? <>Observed weather stands in for a forecast.</>}
       </p>
     </section>
   )

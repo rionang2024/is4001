@@ -9,7 +9,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "data:live": "python scripts/build_live.py",
-    "check:live": "node scripts/check_live_model.mjs"
+    "check:live": "node scripts/check_live_model.mjs",
+    "data:mock": "python scripts/build_mock_2026.py",
+    "data:history": "python scripts/build_history.py",
+    "data:schedule": "python scripts/build_schedule.py"
   },
   "dependencies": {
     "react": "^18.3.1",
